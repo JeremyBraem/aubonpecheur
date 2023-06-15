@@ -126,63 +126,63 @@
 
         <section class="bg-[url('assets/img/site/devanture-103.jpg')]">
             
-            <div class="bg-[#426EC2] bg-opacity-75 pb-5">
+            <div class="bg-[#426EC2] bg-opacity-80 pb-5">
 
-                <div class="md:flex md:flex-row md:justify-center">
+                <div class="">
 
-                    <div class="md:h-2/3 md:w-1/2">
+                    <div class="">
 
                         <div class="pt-7 pb-5">
-                            <h2 class="font-medium text-l lg:text-2xl text-[#fcfcfc] text-center mb-5">Pour nous contacter</h2>
+                            <h2 class="font-medium text-l lg:text-2xl text-[#fcfcfc] text-center mb-5 ">Pour nous contacter</h2>
                             <hr class="border-b border-[#fcfcfc] w-2/3 m-auto">
                         </div>
 
-                        <div class="w-2/3 m-auto flex flex-col gap-4">
+                        <div class="w-2/3 m-auto flex flex-col gap-4 md:flex-row md:w-2/3 md:m-auto md:px-12 md:justify-between">
 
                             <div class="flex flex-col gap-1">
-                                <p class="text-[#fcfcfc] md:text-xl">Téléphone :</p>
-                                <p class="text-[#fcfcfc] text-xs md:text-base">03-24-26-69-80</p>
+                                <p class="text-[#fcfcfc] md:text-xl font-semibold">Téléphone :</p>
+                                <p class="text-[#fcfcfc] text-xs md:text-base font-semibold">03-24-26-69-80</p>
                             </div>
                             
                             <div class="flex flex-col gap-1">
-                                <p class="text-[#fcfcfc] md:text-xl">E-mail :</p>
-                                <p class="text-[#fcfcfc] text-xs md:text-base">aubonpecheur2013@yahoo.fr</p>
+                                <p class="text-[#fcfcfc] md:text-xl font-semibold">E-mail :</p>
+                                <p class="text-[#fcfcfc] text-xs md:text-base font-semibold">aubonpecheur2013@yahoo.fr</p>
                             </div>
                             
                         </div>
 
                     </div>
 
-                    <div class="md:h-2/3 md:w-1/2">
+                    <div class="">
 
                         <div class="pt-7 pb-5 ml-auto">
                             <h2 class="font-medium text-l lg:text-2xl text-[#fcfcfc] text-center mb-5">Notre magasin</h2>
                             <hr class="border-b border-[#fcfcfc] w-2/3 m-auto">
                         </div>
 
-                        <div class="flex flex-col gap-3 ">
+                        <div class="flex flex-col gap-3 md:flex-row md:m-auto md:px-24 md:justify-between">
 
-                            <div class="m-auto flex flex-col gap-3 w-2/3">
+                            <div class="m-auto flex flex-col gap-3 w-2/3 md:w-auto">
 
-                                <p class="text-[#fcfcfc] md:text-xl">Horaires :</p>
+                                <p class="text-[#fcfcfc] md:text-xl font-semibold">Horaires :</p>
 
                                 <div class="flex flex-col gap-2">
-                                    <p class="text-[#fcfcfc] text-xs md:text-base">Ouvert du Lundi au Vendredi 
+                                    <p class="text-[#fcfcfc] text-xs md:text-base font-semibold">Ouvert du Lundi au Vendredi 
                                     De 6h30 à 11h45-13h à 18h45</p>
-                                    <p class="text-[#fcfcfc] text-xs md:text-base">Samedi 6h à 12h-13h à 19h</p>
-                                    <p class="text-[#fcfcfc] text-xs md:text-base">Dimanche matin 6h à 11h30
+                                    <p class="text-[#fcfcfc] text-xs md:text-base font-semibold">Samedi 6h à 12h-13h à 19h</p>
+                                    <p class="text-[#fcfcfc] text-xs md:text-base font-semibold">Dimanche matin 6h à 11h30
                                     Fermé les jours fériés</p>
                                 </div>
                                 
                             </div>
 
-                            <div class="m-auto flex flex-col gap-3 w-2/3">
+                            <div class="m-auto flex flex-col gap-3 w-2/3 md:w-auto">
 
-                                <p class="text-[#fcfcfc] md:text-xl">Adresse :</p>
+                                <p class="text-[#fcfcfc] md:text-xl font-semibold">Adresse :</p>
 
                                 <div class="flex flex-row gap-5 md:flex-col md:gap-1">
-                                    <p class="text-[#fcfcfc] text-xs md:text-base">78 rue Jean Jaurès</p>
-                                    <p class="text-[#fcfcfc] text-xs md:text-base">08200 Sedan</p>
+                                    <p class="text-[#fcfcfc] text-xs md:text-base font-semibold">78 rue Jean Jaurès</p>
+                                    <p class="text-[#fcfcfc] text-xs md:text-base font-semibold">08200 Sedan</p>
                                 </div>
 
                             </div>
