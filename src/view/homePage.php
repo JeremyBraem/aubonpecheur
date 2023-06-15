@@ -53,7 +53,7 @@
         <section>
 
             <div class="pt-7 pb-1">
-                <h2 class="font-medium text:xl lg:text-2xl text-[#426EC2] text-center mb-5">Nos Nouveautés</h2>
+                <h2 class="font-medium text-l lg:text-2xl text-[#426EC2] text-center mb-5">Nos Nouveautés</h2>
                 <hr class="border-b border-[#426EC2] w-2/3 m-auto">
 
                 <?php require_once ('src/include/sliderNews.php'); ?>
@@ -64,7 +64,7 @@
         <section class="bg-[#426EC2] pb-5 md:pb-10">
 
             <div class="pt-7 pb-1">
-                <h2 class="font-medium text:xl lg:text-2xl text-[#fcfcfc] text-center mb-5">Nos Marques</h2>
+                <h2 class="font-medium text-l lg:text-2xl text-[#fcfcfc] text-center mb-5">Nos Marques</h2>
                 <hr class="border-b border-[#fcfcfc] w-2/3 m-auto">
             </div>
 
@@ -113,11 +113,99 @@
             </div>
 
         </section>
+
+        <section>
+            <div class="pt-7 pb-1">
+                <h2 class="font-medium text-l lg:text-2xl text-[#426EC2] text-center mb-5">Actuellement en Promotion</h2>
+                <hr class="border-b border-[#426EC2] w-2/3 m-auto">
+                <?php require_once ('src/include/sliderPromo.php'); ?>
+
+            </div>
+
+        </section>
+
+        <section class="bg-[url('assets/img/site/devanture-103.jpg')]">
             
+            <div class="bg-[#426EC2] bg-opacity-75 pb-5">
+
+                <div class="md:flex md:flex-row md:justify-center">
+
+                    <div class="md:h-2/3 md:w-1/2">
+
+                        <div class="pt-7 pb-5">
+                            <h2 class="font-medium text-l lg:text-2xl text-[#fcfcfc] text-center mb-5">Pour nous contacter</h2>
+                            <hr class="border-b border-[#fcfcfc] w-2/3 m-auto">
+                        </div>
+
+                        <div class="w-2/3 m-auto flex flex-col gap-4">
+
+                            <div class="flex flex-col gap-1">
+                                <p class="text-[#fcfcfc] md:text-xl">Téléphone :</p>
+                                <p class="text-[#fcfcfc] text-xs md:text-base">03-24-26-69-80</p>
+                            </div>
+                            
+                            <div class="flex flex-col gap-1">
+                                <p class="text-[#fcfcfc] md:text-xl">E-mail :</p>
+                                <p class="text-[#fcfcfc] text-xs md:text-base">aubonpecheur2013@yahoo.fr</p>
+                            </div>
+                            
+                        </div>
+
+                    </div>
+
+                    <div class="md:h-2/3 md:w-1/2">
+
+                        <div class="pt-7 pb-5 ml-auto">
+                            <h2 class="font-medium text-l lg:text-2xl text-[#fcfcfc] text-center mb-5">Notre magasin</h2>
+                            <hr class="border-b border-[#fcfcfc] w-2/3 m-auto">
+                        </div>
+
+                        <div class="flex flex-col gap-3 ">
+
+                            <div class="m-auto flex flex-col gap-3 w-2/3">
+
+                                <p class="text-[#fcfcfc] md:text-xl">Horaires :</p>
+
+                                <div class="flex flex-col gap-2">
+                                    <p class="text-[#fcfcfc] text-xs md:text-base">Ouvert du Lundi au Vendredi 
+                                    De 6h30 à 11h45-13h à 18h45</p>
+                                    <p class="text-[#fcfcfc] text-xs md:text-base">Samedi 6h à 12h-13h à 19h</p>
+                                    <p class="text-[#fcfcfc] text-xs md:text-base">Dimanche matin 6h à 11h30
+                                    Fermé les jours fériés</p>
+                                </div>
+                                
+                            </div>
+
+                            <div class="m-auto flex flex-col gap-3 w-2/3">
+
+                                <p class="text-[#fcfcfc] md:text-xl">Adresse :</p>
+
+                                <div class="flex flex-row gap-5 md:flex-col md:gap-1">
+                                    <p class="text-[#fcfcfc] text-xs md:text-base">78 rue Jean Jaurès</p>
+                                    <p class="text-[#fcfcfc] text-xs md:text-base">08200 Sedan</p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+                
+        </section>
+                
     </main>
+
+    <footer class="bg-[#fcfcfc]">
+        <?php require_once ('src/include/footer.php') ?>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-element-bundle.min.js"></script>
     <script src="assets/js/swiper.js"></script>
+    <script src="assets/js/sliderPromo.js"></script>
 
 </body>
 </html>

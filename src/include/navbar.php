@@ -25,7 +25,7 @@
     <div class="navbar-backdrop fixed inset-0 bg-[#FCFCFC] opacity-25"></div>
     <nav class="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
         <div class="flex items-center mb-8">
-            <a class="mr-auto text-3xl font-bold leading-none" href="#">
+            <a class="m-auto text-3xl font-bold leading-none" href="#">
                 <img class="w-[100px]" src="assets/img/site/logo_au_bon_pecheur.svg">
             </a>
             <button class="navbar-close">
@@ -37,34 +37,34 @@
         <div>
             <ul>
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded" href="#">Accueil</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Accueil</a>
                 </li>
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded" href="#">Promotion</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Promotion</a>
                 </li>
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded" href="#">Marque</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Marque</a>
                 </li>
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded" href="#">Carpe</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Carpe</a>
                 </li>
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded" href="#">Coup</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Coup</a>
                 </li>
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded" href="#">Carnassier</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Carnassier</a>
                 </li>
                 <li class="mb-1">
-                    <a class="block p-4 text-sm font-semibold text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded" href="#">Truite</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Truite</a>
                 </li>
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded" href="#">Sillure</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Sillure</a>
                 </li>
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded" href="#">Feeder</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Feeder</a>
                 </li>
                 <li class="mb-1">
-                    <a class="block p-4 text-sm font-semibold text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded" href="#">Equipement</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Equipement</a>
                 </li>
             </ul>
             <div class="items-center p-4">
