@@ -1,6 +1,6 @@
 <div class="hidden lg:flex w-full flex-row justify-between items-center px-6">
     <div>
-        <img class="w-[125px] h-[125px]" src="assets/img/site/logo_au_bon_pecheur.svg">
+        <img class="w-[105px] h-[105px]" src="assets/img/site/logo_au_bon_pecheur.svg">
     </div>
     <div class="w-3/5 relative">
         <div class="relative flex items-center">

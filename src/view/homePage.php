@@ -33,7 +33,7 @@
 
 <body class="bg-[#fcfcfc]">
 
-    <header>
+    <header class="sticky top-0 bg-white shadow z-50">
         <?php require_once('src/include/searchBar.php'); ?>
         <?php require_once('src/include/navbar.php'); ?> 
     </header>
@@ -124,13 +124,13 @@
 
         </section>
 
-        <section class="bg-[url('assets/img/site/devanture-103.jpg')]">
+        <section class="bg-[url('assets/img/site/devanture-103.jpg')] w-full">
             
-            <div class="bg-[#426EC2] bg-opacity-80 pb-5">
+            <div class="bg-[#426EC2] bg-opacity-80 pb-14">
 
-                <div class="">
+                <div>
 
-                    <div class="">
+                    <div>
 
                         <div class="pt-7 pb-5">
                             <h2 class="font-medium text-l lg:text-2xl text-[#fcfcfc] text-center mb-5 ">Pour nous contacter</h2>
@@ -203,7 +203,6 @@
         <?php require_once ('src/include/footer.php') ?>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-element-bundle.min.js"></script>
     <script src="assets/js/swiper.js"></script>
     <script src="assets/js/sliderPromo.js"></script>
 
