@@ -1,6 +1,6 @@
 <div class="hidden lg:flex w-full flex-row justify-between items-center px-6">
     <div>
-        <img class="w-[105px] h-[105px]" src="assets/img/site/logo_au_bon_pecheur.svg">
+        <a href="index.php?action=home"><img class="w-[105px] h-[105px]" src="assets/img/site/logo_au_bon_pecheur.svg"></a>
     </div>
     <div class="w-3/5 relative">
         <div class="relative flex items-center">
@@ -24,8 +24,8 @@
             <img src="assets/img/site/3106773.png" class="w-[30px] h-[30px]">
         </div>
         <div class="flex flex-col pl-3 pr-8">
-            <a class="px-3 py-1 text-l text-black" href="#">Connexion</a>
-            <a class="px-3 py-1 text-l text-black" href="#">Inscription</a>  
+            <a class="px-3 py-1 text-l text-black" href="index.php?action=login">Connexion</a>
+            <a class="px-3 py-1 text-l text-black" href="index.php?action=signUp">Inscription</a>  
         </div>
     </div>
 </div>

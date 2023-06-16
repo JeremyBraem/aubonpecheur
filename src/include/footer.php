@@ -1,4 +1,4 @@
-<div class="md:hidden border-b-2 border-[#426EC2] w-full">
+<div class="md:hidden w-full" style="border-top: 1.5px solid rgba(0, 0, 0, 0.35);">
 
     <div>
         <img src="assets/img/site/logo_au_bon_pecheur.svg" class="w-28 m-auto py-2">

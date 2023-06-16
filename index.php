@@ -12,7 +12,12 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'page':
                 articlePage();
                 break;
-
+            case 'login':
+                loginPage();
+                break;
+            case 'signUp':
+                signUpPage();
+                break;
             default:
             home();
         }
