@@ -53,24 +53,24 @@
                     <h1 class="text-center text-xl font-semibold">Inscrivez-vous</h1>
                 </div>
 
-                <form class="flex flex-col w-2/3 m-auto mb-8 md:mb-10">
+                <form class="flex flex-col w-2/3 m-auto mb-8 md:mb-10" method="post" action="index.php?action=signUpTraitement">
 
                     <label class="ml-1 mb-1">E-mail</label>
-                    <input placeholder="Veillez rentrer votre e-mail" class="mb-7 border rounded border-black px-2 py-1">
+                    <input placeholder="Veillez rentrer votre e-mail" name="email" class="mb-7 border rounded border-black px-2 py-1">
                     
                     <label class="ml-1 mb-1">Nom</label>
-                    <input placeholder="Veillez rentrer votre nom" class="mb-7 border rounded border-black px-2 py-1">
+                    <input placeholder="Veillez rentrer votre nom" name="lastname" class="mb-7 border rounded border-black px-2 py-1">
                     
                     <label class="ml-1 mb-1">Prénom</label>
-                    <input placeholder="Veillez rentrer votre prénom" class="mb-7  border rounded border-black px-2 py-1">
+                    <input placeholder="Veillez rentrer votre prénom" name="name" class="mb-7  border rounded border-black px-2 py-1">
                     
                     <label class="ml-1 mb-1">Mot de passe</label>
-                    <input placeholder="Veillez rentrer votre mot de passe" class="mb-7 border rounded border-black px-2 py-1">
+                    <input placeholder="Veillez rentrer votre mot de passe" name="password" class="mb-7 border rounded border-black px-2 py-1">
                     
                     <label class="ml-1 mb-1">Verification du mot de passe</label>
-                    <input placeholder="Veillez confirmer votre mot de passe" class="mb-7 border rounded border-black px-2 py-1">
+                    <input placeholder="Veillez confirmer votre mot de passe" name="verif_password" class="mb-7 border rounded border-black px-2 py-1">
                     
-                    <button class="py-2 mx-5 md:mx-24 lg:mx-32 mt-5 text-[#fcfcfc] rounded bg-[#426EC2]">Inscription</button>
+                    <button type="submit" class="py-2 mx-5 md:mx-24 lg:mx-32 mt-5 text-[#fcfcfc] rounded bg-[#426EC2]">Inscription</button>
 
                 </form>
 

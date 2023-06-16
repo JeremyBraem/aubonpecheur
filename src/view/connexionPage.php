@@ -52,17 +52,17 @@
                     <h1 class="text-center text-xl font-semibold">Connectez-vous</h1>
                 </div>
 
-                <form class="flex flex-col w-2/3 m-auto mb-8 md:mb-10">
+                <form class="flex flex-col w-2/3 m-auto mb-8 md:mb-10" action="index.php?action=loginTraitement" method="post">
 
                     <label class="ml-1 mb-1">E-mail</label>
-                    <input placeholder="Veillez rentrer votre e-mail" class="mb-7 md:mb-10 border rounded border-black px-2 py-1">
+                    <input placeholder="Veillez rentrer votre e-mail" name="email" class="mb-7 md:mb-10 border rounded border-black px-2 py-1">
                     
                     <label class="ml-1 mb-1">Mot de passe</label>
-                    <input placeholder="Veillez rentrer votre mot de passe" class="mb-3 border rounded border-black px-2 py-1">
+                    <input placeholder="Veillez rentrer votre mot de passe" name="password" class="mb-3 border rounded border-black px-2 py-1">
                     
-                    <a href="#" class="mb-10 underline text-sm">Mot de passe oublié ?</a>
+                    <a href="#" class="mb-10 underline text-sm md:w-36">Mot de passe oublié ?</a>
 
-                    <button class="py-2 mx-5 text-[#fcfcfc] rounded bg-[#426EC2]">Connexion</button>
+                    <button type="submit" class="py-2 mx-5 text-[#fcfcfc] rounded bg-[#426EC2]">Connexion</button>
 
                 </form>
 

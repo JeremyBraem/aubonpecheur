@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require ('src/controller/homeController.php');
 
 if(isset($_GET['action']) && $_GET['action'] !== '')
@@ -15,8 +15,17 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'login':
                 loginPage();
                 break;
+            case 'loginTraitement':
+                loginTraitement();
+                break;
             case 'signUp':
                 signUpPage();
+                break;
+            case 'signUpTraitement':
+                signUpTraitement();
+                break;
+            case 'deconnexion':
+                disconnectUser();
                 break;
             default:
             home();
