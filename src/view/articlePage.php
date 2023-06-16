@@ -38,8 +38,79 @@
             <?php require_once('src/include/navbar.php'); ?> 
     </header>
 
-    <main>  
-        
+    <main>
+
+        <section>
+
+            <div class="bg-[#fcfcfc] w-2/3 m-auto p-6">
+                <h1 class="text-center font-semibold">Nom catégories</h1>
+            </div>
+
+            <div class="bg-[#426EC2] p-1">
+                <?php require_once ('src/include/filtre.php'); ?>
+            </div>
+
+            <div>
+                <div class="py-5 relative flex flex-wrap gap-7 items-center justify-center">
+
+                    <div>
+                        
+                        <div>
+                            <img src="assets/img/article/canne/14595195_az_main1_600.jpg" class="object-cover object-center w-32 h-32 md:w-56 md:h-56" style="border: 1px solid #000000;"/>
+                        </div>
+
+                        <div>
+                            <p class="text-xs md:text-lg text-center">Smoke S3 plus vertical</p>
+                            <p class="text-2xs md:text-sm text-center uppercase">QUAntUM</p>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        
+                        <div>
+                            <img src="assets/img/article/canne/14595195_az_main1_600.jpg" class="object-cover object-center w-32 h-32 md:w-56 md:h-56" style="border: 1px solid #000000;"/>
+                        </div>
+
+                        <div>
+                            <p class="text-xs md:text-lg text-center">Smoke S3 plus vertical</p>
+                            <p class="text-2xs md:text-sm text-center uppercase">QUAntUM</p>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        
+                        <div>
+                            <img src="assets/img/article/canne/14595195_az_main1_600.jpg" class="object-cover object-center w-32 h-32 md:w-56 md:h-56" style="border: 1px solid #000000;"/>
+                        </div>
+
+                        <div>
+                            <p class="text-xs md:text-lg text-center">Smoke S3 plus vertical</p>
+                            <p class="text-2xs md:text-sm text-center uppercase">QUAntUM</p>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        
+                        <div>
+                            <img src="assets/img/article/canne/14595195_az_main1_600.jpg" class="object-cover object-center w-32 h-32 md:w-56 md:h-56" style="border: 1px solid #000000;"/>
+                        </div>
+
+                        <div>
+                            <p class="text-xs md:text-lg text-center">Smoke S3 plus vertical</p>
+                            <p class="text-2xs md:text-sm text-center uppercase">QUAntUM</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
     </main>
 
     <footer class="bg-[#fcfcfc]">

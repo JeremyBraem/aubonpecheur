@@ -1,6 +1,6 @@
 <div class="flex items-center justify-center">
 
-    <button aria-label="slide backward" class="absolute z-30 left-4 md:left-24 cursor-pointer" id="prevPromo">
+    <button aria-label="slide backward" class="absolute z-30 left-3 xl:left-24 2xl:left-72 cursor-pointer" id="prevPromo">
         <img class="w-5" src="assets/img/site/fleche.png">
     </button>
 
@@ -8,7 +8,7 @@
 
         <div class=" m-auto overflow-x-hidden overflow-y-hidden">
 
-            <div id="sliderPromo" class="h-full ml-2 flex md:w-[1000px] lg:gap-8 md:gap-6 gap-10 items-center justify-start transition ease-out duration-700">
+            <div id="sliderPromo" class="h-full ml-2 flex md:w-[1000px] 2xl:w-[1600px] lg:gap-8 md:gap-6 gap-10 items-center justify-start transition ease-out duration-700">
                 
                 <div class="relative w-56 md:h-80">
 
@@ -93,7 +93,7 @@
 
     </div>
 
-    <button aria-label="slide forward" class="absolute z-30 right-3 md:right-24 cursor-pointer" id="nextPromo">
+    <button aria-label="slide forward" class="absolute z-30 right-3 xl:right-24 2xl:right-72 cursor-pointer" id="nextPromo">
         <img class="w-5" src="assets/img/site/159606.png">
     </button>
 

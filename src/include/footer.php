@@ -94,7 +94,7 @@
 
 </div>
 
-<div class="hidden md:block w-full py-3">
+<div class="hidden md:block w-full py-3" style="border-top: 1.5px solid rgba(0, 0, 0, 0.35);">
 
     <div class="flex flex-row justify-between p-3">
 
