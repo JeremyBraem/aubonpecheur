@@ -3,7 +3,7 @@
 require_once ('autoload/autoloader.php');
 require_once ('src/model/User.php');
 
-function home() 
+function home()
 {
     include ('src/view/homePage.php');
 }
