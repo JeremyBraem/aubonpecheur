@@ -42,7 +42,7 @@
 
         <div class="flex flex-col md:flex-row">
 
-            <div class="w-full h-[100px] md:w-2/5 md:h-[700px]">
+            <div class="w-full h-[100px] md:w-2/5 md:h-full">
                 <img class="hidden md:block w-full h-full object-cover" src="assets/img/site/pexels-luqmaan-tootla-3104444.jpg">
                 <img class="block md:hidden w-full h-full object-cover" src="assets/img/site/pexels-lumn-294674.jpg">
             </div>
@@ -56,7 +56,7 @@
                 <form class="flex flex-col w-2/3 m-auto mb-8 md:mb-10" method="post" action="index.php?action=signUpTraitement">
 
                     <label class="ml-1 mb-1">E-mail</label>
-                    <input placeholder="Veillez rentrer votre e-mail" name="email" class="mb-7 border rounded border-black px-2 py-1">
+                    <input type="email" placeholder="Veillez rentrer votre e-mail" name="email" class="mb-7 border rounded border-black px-2 py-1">
                     
                     <label class="ml-1 mb-1">Nom</label>
                     <input placeholder="Veillez rentrer votre nom" name="lastname" class="mb-7 border rounded border-black px-2 py-1">
@@ -65,10 +65,16 @@
                     <input placeholder="Veillez rentrer votre prénom" name="name" class="mb-7  border rounded border-black px-2 py-1">
                     
                     <label class="ml-1 mb-1">Mot de passe</label>
-                    <input placeholder="Veillez rentrer votre mot de passe" name="password" class="mb-7 border rounded border-black px-2 py-1">
+                    <input type="password" placeholder="Veillez rentrer votre mot de passe" name="password" class="mb-7 border rounded border-black px-2 py-1">
                     
                     <label class="ml-1 mb-1">Verification du mot de passe</label>
-                    <input placeholder="Veillez confirmer votre mot de passe" name="verif_password" class="mb-7 border rounded border-black px-2 py-1">
+                    <input type="password" placeholder="Veillez confirmer votre mot de passe" name="verif_password" class="mb-7 border rounded border-black px-2 py-1">
+                    
+                    <?php if(isset($_SESSION['messageError']))
+                    { ?>
+                    <p class="text-sm text-red-500 mb-5 font-semibold"><?php echo $_SESSION['messageError']; ?></p>
+                    <?php session_unset(); 
+                    } ?>
                     
                     <button type="submit" class="py-2 mx-5 md:mx-24 lg:mx-32 mt-5 text-[#fcfcfc] rounded bg-[#426EC2]">Inscription</button>
 

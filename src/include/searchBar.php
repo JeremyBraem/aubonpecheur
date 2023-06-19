@@ -23,10 +23,27 @@
         <div>
             <img src="assets/img/site/3106773.png" class="w-[30px] h-[30px]">
         </div>
+        <?php 
+        if(empty($_SESSION['id_role']))
+        { 
+        ?>
         <div class="flex flex-col pl-3 pr-8">
             <a class="px-3 py-1 text-l text-black" href="index.php?action=login">Connexion</a>
-            <a class="px-3 py-1 text-l text-black" href="index.php?action=signUp">Inscription</a>  
+            <a class="px-3 py-1 text-l text-black" href="index.php?action=signUp">Inscription</a>
         </div>
+        <?php 
+        }
+        else
+        { 
+        ?>
+        <div class="flex flex-col pl-3 pr-8">
+            <a class="px-3 py-1 text-l text-black" href="index.php?action=">Favoris</a>
+            <a class="px-3 py-1 text-l text-black" href="index.php?action=deconnexion">Déconnexion</a>
+        </div>
+        <?php 
+        }
+        ?>
+
     </div>
 </div>
 

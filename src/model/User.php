@@ -162,14 +162,14 @@ class UserRepository extends connectBdd
         return $req->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getUserByEmail(string $email)
+    public function getUserByEmail(string $email):mixed
     {
         $req = $this->bdd->prepare('SELECT * FROM user WHERE email_user = ?');
         $req->execute([$email]);
         $data = $req->fetch();
         
         if($data != false)
-        {   
+        {
             $user = new User();
             $user->setIdUser($data['id_user']);
             $user->setEmailUser($data['email_user']);
@@ -187,7 +187,17 @@ class UserRepository extends connectBdd
         }
     }
 
-    
+    public function verifyPassword(string $password):bool
+    {
+        if(preg_match('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/', $password))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 
 ?>
