@@ -15,13 +15,18 @@
 
             </div>
             <!-- Modal body -->
-            <form action="admin.php?action=UpdateCanneTraitement" method="post">
+            <form action="admin.php?action=UpdateCanneTraitement" method="post" enctype="multipart/form-data">
 
                 <div class="grid gap-4 mb-4 sm:grid-cols-2">
 
                     <div>
                         <label for="nom" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom de la canne</label>
                         <input type="text" name="nom_canne" id="nom_canne" value="<?php echo $canne->getNomCanne() ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 " placeholder="Type product name" required>
+                    </div>
+
+                    <div>
+                        <label for="image_canne" class="block mb-2 text-sm font-medium text-gray-900">Image de la canne</label>
+                        <input type="file" name="image_canne" id="image_canne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full" required>
                     </div>
 
                     <div>

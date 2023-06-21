@@ -207,17 +207,19 @@ class CanneRepository extends connectBdd
         VALUES (?,?,?,?,?,?,?,?,?,?)");
 
         $req->execute([
-                $canne->getNomCanne(),
-                $canne->getPoidsCanne(),
-                $canne->getLongueurCanne(),
-                $canne->getDescriptionCanne(),
-                $canne->getPromoCanne(),
-                $canne->getStockCanne(),
-                $canne->getHorsStockCanne(),
-                $canne->getCategorieCanne(),
-                $canne->getTypeCanne(),
-                $canne->getMarqueCanne()
-            ]);
+            $canne->getNomCanne(),
+            $canne->getPoidsCanne(),
+            $canne->getLongueurCanne(),
+            $canne->getDescriptionCanne(),
+            $canne->getPromoCanne(),
+            $canne->getStockCanne(),
+            $canne->getHorsStockCanne(),
+            $canne->getCategorieCanne(),
+            $canne->getTypeCanne(),
+            $canne->getMarqueCanne()
+        ]);
+        
+        return $canne;
     }
 
     public function getAllCanne()
@@ -256,6 +258,28 @@ class CanneRepository extends connectBdd
     {
         try 
         {
+            $imageCanneRepo = new ImageCanneRepository;
+            $oldImg = $imageCanneRepo->getImageByCanne($_POST['id_canne']);
+           
+            $cheminFichier = $oldImg->getNomImageCanne();
+
+            if (file_exists($cheminFichier)) 
+            {
+                if (unlink($cheminFichier)) 
+                {
+                    echo "Le fichier a été supprimé avec succès.";
+                } 
+                else 
+                {
+                    echo "Une erreur s'est produite lors de la suppression du fichier.";
+                }
+            } 
+            else 
+            {
+                echo "Le fichier spécifié n'existe pas.";
+            }
+            $imageCanneRepo->deleteImageByCanne($id_canne);
+
             $req = $this->bdd->prepare('DELETE FROM canne WHERE id_canne = ?');
             $req->execute([$id_canne]);
 
@@ -269,17 +293,36 @@ class CanneRepository extends connectBdd
 
     public function updateCanne($id_canne, $nom_canne, $poids_canne, $longueur_canne, $description_canne, $promo_canne, $stock_canne, $hors_stock_canne, $id_categorie, $id_type_canne, $id_marque)
     {
+        
         try 
         {
-            $req = $this->bdd->prepare("UPDATE canne SET nom_canne, poids_canne, longueur_canne, description_canne, promo_canne, stock_canne, hors_stock_canne, id_categorie, id_type_canne, id_marque
-            WHERE id_canne VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-            $req->execute([$nom_canne, $poids_canne, $longueur_canne, $description_canne, $promo_canne, $stock_canne, $hors_stock_canne, $id_categorie, $id_type_canne, $id_marque]);
-
+            $req = $this->bdd->prepare("UPDATE canne SET nom_canne = ?, poids_canne = ?, longueur_canne = ?, description_canne = ?, promo_canne = ?, stock_canne = ?, hors_stock_canne = ?, id_categorie = ?, id_type_canne = ?, id_marque = ? WHERE id_canne = ?");
+            $req->execute([$nom_canne, $poids_canne, $longueur_canne, $description_canne, $promo_canne, $stock_canne, $hors_stock_canne, $id_categorie, $id_type_canne, $id_marque, $id_canne]);
+            
             return true;
-        }
+        } 
         catch (Exception $e) 
         {
-
+            return false;
         }
     }
+
+    public function getLastInsertId()
+    {
+        $query = "SELECT MAX(id_canne) AS last_id FROM canne";
+        $result = $this->bdd->prepare($query);
+
+        if ($result->execute()) { // Exécutez la requête ici
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+            $lastId = $row['last_id'];
+
+            return $lastId;
+        } else {
+            // Gérez l'erreur de la requête
+            // Retournez une valeur par défaut ou lancez une exception, selon vos besoins
+        }
+        
+    }
 }
+
+
