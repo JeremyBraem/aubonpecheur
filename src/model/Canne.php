@@ -15,59 +15,59 @@ class Canne
     private $id_type_canne;
     private $id_marque;
 
-    public function createToInsertCanne($canneForm):bool
+    public function createToInsertCanne($canneForm): bool
     {
-        
-        if(!isset($canneForm['nom_canne']) OR $canneForm['nom_canne'] == '')
-        {
-            return false;
-        }
-        
-        if(!isset($canneForm['poids_canne']) OR $canneForm['poids_canne'] == '')
+
+        if (!isset($canneForm['nom_canne']) or $canneForm['nom_canne'] == '') 
         {
             return false;
         }
 
-        if(!isset($canneForm['longueur_canne']) OR $canneForm['longueur_canne'] == '')
+        if (!isset($canneForm['poids_canne']) or $canneForm['poids_canne'] == '') 
         {
             return false;
         }
 
-        if(!isset($canneForm['description_canne']) OR $canneForm['description_canne'] == '')
+        if (!isset($canneForm['longueur_canne']) or $canneForm['longueur_canne'] == '') 
         {
             return false;
         }
 
-        if(!isset($canneForm['promo_canne']) OR $canneForm['promo_canne'] == '')
+        if (!isset($canneForm['description_canne']) or $canneForm['description_canne'] == '') 
         {
             return false;
         }
 
-        if(!isset($canneForm['stock_canne']) OR $canneForm['stock_canne'] == '')
+        if (!isset($canneForm['promo_canne']) or $canneForm['promo_canne'] == '') 
         {
             return false;
         }
 
-        if(!isset($canneForm['hors_stock_canne']) OR $canneForm['hors_stock_canne'] == '')
+        if (!isset($canneForm['stock_canne']) or $canneForm['stock_canne'] == '') 
         {
             return false;
         }
 
-        if(!isset($canneForm['categorie_canne']) OR $canneForm['categorie_canne'] == '')
+        if (!isset($canneForm['hors_stock_canne']) or $canneForm['hors_stock_canne'] == '') 
         {
             return false;
         }
 
-        if(!isset($canneForm['type_canne']) OR $canneForm['type_canne'] == '')
+        if (!isset($canneForm['categorie_canne']) or $canneForm['categorie_canne'] == '') 
         {
             return false;
         }
 
-        if(!isset($canneForm['marque_canne']) OR $canneForm['marque_canne'] == '')
+        if (!isset($canneForm['type_canne']) or $canneForm['type_canne'] == '') 
         {
             return false;
         }
-    
+
+        if (!isset($canneForm['marque_canne']) or $canneForm['marque_canne'] == '') 
+        {
+            return false;
+        }
+
         $this->nom_canne = $canneForm['nom_canne'];
         $this->poids_canne = $canneForm['poids_canne'];
         $this->longueur_canne = $canneForm['longueur_canne'];
@@ -82,113 +82,113 @@ class Canne
         return true;
     }
 
-    public function getIdCanne():int
+    public function getIdCanne(): int
     {
         return $this->id_canne;
     }
 
-    public function setIdCanne($id_canne):void
+    public function setIdCanne($id_canne): void
     {
         $this->id_canne = $id_canne;
     }
 
 
-    public function getNomCanne():string
+    public function getNomCanne(): string
     {
         return $this->nom_canne;
     }
 
-    public function setNomCanne($nom_canne):void
+    public function setNomCanne($nom_canne): void
     {
         $this->nom_canne = $nom_canne;
     }
 
-    public function getPoidsCanne():string
+    public function getPoidsCanne(): string
     {
         return $this->poids_canne;
     }
 
-    public function setPoidsCanne($poids_canne):void
+    public function setPoidsCanne($poids_canne): void
     {
         $this->poids_canne = $poids_canne;
     }
 
-    public function getLongueurCanne():string
+    public function getLongueurCanne(): string
     {
         return $this->longueur_canne;
     }
 
-    public function setLongueurCanne($longueur_canne):void
+    public function setLongueurCanne($longueur_canne): void
     {
         $this->longueur_canne = $longueur_canne;
     }
 
-    public function getDescriptionCanne():string
+    public function getDescriptionCanne(): string
     {
         return $this->description_canne;
     }
 
-    public function setDescriptionCanne($description_canne):void
+    public function setDescriptionCanne($description_canne): void
     {
         $this->description_canne = $description_canne;
     }
 
-    public function getPromoCanne():int
+    public function getPromoCanne(): int
     {
         return $this->promo_canne;
     }
 
-    public function setPromoCanne($promo_canne):void
+    public function setPromoCanne($promo_canne): void
     {
         $this->promo_canne = $promo_canne;
     }
 
-    public function getStockCanne():int
+    public function getStockCanne(): int
     {
         return $this->stock_canne;
     }
 
-    public function setStockCanne($stock_canne):void
+    public function setStockCanne($stock_canne): void
     {
         $this->stock_canne = $stock_canne;
     }
 
-    public function getHorsStockCanne():int
+    public function getHorsStockCanne(): int
     {
         return $this->hors_stock_canne;
     }
 
-    public function setHorsStockCanne($hors_stock_canne):void
+    public function setHorsStockCanne($hors_stock_canne): void
     {
         $this->hors_stock_canne = $hors_stock_canne;
     }
 
-    public function getCategorieCanne():string
+    public function getCategorieCanne(): string
     {
         return $this->id_categorie;
     }
 
-    public function setCategorieCanne($id_categorie):void
+    public function setCategorieCanne($id_categorie): void
     {
         $this->id_categorie = $id_categorie;
     }
 
-    public function getTypeCanne():string
+    public function getTypeCanne(): string
     {
         return $this->id_type_canne;
     }
 
-    public function setTypeCanne($id_type_canne):void
+    public function setTypeCanne($id_type_canne): void
     {
         $this->id_type_canne = $id_type_canne;
     }
 
-    public function getMarqueCanne():string
+    public function getMarqueCanne(): string
     {
         return $this->id_marque;
     }
 
-    public function setMarqueCanne($id_marque):void
+    public function setMarqueCanne($id_marque): void
     {
         $this->id_marque = $id_marque;
     }
@@ -205,20 +205,19 @@ class CanneRepository extends connectBdd
     {
         $req = $this->bdd->prepare("INSERT INTO canne (nom_canne, poids_canne, longueur_canne, description_canne, promo_canne, stock_canne, hors_stock_canne, id_categorie, id_type_canne, id_marque)
         VALUES (?,?,?,?,?,?,?,?,?,?)");
-        
-        $req->execute
-        ([
-            $canne->getNomCanne(),
-            $canne->getPoidsCanne(),
-            $canne->getLongueurCanne(),
-            $canne->getDescriptionCanne(),
-            $canne->getPromoCanne(),
-            $canne->getStockCanne(),
-            $canne->getHorsStockCanne(),
-            $canne->getCategorieCanne(),
-            $canne->getTypeCanne(),
-            $canne->getMarqueCanne()
-        ]);
+
+        $req->execute([
+                $canne->getNomCanne(),
+                $canne->getPoidsCanne(),
+                $canne->getLongueurCanne(),
+                $canne->getDescriptionCanne(),
+                $canne->getPromoCanne(),
+                $canne->getStockCanne(),
+                $canne->getHorsStockCanne(),
+                $canne->getCategorieCanne(),
+                $canne->getTypeCanne(),
+                $canne->getMarqueCanne()
+            ]);
     }
 
     public function getAllCanne()
@@ -232,7 +231,7 @@ class CanneRepository extends connectBdd
         $req->execute();
         $datas = $req->fetchAll();
         $cannes = [];
-    
+
         foreach ($datas as $data) 
         {
             $canne = new Canne();
@@ -253,5 +252,34 @@ class CanneRepository extends connectBdd
         return $cannes;
     }
 
-    
+    public function deleteCanne($id_canne):bool
+    {
+        try 
+        {
+            $req = $this->bdd->prepare('DELETE FROM canne WHERE id_canne = ?');
+            $req->execute([$id_canne]);
+
+            return true;
+        } 
+        catch (Exception $e) 
+        {
+            return false;
+        }
+    }
+
+    public function updateCanne($id_canne, $nom_canne, $poids_canne, $longueur_canne, $description_canne, $promo_canne, $stock_canne, $hors_stock_canne, $id_categorie, $id_type_canne, $id_marque)
+    {
+        try 
+        {
+            $req = $this->bdd->prepare("UPDATE canne SET nom_canne, poids_canne, longueur_canne, description_canne, promo_canne, stock_canne, hors_stock_canne, id_categorie, id_type_canne, id_marque
+            WHERE id_canne VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+            $req->execute([$nom_canne, $poids_canne, $longueur_canne, $description_canne, $promo_canne, $stock_canne, $hors_stock_canne, $id_categorie, $id_type_canne, $id_marque]);
+
+            return true;
+        }
+        catch (Exception $e) 
+        {
+
+        }
+    }
 }

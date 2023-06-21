@@ -63,4 +63,29 @@ class MarqueRepository extends connectBdd
         return $marques;
     }
 
+    public function insertMarque(Marque $marque)
+    {
+        $req = $this->bdd->prepare("INSERT INTO marque(nom_marque) VALUES (?)");
+        
+        $req->execute
+        ([
+            $marque->getNomMarque()
+        ]);
+    }
+
+    public function deleteMarque($id_marque):bool
+    {
+        try 
+        {
+            $req = $this->bdd->prepare('DELETE FROM marque WHERE id_marque = ?');
+            $req->execute([$id_marque]);
+
+            return true;
+        } 
+        catch (Exception $e) 
+        {
+            return false;
+        }
+    }
+
 }

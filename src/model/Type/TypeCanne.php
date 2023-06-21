@@ -63,4 +63,28 @@ class TypeCanneRepository extends connectBdd
         return $type_cannes;
     }
 
+    public function insertTypeCanne(TypeCanne $type_canne)
+    {
+        $req = $this->bdd->prepare("INSERT INTO type_canne(nom_type_canne) VALUES (?)");
+        
+        $req->execute
+        ([
+            $type_canne->getNomTypeCanne()
+        ]);
+    }
+
+    public function deleteTypeCanne($id_type_canne):bool
+    {
+        try 
+        {
+            $req = $this->bdd->prepare('DELETE FROM type_canne WHERE id_type_canne = ?');
+            $req->execute([$id_type_canne]);
+
+            return true;
+        } 
+        catch (Exception $e) 
+        {
+            return false;
+        }
+    }
 }

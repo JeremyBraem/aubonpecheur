@@ -63,4 +63,29 @@ class CategorieRepository extends connectBdd
         return $categories;
     }
 
+    public function insertCategorie(Categorie $categorie)
+    {
+        $req = $this->bdd->prepare("INSERT INTO categorie(nom_categorie) VALUES (?)");
+        
+        $req->execute
+        ([
+            $categorie->getNomCategorie()
+        ]);
+    }
+
+    public function deleteCategorie($id_categorie):bool
+    {
+        try 
+        {
+            $req = $this->bdd->prepare('DELETE FROM categorie WHERE id_categorie = ?');
+            $req->execute([$id_categorie]);
+
+            return true;
+        } 
+        catch (Exception $e) 
+        {
+            return false;
+        }
+    }
+
 }
