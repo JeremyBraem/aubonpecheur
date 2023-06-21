@@ -120,11 +120,12 @@ function addMarqueTraitement()
 {
     if(isset($_POST))
     {
-        if(!empty($_POST['nom_marque']))
+        if(!empty($_POST['nom_marque']) && !empty($_FILES['image_marque']))
         {
             $newMarque = [];
             $newMarque['nom_marque'] = htmlspecialchars($_POST['nom_marque']);
-
+            $newMarque['image_marque'] = $_FILES['image_marque'];
+            
             $marque = new Marque;
             $marque->createToInsertMarque($newMarque);
 
@@ -223,8 +224,11 @@ function deleteMarque()
         if(!empty($_POST['id_marque']) && isset($_POST['id_marque']))
         {
             $id_marque = isset($_POST['id_marque']) ? $_POST['id_marque'] : null;
-            $marqueRepository = new MarqueRepository();
-            $deleteMarque = $marqueRepository->deleteMarque($id_marque);
+            $marqueRepository = new MarqueRepository;
+            $marque = new Marque;
+            $oldImg = $marqueRepository->getMarque($id_marque);
+            
+            $deleteMarque = $marqueRepository->deleteMarque($id_marque, $oldImg);
     
             if ($deleteMarque)
             {

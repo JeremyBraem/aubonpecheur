@@ -16,13 +16,18 @@
 
             <div class="flex flex-row justify-between p-5">
                 <!-- Modal body -->
-                <form action="admin.php?action=addMarqueTraitement" method="post">
+                <form action="admin.php?action=addMarqueTraitement" method="post" enctype="multipart/form-data">
 
-                    <div class="gap-4 mb-4">
+                    <div class="gap-4 mb-10">
 
-                        <div>
+                        <div class="mb-5">
                             <label for="nom_marque" class="block mb-2 text-sm font-medium text-gray-900">Nom de la marque</label>
                             <input type="text" name="nom_marque" id="nom_marque" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Ajouter un nom" required>
+                        </div>
+
+                        <div>
+                            <label for="image_marque" class="block mb-2 text-sm font-medium text-gray-900">Logo de la marque</label>
+                            <input type="file" name="image_marque" id="image_marque" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full" required>
                         </div>
 
                     </div>
