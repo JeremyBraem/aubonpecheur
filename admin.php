@@ -15,6 +15,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'addMoulinetTraitement':
                 addMoulinetTraitement();
                 break;
+            case 'addHameconTraitement':
+                addHameconTraitement();
+                break;
             case 'addCategorieTraitement':
                 addCategorieTraitement();
                 break;
@@ -24,6 +27,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'addTypeMoulinetTraitement':
                 addTypeMoulinetTraitement();
                 break;
+            case 'addTypeHameconTraitement':
+                addTypeHameconTraitement();
+                break;
             case 'addMarqueTraitement':
                 addMarqueTraitement();
                 break;
@@ -32,6 +38,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
                 break;
             case 'deleteMoulinet':
                 deleteMoulinet();
+                break;
+            case 'deleteHamecon':
+                deleteHamecon();
                 break;
             case 'deleteCategorie':
                 deleteCategorie();
@@ -48,8 +57,14 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'deleteTypeMoulinet':
                 deleteTypeMoulinet();
                 break;
+            case 'deleteTypeHamecon':
+                deleteTypeHamecon();
+                break;
             case 'UpdateMoulinetTraitement':
                 UpdateMoulinetTraitement();
+                break;
+            case 'UpdateHameconTraitement':
+                UpdateHameconTraitement();
                 break;
             default:
             adminPage();

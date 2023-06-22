@@ -3,12 +3,15 @@
 require_once('autoload/autoloader.php');
 require_once('src/model/Produit/Canne.php');
 require_once('src/model/Produit/Moulinet.php');
+require_once('src/model/Produit/Hamecon.php');
 require_once('src/model/Marque.php');
 require_once('src/model/Categorie.php');
 require_once('src/model/Type/TypeCanne.php');
 require_once('src/model/Type/TypeMoulinet.php');
+require_once('src/model/Type/TypeHamecon.php');
 require_once('src/model/Image/ImageCanne.php');
 require_once('src/model/Image/ImageMoulinet.php');
+require_once('src/model/Image/ImageHamecon.php');
 
 function adminPage()
 {
@@ -23,6 +26,12 @@ function adminPage()
 
     $typeMoulinetRepo = new TypemoulinetRepository;
     $typeMoulinets = $typeMoulinetRepo->getAllTypemoulinet();
+
+    $hameconRepo = new HameconRepository;
+    $hamecons = $hameconRepo->getAllHamecon();
+
+    $typeHameconRepo = new TypeHameconRepository;
+    $typeHamecons = $typeHameconRepo->getAllTypeHamecon();
 
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();
@@ -160,6 +169,70 @@ function addMoulinetTraitement()
     }
 }
 
+function addHameconTraitement()
+{
+    if(isset($_POST))
+    
+    {
+        if(!empty($_POST['nom_hamecon']) && !empty($_POST['poids_hamecon']) && !empty($_POST['longueur_hamecon']) && !empty($_POST['categorie_hamecon']) && !empty($_POST['type_hamecon']) && !empty($_POST['marque_hamecon']) && !empty($_POST['promo_hamecon']) && !empty($_POST['stock_hamecon']) && !empty($_POST['description_hamecon'] && !empty($_FILES['image_hamecon'])))
+        {
+            
+            $newHamecon = [];
+            $newHamecon['nom_hamecon'] = htmlspecialchars($_POST['nom_hamecon']);
+            $newHamecon['poids_hamecon'] = htmlspecialchars($_POST['poids_hamecon']);
+            $newHamecon['longueur_hamecon'] = htmlspecialchars($_POST['longueur_hamecon']);
+            $newHamecon['categorie_hamecon'] = htmlspecialchars($_POST['categorie_hamecon']);
+            $newHamecon['type_hamecon'] = htmlspecialchars($_POST['type_hamecon']);
+            $newHamecon['marque_hamecon'] = htmlspecialchars($_POST['marque_hamecon']);
+            $newHamecon['description_hamecon'] = htmlspecialchars($_POST['description_hamecon']);
+            $newHamecon['promo_hamecon'] = htmlspecialchars($_POST['promo_hamecon']);
+            $newHamecon['stock_hamecon'] = htmlspecialchars($_POST['stock_hamecon']);
+            $newHamecon['image_hamecon'] = $_FILES['image_hamecon'];
+            
+            if($newHamecon['stock_hamecon'] === 'stock') 
+            {
+                $newHamecon['stock_hamecon'] = 1;
+                $newHamecon['hors_stock_hamecon'] = 0;
+            }
+            else
+            {
+                $newHamecon['stock_hamecon'] = 0;
+                $newHamecon['hors_stock_hamecon'] = 1;
+            }
+
+            if($newHamecon['promo_hamecon'] === 'promo')
+            {
+                $newHamecon['promo_hamecon'] = 1;
+            }
+            else
+            {
+                $newHamecon['promo_hamecon'] = 0;
+            }
+            
+            $imageHamecon = new ImageHamecon;
+            $hamecon = new Hamecon;
+            $hamecon->createToInsertHamecon($newHamecon);
+            
+            if($hamecon == true)
+            {
+                $imageHamecon->addImageHamecon($newHamecon['image_hamecon']);
+
+                $imageHameconRepo = new ImageHameconRepository;
+                $hameconRepo = new HameconRepository;
+
+                $hameconRepo->insertHamecon($hamecon);
+            
+                $lastInsertIdHamecon = $hameconRepo->getLastInsertId();
+                
+                $imageHamecon->setIdHamecon($lastInsertIdHamecon);
+                $imageHameconRepo->insertImageHamecon($imageHamecon);
+
+                header('location: admin.php');
+            }
+        }
+    }
+}
+
 function addCategorieTraitement()
 {
     if(isset($_POST))
@@ -250,6 +323,28 @@ function addTypeMoulinetTraitement()
     }
 }
 
+function addTypeHameconTraitement()
+{
+    if(isset($_POST))
+    {
+        if(!empty($_POST['nom_type_hamecon']))
+        {
+            $newTypeHamecon = [];
+            $newTypeHamecon['nom_type_hamecon'] = htmlspecialchars($_POST['nom_type_hamecon']);
+
+            $typeHamecon = new TypeHamecon;
+            $typeHamecon->createToInserTypeHamecon($newTypeHamecon);
+
+            if($typeHamecon == true)
+            {
+                $typeHameconRepo = new TypeHameconRepository;
+                $typeHameconRepo->insertTypeHamecon($typeHamecon);
+                header('location: admin.php');
+            }
+        }
+    }
+}
+
 function deleteCanne()
 {
     // if($_SESSION['id_role'] === 1)
@@ -293,6 +388,36 @@ function deleteMoulinet()
             $deleteMoulinet = $moulinetRepository->deleteMoulinet($id_moulinet);
     
             if ($deleteMoulinet)
+            {
+                header('location: admin.php');
+            }
+            else 
+            {
+                $_SESSION['messageError'] = 'Suppression de l\'article échoué';
+                header('location: admin.php');
+            }
+        }
+        
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
+function deleteHamecon()
+{
+    // if($_SESSION['id_role'] === 1)
+    // {
+        if(!empty($_POST['id_hamecon']) && isset($_POST['id_hamecon']))
+        {
+            var_dump($_POST);
+            die;
+            $id_hamecon = isset($_POST['id_hamecon']) ? $_POST['id_hamecon'] : null;
+            $hameconRepository = new HameconRepository();
+            $deleteHamecon = $hameconRepository->deleteHamecon($id_hamecon);
+    
+            if ($deleteHamecon)
             {
                 header('location: admin.php');
             }
@@ -414,6 +539,34 @@ function deleteTypeMoulinet()
             else 
             {
                 $_SESSION['messageError'] = 'Suppression du type de moulinet échoué';
+                header('location: admin.php');
+            }
+        }
+        
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
+function deleteTypeHamecon()
+{
+    // if($_SESSION['id_role'] === 1)
+    // {
+        if(!empty($_POST['id_type_hamecon']) && isset($_POST['id_type_hamecon']))
+        {
+            $id_type_hamecon = isset($_POST['id_type_hamecon']) ? $_POST['id_type_hamecon'] : null;
+            $typeHameconRepository = new TypeHameconRepository();
+            $deleteTypeHamecon = $typeHameconRepository->deleteTypeHamecon($id_type_hamecon);
+    
+            if ($deleteTypeHamecon)
+            {
+                header('location: admin.php');
+            }
+            else 
+            {
+                $_SESSION['messageError'] = 'Suppression du type de hamecon échoué';
                 header('location: admin.php');
             }
         }
@@ -566,6 +719,84 @@ function UpdateMoulinetTraitement()
         $updateImageMoulinet = $imageMoulinetRepo->updateImageByMoulinet($image_moulinet, $id_moulinet);
         
         if ($update && $updateImageMoulinet)
+        {
+            header("location:admin.php");
+        }
+        else 
+        {
+            echo 'non';
+        }
+    } 
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
+function UpdateHameconTraitement()
+{
+    // if($_SESSION['id_role'] === 1)
+    // { 
+    $img = new ImageHameconRepository;
+    $oldImg = $img->getImageByHamecon($_POST['id_hamecon']);
+
+    $cheminFichier = $oldImg->getNomImageHamecon();
+
+    if (file_exists($cheminFichier)) 
+    {
+        if (unlink($cheminFichier)) 
+        {
+            echo "Le fichier a été supprimé avec succès.";
+        }
+        else 
+        {
+            echo "Une erreur s'est produite lors de la suppression du fichier.";
+            die;
+        }
+    }
+
+    if(isset($_POST['id_hamecon']) && isset($_POST['nom_hamecon']) && isset($_POST['poids_hamecon']) && isset($_POST['ratio_hamecon']) && isset($_POST['description_hamecon']) && isset($_POST['promo_hamecon']) && isset($_POST['stock_hamecon']) && isset($_POST['categorie_hamecon']) && isset($_POST['type_hamecon']) && isset($_POST['marque_hamecon']) && isset($_FILES['image_hamecon']))
+    {
+        $id_hamecon = isset($_POST['id_hamecon']) ? htmlspecialchars($_POST['id_hamecon']) : null;
+        $nom_hamecon = isset($_POST['nom_hamecon']) ? htmlspecialchars($_POST['nom_hamecon']) : null;
+        $poids_hamecon = isset($_POST['poids_hamecon']) ? htmlspecialchars($_POST['poids_hamecon']) : null;
+        $ratio_hamecon = isset($_POST['ratio_hamecon']) ? htmlspecialchars($_POST['ratio_hamecon']) : null;
+        $description_hamecon = isset($_POST['description_hamecon']) ? htmlspecialchars($_POST['description_hamecon']) : null;
+        $promo_hamecon = isset($_POST['promo_hamecon']) ? htmlspecialchars($_POST['promo_hamecon']) : null;
+        $stock_hamecon = isset($_POST['stock_hamecon']) ? htmlspecialchars($_POST['stock_hamecon']) : null;
+        $id_categorie = isset($_POST['categorie_hamecon']) ? htmlspecialchars($_POST['categorie_hamecon']) : null;
+        $id_type_hamecon = isset($_POST['type_hamecon']) ? htmlspecialchars($_POST['type_hamecon']) : null;
+        $id_marque = isset($_POST['marque_hamecon']) ? htmlspecialchars($_POST['marque_hamecon']) : null;
+        $image_hamecon = isset($_FILES['image_hamecon']) ? $_FILES['image_hamecon'] : null;
+
+        if($stock_hamecon === 'stock') 
+        {
+            $stock_hamecon = 1;
+            $hors_stock_hamecon = 0;
+        }
+        else
+        {
+            $stock_hamecon = 0;
+            $hors_stock_hamecon = 1;
+        }
+
+        if($promo_hamecon === 'promo')
+        {
+            $promo_hamecon = 1;
+        }
+        else
+        {
+            $promo_hamecon = 0;
+        }
+
+        $hameconRepository = new HameconRepository;
+        $imageHameconRepo = new ImageHameconRepository;
+        
+        $update = $hameconRepository->updateHamecon($id_hamecon, $nom_hamecon, $poids_hamecon, $ratio_hamecon, $description_hamecon, $promo_hamecon, $stock_hamecon, $hors_stock_hamecon, $id_categorie, $id_type_hamecon, $id_marque);
+        $updateImageHamecon = $imageHameconRepo->updateImageByHamecon($image_hamecon, $id_hamecon);
+        
+        if ($update && $updateImageHamecon)
         {
             header("location:admin.php");
         }
