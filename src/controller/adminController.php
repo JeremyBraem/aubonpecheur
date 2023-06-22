@@ -2,10 +2,13 @@
 
 require_once('autoload/autoloader.php');
 require_once('src/model/Produit/Canne.php');
+require_once('src/model/Produit/Moulinet.php');
 require_once('src/model/Marque.php');
 require_once('src/model/Categorie.php');
 require_once('src/model/Type/TypeCanne.php');
+require_once('src/model/Type/TypeMoulinet.php');
 require_once('src/model/Image/ImageCanne.php');
+require_once('src/model/Image/ImageMoulinet.php');
 
 function adminPage()
 {
@@ -14,6 +17,12 @@ function adminPage()
 
     $typeCanneRepo = new TypeCanneRepository;
     $typeCannes = $typeCanneRepo->getAllTypeCanne();
+
+    $moulinetRepo = new MoulinetRepository;
+    $moulinets = $moulinetRepo->getAllmoulinet();
+
+    $typeMoulinetRepo = new TypemoulinetRepository;
+    $typeMoulinets = $typeMoulinetRepo->getAllTypemoulinet();
 
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();
@@ -24,12 +33,6 @@ function adminPage()
     require('src/view/adminPage.php');
 }
 
-function viewAllProduct()
-{
-    $canneRepo = new CanneRepository;
-    $canneRepo->getAllCanne();
-}
-
 function addCanneTraitement()
 {
     if(isset($_POST))
@@ -37,7 +40,6 @@ function addCanneTraitement()
     {
         if(!empty($_POST['nom_canne']) && !empty($_POST['poids_canne']) && !empty($_POST['longueur_canne']) && !empty($_POST['categorie_canne']) && !empty($_POST['type_canne']) && !empty($_POST['marque_canne']) && !empty($_POST['promo_canne']) && !empty($_POST['stock_canne']) && !empty($_POST['description_canne'] && !empty($_FILES['image_canne'])))
         {
-            
             $newCanne = [];
             $newCanne['nom_canne'] = htmlspecialchars($_POST['nom_canne']);
             $newCanne['poids_canne'] = htmlspecialchars($_POST['poids_canne']);
@@ -87,6 +89,70 @@ function addCanneTraitement()
                 
                 $imageCanne->setIdCanne($lastInsertIdCanne);
                 $imageCanneRepo->insertImageCanne($imageCanne);
+
+                header('location: admin.php');
+            }
+        }
+    }
+}
+
+function addMoulinetTraitement()
+{
+    if(isset($_POST))
+    
+    {
+        if(!empty($_POST['nom_moulinet']) && !empty($_POST['poids_moulinet']) && !empty($_POST['ratio_moulinet']) && !empty($_POST['categorie_moulinet']) && !empty($_POST['type_moulinet']) && !empty($_POST['marque_moulinet']) && !empty($_POST['promo_moulinet']) && !empty($_POST['stock_moulinet']) && !empty($_POST['description_moulinet'] && !empty($_FILES['image_moulinet'])))
+        {
+            
+            $newMoulinet = [];
+            $newMoulinet['nom_moulinet'] = htmlspecialchars($_POST['nom_moulinet']);
+            $newMoulinet['poids_moulinet'] = htmlspecialchars($_POST['poids_moulinet']);
+            $newMoulinet['ratio_moulinet'] = htmlspecialchars($_POST['ratio_moulinet']);
+            $newMoulinet['categorie_moulinet'] = htmlspecialchars($_POST['categorie_moulinet']);
+            $newMoulinet['type_moulinet'] = htmlspecialchars($_POST['type_moulinet']);
+            $newMoulinet['marque_moulinet'] = htmlspecialchars($_POST['marque_moulinet']);
+            $newMoulinet['description_moulinet'] = htmlspecialchars($_POST['description_moulinet']);
+            $newMoulinet['promo_moulinet'] = htmlspecialchars($_POST['promo_moulinet']);
+            $newMoulinet['stock_moulinet'] = htmlspecialchars($_POST['stock_moulinet']);
+            $newMoulinet['image_moulinet'] = $_FILES['image_moulinet'];
+            
+            if($newMoulinet['stock_moulinet'] === 'stock') 
+            {
+                $newMoulinet['stock_moulinet'] = 1;
+                $newMoulinet['hors_stock_moulinet'] = 0;
+            }
+            else
+            {
+                $newMoulinet['stock_moulinet'] = 0;
+                $newMoulinet['hors_stock_moulinet'] = 1;
+            }
+
+            if($newMoulinet['promo_moulinet'] === 'promo')
+            {
+                $newMoulinet['promo_moulinet'] = 1;
+            }
+            else
+            {
+                $newMoulinet['promo_moulinet'] = 0;
+            }
+            
+            $imageMoulinet = new ImageMoulinet;
+            $moulinet = new Moulinet;
+            $moulinet->createToInsertMoulinet($newMoulinet);
+            
+            if($moulinet == true)
+            {
+                $imageMoulinet->addImageMoulinet($newMoulinet['image_moulinet']);
+
+                $imageMoulinetRepo = new ImageMoulinetRepository;
+                $moulinetRepo = new MoulinetRepository;
+
+                $moulinetRepo->insertMoulinet($moulinet);
+            
+                $lastInsertIdMoulinet = $moulinetRepo->getLastInsertId();
+                
+                $imageMoulinet->setIdMoulinet($lastInsertIdMoulinet);
+                $imageMoulinetRepo->insertImageMoulinet($imageMoulinet);
 
                 header('location: admin.php');
             }
@@ -162,6 +228,28 @@ function addTypeCanneTraitement()
     }
 }
 
+function addTypeMoulinetTraitement()
+{
+    if(isset($_POST))
+    {
+        if(!empty($_POST['nom_type_moulinet']))
+        {
+            $newTypeMoulinet = [];
+            $newTypeMoulinet['nom_type_moulinet'] = htmlspecialchars($_POST['nom_type_moulinet']);
+
+            $typeMoulinet = new TypeMoulinet;
+            $typeMoulinet->createToInserTypeMoulinet($newTypeMoulinet);
+
+            if($typeMoulinet == true)
+            {
+                $typeMoulinetRepo = new TypeMoulinetRepository;
+                $typeMoulinetRepo->insertTypeMoulinet($typeMoulinet);
+                header('location: admin.php');
+            }
+        }
+    }
+}
+
 function deleteCanne()
 {
     // if($_SESSION['id_role'] === 1)
@@ -175,6 +263,36 @@ function deleteCanne()
             $deleteCanne = $canneRepository->deleteCanne($id_canne);
     
             if ($deleteCanne)
+            {
+                header('location: admin.php');
+            }
+            else 
+            {
+                $_SESSION['messageError'] = 'Suppression de l\'article échoué';
+                header('location: admin.php');
+            }
+        }
+        
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
+function deleteMoulinet()
+{
+    // if($_SESSION['id_role'] === 1)
+    // {
+        if(!empty($_POST['id_moulinet']) && isset($_POST['id_moulinet']))
+        {
+            var_dump($_POST);
+            die;
+            $id_moulinet = isset($_POST['id_moulinet']) ? $_POST['id_moulinet'] : null;
+            $moulinetRepository = new MoulinetRepository();
+            $deleteMoulinet = $moulinetRepository->deleteMoulinet($id_moulinet);
+    
+            if ($deleteMoulinet)
             {
                 header('location: admin.php');
             }
@@ -279,6 +397,34 @@ function deleteTypeCanne()
     // }
 }
 
+function deleteTypeMoulinet()
+{
+    // if($_SESSION['id_role'] === 1)
+    // {
+        if(!empty($_POST['id_type_moulinet']) && isset($_POST['id_type_moulinet']))
+        {
+            $id_type_moulinet = isset($_POST['id_type_moulinet']) ? $_POST['id_type_moulinet'] : null;
+            $typeMoulinetRepository = new TypeMoulinetRepository();
+            $deleteTypeMoulinet = $typeMoulinetRepository->deleteTypeMoulinet($id_type_moulinet);
+    
+            if ($deleteTypeMoulinet)
+            {
+                header('location: admin.php');
+            }
+            else 
+            {
+                $_SESSION['messageError'] = 'Suppression du type de moulinet échoué';
+                header('location: admin.php');
+            }
+        }
+        
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
 function UpdateCanneTraitement()
 {
     // if($_SESSION['id_role'] === 1)
@@ -357,4 +503,80 @@ function UpdateCanneTraitement()
     // }
 }
 
+function UpdateMoulinetTraitement()
+{
+    // if($_SESSION['id_role'] === 1)
+    // { 
+    $img = new ImageMoulinetRepository;
+    $oldImg = $img->getImageByMoulinet($_POST['id_moulinet']);
 
+    $cheminFichier = $oldImg->getNomImageMoulinet();
+
+    if (file_exists($cheminFichier)) 
+    {
+        if (unlink($cheminFichier)) 
+        {
+            echo "Le fichier a été supprimé avec succès.";
+        }
+        else 
+        {
+            echo "Une erreur s'est produite lors de la suppression du fichier.";
+            die;
+        }
+    }
+
+    if(isset($_POST['id_moulinet']) && isset($_POST['nom_moulinet']) && isset($_POST['poids_moulinet']) && isset($_POST['ratio_moulinet']) && isset($_POST['description_moulinet']) && isset($_POST['promo_moulinet']) && isset($_POST['stock_moulinet']) && isset($_POST['categorie_moulinet']) && isset($_POST['type_moulinet']) && isset($_POST['marque_moulinet']) && isset($_FILES['image_moulinet']))
+    {
+        $id_moulinet = isset($_POST['id_moulinet']) ? htmlspecialchars($_POST['id_moulinet']) : null;
+        $nom_moulinet = isset($_POST['nom_moulinet']) ? htmlspecialchars($_POST['nom_moulinet']) : null;
+        $poids_moulinet = isset($_POST['poids_moulinet']) ? htmlspecialchars($_POST['poids_moulinet']) : null;
+        $ratio_moulinet = isset($_POST['ratio_moulinet']) ? htmlspecialchars($_POST['ratio_moulinet']) : null;
+        $description_moulinet = isset($_POST['description_moulinet']) ? htmlspecialchars($_POST['description_moulinet']) : null;
+        $promo_moulinet = isset($_POST['promo_moulinet']) ? htmlspecialchars($_POST['promo_moulinet']) : null;
+        $stock_moulinet = isset($_POST['stock_moulinet']) ? htmlspecialchars($_POST['stock_moulinet']) : null;
+        $id_categorie = isset($_POST['categorie_moulinet']) ? htmlspecialchars($_POST['categorie_moulinet']) : null;
+        $id_type_moulinet = isset($_POST['type_moulinet']) ? htmlspecialchars($_POST['type_moulinet']) : null;
+        $id_marque = isset($_POST['marque_moulinet']) ? htmlspecialchars($_POST['marque_moulinet']) : null;
+        $image_moulinet = isset($_FILES['image_moulinet']) ? $_FILES['image_moulinet'] : null;
+
+        if($stock_moulinet === 'stock') 
+        {
+            $stock_moulinet = 1;
+            $hors_stock_moulinet = 0;
+        }
+        else
+        {
+            $stock_moulinet = 0;
+            $hors_stock_moulinet = 1;
+        }
+
+        if($promo_moulinet === 'promo')
+        {
+            $promo_moulinet = 1;
+        }
+        else
+        {
+            $promo_moulinet = 0;
+        }
+
+        $moulinetRepository = new MoulinetRepository;
+        $imageMoulinetRepo = new ImageMoulinetRepository;
+        
+        $update = $moulinetRepository->updateMoulinet($id_moulinet, $nom_moulinet, $poids_moulinet, $ratio_moulinet, $description_moulinet, $promo_moulinet, $stock_moulinet, $hors_stock_moulinet, $id_categorie, $id_type_moulinet, $id_marque);
+        $updateImageMoulinet = $imageMoulinetRepo->updateImageByMoulinet($image_moulinet, $id_moulinet);
+        
+        if ($update && $updateImageMoulinet)
+        {
+            header("location:admin.php");
+        }
+        else 
+        {
+            echo 'non';
+        }
+    } 
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
