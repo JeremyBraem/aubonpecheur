@@ -12,7 +12,6 @@
                     </svg>
                     <span class="sr-only">Close modal</span>
                 </button>
-
             </div>
             <!-- Modal body -->
             <form action="admin.php?action=UpdateCanneTraitement" method="post" enctype="multipart/form-data">

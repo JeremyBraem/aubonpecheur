@@ -258,6 +258,8 @@ class CanneRepository extends connectBdd
     {
         try 
         {
+            var_dump($_POST);
+            die;
             $imageCanneRepo = new ImageCanneRepository;
             $oldImg = $imageCanneRepo->getImageByCanne($_POST['id_canne']);
            
@@ -293,9 +295,9 @@ class CanneRepository extends connectBdd
 
     public function updateCanne($id_canne, $nom_canne, $poids_canne, $longueur_canne, $description_canne, $promo_canne, $stock_canne, $hors_stock_canne, $id_categorie, $id_type_canne, $id_marque)
     {
-        
         try 
         {
+            
             $req = $this->bdd->prepare("UPDATE canne SET nom_canne = ?, poids_canne = ?, longueur_canne = ?, description_canne = ?, promo_canne = ?, stock_canne = ?, hors_stock_canne = ?, id_categorie = ?, id_type_canne = ?, id_marque = ? WHERE id_canne = ?");
             $req->execute([$nom_canne, $poids_canne, $longueur_canne, $description_canne, $promo_canne, $stock_canne, $hors_stock_canne, $id_categorie, $id_type_canne, $id_marque, $id_canne]);
             

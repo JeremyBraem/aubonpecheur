@@ -122,13 +122,14 @@ function addMarqueTraitement()
     {
         if(!empty($_POST['nom_marque']) && !empty($_FILES['image_marque']))
         {
+            
             $newMarque = [];
             $newMarque['nom_marque'] = htmlspecialchars($_POST['nom_marque']);
             $newMarque['image_marque'] = $_FILES['image_marque'];
             
             $marque = new Marque;
             $marque->createToInsertMarque($newMarque);
-
+            
             if($marque == true)
             {
                 $marqueRepo = new MarqueRepository;
@@ -167,6 +168,8 @@ function deleteCanne()
     // {
         if(!empty($_POST['id_canne']) && isset($_POST['id_canne']))
         {
+            var_dump($_POST);
+            die;
             $id_canne = isset($_POST['id_canne']) ? $_POST['id_canne'] : null;
             $canneRepository = new CanneRepository();
             $deleteCanne = $canneRepository->deleteCanne($id_canne);
@@ -279,7 +282,7 @@ function deleteTypeCanne()
 function UpdateCanneTraitement()
 {
     // if($_SESSION['id_role'] === 1)
-    // {  
+    // { 
     $img = new ImageCanneRepository;
     $oldImg = $img->getImageByCanne($_POST['id_canne']);
 
@@ -297,7 +300,7 @@ function UpdateCanneTraitement()
             die;
         }
     }
- 
+
     if(isset($_POST['id_canne']) && isset($_POST['nom_canne']) && isset($_POST['poids_canne']) && isset($_POST['longueur_canne']) && isset($_POST['description_canne']) && isset($_POST['promo_canne']) && isset($_POST['stock_canne']) && isset($_POST['categorie_canne']) && isset($_POST['type_canne']) && isset($_POST['marque_canne']) && isset($_FILES['image_canne']))
     {
         $id_canne = isset($_POST['id_canne']) ? htmlspecialchars($_POST['id_canne']) : null;
