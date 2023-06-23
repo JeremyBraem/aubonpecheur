@@ -20,7 +20,17 @@
             <div class="flex justify-center items-center space-x-4">
                 <button data-modal-toggle="deleteTypeCanneModal" type="button" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200">Non, annuler</button>
                 <form action="admin.php?action=deleteTypeCanne" method="post">
-                    <input type="hidden" value="<?php echo $typeCanne->getIdTypeCanne(); ?>" name="id_type_canne">
+                    <input type="hidden" value="
+                    <?php
+                        if($typeCanne)
+                        {
+                            echo $typeCanne->getIdTypeCanne();
+                        }
+                        else
+                        {
+                            echo '';
+                        }
+                    ?>" name="id_type_canne">
                     <button type="submit" class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg">Oui, je suis sûr</button>
                 </form>
             </div>
@@ -28,5 +38,4 @@
         </div>
 
     </div>
-
 </div>

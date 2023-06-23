@@ -234,7 +234,7 @@ class CanneRepository extends connectBdd
         $datas = $req->fetchAll();
         $cannes = [];
 
-        foreach ($datas as $data) 
+        foreach ($datas as $data)
         {
             $canne = new Canne();
             $canne->setIdCanne($data['id_canne']);

@@ -1,3 +1,4 @@
+<?php if($moulinets) { ?>
 <tbody>
     <?php
     foreach ($moulinets as $moulinet) { ?>
@@ -75,3 +76,9 @@
         </tr>
     <?php } ?>
 </tbody>
+<?php }
+    else
+    {
+        echo '';
+    }  
+?>

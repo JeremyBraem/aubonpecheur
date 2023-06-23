@@ -22,7 +22,7 @@
                 <form action="admin.php?action=deleteMoulinet" method="post">
                     <input name="id_moulinet" type="hidden" value="
                     <?php 
-                        if(!empty($moulinet->getIdMoulinet())) 
+                        if($moulinet)
                         {
                             echo $moulinet->getIdMoulinet();
                         }

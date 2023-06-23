@@ -206,7 +206,8 @@ class MoulinetRepository extends connectBdd
         $req = $this->bdd->prepare("INSERT INTO moulinet (nom_moulinet, poids_moulinet, ratio_moulinet, description_moulinet, promo_moulinet, stock_moulinet, hors_stock_moulinet, id_categorie, id_type_moulinet, id_marque)
         VALUES (?,?,?,?,?,?,?,?,?,?)");
 
-        $req->execute([
+        $req->execute
+        ([
             $moulinet->getNomMoulinet(),
             $moulinet->getPoidsMoulinet(),
             $moulinet->getLongueurMoulinet(),

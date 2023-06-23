@@ -1,5 +1,5 @@
+<?php if($hamecons) { ?>
 <tbody>
-    
     <?php 
     foreach ($hamecons as $hamecon) { ?>
         <tr class="border-b" data-hamecon-id="<?php echo $hamecon->getIdHamecon() ?>">
@@ -77,3 +77,9 @@
         </tr>
     <?php } ?>
 </tbody>
+<?php }
+    else
+    {
+        echo '';
+    }  
+?>

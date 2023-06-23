@@ -1,3 +1,4 @@
+<?php if($cannes) { ?>
 <tbody>
     <?php
     foreach ($cannes as $canne) { ?>
@@ -75,3 +76,9 @@
         </tr>
     <?php } ?>
 </tbody>
+<?php }
+    else
+    {
+        echo '';
+    }  
+?>

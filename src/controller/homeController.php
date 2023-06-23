@@ -2,10 +2,135 @@
 
 require_once ('autoload/autoloader.php');
 require_once ('src/model/User.php');
+require_once('src/model/Produit/Produit.php');
+require_once('src/model/Produit/Canne.php');
+require_once('src/model/Produit/Moulinet.php');
+require_once('src/model/Produit/Hamecon.php');
+require_once('src/model/Marque.php');
+require_once('src/model/Categorie.php');
+require_once('src/model/Type/TypeCanne.php');
+require_once('src/model/Type/TypeMoulinet.php');
+require_once('src/model/Type/TypeHamecon.php');
+require_once('src/model/Image/ImageCanne.php');
+require_once('src/model/Image/ImageMoulinet.php');
+require_once('src/model/Image/ImageHamecon.php');
+
+// function allProduct()
+// {
+//     $produitModel = new ProduitRepository();
+//     $products = $produitModel->getAllProducts();
+    
+//     $result = [];
+
+//     // Canne
+//     foreach ($products['cannes'] as $canne) {
+//         $idCanne = $canne[0];
+//         $nomCanne = $canne[1];
+        
+//         $canneInfo = [
+//             'id' => $idCanne,
+//             'nom' => $nomCanne
+//         ];
+        
+//         $result['cannes'][] = $canneInfo;
+//     }
+
+//     // Moulinet
+//     foreach ($products['moulinets'] as $moulinet) {
+//         $idMoulinet = $moulinet[0];
+//         $nomMoulinet = $moulinet[1];
+        
+//         $moulinetInfo = [
+//             'id' => $idMoulinet,
+//             'nom' => $nomMoulinet
+//         ];
+        
+//         $result['moulinets'][] = $moulinetInfo;
+//     }
+
+//     // Hameçon
+//     foreach ($products['hamecons'] as $hamecon) {
+//         $idHamecon = $hamecon[0];
+//         $nomHamecon = $hamecon[1];
+        
+//         $hameconInfo = [
+//             'id' => $idHamecon,
+//             'nom' => $nomHamecon
+//         ];
+        
+//         $result['hamecons'][] = $hameconInfo;
+//     }
+//     return $result;
+// }
+
 
 function home()
 {
+    $canneRepo = new CanneRepository;
+    $cannes = $canneRepo->getAllCanne();
+
+    $typeCanneRepo = new TypeCanneRepository;
+    $typeCannes = $typeCanneRepo->getAllTypeCanne();
+
+    $moulinetRepo = new MoulinetRepository;
+    $moulinets = $moulinetRepo->getAllmoulinet();
+
+    $typeMoulinetRepo = new TypemoulinetRepository;
+    $typeMoulinets = $typeMoulinetRepo->getAllTypemoulinet();
+
+    $hameconRepo = new HameconRepository;
+    $hamecons = $hameconRepo->getAllHamecon();
+
+    $typeHameconRepo = new TypeHameconRepository;
+    $typeHamecons = $typeHameconRepo->getAllTypeHamecon();
+
+    $marqueRepo = new MarqueRepository;
+    $marques = $marqueRepo->getAllMarque();
+
+    $categorieRepo = new CategorieRepository;
+    $categories = $categorieRepo->getAllCategorie();
+
+    $articles = [];
+    
+    $articles['cannes'] = $cannes;
+    
+    $articles['typeCannes'] = $typeCannes;
+    
+    $articles['moulinets'] = $moulinets;
+    
+    $articles['typeMoulinets'] = $typeMoulinets;
+    
+    $articles['hamecons'] = $hamecons;
+    
+    $articles['typeHamecons'] = $typeHamecons;
+    
+    $articles['marques'] = $marques;
+    
+    $articles['categories'] = $categories;
+    
     include ('src/view/homePage.php');
+}
+
+function viewAllMarque()
+{
+    $marqueRepo = new MarqueRepository;
+    $marques = $marqueRepo->getAllMarque();
+}
+
+function viewAllType()
+{
+    $typeMoulinetRepo = new TypemoulinetRepository;
+    $typeMoulinets = $typeMoulinetRepo->getAllTypemoulinet();
+
+    $typeCanneRepo = new TypeCanneRepository;
+    $typeCannes = $typeCanneRepo->getAllTypeCanne();
+
+}
+
+function viewAllCategorie()
+{
+    $categorieRepo = new CategorieRepository;
+    $categories = $categorieRepo->getAllCategorie();
 }
 
 function articlePage()
