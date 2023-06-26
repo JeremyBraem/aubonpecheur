@@ -24,77 +24,11 @@
                         <div class="md:w-56">
                             <p class="text-xs md:text-lg text-center"><?php echo $article['nom']; ?></p>
                             <p class="text-2xs md:text-sm text-center uppercase"><?php echo $article['marque']; ?></p>
-
                         </div>
+                        
                     </div>
                 <?php } ?>
-
-                <div class="relative w-56 md:h-80">
-
-                    <div class="w-56">
-                        <img src="assets/img/article/canne/14595195_az_main1_600.jpg" class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" />
-                    </div>
-
-                    <div class="md:w-56">
-                        <p class="text-xs md:text-lg text-center">SMOKE S3 PLUS VERTICAL</p>
-                        <p class="text-2xs md:text-sm text-center uppercase">QUANTUM</p>
-                    </div>
-
-                </div>
-
-                <div class="relative w-56 md:h-80">
-
-                    <div class="w-56">
-                        <img src="assets/img/article/canne/14595195_az_main1_600.jpg" class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" />
-                    </div>
-
-                    <div class="md:w-56">
-                        <p class="text-xs md:text-lg text-center">SMOKE S3 PLUS VERTICAL</p>
-                        <p class="text-2xs md:text-sm text-center uppercase">QUANTUM</p>
-                    </div>
-
-                </div>
-
-                <div class="relative w-56 md:h-80">
-
-                    <div class="w-56">
-                        <img src="assets/img/article/canne/14595195_az_main1_600.jpg" class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" />
-                    </div>
-
-                    <div class="md:w-56">
-                        <p class="text-xs md:text-lg text-center">Smoke S3 plus vertical</p>
-                        <p class="text-2xs md:text-sm text-center uppercase">QUANTUM</p>
-                    </div>
-
-                </div>
-                <div class="relative w-56 md:h-80">
-
-                    <div class="w-56">
-                        <img src="assets/img/article/canne/14595195_az_main1_600.jpg" class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" />
-                    </div>
-
-                    <div class="md:w-56">
-                        <p class="text-xs md:text-lg text-center">Smoke S3 plus vertical</p>
-                        <p class="text-2xs md:text-sm text-center uppercase">QUANTUM</p>
-                    </div>
-
-                </div>
-
-                <div class="relative w-56 md:h-80">
-
-                    <div class="w-56">
-                        <img src="assets/img/article/canne/14595195_az_main1_600.jpg" class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" />
-                    </div>
-
-                    <div class="md:w-56">
-                        <p class="text-xs md:text-lg text-center">Smoke S3 plus vertical</p>
-                        <p class="text-2xs md:text-sm text-center uppercase">QUAntUM</p>
-                    </div>
-
-                </div>
-
             </div>
-
         </div>
 
     </div>

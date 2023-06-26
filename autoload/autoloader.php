@@ -1,13 +1,12 @@
-<?php 
+<?php
 
 function autoloader($className) {
-    $classfile = __DIR__ . '/../src/model/' . $className . '.php';
-    if(file_exists($classfile)) {
-        require_once($classfile);
+    $classFile = __DIR__ . '/../src/model/' . $className . '.php';
+    if (file_exists($classFile)) {
+        require_once($classFile);
     }
 }
 
-//PHP natif : spl _autoload_register
 spl_autoload_register('autoloader');
 
 ?>
