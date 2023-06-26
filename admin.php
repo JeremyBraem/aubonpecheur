@@ -21,6 +21,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'addLigneTraitement':
                 addLigneTraitement();
                 break;
+            case 'addFeederTraitement':
+                addFeederTraitement();
+                break;
             case 'addCategorieTraitement':
                 addCategorieTraitement();
                 break;
@@ -41,6 +44,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
                 break;
             case 'addTypeLigneTraitement':
                 addTypeLigneTraitement();
+                break;
+            case 'addTypeFeederTraitement':
+                addTypeFeederTraitement();
                 break;
             case 'addMarqueTraitement':
                 addMarqueTraitement();
@@ -72,6 +78,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'deleteLigne':
                 deleteLigne();
                 break;
+            case 'deleteFeeder':
+                deleteFeeder();
+                break;
             case 'deleteEquipement':
                 deleteEquipement();
                 break;
@@ -93,6 +102,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'deleteTypeLigne':
                 deleteTypeLigne();
                 break;
+            case 'deleteTypeFeeder':
+                deleteTypeFeeder();
+                break;
             case 'deleteTypeEquipement':
                 deleteTypeEquipement();
                 break;
@@ -107,6 +119,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
                 break;
             case 'UpdateLigneTraitement':
                 UpdateLigneTraitement();
+                break;
+            case 'UpdateFeederTraitement':
+                UpdateFeederTraitement();
                 break;
             case 'UpdateEquipementTraitement':
                 UpdateEquipementTraitement();

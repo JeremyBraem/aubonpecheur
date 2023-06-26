@@ -7,6 +7,9 @@ require_once('src/model/Produit/Canne.php');
 require_once('src/model/Produit/Moulinet.php');
 require_once('src/model/Produit/Hamecon.php');
 require_once('src/model/Produit/Leurre.php');
+require_once('src/model/Produit/Ligne.php');
+require_once('src/model/Produit/Equipement.php');
+require_once('src/model/Produit/Feeder.php');
 
 require_once('src/model/Marque.php');
 require_once('src/model/Categorie.php');
@@ -15,11 +18,17 @@ require_once('src/model/Type/TypeCanne.php');
 require_once('src/model/Type/TypeMoulinet.php');
 require_once('src/model/Type/TypeHamecon.php');
 require_once('src/model/Type/TypeLeurre.php');
+require_once('src/model/Type/TypeLigne.php');
+require_once('src/model/Type/TypeEquipement.php');
+require_once('src/model/Type/TypeFeeder.php');
 
 require_once('src/model/Image/ImageCanne.php');
 require_once('src/model/Image/ImageMoulinet.php');
 require_once('src/model/Image/ImageHamecon.php');
 require_once('src/model/Image/ImageLeurre.php');
+require_once('src/model/Image/ImageLigne.php');
+require_once('src/model/Image/ImageEquipement.php');
+require_once('src/model/Image/ImageFeeder.php');
 
 function home()
 {
@@ -46,6 +55,8 @@ function home()
     $categories = viewAllCategorie();
     
     $combinedArticles = getLastArticles();
+
+    $promoArticles = getPromoArticles();
     
     include ('src/view/homePage.php');
 }
@@ -56,6 +67,9 @@ function getLastArticles()
     $lastMoulinetRepo = new MoulinetRepository;
     $lastHameconRepo = new HameconRepository;
     $lastLeurreRepo = new LeurreRepository;
+    $lastLigneRepo = new LigneRepository;
+    $lastEquipementRepo = new EquipementRepository;
+    $lastFeederRepo = new FeederRepository;
     
     $articles = [];
 
@@ -63,6 +77,9 @@ function getLastArticles()
     $articles['moulinets'] = $lastMoulinetRepo->getLastMoulinet();
     $articles['hamecons'] = $lastHameconRepo->getLastHamecon();
     $articles['leurres'] = $lastLeurreRepo->getLastLeurre();
+    $articles['lignes'] = $lastLigneRepo->getLastLigne();
+    $articles['equipements'] = $lastEquipementRepo->getLastEquipement();
+    $articles['feeders'] = $lastFeederRepo->getLastFeeder();
 
     $combinedArticles = [];
 
@@ -145,7 +162,240 @@ function getLastArticles()
             $combinedArticles[] = [''];
         }
     }
+
+    foreach ($articles['lignes'] as $ligne) 
+    {
+        if($ligne)
+        {
+            $imgLigneRepo = new ImageLigneRepository;
+            $imgLigne = $imgLigneRepo->getImageByLigne($ligne->getIdLigne());
+        
+            $combinedArticles[] = 
+            [
+                'type' => 'ligne',
+                'nom' => $ligne->getNomLigne(),
+                'image' => $imgLigne->getNomImageLigne(),
+                'marque' => $ligne->getMarqueLigne()
+            ];
+        }
+        else
+        {
+            $combinedArticles[] = [''];
+        }
+    }
+
+    foreach ($articles['equipements'] as $equipement) 
+    {
+        if($equipement)
+        {
+            $imgEquipementRepo = new ImageEquipementRepository;
+            $imgEquipement = $imgEquipementRepo->getImageByEquipement($equipement->getIdEquipement());
+        
+            $combinedArticles[] = 
+            [
+                'type' => 'equipement',
+                'nom' => $equipement->getNomEquipement(),
+                'image' => $imgEquipement->getNomImageEquipement(),
+                'marque' => $equipement->getMarqueEquipement()
+            ];
+        }
+        else
+        {
+            $combinedArticles[] = [''];
+        }
+    }
+
+    foreach ($articles['feeders'] as $feeder) 
+    {
+        if($feeder)
+        {
+            $imgFeederRepo = new ImageFeederRepository;
+            $imgFeeder = $imgFeederRepo->getImageByFeeder($feeder->getIdFeeder());
+        
+            $combinedArticles[] = 
+            [
+                'type' => 'feeder',
+                'nom' => $feeder->getNomFeeder(),
+                'image' => $imgFeeder->getNomImageFeeder(),
+                'marque' => $feeder->getMarqueFeeder()
+            ];
+        }
+        else
+        {
+            $combinedArticles[] = [''];
+        }
+    }
+
     $articles = array_reverse($combinedArticles);
+    return $articles;
+}
+
+function getPromoArticles()
+{
+    $lastCanneRepo = new CanneRepository;
+    $lastMoulinetRepo = new MoulinetRepository;
+    $lastHameconRepo = new HameconRepository;
+    $lastLeurreRepo = new LeurreRepository;
+    $lastLigneRepo = new LigneRepository;
+    $lastEquipementRepo = new EquipementRepository;
+    $lastFeederRepo = new FeederRepository;
+    
+    $articles = [];
+
+    $articles['cannes'] = $lastCanneRepo->getPromoCanne();
+    $articles['moulinets'] = $lastMoulinetRepo->getPromoMoulinet();
+    $articles['hamecons'] = $lastHameconRepo->getPromoHamecon();
+    $articles['leurres'] = $lastLeurreRepo->getPromoLeurre();
+    $articles['lignes'] = $lastLigneRepo->getPromoLigne();
+    $articles['equipements'] = $lastEquipementRepo->getPromoEquipement();
+    $articles['feeders'] = $lastFeederRepo->getPromoFeeder();
+
+    $promoArticles = [];
+
+    foreach ($articles['cannes'] as $canne) 
+    {
+        if($canne)
+        {
+            $imgCanneRepo = new ImageCanneRepository;
+            $imgCannes = $imgCanneRepo->getImageByCanne($canne->getIdCanne());
+            $promoArticles[] = [
+                'type' => 'canne',
+                'nom' => $canne->getNomCanne(),
+                'image' => $imgCannes->getNomImageCanne(),
+                'marque' => $canne->getMarqueCanne()
+            ];
+        }
+        else
+        {
+            $promoArticles[] = [''];
+        }
+    }
+
+    foreach ($articles['moulinets'] as $moulinet) 
+    {
+        if($moulinet)
+        {
+            $imgMoulinetRepo = new ImageMoulinetRepository;
+            $imgMoulinet = $imgMoulinetRepo->getImageByMoulinet($moulinet->getIdMoulinet());
+            $promoArticles[] = [
+                'type' => 'moulinet',
+                'nom' => $moulinet->getNomMoulinet(),
+                'image' => $imgMoulinet->getNomImageMoulinet(),
+                'marque' => $moulinet->getMarqueMoulinet()
+            ];
+        }
+        else
+        {
+            $promoArticles[] = [''];
+        }
+    }
+
+    foreach ($articles['hamecons'] as $hamecon) 
+    {
+        if($hamecon)
+        {
+            $imgHameconRepo = new ImageHameconRepository;
+            $imgHamecon = $imgHameconRepo->getImageByHamecon($hamecon->getIdHamecon());
+        
+            $promoArticles[] = 
+            [
+                'type' => 'hamecon',
+                'nom' => $hamecon->getNomHamecon(),
+                'image' => $imgHamecon->getNomImageHamecon(),
+                'marque' => $hamecon->getMarqueHamecon()
+            ];
+        }
+        else
+        {
+            $promoArticles[] = [''];
+        }
+    }
+
+    foreach ($articles['leurres'] as $leurre) 
+    {
+        if($leurre)
+        {
+            $imgLeurreRepo = new ImageLeurreRepository;
+            $imgLeurre = $imgLeurreRepo->getImageByLeurre($leurre->getIdLeurre());
+        
+            $promoArticles[] = 
+            [
+                'type' => 'leurre',
+                'nom' => $leurre->getNomLeurre(),
+                'image' => $imgLeurre->getNomImageLeurre(),
+                'marque' => $leurre->getMarqueLeurre()
+            ];
+        }
+        else
+        {
+            $promoArticles[] = [''];
+        }
+    }
+
+    foreach ($articles['lignes'] as $ligne) 
+    {
+        if($ligne)
+        {
+            $imgLigneRepo = new ImageLigneRepository;
+            $imgLigne = $imgLigneRepo->getImageByLigne($ligne->getIdLigne());
+        
+            $promoArticles[] = 
+            [
+                'type' => 'ligne',
+                'nom' => $ligne->getNomLigne(),
+                'image' => $imgLigne->getNomImageLigne(),
+                'marque' => $ligne->getMarqueLigne()
+            ];
+        }
+        else
+        {
+            $promoArticles[] = [''];
+        }
+    }
+
+    foreach ($articles['equipements'] as $equipement) 
+    {
+        if($equipement)
+        {
+            $imgEquipementRepo = new ImageEquipementRepository;
+            $imgEquipement = $imgEquipementRepo->getImageByEquipement($equipement->getIdEquipement());
+        
+            $promoArticles[] = 
+            [
+                'type' => 'equipement',
+                'nom' => $equipement->getNomEquipement(),
+                'image' => $imgEquipement->getNomImageEquipement(),
+                'marque' => $equipement->getMarqueEquipement()
+            ];
+        }
+        else
+        {
+            $promoArticles[] = [''];
+        }
+    }
+
+    foreach ($articles['feeders'] as $feeder) 
+    {
+        if($feeder)
+        {
+            $imgFeederRepo = new ImageFeederRepository;
+            $imgFeeder = $imgFeederRepo->getImageByFeeder($feeder->getIdFeeder());
+        
+            $promoArticles[] = 
+            [
+                'type' => 'feeder',
+                'nom' => $feeder->getNomFeeder(),
+                'image' => $imgFeeder->getNomImageFeeder(),
+                'marque' => $feeder->getMarqueFeeder()
+            ];
+        }
+        else
+        {
+            $promoArticles[] = [''];
+        }
+    }
+
+    $articles = array_reverse($promoArticles);
     return $articles;
 }
 

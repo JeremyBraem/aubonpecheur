@@ -15,9 +15,7 @@
                         <div class="w-56">
                             <img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" 
                                 src="
-                                <?php
-                                    echo $article['image'];
-                                ?>"
+                                <?php echo $article['image']; ?>"
                             />
                         </div>
 

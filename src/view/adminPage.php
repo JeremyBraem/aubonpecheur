@@ -114,7 +114,7 @@
 
                                     <li class="flex items-center">
                                         <button type="button" id="createTypeFeederModalButton" data-modal-target="createTypeFeederModal" data-modal-toggle="createTypeFeederModal" class="flex items-center justify-center font-semibold">
-                                            Type de feeder
+                                            Type de plomb
                                         </button>
                                     </li>
 
@@ -170,8 +170,8 @@
                                     </li>
 
                                     <li class="flex items-center">
-                                        <button type="button" id="createProductModalButton" data-modal-target="createProductModal" data-modal-toggle="createProductModal" class="flex items-center justify-center font-semibold">
-                                            Feeder
+                                        <button type="button" id="createFeederModalButton" data-modal-target="createFeederModal" data-modal-toggle="createFeederModal" class="flex items-center justify-center font-semibold">
+                                            Plomb
                                         </button>
                                     </li>
 
@@ -205,6 +205,7 @@
                             <?php include('src/view/adminCrud/viewArticle/viewLeurre.php'); ?>
                             <?php include('src/view/adminCrud/viewArticle/viewLigne.php'); ?>
                             <?php include('src/view/adminCrud/viewArticle/viewEquipement.php'); ?>
+                            <?php include('src/view/adminCrud/viewArticle/viewFeeder.php'); ?>
 
                         </table>
 
@@ -266,6 +267,8 @@
         <?php include('src/view/adminCrud/modalAdd/modalAddLigne.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeEquipement.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/modalAddEquipement.php'); ?>
+        <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeFeeder.php'); ?>
+        <?php include('src/view/adminCrud/modalAdd/modalAddFeeder.php'); ?>
 
         <!-- Update modal -->
         <?php include('src/view/adminCrud/modalUpdate/modalCanneUpdate.php'); ?>
@@ -274,6 +277,7 @@
         <?php include('src/view/adminCrud/modalUpdate/modalLeurreUpdate.php'); ?>
         <?php include('src/view/adminCrud/modalUpdate/modalLigneUpdate.php'); ?>
         <?php include('src/view/adminCrud/modalUpdate/modalEquipementUpdate.php'); ?>
+        <?php include('src/view/adminCrud/modalUpdate/modalFeederUpdate.php'); ?>
 
         <!-- Read modal -->
         <?php include('src/view/adminCrud/readModal/readModalCanne.php'); ?>
@@ -284,6 +288,7 @@
         <?php include('src/view/adminCrud/modalDelete/modalDeleteLeurre.php'); ?>
         <?php include('src/view/adminCrud/modalDelete/modalDeleteLigne.php'); ?>
         <?php include('src/view/adminCrud/modalDelete/modalDeleteEquipement.php'); ?>
+        <?php include('src/view/adminCrud/modalDelete/modalDeleteFeeder.php'); ?>
 
         <?php include('src/view/adminCrud/modalDelete/modalDeleteCategorie.php'); ?>
         <?php include('src/view/adminCrud/modalDelete/modalDeleteMarque.php'); ?>
@@ -292,6 +297,7 @@
         <?php include('src/view/adminCrud/modalDelete/type/modalDeleteTypeLeurre.php'); ?>
         <?php include('src/view/adminCrud/modalDelete/type/modalDeleteTypeLigne.php'); ?>
         <?php include('src/view/adminCrud/modalDelete/type/modalDeleteTypeEquipement.php'); ?>
+        <?php include('src/view/adminCrud/modalDelete/type/modalDeleteTypeFeeder.php'); ?>
 
     </main>
 

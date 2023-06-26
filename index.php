@@ -1,6 +1,6 @@
 <?php
 session_start();
-require ('src/controller/homeController.php');
+require_once('src/controller/homeController.php');
 
 if(isset($_GET['action']) && $_GET['action'] !== '')
     {
@@ -28,7 +28,7 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
                 disconnectUser();
                 break;
             case 'test':
-                getLastArticles();
+                getPromoArticles();
                 break;
             default:
             home();

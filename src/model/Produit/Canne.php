@@ -287,6 +287,42 @@ class CanneRepository extends connectBdd
         return $cannes;
     }
 
+    public function getPromoCanne()
+    {
+        $req = $this->bdd->prepare("SELECT *, categorie.*, type_canne.*, marque.*
+        FROM canne
+        INNER JOIN categorie ON canne.id_categorie = categorie.id_categorie
+        INNER JOIN type_canne ON canne.id_type_canne = type_canne.id_type_canne
+        INNER JOIN marque ON canne.id_marque = marque.id_marque");
+
+        $req->execute();
+        $datas = $req->fetchAll();
+
+        $cannesPromo = [];
+        
+        foreach ($datas as $data)
+        {
+            if($data['promo_canne'] == 1)
+            {
+                $canne = new Canne();
+                $canne->setIdCanne($data['id_canne']);
+                $canne->setNomCanne($data['nom_canne']);
+                $canne->setPoidsCanne($data['poids_canne']);
+                $canne->setLongueurCanne($data['longueur_canne']);
+                $canne->setDescriptionCanne($data['description_canne']);
+                $canne->setPromoCanne($data['promo_canne']);
+                $canne->setStockCanne($data['stock_canne']);
+                $canne->setHorsStockCanne($data['hors_stock_canne']);
+                $canne->setCategorieCanne($data['nom_categorie']);
+                $canne->setTypeCanne($data['nom_type_canne']);
+                $canne->setMarqueCanne($data['nom_marque']);
+    
+                $cannesPromo[] = $canne;
+            }
+        }
+        return $cannesPromo;
+    }
+
     public function deleteCanne($id_canne):bool
     {
         try 

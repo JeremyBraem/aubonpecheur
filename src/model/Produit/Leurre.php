@@ -287,6 +287,42 @@ class LeurreRepository extends connectBdd
         return $leurres;
     }
 
+    public function getPromoLeurre()
+    {
+        $req = $this->bdd->prepare("SELECT *, categorie.*, type_leurre.*, marque.*
+        FROM leurre
+        INNER JOIN categorie ON leurre.id_categorie = categorie.id_categorie
+        INNER JOIN type_leurre ON leurre.id_type_leurre = type_leurre.id_type_leurre
+        INNER JOIN marque ON leurre.id_marque = marque.id_marque");
+
+        $req->execute();
+        $datas = $req->fetchAll();
+
+        $leurres = [];
+
+        foreach ($datas as $data)
+        {
+            if($data['promo_leurre'] == 1)
+            {
+                $leurre = new Leurre();
+                $leurre->setIdLeurre($data['id_leurre']);
+                $leurre->setNomLeurre($data['nom_leurre']);
+                $leurre->setPoidsLeurre($data['poids_leurre']);
+                $leurre->setCouleurLeurre($data['couleur_leurre']);
+                $leurre->setDescriptionLeurre($data['description_leurre']);
+                $leurre->setPromoLeurre($data['promo_leurre']);
+                $leurre->setStockLeurre($data['stock_leurre']);
+                $leurre->setHorsStockLeurre($data['hors_stock_leurre']);
+                $leurre->setCategorieLeurre($data['nom_categorie']);
+                $leurre->setTypeLeurre($data['nom_type_leurre']);
+                $leurre->setMarqueLeurre($data['nom_marque']);
+
+                $leurres[] = $leurre;
+            }
+        }
+        return $leurres;
+    }
+
     public function deleteLeurre($id_leurre):bool
     {
         try 

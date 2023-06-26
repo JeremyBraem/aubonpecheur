@@ -7,6 +7,7 @@ require_once('src/model/Produit/Hamecon.php');
 require_once('src/model/Produit/Leurre.php');
 require_once('src/model/Produit/Ligne.php');
 require_once('src/model/Produit/Equipement.php');
+require_once('src/model/Produit/Feeder.php');
 require_once('src/model/Marque.php');
 require_once('src/model/Categorie.php');
 require_once('src/model/Type/TypeCanne.php');
@@ -15,12 +16,14 @@ require_once('src/model/Type/TypeHamecon.php');
 require_once('src/model/Type/TypeLeurre.php');
 require_once('src/model/Type/TypeLigne.php');
 require_once('src/model/Type/TypeEquipement.php');
+require_once('src/model/Type/TypeFeeder.php');
 require_once('src/model/Image/ImageCanne.php');
 require_once('src/model/Image/ImageMoulinet.php');
 require_once('src/model/Image/ImageHamecon.php');
 require_once('src/model/Image/ImageLeurre.php');
 require_once('src/model/Image/ImageLigne.php');
 require_once('src/model/Image/ImageEquipement.php');
+require_once('src/model/Image/ImageFeeder.php');
 
 function adminPage()
 {
@@ -53,6 +56,12 @@ function adminPage()
 
     $typeLigneRepo = new TypeLigneRepository;
     $typeLignes = $typeLigneRepo->getAllTypeLigne();
+
+    $feederRepo = new FeederRepository;
+    $feeders = $feederRepo->getAllFeeder();
+
+    $typeFeederRepo = new TypeFeederRepository;
+    $typeFeeders = $typeFeederRepo->getAllTypeFeeder();
 
     $equipementRepo = new EquipementRepository;
     $equipements = $equipementRepo->getAllEquipement();
@@ -449,6 +458,71 @@ function addEquipementTraitement()
     }
 }
 
+function addFeederTraitement()
+{
+    if(isset($_POST))
+    {
+        
+        if(!empty($_POST['nom_feeder']) && !empty($_POST['poids_feeder']) && !empty($_POST['diametre_feeder']) && !empty($_POST['longueur_feeder']) && !empty($_POST['categorie_feeder']) && !empty($_POST['type_feeder']) && !empty($_POST['marque_feeder']) && !empty($_POST['promo_feeder']) && !empty($_POST['stock_feeder']) && !empty($_POST['description_feeder'] && !empty($_FILES['image_feeder'])))
+        {
+            
+            $newFeeder = [];
+            $newFeeder['nom_feeder'] = htmlspecialchars($_POST['nom_feeder']);
+            $newFeeder['longueur_feeder'] = htmlspecialchars($_POST['longueur_feeder']);
+            $newFeeder['diametre_feeder'] = htmlspecialchars($_POST['diametre_feeder']);
+            $newFeeder['poids_feeder'] = htmlspecialchars($_POST['poids_feeder']);
+            $newFeeder['categorie_feeder'] = htmlspecialchars($_POST['categorie_feeder']);
+            $newFeeder['type_feeder'] = htmlspecialchars($_POST['type_feeder']);
+            $newFeeder['marque_feeder'] = htmlspecialchars($_POST['marque_feeder']);
+            $newFeeder['description_feeder'] = htmlspecialchars($_POST['description_feeder']);
+            $newFeeder['promo_feeder'] = htmlspecialchars($_POST['promo_feeder']);
+            $newFeeder['stock_feeder'] = htmlspecialchars($_POST['stock_feeder']);
+            $newFeeder['image_feeder'] = $_FILES['image_feeder'];
+            
+            if($newFeeder['stock_feeder'] === 'stock') 
+            {
+                $newFeeder['stock_feeder'] = 1;
+                $newFeeder['hors_stock_feeder'] = 0;
+            }
+            else
+            {
+                $newFeeder['stock_feeder'] = 0;
+                $newFeeder['hors_stock_feeder'] = 1;
+            }
+
+            if($newFeeder['promo_feeder'] === 'promo')
+            {
+                $newFeeder['promo_feeder'] = 1;
+            }
+            else
+            {
+                $newFeeder['promo_feeder'] = 0;
+            }
+            
+            $imageFeeder = new ImageFeeder;
+            $feeder = new Feeder;
+            $feeder->createToInsertFeeder($newFeeder);
+            
+            if($feeder == true)
+            {
+                $imageFeeder->addImageFeeder($newFeeder['image_feeder']);
+
+                $imageFeederRepo = new ImageFeederRepository;
+                $feederRepo = new FeederRepository;
+
+                $feederRepo->insertFeeder($feeder);
+            
+                $lastInsertIdFeeder = $feederRepo->getLastInsertId();
+                
+                $imageFeeder->setIdFeeder($lastInsertIdFeeder);
+                $imageFeederRepo->insertImageFeeder($imageFeeder);
+
+                header('location: admin.php');
+            }
+        }
+    }
+}
+
 function addCategorieTraitement()
 {
     if(isset($_POST))
@@ -599,6 +673,28 @@ function addTypeLigneTraitement()
             {
                 $typeLigneRepo = new TypeLigneRepository;
                 $typeLigneRepo->insertTypeLigne($typeLigne);
+                header('location: admin.php');
+            }
+        }
+    }
+}
+
+function addTypeFeederTraitement()
+{
+    if(isset($_POST))
+    {
+        if(!empty($_POST['nom_type_feeder']))
+        {
+            $newTypeFeeder = [];
+            $newTypeFeeder['nom_type_feeder'] = htmlspecialchars($_POST['nom_type_feeder']);
+
+            $typeFeeder = new TypeFeeder;
+            $typeFeeder->createToInserTypeFeeder($newTypeFeeder);
+
+            if($typeFeeder == true)
+            {
+                $typeFeederRepo = new TypeFeederRepository;
+                $typeFeederRepo->insertTypeFeeder($typeFeeder);
                 header('location: admin.php');
             }
         }
@@ -760,6 +856,36 @@ function deleteLigne()
             $deleteLigne = $ligneRepository->deleteLigne($id_ligne);
     
             if ($deleteLigne)
+            {
+                header('location: admin.php');
+            }
+            else 
+            {
+                $_SESSION['messageError'] = 'Suppression de l\'article échoué';
+                header('location: admin.php');
+            }
+        }
+        
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
+function deleteFeeder()
+{
+    // if($_SESSION['id_role'] === 1)
+    // {
+        if(!empty($_POST['id_feeder']) && isset($_POST['id_feeder']))
+        {
+            var_dump($_POST);
+            die;
+            $id_feeder = isset($_POST['id_feeder']) ? $_POST['id_feeder'] : null;
+            $feederRepository = new FeederRepository();
+            $deleteFeeder = $feederRepository->deleteFeeder($id_feeder);
+    
+            if ($deleteFeeder)
             {
                 header('location: admin.php');
             }
@@ -995,6 +1121,34 @@ function deleteTypeLigne()
             else 
             {
                 $_SESSION['messageError'] = 'Suppression du type de ligne échoué';
+                header('location: admin.php');
+            }
+        }
+        
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
+function deleteTypeFeeder()
+{
+    // if($_SESSION['id_role'] === 1)
+    // {
+        if(!empty($_POST['id_type_feeder']) && isset($_POST['id_type_feeder']))
+        {
+            $id_type_feeder = isset($_POST['id_type_feeder']) ? $_POST['id_type_feeder'] : null;
+            $typeFeederRepository = new TypeFeederRepository();
+            $deleteTypeFeeder = $typeFeederRepository->deleteTypeFeeder($id_type_feeder);
+    
+            if ($deleteTypeFeeder)
+            {
+                header('location: admin.php');
+            }
+            else 
+            {
+                $_SESSION['messageError'] = 'Suppression du type de feeder échoué';
                 header('location: admin.php');
             }
         }
@@ -1410,6 +1564,85 @@ function UpdateLigneTraitement()
         $updateImageLigne = $imageLigneRepo->updateImageByLigne($image_ligne, $id_ligne);
         
         if ($update && $updateImageLigne)
+        {
+            header("location:admin.php");
+        }
+        else 
+        {
+            echo 'non';
+        }
+    } 
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
+function UpdateFeederTraitement()
+{
+    // if($_SESSION['id_role'] === 1)
+    // { 
+    $img = new ImageFeederRepository;
+    $oldImg = $img->getImageByFeeder($_POST['id_feeder']);
+
+    $cheminFichier = $oldImg->getNomImageFeeder();
+
+    if (file_exists($cheminFichier)) 
+    {
+        if (unlink($cheminFichier)) 
+        {
+            echo "Le fichier a été supprimé avec succès.";
+        }
+        else 
+        {
+            echo "Une erreur s'est produite lors de la suppression du fichier.";
+            die;
+        }
+    }
+
+    if(isset($_POST['id_feeder']) && isset($_POST['nom_feeder']) && isset($_POST['poids_feeder']) && isset($_POST['longueur_feeder']) && isset($_POST['diametre_feeder']) && isset($_POST['description_feeder']) && isset($_POST['promo_feeder']) && isset($_POST['stock_feeder']) && isset($_POST['categorie_feeder']) && isset($_POST['type_feeder']) && isset($_POST['marque_feeder']) && isset($_FILES['image_feeder']))
+    {
+        $id_feeder = isset($_POST['id_feeder']) ? htmlspecialchars($_POST['id_feeder']) : null;
+        $nom_feeder = isset($_POST['nom_feeder']) ? htmlspecialchars($_POST['nom_feeder']) : null;
+        $poids_feeder = isset($_POST['poids_feeder']) ? htmlspecialchars($_POST['poids_feeder']) : null;
+        $longueur_feeder = isset($_POST['longueur_feeder']) ? htmlspecialchars($_POST['longueur_feeder']) : null;
+        $diametre_feeder = isset($_POST['diametre_feeder']) ? htmlspecialchars($_POST['diametre_feeder']) : null;
+        $description_feeder = isset($_POST['description_feeder']) ? htmlspecialchars($_POST['description_feeder']) : null;
+        $promo_feeder = isset($_POST['promo_feeder']) ? htmlspecialchars($_POST['promo_feeder']) : null;
+        $stock_feeder = isset($_POST['stock_feeder']) ? htmlspecialchars($_POST['stock_feeder']) : null;
+        $id_categorie = isset($_POST['categorie_feeder']) ? htmlspecialchars($_POST['categorie_feeder']) : null;
+        $id_type_feeder = isset($_POST['type_feeder']) ? htmlspecialchars($_POST['type_feeder']) : null;
+        $id_marque = isset($_POST['marque_feeder']) ? htmlspecialchars($_POST['marque_feeder']) : null;
+        $image_feeder = isset($_FILES['image_feeder']) ? $_FILES['image_feeder'] : null;
+
+        if($stock_feeder === 'stock') 
+        {
+            $stock_feeder = 1;
+            $hors_stock_feeder = 0;
+        }
+        else
+        {
+            $stock_feeder = 0;
+            $hors_stock_feeder = 1;
+        }
+
+        if($promo_feeder === 'promo')
+        {
+            $promo_feeder = 1;
+        }
+        else
+        {
+            $promo_feeder = 0;
+        }
+
+        $feederRepository = new FeederRepository;
+        $imageFeederRepo = new ImageFeederRepository;
+        
+        $update = $feederRepository->updateFeeder($id_feeder, $nom_feeder, $longueur_feeder, $diametre_feeder, $poids_feeder, $description_feeder, $promo_feeder, $stock_feeder, $hors_stock_feeder, $id_categorie, $id_type_feeder, $id_marque);
+        $updateImageFeeder = $imageFeederRepo->updateImageByFeeder($image_feeder, $id_feeder);
+        
+        if ($update && $updateImageFeeder)
         {
             header("location:admin.php");
         }
