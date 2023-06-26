@@ -35,7 +35,7 @@
 
     <header class="sticky top-0 bg-white shadow z-50">
         <?php require_once('src/include/searchBar.php'); ?>
-        <?php require_once('src/include/navbar.php'); ?> 
+        <?php require_once('src/include/navbar.php'); ?>
     </header>
 
     <main>
@@ -69,47 +69,27 @@
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-3 p-5 md:px-14 lg:px-32">
-
+                <?php foreach($marques as $marque) 
+                {
+                    if($marque) 
+                    {
+                ?>
                 <div class="bg-[#fcfcfc] w-32 h-16 md:w-40 md:h-20 m-auto flex">
 
                     <div class="w-28 h-16 md:w-36 md:h-20 m-auto overflow-hidden">
-                        <img src="assets/img/marque/quantum-fishing-logo-0171ECF49E-seeklogo.com.png" class="w-full h-full object-contain" />
+                        <img src="<?php echo $marque->getImageMarque(); ?>" class="w-full h-full object-contain" />
                     </div>
 
                 </div>
-
-                <div class="bg-[#fcfcfc] w-32 h-16 md:w-40 md:h-20 m-auto flex">
-
-                    <div class="w-28 h-16 md:w-36 md:h-20 m-auto overflow-hidden">
-                        <img src="assets/img/marque/Browning_text_logo-removebg-preview.png" class="w-full h-full object-contain" />
-                    </div>
-
-                </div>
-
-                <div class="bg-[#fcfcfc] w-32 h-16 md:w-40 md:h-20 m-auto flex">
-
-                    <div class="w-28 h-16 md:w-36 md:h-20 m-auto overflow-hidden">
-                        <img src="assets/img/marque/rhino-black-cat-x0.png" class="w-full h-full object-contain" />
-                    </div>
-
-                </div>
-
-                <div class="bg-[#fcfcfc] w-32 h-16 md:w-40 md:h-20 m-auto flex">
-
-                    <div class="w-28 h-16 md:w-36 md:h-20 m-auto overflow-hidden">
-                        <img src="assets/img/marque/zebco-fishing-vector-logo-removebg-preview.png" class="w-full h-full object-contain" />
-                    </div>
-
-                </div>
-
-                <div class="bg-[#fcfcfc] w-32 h-16 md:w-40 md:h-20 m-auto flex">
-
-                    <div class="w-28 h-16 md:w-36 md:h-20 m-auto overflow-hidden">
-                        <img src="assets/img/marque/logo_footer_rhino.png" class="w-full h-full object-contain" />
-                    </div>
-
-                </div>
-
+                
+                <?php   
+                    }
+                    else
+                    {
+                        echo '';
+                    }
+                } 
+                ?>
             </div>
 
         </section>

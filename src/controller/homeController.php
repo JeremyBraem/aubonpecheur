@@ -84,37 +84,98 @@ function home()
     $typeHameconRepo = new TypeHameconRepository;
     $typeHamecons = $typeHameconRepo->getAllTypeHamecon();
 
-    $marqueRepo = new MarqueRepository;
-    $marques = $marqueRepo->getAllMarque();
+    $marques = viewAllMarque();
 
-    $categorieRepo = new CategorieRepository;
-    $categories = $categorieRepo->getAllCategorie();
-
-    $articles = [];
+    $categories = viewAllCategorie();
     
-    $articles['cannes'] = $cannes;
-    
-    $articles['typeCannes'] = $typeCannes;
-    
-    $articles['moulinets'] = $moulinets;
-    
-    $articles['typeMoulinets'] = $typeMoulinets;
-    
-    $articles['hamecons'] = $hamecons;
-    
-    $articles['typeHamecons'] = $typeHamecons;
-    
-    $articles['marques'] = $marques;
-    
-    $articles['categories'] = $categories;
+    $combinedArticles = getLastArticles();
     
     include ('src/view/homePage.php');
 }
+
+function getLastArticles()
+{
+    $lastCanneRepo = new CanneRepository;
+    $lastMoulinetRepo = new MoulinetRepository;
+    $lastHameconRepo = new HameconRepository;
+    
+    $articles = [];
+
+    $articles['cannes'] = $lastCanneRepo->getLastCanne();
+    $articles['moulinets'] = $lastMoulinetRepo->getLastMoulinet();
+    $articles['hamecons'] = $lastHameconRepo->getLastHamecon();
+   
+    $combinedArticles = [];
+
+    foreach ($articles['cannes'] as $canne) 
+    {
+        if($canne)
+        {
+            $imgCanneRepo = new ImageCanneRepository;
+            $imgCannes = $imgCanneRepo->getImageByCanne($canne->getIdCanne());
+            $combinedArticles[] = [
+                'type' => 'canne',
+                'nom' => $canne->getNomCanne(),
+                'image' => $imgCannes->getNomImageCanne(),
+                'marque' => $canne->getMarqueCanne()
+            ];
+        }
+        else
+        {
+            $combinedArticles[] = [''];
+        }
+    }
+
+    foreach ($articles['moulinets'] as $moulinet) 
+    {
+        if($moulinet)
+        {
+            $imgMoulinetRepo = new ImageMoulinetRepository;
+            $imgMoulinet = $imgMoulinetRepo->getImageByMoulinet($moulinet->getIdMoulinet());
+            $combinedArticles[] = [
+                'type' => 'moulinet',
+                'nom' => $moulinet->getNomMoulinet(),
+                'image' => $imgMoulinet->getNomImageMoulinet(),
+                'marque' => $moulinet->getMarqueMoulinet()
+            ];
+        }
+        else
+        {
+            $combinedArticles[] = [''];
+        }
+    }
+
+    foreach ($articles['hamecons'] as $hamecon) 
+    {
+        if($hamecon)
+        {
+            $imgHameconRepo = new ImageHameconRepository;
+            $imgHamecon = $imgHameconRepo->getImageByHamecon($hamecon->getIdHamecon());
+        
+            $combinedArticles[] = 
+            [
+                'type' => 'hamecon',
+                'nom' => $hamecon->getNomHamecon(),
+                'image' => $imgHamecon->getNomImageHamecon(),
+                'marque' => $hamecon->getMarqueHamecon()
+            ];
+        }
+        else
+        {
+            $combinedArticles[] = [''];
+        }
+    }
+    return $combinedArticles;
+}
+
+
 
 function viewAllMarque()
 {
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();
+
+    return $marques;
 }
 
 function viewAllType()
@@ -131,6 +192,8 @@ function viewAllCategorie()
 {
     $categorieRepo = new CategorieRepository;
     $categories = $categorieRepo->getAllCategorie();
+
+    return $categories;
 }
 
 function articlePage()
@@ -139,7 +202,7 @@ function articlePage()
 }
 
 
-function loginPage() 
+function loginPage()
 {
     if(!isset($_SESSION['id_role']))
     {

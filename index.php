@@ -27,9 +27,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'deconnexion':
                 disconnectUser();
                 break;
-            // case 'test':
-            //     allProduct();
-            //     break;
+            case 'test':
+                getLastArticles();
+                break;
             default:
             home();
         }

@@ -671,7 +671,7 @@ function UpdateMoulinetTraitement()
         {
             echo "Le fichier a été supprimé avec succès.";
         }
-        else 
+        else
         {
             echo "Une erreur s'est produite lors de la suppression du fichier.";
             die;
@@ -692,7 +692,7 @@ function UpdateMoulinetTraitement()
         $id_marque = isset($_POST['marque_moulinet']) ? htmlspecialchars($_POST['marque_moulinet']) : null;
         $image_moulinet = isset($_FILES['image_moulinet']) ? $_FILES['image_moulinet'] : null;
 
-        if($stock_moulinet === 'stock') 
+        if($stock_moulinet === 'stock')
         {
             $stock_moulinet = 1;
             $hors_stock_moulinet = 0;
