@@ -5,16 +5,19 @@ require_once('src/model/Produit/Canne.php');
 require_once('src/model/Produit/Moulinet.php');
 require_once('src/model/Produit/Hamecon.php');
 require_once('src/model/Produit/Leurre.php');
+require_once('src/model/Produit/Ligne.php');
 require_once('src/model/Marque.php');
 require_once('src/model/Categorie.php');
 require_once('src/model/Type/TypeCanne.php');
 require_once('src/model/Type/TypeMoulinet.php');
 require_once('src/model/Type/TypeHamecon.php');
 require_once('src/model/Type/TypeLeurre.php');
+require_once('src/model/Type/TypeLigne.php');
 require_once('src/model/Image/ImageCanne.php');
 require_once('src/model/Image/ImageMoulinet.php');
 require_once('src/model/Image/ImageHamecon.php');
 require_once('src/model/Image/ImageLeurre.php');
+require_once('src/model/Image/ImageLigne.php');
 
 function adminPage()
 {
@@ -41,6 +44,12 @@ function adminPage()
 
     $typeLeurreRepo = new TypeLeurreRepository;
     $typeLeurres = $typeLeurreRepo->getAllTypeLeurre();
+
+    $ligneRepo = new LigneRepository;
+    $lignes = $ligneRepo->getAllLigne();
+
+    $typeLigneRepo = new TypeLigneRepository;
+    $typeLignes = $typeLigneRepo->getAllTypeLigne();
 
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();
@@ -245,12 +254,13 @@ function addLeurreTraitement()
 {
     if(isset($_POST))
     {
-        if(!empty($_POST['nom_leurre']) && !empty($_POST['poids_leurre']) && !empty($_POST['couleur_leurre']) && !empty($_POST['categorie_leurre']) && !empty($_POST['type_leurre']) && !empty($_POST['marque_leurre']) && !empty($_POST['promo_leurre']) && !empty($_POST['stock_leurre']) && !empty($_POST['description_leurre'] && !empty($_FILES['image_leurre'])))
+        if(!empty($_POST['nom_leurre']) && !empty($_POST['poids_leurre']) && !empty($_POST['diametre_leurre']) && !empty($_POST['longueur_leurre']) && !empty($_POST['categorie_leurre']) && !empty($_POST['type_leurre']) && !empty($_POST['marque_leurre']) && !empty($_POST['promo_leurre']) && !empty($_POST['stock_leurre']) && !empty($_POST['description_leurre'] && !empty($_FILES['image_leurre'])))
         {
             $newLeurre = [];
             $newLeurre['nom_leurre'] = htmlspecialchars($_POST['nom_leurre']);
+            $newLeurre['longueur_leurre'] = htmlspecialchars($_POST['longueur_leurre']);
+            $newLeurre['diametre_leurre'] = htmlspecialchars($_POST['diametre_leurre']);
             $newLeurre['poids_leurre'] = htmlspecialchars($_POST['poids_leurre']);
-            $newLeurre['couleur_leurre'] = htmlspecialchars($_POST['couleur_leurre']);
             $newLeurre['categorie_leurre'] = htmlspecialchars($_POST['categorie_leurre']);
             $newLeurre['type_leurre'] = htmlspecialchars($_POST['type_leurre']);
             $newLeurre['marque_leurre'] = htmlspecialchars($_POST['marque_leurre']);
@@ -296,6 +306,71 @@ function addLeurreTraitement()
                 
                 $imageLeurre->setIdLeurre($lastInsertIdLeurre);
                 $imageLeurreRepo->insertImageLeurre($imageLeurre);
+
+                header('location: admin.php');
+            }
+        }
+    }
+}
+
+function addLigneTraitement()
+{
+    if(isset($_POST))
+    {
+        
+        if(!empty($_POST['nom_ligne']) && !empty($_POST['poids_ligne']) && !empty($_POST['diametre_ligne']) && !empty($_POST['longueur_ligne']) && !empty($_POST['categorie_ligne']) && !empty($_POST['type_ligne']) && !empty($_POST['marque_ligne']) && !empty($_POST['promo_ligne']) && !empty($_POST['stock_ligne']) && !empty($_POST['description_ligne'] && !empty($_FILES['image_ligne'])))
+        {
+            
+            $newLigne = [];
+            $newLigne['nom_ligne'] = htmlspecialchars($_POST['nom_ligne']);
+            $newLigne['longueur_ligne'] = htmlspecialchars($_POST['longueur_ligne']);
+            $newLigne['diametre_ligne'] = htmlspecialchars($_POST['diametre_ligne']);
+            $newLigne['poids_ligne'] = htmlspecialchars($_POST['poids_ligne']);
+            $newLigne['categorie_ligne'] = htmlspecialchars($_POST['categorie_ligne']);
+            $newLigne['type_ligne'] = htmlspecialchars($_POST['type_ligne']);
+            $newLigne['marque_ligne'] = htmlspecialchars($_POST['marque_ligne']);
+            $newLigne['description_ligne'] = htmlspecialchars($_POST['description_ligne']);
+            $newLigne['promo_ligne'] = htmlspecialchars($_POST['promo_ligne']);
+            $newLigne['stock_ligne'] = htmlspecialchars($_POST['stock_ligne']);
+            $newLigne['image_ligne'] = $_FILES['image_ligne'];
+            
+            if($newLigne['stock_ligne'] === 'stock') 
+            {
+                $newLigne['stock_ligne'] = 1;
+                $newLigne['hors_stock_ligne'] = 0;
+            }
+            else
+            {
+                $newLigne['stock_ligne'] = 0;
+                $newLigne['hors_stock_ligne'] = 1;
+            }
+
+            if($newLigne['promo_ligne'] === 'promo')
+            {
+                $newLigne['promo_ligne'] = 1;
+            }
+            else
+            {
+                $newLigne['promo_ligne'] = 0;
+            }
+            
+            $imageLigne = new ImageLigne;
+            $ligne = new Ligne;
+            $ligne->createToInsertLigne($newLigne);
+            
+            if($ligne == true)
+            {
+                $imageLigne->addImageLigne($newLigne['image_ligne']);
+
+                $imageLigneRepo = new ImageLigneRepository;
+                $ligneRepo = new LigneRepository;
+
+                $ligneRepo->insertLigne($ligne);
+            
+                $lastInsertIdLigne = $ligneRepo->getLastInsertId();
+                
+                $imageLigne->setIdLigne($lastInsertIdLigne);
+                $imageLigneRepo->insertImageLigne($imageLigne);
 
                 header('location: admin.php');
             }
@@ -437,6 +512,28 @@ function addTypeLeurreTraitement()
     }
 }
 
+function addTypeLigneTraitement()
+{
+    if(isset($_POST))
+    {
+        if(!empty($_POST['nom_type_ligne']))
+        {
+            $newTypeLigne = [];
+            $newTypeLigne['nom_type_ligne'] = htmlspecialchars($_POST['nom_type_ligne']);
+
+            $typeLigne = new TypeLigne;
+            $typeLigne->createToInserTypeLigne($newTypeLigne);
+
+            if($typeLigne == true)
+            {
+                $typeLigneRepo = new TypeLigneRepository;
+                $typeLigneRepo->insertTypeLigne($typeLigne);
+                header('location: admin.php');
+            }
+        }
+    }
+}
+
 function deleteCanne()
 {
     // if($_SESSION['id_role'] === 1)
@@ -540,6 +637,36 @@ function deleteLeurre()
             $deleteLeurre = $leurreRepository->deleteLeurre($id_leurre);
     
             if ($deleteLeurre)
+            {
+                header('location: admin.php');
+            }
+            else 
+            {
+                $_SESSION['messageError'] = 'Suppression de l\'article échoué';
+                header('location: admin.php');
+            }
+        }
+        
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
+function deleteLigne()
+{
+    // if($_SESSION['id_role'] === 1)
+    // {
+        if(!empty($_POST['id_ligne']) && isset($_POST['id_ligne']))
+        {
+            var_dump($_POST);
+            die;
+            $id_ligne = isset($_POST['id_ligne']) ? $_POST['id_ligne'] : null;
+            $ligneRepository = new LigneRepository();
+            $deleteLigne = $ligneRepository->deleteLigne($id_ligne);
+    
+            if ($deleteLigne)
             {
                 header('location: admin.php');
             }
@@ -717,6 +844,34 @@ function deleteTypeLeurre()
             else 
             {
                 $_SESSION['messageError'] = 'Suppression du type de leurre échoué';
+                header('location: admin.php');
+            }
+        }
+        
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
+function deleteTypeLigne()
+{
+    // if($_SESSION['id_role'] === 1)
+    // {
+        if(!empty($_POST['id_type_ligne']) && isset($_POST['id_type_ligne']))
+        {
+            $id_type_ligne = isset($_POST['id_type_ligne']) ? $_POST['id_type_ligne'] : null;
+            $typeLigneRepository = new TypeLigneRepository();
+            $deleteTypeLigne = $typeLigneRepository->deleteTypeLigne($id_type_ligne);
+    
+            if ($deleteTypeLigne)
+            {
+                header('location: admin.php');
+            }
+            else 
+            {
+                $_SESSION['messageError'] = 'Suppression du type de ligne échoué';
                 header('location: admin.php');
             }
         }
@@ -1025,6 +1180,85 @@ function UpdateLeurreTraitement()
         $updateImageLeurre = $imageLeurreRepo->updateImageByLeurre($image_leurre, $id_leurre);
         
         if ($update && $updateImageLeurre)
+        {
+            header("location:admin.php");
+        }
+        else 
+        {
+            echo 'non';
+        }
+    } 
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
+function UpdateLigneTraitement()
+{
+    // if($_SESSION['id_role'] === 1)
+    // { 
+    $img = new ImageLigneRepository;
+    $oldImg = $img->getImageByLigne($_POST['id_ligne']);
+
+    $cheminFichier = $oldImg->getNomImageLigne();
+
+    if (file_exists($cheminFichier)) 
+    {
+        if (unlink($cheminFichier)) 
+        {
+            echo "Le fichier a été supprimé avec succès.";
+        }
+        else 
+        {
+            echo "Une erreur s'est produite lors de la suppression du fichier.";
+            die;
+        }
+    }
+
+    if(isset($_POST['id_ligne']) && isset($_POST['nom_ligne']) && isset($_POST['poids_ligne']) && isset($_POST['longueur_ligne']) && isset($_POST['diametre_ligne']) && isset($_POST['description_ligne']) && isset($_POST['promo_ligne']) && isset($_POST['stock_ligne']) && isset($_POST['categorie_ligne']) && isset($_POST['type_ligne']) && isset($_POST['marque_ligne']) && isset($_FILES['image_ligne']))
+    {
+        $id_ligne = isset($_POST['id_ligne']) ? htmlspecialchars($_POST['id_ligne']) : null;
+        $nom_ligne = isset($_POST['nom_ligne']) ? htmlspecialchars($_POST['nom_ligne']) : null;
+        $poids_ligne = isset($_POST['poids_ligne']) ? htmlspecialchars($_POST['poids_ligne']) : null;
+        $longueur_ligne = isset($_POST['longueur_ligne']) ? htmlspecialchars($_POST['longueur_ligne']) : null;
+        $diametre_ligne = isset($_POST['diametre_ligne']) ? htmlspecialchars($_POST['diametre_ligne']) : null;
+        $description_ligne = isset($_POST['description_ligne']) ? htmlspecialchars($_POST['description_ligne']) : null;
+        $promo_ligne = isset($_POST['promo_ligne']) ? htmlspecialchars($_POST['promo_ligne']) : null;
+        $stock_ligne = isset($_POST['stock_ligne']) ? htmlspecialchars($_POST['stock_ligne']) : null;
+        $id_categorie = isset($_POST['categorie_ligne']) ? htmlspecialchars($_POST['categorie_ligne']) : null;
+        $id_type_ligne = isset($_POST['type_ligne']) ? htmlspecialchars($_POST['type_ligne']) : null;
+        $id_marque = isset($_POST['marque_ligne']) ? htmlspecialchars($_POST['marque_ligne']) : null;
+        $image_ligne = isset($_FILES['image_ligne']) ? $_FILES['image_ligne'] : null;
+
+        if($stock_ligne === 'stock') 
+        {
+            $stock_ligne = 1;
+            $hors_stock_ligne = 0;
+        }
+        else
+        {
+            $stock_ligne = 0;
+            $hors_stock_ligne = 1;
+        }
+
+        if($promo_ligne === 'promo')
+        {
+            $promo_ligne = 1;
+        }
+        else
+        {
+            $promo_ligne = 0;
+        }
+
+        $ligneRepository = new LigneRepository;
+        $imageLigneRepo = new ImageLigneRepository;
+        
+        $update = $ligneRepository->updateLigne($id_ligne, $nom_ligne, $longueur_ligne, $diametre_ligne, $poids_ligne, $description_ligne, $promo_ligne, $stock_ligne, $hors_stock_ligne, $id_categorie, $id_type_ligne, $id_marque);
+        $updateImageLigne = $imageLigneRepo->updateImageByLigne($image_ligne, $id_ligne);
+        
+        if ($update && $updateImageLigne)
         {
             header("location:admin.php");
         }

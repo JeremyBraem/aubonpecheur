@@ -18,6 +18,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'addHameconTraitement':
                 addHameconTraitement();
                 break;
+            case 'addLigneTraitement':
+                addLigneTraitement();
+                break;
             case 'addCategorieTraitement':
                 addCategorieTraitement();
                 break;
@@ -32,6 +35,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
                 break;
             case 'addTypeLeurreTraitement':
                 addTypeLeurreTraitement();
+                break;
+            case 'addTypeLigneTraitement':
+                addTypeLigneTraitement();
                 break;
             case 'addMarqueTraitement':
                 addMarqueTraitement();
@@ -57,6 +63,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'deleteMarque':
                 deleteMarque();
                 break;
+            case 'deleteLigne':
+                deleteLigne();
+                break;
             case 'deleteTypeCanne':
                 deleteTypeCanne();
                 break;
@@ -72,6 +81,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'deleteTypeLeurre':
                 deleteTypeLeurre();
                 break;
+            case 'deleteTypeLigne':
+                deleteTypeLigne();
+                break;
             case 'UpdateMoulinetTraitement':
                 UpdateMoulinetTraitement();
                 break;
@@ -80,6 +92,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
                 break;
             case 'UpdateLeurreTraitement':
                 UpdateLeurreTraitement();
+                break;
+            case 'UpdateLigneTraitement':
+                UpdateLigneTraitement();
                 break;
             default:
             adminPage();
