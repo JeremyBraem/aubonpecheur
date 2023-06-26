@@ -3,7 +3,6 @@
 require_once ('autoload/autoloader.php');
 require_once ('src/model/User.php');
 
-require_once('src/model/Produit/Produit.php');
 require_once('src/model/Produit/Canne.php');
 require_once('src/model/Produit/Moulinet.php');
 require_once('src/model/Produit/Hamecon.php');

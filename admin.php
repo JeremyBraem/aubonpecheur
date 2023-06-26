@@ -36,6 +36,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'addTypeLeurreTraitement':
                 addTypeLeurreTraitement();
                 break;
+            case 'addTypeEquipementTraitement':
+                addTypeEquipementTraitement();
+                break;
             case 'addTypeLigneTraitement':
                 addTypeLigneTraitement();
                 break;
@@ -44,6 +47,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
                 break;
             case 'addLeurreTraitement':
                 addLeurreTraitement();
+                break;
+            case 'addEquipementTraitement':
+                addEquipementTraitement();
                 break;
             case 'deleteCanne':
                 deleteCanne();
@@ -66,6 +72,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'deleteLigne':
                 deleteLigne();
                 break;
+            case 'deleteEquipement':
+                deleteEquipement();
+                break;
             case 'deleteTypeCanne':
                 deleteTypeCanne();
                 break;
@@ -84,6 +93,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'deleteTypeLigne':
                 deleteTypeLigne();
                 break;
+            case 'deleteTypeEquipement':
+                deleteTypeEquipement();
+                break;
             case 'UpdateMoulinetTraitement':
                 UpdateMoulinetTraitement();
                 break;
@@ -95,6 +107,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
                 break;
             case 'UpdateLigneTraitement':
                 UpdateLigneTraitement();
+                break;
+            case 'UpdateEquipementTraitement':
+                UpdateEquipementTraitement();
                 break;
             default:
             adminPage();

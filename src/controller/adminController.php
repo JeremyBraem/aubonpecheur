@@ -6,6 +6,7 @@ require_once('src/model/Produit/Moulinet.php');
 require_once('src/model/Produit/Hamecon.php');
 require_once('src/model/Produit/Leurre.php');
 require_once('src/model/Produit/Ligne.php');
+require_once('src/model/Produit/Equipement.php');
 require_once('src/model/Marque.php');
 require_once('src/model/Categorie.php');
 require_once('src/model/Type/TypeCanne.php');
@@ -13,11 +14,13 @@ require_once('src/model/Type/TypeMoulinet.php');
 require_once('src/model/Type/TypeHamecon.php');
 require_once('src/model/Type/TypeLeurre.php');
 require_once('src/model/Type/TypeLigne.php');
+require_once('src/model/Type/TypeEquipement.php');
 require_once('src/model/Image/ImageCanne.php');
 require_once('src/model/Image/ImageMoulinet.php');
 require_once('src/model/Image/ImageHamecon.php');
 require_once('src/model/Image/ImageLeurre.php');
 require_once('src/model/Image/ImageLigne.php');
+require_once('src/model/Image/ImageEquipement.php');
 
 function adminPage()
 {
@@ -50,6 +53,12 @@ function adminPage()
 
     $typeLigneRepo = new TypeLigneRepository;
     $typeLignes = $typeLigneRepo->getAllTypeLigne();
+
+    $equipementRepo = new EquipementRepository;
+    $equipements = $equipementRepo->getAllEquipement();
+
+    $typeEquipementRepo = new TypeEquipementRepository;
+    $typeEquipements = $typeEquipementRepo->getAllTypeEquipement();
 
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();
@@ -378,6 +387,68 @@ function addLigneTraitement()
     }
 }
 
+function addEquipementTraitement()
+{
+    if(isset($_POST))
+    {
+        
+        if(!empty($_POST['nom_equipement']) && !empty($_POST['detail_equipement']) && !empty($_POST['categorie_equipement']) && !empty($_POST['type_equipement']) && !empty($_POST['marque_equipement']) && !empty($_POST['promo_equipement']) && !empty($_POST['stock_equipement']) && !empty($_POST['description_equipement'] && !empty($_FILES['image_equipement'])))
+        {
+            $newEquipement = [];
+            $newEquipement['nom_equipement'] = htmlspecialchars($_POST['nom_equipement']);
+            $newEquipement['detail_equipement'] = htmlspecialchars($_POST['detail_equipement']);
+            $newEquipement['categorie_equipement'] = htmlspecialchars($_POST['categorie_equipement']);
+            $newEquipement['type_equipement'] = htmlspecialchars($_POST['type_equipement']);
+            $newEquipement['marque_equipement'] = htmlspecialchars($_POST['marque_equipement']);
+            $newEquipement['description_equipement'] = htmlspecialchars($_POST['description_equipement']);
+            $newEquipement['promo_equipement'] = htmlspecialchars($_POST['promo_equipement']);
+            $newEquipement['stock_equipement'] = htmlspecialchars($_POST['stock_equipement']);
+            $newEquipement['image_equipement'] = $_FILES['image_equipement'];
+            
+            if($newEquipement['stock_equipement'] === 'stock') 
+            {
+                $newEquipement['stock_equipement'] = 1;
+                $newEquipement['hors_stock_equipement'] = 0;
+            }
+            else
+            {
+                $newEquipement['stock_equipement'] = 0;
+                $newEquipement['hors_stock_equipement'] = 1;
+            }
+
+            if($newEquipement['promo_equipement'] === 'promo')
+            {
+                $newEquipement['promo_equipement'] = 1;
+            }
+            else
+            {
+                $newEquipement['promo_equipement'] = 0;
+            }
+            
+            $imageEquipement = new ImageEquipement;
+            $equipement = new Equipement;
+            $equipement->createToInsertEquipement($newEquipement);
+            
+            if($equipement == true)
+            {
+                $imageEquipement->addImageEquipement($newEquipement['image_equipement']);
+
+                $imageEquipementRepo = new ImageEquipementRepository;
+                $equipementRepo = new EquipementRepository;
+
+                $equipementRepo->insertEquipement($equipement);
+            
+                $lastInsertIdEquipement = $equipementRepo->getLastInsertId();
+                
+                $imageEquipement->setIdEquipement($lastInsertIdEquipement);
+                $imageEquipementRepo->insertImageEquipement($imageEquipement);
+
+                header('location: admin.php');
+            }
+        }
+    }
+}
+
 function addCategorieTraitement()
 {
     if(isset($_POST))
@@ -534,6 +605,28 @@ function addTypeLigneTraitement()
     }
 }
 
+function addTypeEquipementTraitement()
+{
+    if(isset($_POST))
+    {
+        if(!empty($_POST['nom_type_equipement']))
+        {
+            $newTypeEquipement = [];
+            $newTypeEquipement['nom_type_equipement'] = htmlspecialchars($_POST['nom_type_equipement']);
+
+            $typeEquipement = new TypeEquipement;
+            $typeEquipement->createToInserTypeEquipement($newTypeEquipement);
+
+            if($typeEquipement == true)
+            {
+                $typeEquipementRepo = new TypeEquipementRepository;
+                $typeEquipementRepo->insertTypeEquipement($typeEquipement);
+                header('location: admin.php');
+            }
+        }
+    }
+}
+
 function deleteCanne()
 {
     // if($_SESSION['id_role'] === 1)
@@ -667,6 +760,36 @@ function deleteLigne()
             $deleteLigne = $ligneRepository->deleteLigne($id_ligne);
     
             if ($deleteLigne)
+            {
+                header('location: admin.php');
+            }
+            else 
+            {
+                $_SESSION['messageError'] = 'Suppression de l\'article échoué';
+                header('location: admin.php');
+            }
+        }
+        
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
+function deleteEquipement()
+{
+    // if($_SESSION['id_role'] === 1)
+    // {
+        if(!empty($_POST['id_equipement']) && isset($_POST['id_equipement']))
+        {
+            var_dump($_POST);
+            die;
+            $id_equipement = isset($_POST['id_equipement']) ? $_POST['id_equipement'] : null;
+            $equipementRepository = new EquipementRepository();
+            $deleteEquipement = $equipementRepository->deleteEquipement($id_equipement);
+    
+            if ($deleteEquipement)
             {
                 header('location: admin.php');
             }
@@ -872,6 +995,34 @@ function deleteTypeLigne()
             else 
             {
                 $_SESSION['messageError'] = 'Suppression du type de ligne échoué';
+                header('location: admin.php');
+            }
+        }
+        
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
+function deleteTypeEquipement()
+{
+    // if($_SESSION['id_role'] === 1)
+    // {
+        if(!empty($_POST['id_type_equipement']) && isset($_POST['id_type_equipement']))
+        {
+            $id_type_equipement = isset($_POST['id_type_equipement']) ? $_POST['id_type_equipement'] : null;
+            $typeEquipementRepository = new TypeEquipementRepository();
+            $deleteTypeEquipement = $typeEquipementRepository->deleteTypeEquipement($id_type_equipement);
+    
+            if ($deleteTypeEquipement)
+            {
+                header('location: admin.php');
+            }
+            else 
+            {
+                $_SESSION['messageError'] = 'Suppression du type de equipement échoué';
                 header('location: admin.php');
             }
         }
@@ -1259,6 +1410,83 @@ function UpdateLigneTraitement()
         $updateImageLigne = $imageLigneRepo->updateImageByLigne($image_ligne, $id_ligne);
         
         if ($update && $updateImageLigne)
+        {
+            header("location:admin.php");
+        }
+        else 
+        {
+            echo 'non';
+        }
+    } 
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
+function UpdateEquipementTraitement()
+{
+    // if($_SESSION['id_role'] === 1)
+    // { 
+    $img = new ImageEquipementRepository;
+    $oldImg = $img->getImageByEquipement($_POST['id_equipement']);
+
+    $cheminFichier = $oldImg->getNomImageEquipement();
+
+    if (file_exists($cheminFichier)) 
+    {
+        if (unlink($cheminFichier)) 
+        {
+            echo "Le fichier a été supprimé avec succès.";
+        }
+        else 
+        {
+            echo "Une erreur s'est produite lors de la suppression du fichier.";
+            die;
+        }
+    }
+
+    if(isset($_POST['id_equipement']) && isset($_POST['nom_equipement']) && isset($_POST['detail_equipement']) && isset($_POST['description_equipement']) && isset($_POST['promo_equipement']) && isset($_POST['stock_equipement']) && isset($_POST['categorie_equipement']) && isset($_POST['type_equipement']) && isset($_POST['marque_equipement']) && isset($_FILES['image_equipement']))
+    {
+        $id_equipement = isset($_POST['id_equipement']) ? htmlspecialchars($_POST['id_equipement']) : null;
+        $nom_equipement = isset($_POST['nom_equipement']) ? htmlspecialchars($_POST['nom_equipement']) : null;
+        $detail_equipement = isset($_POST['detail_equipement']) ? htmlspecialchars($_POST['detail_equipement']) : null;
+        $description_equipement = isset($_POST['description_equipement']) ? htmlspecialchars($_POST['description_equipement']) : null;
+        $promo_equipement = isset($_POST['promo_equipement']) ? htmlspecialchars($_POST['promo_equipement']) : null;
+        $stock_equipement = isset($_POST['stock_equipement']) ? htmlspecialchars($_POST['stock_equipement']) : null;
+        $id_categorie = isset($_POST['categorie_equipement']) ? htmlspecialchars($_POST['categorie_equipement']) : null;
+        $id_type_equipement = isset($_POST['type_equipement']) ? htmlspecialchars($_POST['type_equipement']) : null;
+        $id_marque = isset($_POST['marque_equipement']) ? htmlspecialchars($_POST['marque_equipement']) : null;
+        $image_equipement = isset($_FILES['image_equipement']) ? $_FILES['image_equipement'] : null;
+
+        if($stock_equipement === 'stock') 
+        {
+            $stock_equipement = 1;
+            $hors_stock_equipement = 0;
+        }
+        else
+        {
+            $stock_equipement = 0;
+            $hors_stock_equipement = 1;
+        }
+
+        if($promo_equipement === 'promo')
+        {
+            $promo_equipement = 1;
+        }
+        else
+        {
+            $promo_equipement = 0;
+        }
+
+        $equipementRepository = new EquipementRepository;
+        $imageEquipementRepo = new ImageEquipementRepository;
+        
+        $update = $equipementRepository->updateEquipement($id_equipement, $nom_equipement, $detail_equipement, $description_equipement, $promo_equipement, $stock_equipement, $hors_stock_equipement, $id_categorie, $id_type_equipement, $id_marque);
+        $updateImageEquipement = $imageEquipementRepo->updateImageByEquipement($image_equipement, $id_equipement);
+        
+        if ($update && $updateImageEquipement)
         {
             header("location:admin.php");
         }
