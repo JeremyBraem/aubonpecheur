@@ -2,67 +2,25 @@
 
 require_once ('autoload/autoloader.php');
 require_once ('src/model/User.php');
+
 require_once('src/model/Produit/Produit.php');
 require_once('src/model/Produit/Canne.php');
 require_once('src/model/Produit/Moulinet.php');
 require_once('src/model/Produit/Hamecon.php');
+require_once('src/model/Produit/Leurre.php');
+
 require_once('src/model/Marque.php');
 require_once('src/model/Categorie.php');
+
 require_once('src/model/Type/TypeCanne.php');
 require_once('src/model/Type/TypeMoulinet.php');
 require_once('src/model/Type/TypeHamecon.php');
+require_once('src/model/Type/TypeLeurre.php');
+
 require_once('src/model/Image/ImageCanne.php');
 require_once('src/model/Image/ImageMoulinet.php');
 require_once('src/model/Image/ImageHamecon.php');
-
-// function allProduct()
-// {
-//     $produitModel = new ProduitRepository();
-//     $products = $produitModel->getAllProducts();
-    
-//     $result = [];
-
-//     // Canne
-//     foreach ($products['cannes'] as $canne) {
-//         $idCanne = $canne[0];
-//         $nomCanne = $canne[1];
-        
-//         $canneInfo = [
-//             'id' => $idCanne,
-//             'nom' => $nomCanne
-//         ];
-        
-//         $result['cannes'][] = $canneInfo;
-//     }
-
-//     // Moulinet
-//     foreach ($products['moulinets'] as $moulinet) {
-//         $idMoulinet = $moulinet[0];
-//         $nomMoulinet = $moulinet[1];
-        
-//         $moulinetInfo = [
-//             'id' => $idMoulinet,
-//             'nom' => $nomMoulinet
-//         ];
-        
-//         $result['moulinets'][] = $moulinetInfo;
-//     }
-
-//     // Hameçon
-//     foreach ($products['hamecons'] as $hamecon) {
-//         $idHamecon = $hamecon[0];
-//         $nomHamecon = $hamecon[1];
-        
-//         $hameconInfo = [
-//             'id' => $idHamecon,
-//             'nom' => $nomHamecon
-//         ];
-        
-//         $result['hamecons'][] = $hameconInfo;
-//     }
-//     return $result;
-// }
-
+require_once('src/model/Image/ImageLeurre.php');
 
 function home()
 {
@@ -98,13 +56,15 @@ function getLastArticles()
     $lastCanneRepo = new CanneRepository;
     $lastMoulinetRepo = new MoulinetRepository;
     $lastHameconRepo = new HameconRepository;
+    $lastLeurreRepo = new LeurreRepository;
     
     $articles = [];
 
     $articles['cannes'] = $lastCanneRepo->getLastCanne();
     $articles['moulinets'] = $lastMoulinetRepo->getLastMoulinet();
     $articles['hamecons'] = $lastHameconRepo->getLastHamecon();
-   
+    $articles['leurres'] = $lastLeurreRepo->getLastLeurre();
+
     $combinedArticles = [];
 
     foreach ($articles['cannes'] as $canne) 
@@ -165,10 +125,30 @@ function getLastArticles()
             $combinedArticles[] = [''];
         }
     }
-    return $combinedArticles;
+
+    foreach ($articles['leurres'] as $leurre) 
+    {
+        if($leurre)
+        {
+            $imgLeurreRepo = new ImageLeurreRepository;
+            $imgLeurre = $imgLeurreRepo->getImageByLeurre($leurre->getIdLeurre());
+        
+            $combinedArticles[] = 
+            [
+                'type' => 'leurre',
+                'nom' => $leurre->getNomLeurre(),
+                'image' => $imgLeurre->getNomImageLeurre(),
+                'marque' => $leurre->getMarqueLeurre()
+            ];
+        }
+        else
+        {
+            $combinedArticles[] = [''];
+        }
+    }
+    $articles = array_reverse($combinedArticles);
+    return $articles;
 }
-
-
 
 function viewAllMarque()
 {

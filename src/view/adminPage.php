@@ -152,7 +152,7 @@
                                     </li>
 
                                     <li class="flex items-center">
-                                        <button type="button" id="createProductModalButton" data-modal-target="createProductModal" data-modal-toggle="createProductModal" class="flex items-center justify-center font-semibold">
+                                        <button type="button" id="createLeurreModalButton" data-modal-target="createLeurreModal" data-modal-toggle="createLeurreModal" class="flex items-center justify-center font-semibold">
                                             Leurre
                                         </button>
                                     </li>
@@ -202,6 +202,7 @@
                             <?php include('src/view/adminCrud/viewArticle/viewCanne.php'); ?>
                             <?php include('src/view/adminCrud/viewArticle/viewMoulinet.php'); ?>
                             <?php include('src/view/adminCrud/viewArticle/viewHamecon.php'); ?>
+                            <?php include('src/view/adminCrud/viewArticle/viewLeurre.php'); ?>
 
                         </table>
 
@@ -257,10 +258,13 @@
         <?php include('src/view/adminCrud/modalAdd/modalAddMoulinet.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeHamecon.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/modalAddHamecon.php'); ?>
+        <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeLeurre.php'); ?>
+        <?php include('src/view/adminCrud/modalAdd/modalAddLeurre.php'); ?>
         <!-- Update modal -->
         <?php include('src/view/adminCrud/modalUpdate/modalCanneUpdate.php'); ?>
         <?php include('src/view/adminCrud/modalUpdate/modalMoulinetUpdate.php'); ?>
         <?php include('src/view/adminCrud/modalUpdate/modalHameconUpdate.php'); ?>
+        <?php include('src/view/adminCrud/modalUpdate/modalLeurreUpdate.php'); ?>
 
         <!-- Read modal -->
         <?php include('src/view/adminCrud/readModal/readModalCanne.php'); ?>
@@ -268,9 +272,11 @@
         <?php include('src/view/adminCrud/modalDelete/modalDeleteCanne.php'); ?>
         <?php include('src/view/adminCrud/modalDelete/modalDeleteMoulinet.php'); ?>
         <?php include('src/view/adminCrud/modalDelete/modalDeleteHamecon.php'); ?>
+        <?php include('src/view/adminCrud/modalDelete/modalDeleteLeurre.php'); ?>
         <?php include('src/view/adminCrud/modalDelete/modalDeleteCategorie.php'); ?>
         <?php include('src/view/adminCrud/modalDelete/modalDeleteMarque.php'); ?>
         <?php include('src/view/adminCrud/modalDelete/type/modalDeleteTypeHamecon.php'); ?>
+        <?php include('src/view/adminCrud/modalDelete/type/modalDeleteTypeLeurre.php'); ?>
 
     </main>
 

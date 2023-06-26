@@ -4,14 +4,17 @@ require_once('autoload/autoloader.php');
 require_once('src/model/Produit/Canne.php');
 require_once('src/model/Produit/Moulinet.php');
 require_once('src/model/Produit/Hamecon.php');
+require_once('src/model/Produit/Leurre.php');
 require_once('src/model/Marque.php');
 require_once('src/model/Categorie.php');
 require_once('src/model/Type/TypeCanne.php');
 require_once('src/model/Type/TypeMoulinet.php');
 require_once('src/model/Type/TypeHamecon.php');
+require_once('src/model/Type/TypeLeurre.php');
 require_once('src/model/Image/ImageCanne.php');
 require_once('src/model/Image/ImageMoulinet.php');
 require_once('src/model/Image/ImageHamecon.php');
+require_once('src/model/Image/ImageLeurre.php');
 
 function adminPage()
 {
@@ -32,6 +35,12 @@ function adminPage()
 
     $typeHameconRepo = new TypeHameconRepository;
     $typeHamecons = $typeHameconRepo->getAllTypeHamecon();
+
+    $leurreRepo = new LeurreRepository;
+    $leurres = $leurreRepo->getAllleurre();
+
+    $typeLeurreRepo = new TypeLeurreRepository;
+    $typeLeurres = $typeLeurreRepo->getAllTypeLeurre();
 
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();
@@ -112,7 +121,6 @@ function addMoulinetTraitement()
     {
         if(!empty($_POST['nom_moulinet']) && !empty($_POST['poids_moulinet']) && !empty($_POST['ratio_moulinet']) && !empty($_POST['categorie_moulinet']) && !empty($_POST['type_moulinet']) && !empty($_POST['marque_moulinet']) && !empty($_POST['promo_moulinet']) && !empty($_POST['stock_moulinet']) && !empty($_POST['description_moulinet'] && !empty($_FILES['image_moulinet'])))
         {
-            
             $newMoulinet = [];
             $newMoulinet['nom_moulinet'] = htmlspecialchars($_POST['nom_moulinet']);
             $newMoulinet['poids_moulinet'] = htmlspecialchars($_POST['poids_moulinet']);
@@ -233,6 +241,68 @@ function addHameconTraitement()
     }
 }
 
+function addLeurreTraitement()
+{
+    if(isset($_POST))
+    {
+        if(!empty($_POST['nom_leurre']) && !empty($_POST['poids_leurre']) && !empty($_POST['couleur_leurre']) && !empty($_POST['categorie_leurre']) && !empty($_POST['type_leurre']) && !empty($_POST['marque_leurre']) && !empty($_POST['promo_leurre']) && !empty($_POST['stock_leurre']) && !empty($_POST['description_leurre'] && !empty($_FILES['image_leurre'])))
+        {
+            $newLeurre = [];
+            $newLeurre['nom_leurre'] = htmlspecialchars($_POST['nom_leurre']);
+            $newLeurre['poids_leurre'] = htmlspecialchars($_POST['poids_leurre']);
+            $newLeurre['couleur_leurre'] = htmlspecialchars($_POST['couleur_leurre']);
+            $newLeurre['categorie_leurre'] = htmlspecialchars($_POST['categorie_leurre']);
+            $newLeurre['type_leurre'] = htmlspecialchars($_POST['type_leurre']);
+            $newLeurre['marque_leurre'] = htmlspecialchars($_POST['marque_leurre']);
+            $newLeurre['description_leurre'] = htmlspecialchars($_POST['description_leurre']);
+            $newLeurre['promo_leurre'] = htmlspecialchars($_POST['promo_leurre']);
+            $newLeurre['stock_leurre'] = htmlspecialchars($_POST['stock_leurre']);
+            $newLeurre['image_leurre'] = $_FILES['image_leurre'];
+            
+            if($newLeurre['stock_leurre'] === 'stock') 
+            {
+                $newLeurre['stock_leurre'] = 1;
+                $newLeurre['hors_stock_leurre'] = 0;
+            }
+            else
+            {
+                $newLeurre['stock_leurre'] = 0;
+                $newLeurre['hors_stock_leurre'] = 1;
+            }
+
+            if($newLeurre['promo_leurre'] === 'promo')
+            {
+                $newLeurre['promo_leurre'] = 1;
+            }
+            else
+            {
+                $newLeurre['promo_leurre'] = 0;
+            }
+            
+            $imageLeurre = new ImageLeurre;
+            $leurre = new Leurre;
+            $leurre->createToInsertLeurre($newLeurre);
+            
+            if($leurre == true)
+            {
+                $imageLeurre->addImageLeurre($newLeurre['image_leurre']);
+
+                $imageLeurreRepo = new ImageLeurreRepository;
+                $leurreRepo = new LeurreRepository;
+
+                $leurreRepo->insertLeurre($leurre);
+            
+                $lastInsertIdLeurre = $leurreRepo->getLastInsertId();
+                
+                $imageLeurre->setIdLeurre($lastInsertIdLeurre);
+                $imageLeurreRepo->insertImageLeurre($imageLeurre);
+
+                header('location: admin.php');
+            }
+        }
+    }
+}
+
 function addCategorieTraitement()
 {
     if(isset($_POST))
@@ -345,6 +415,28 @@ function addTypeHameconTraitement()
     }
 }
 
+function addTypeLeurreTraitement()
+{
+    if(isset($_POST))
+    {
+        if(!empty($_POST['nom_type_leurre']))
+        {
+            $newTypeLeurre = [];
+            $newTypeLeurre['nom_type_leurre'] = htmlspecialchars($_POST['nom_type_leurre']);
+
+            $typeLeurre = new TypeLeurre;
+            $typeLeurre->createToInserTypeLeurre($newTypeLeurre);
+
+            if($typeLeurre == true)
+            {
+                $typeLeurreRepo = new TypeLeurreRepository;
+                $typeLeurreRepo->insertTypeLeurre($typeLeurre);
+                header('location: admin.php');
+            }
+        }
+    }
+}
+
 function deleteCanne()
 {
     // if($_SESSION['id_role'] === 1)
@@ -418,6 +510,36 @@ function deleteHamecon()
             $deleteHamecon = $hameconRepository->deleteHamecon($id_hamecon);
     
             if ($deleteHamecon)
+            {
+                header('location: admin.php');
+            }
+            else 
+            {
+                $_SESSION['messageError'] = 'Suppression de l\'article échoué';
+                header('location: admin.php');
+            }
+        }
+        
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
+function deleteLeurre()
+{
+    // if($_SESSION['id_role'] === 1)
+    // {
+        if(!empty($_POST['id_leurre']) && isset($_POST['id_leurre']))
+        {
+            var_dump($_POST);
+            die;
+            $id_leurre = isset($_POST['id_leurre']) ? $_POST['id_leurre'] : null;
+            $leurreRepository = new LeurreRepository();
+            $deleteLeurre = $leurreRepository->deleteLeurre($id_leurre);
+    
+            if ($deleteLeurre)
             {
                 header('location: admin.php');
             }
@@ -567,6 +689,34 @@ function deleteTypeHamecon()
             else 
             {
                 $_SESSION['messageError'] = 'Suppression du type de hamecon échoué';
+                header('location: admin.php');
+            }
+        }
+        
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
+function deleteTypeLeurre()
+{
+    // if($_SESSION['id_role'] === 1)
+    // {
+        if(!empty($_POST['id_type_leurre']) && isset($_POST['id_type_leurre']))
+        {
+            $id_type_leurre = isset($_POST['id_type_leurre']) ? $_POST['id_type_leurre'] : null;
+            $typeLeurreRepository = new TypeLeurreRepository();
+            $deleteTypeLeurre = $typeLeurreRepository->deleteTypeLeurre($id_type_leurre);
+    
+            if ($deleteTypeLeurre)
+            {
+                header('location: admin.php');
+            }
+            else 
+            {
+                $_SESSION['messageError'] = 'Suppression du type de leurre échoué';
                 header('location: admin.php');
             }
         }
@@ -797,6 +947,84 @@ function UpdateHameconTraitement()
         $updateImageHamecon = $imageHameconRepo->updateImageByHamecon($image_hamecon, $id_hamecon);
         
         if ($update && $updateImageHamecon)
+        {
+            header("location:admin.php");
+        }
+        else 
+        {
+            echo 'non';
+        }
+    } 
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
+function UpdateLeurreTraitement()
+{
+    // if($_SESSION['id_role'] === 1)
+    // { 
+    $img = new ImageLeurreRepository;
+    $oldImg = $img->getImageByLeurre($_POST['id_leurre']);
+
+    $cheminFichier = $oldImg->getNomImageLeurre();
+
+    if (file_exists($cheminFichier)) 
+    {
+        if (unlink($cheminFichier)) 
+        {
+            echo "Le fichier a été supprimé avec succès.";
+        }
+        else 
+        {
+            echo "Une erreur s'est produite lors de la suppression du fichier.";
+            die;
+        }
+    }
+
+    if(isset($_POST['id_leurre']) && isset($_POST['nom_leurre']) && isset($_POST['poids_leurre']) && isset($_POST['couleur_leurre']) && isset($_POST['description_leurre']) && isset($_POST['promo_leurre']) && isset($_POST['stock_leurre']) && isset($_POST['categorie_leurre']) && isset($_POST['type_leurre']) && isset($_POST['marque_leurre']) && isset($_FILES['image_leurre']))
+    {
+        $id_leurre = isset($_POST['id_leurre']) ? htmlspecialchars($_POST['id_leurre']) : null;
+        $nom_leurre = isset($_POST['nom_leurre']) ? htmlspecialchars($_POST['nom_leurre']) : null;
+        $poids_leurre = isset($_POST['poids_leurre']) ? htmlspecialchars($_POST['poids_leurre']) : null;
+        $couleur_leurre = isset($_POST['couleur_leurre']) ? htmlspecialchars($_POST['couleur_leurre']) : null;
+        $description_leurre = isset($_POST['description_leurre']) ? htmlspecialchars($_POST['description_leurre']) : null;
+        $promo_leurre = isset($_POST['promo_leurre']) ? htmlspecialchars($_POST['promo_leurre']) : null;
+        $stock_leurre = isset($_POST['stock_leurre']) ? htmlspecialchars($_POST['stock_leurre']) : null;
+        $id_categorie = isset($_POST['categorie_leurre']) ? htmlspecialchars($_POST['categorie_leurre']) : null;
+        $id_type_leurre = isset($_POST['type_leurre']) ? htmlspecialchars($_POST['type_leurre']) : null;
+        $id_marque = isset($_POST['marque_leurre']) ? htmlspecialchars($_POST['marque_leurre']) : null;
+        $image_leurre = isset($_FILES['image_leurre']) ? $_FILES['image_leurre'] : null;
+
+        if($stock_leurre === 'stock') 
+        {
+            $stock_leurre = 1;
+            $hors_stock_leurre = 0;
+        }
+        else
+        {
+            $stock_leurre = 0;
+            $hors_stock_leurre = 1;
+        }
+
+        if($promo_leurre === 'promo')
+        {
+            $promo_leurre = 1;
+        }
+        else
+        {
+            $promo_leurre = 0;
+        }
+
+        $leurreRepository = new LeurreRepository;
+        $imageLeurreRepo = new ImageLeurreRepository;
+        
+        $update = $leurreRepository->updateLeurre($id_leurre, $nom_leurre, $poids_leurre, $couleur_leurre, $description_leurre, $promo_leurre, $stock_leurre, $hors_stock_leurre, $id_categorie, $id_type_leurre, $id_marque);
+        $updateImageLeurre = $imageLeurreRepo->updateImageByLeurre($image_leurre, $id_leurre);
+        
+        if ($update && $updateImageLeurre)
         {
             header("location:admin.php");
         }
