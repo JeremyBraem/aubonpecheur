@@ -107,7 +107,7 @@ function getLastArticles()
         }
     }
 
-    foreach ($articles['moulinets'] as $moulinet) 
+    foreach ($articles['moulinets'] as $moulinet)
     {
         if($moulinet)
         {
