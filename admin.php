@@ -24,6 +24,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'addFeederTraitement':
                 addFeederTraitement();
                 break;
+            case 'addAppatTraitement':
+                addAppatTraitement();
+                break;
             case 'addCategorieTraitement':
                 addCategorieTraitement();
                 break;
@@ -47,6 +50,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
                 break;
             case 'addTypeFeederTraitement':
                 addTypeFeederTraitement();
+                break;
+            case 'addTypeAppatTraitement':
+                addTypeAppatTraitement();
                 break;
             case 'addMarqueTraitement':
                 addMarqueTraitement();
@@ -81,6 +87,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'deleteFeeder':
                 deleteFeeder();
                 break;
+            case 'deleteAppat':
+                deleteAppat();
+                break;
             case 'deleteEquipement':
                 deleteEquipement();
                 break;
@@ -105,6 +114,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'deleteTypeFeeder':
                 deleteTypeFeeder();
                 break;
+            case 'deleteTypeAppat':
+                deleteTypeAppat();
+                break;
             case 'deleteTypeEquipement':
                 deleteTypeEquipement();
                 break;
@@ -125,6 +137,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
                 break;
             case 'UpdateEquipementTraitement':
                 UpdateEquipementTraitement();
+                break;
+            case 'UpdateAppatTraitement':
+                UpdateAppatTraitement();
                 break;
             default:
             adminPage();

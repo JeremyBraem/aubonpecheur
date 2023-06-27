@@ -10,6 +10,7 @@ require_once('src/model/Produit/Leurre.php');
 require_once('src/model/Produit/Ligne.php');
 require_once('src/model/Produit/Equipement.php');
 require_once('src/model/Produit/Feeder.php');
+require_once('src/model/Produit/Appat.php');
 
 require_once('src/model/Marque.php');
 require_once('src/model/Categorie.php');
@@ -21,6 +22,7 @@ require_once('src/model/Type/TypeLeurre.php');
 require_once('src/model/Type/TypeLigne.php');
 require_once('src/model/Type/TypeEquipement.php');
 require_once('src/model/Type/TypeFeeder.php');
+require_once('src/model/Type/TypeAppat.php');
 
 require_once('src/model/Image/ImageCanne.php');
 require_once('src/model/Image/ImageMoulinet.php');
@@ -29,6 +31,7 @@ require_once('src/model/Image/ImageLeurre.php');
 require_once('src/model/Image/ImageLigne.php');
 require_once('src/model/Image/ImageEquipement.php');
 require_once('src/model/Image/ImageFeeder.php');
+require_once('src/model/Image/ImageAppat.php');
 
 function home()
 {
@@ -70,6 +73,7 @@ function getLastArticles()
     $lastLigneRepo = new LigneRepository;
     $lastEquipementRepo = new EquipementRepository;
     $lastFeederRepo = new FeederRepository;
+    $lastAppatRepo = new AppatRepository;
     
     $articles = [];
 
@@ -80,6 +84,7 @@ function getLastArticles()
     $articles['lignes'] = $lastLigneRepo->getLastLigne();
     $articles['equipements'] = $lastEquipementRepo->getLastEquipement();
     $articles['feeders'] = $lastFeederRepo->getLastFeeder();
+    $articles['appats'] = $lastAppatRepo->getLastAppat();
 
     $combinedArticles = [];
 
@@ -226,6 +231,27 @@ function getLastArticles()
         }
     }
 
+    foreach ($articles['appats'] as $appat) 
+    {
+        if($appat)
+        {
+            $imgAppatRepo = new ImageAppatRepository;
+            $imgAppat = $imgAppatRepo->getImageByAppat($appat->getIdAppat());
+        
+            $combinedArticles[] = 
+            [
+                'type' => 'appat',
+                'nom' => $appat->getNomAppat(),
+                'image' => $imgAppat->getNomImageAppat(),
+                'marque' => $appat->getMarqueAppat()
+            ];
+        }
+        else
+        {
+            $combinedArticles[] = [''];
+        }
+    }
+
     $articles = array_reverse($combinedArticles);
     return $articles;
 }
@@ -239,6 +265,7 @@ function getPromoArticles()
     $lastLigneRepo = new LigneRepository;
     $lastEquipementRepo = new EquipementRepository;
     $lastFeederRepo = new FeederRepository;
+    $lastAppatRepo = new AppatRepository;
     
     $articles = [];
 
@@ -249,6 +276,7 @@ function getPromoArticles()
     $articles['lignes'] = $lastLigneRepo->getPromoLigne();
     $articles['equipements'] = $lastEquipementRepo->getPromoEquipement();
     $articles['feeders'] = $lastFeederRepo->getPromoFeeder();
+    $articles['appats'] = $lastAppatRepo->getPromoAppat();
 
     $promoArticles = [];
 
@@ -387,6 +415,27 @@ function getPromoArticles()
                 'nom' => $feeder->getNomFeeder(),
                 'image' => $imgFeeder->getNomImageFeeder(),
                 'marque' => $feeder->getMarqueFeeder()
+            ];
+        }
+        else
+        {
+            $promoArticles[] = [''];
+        }
+    }
+
+    foreach ($articles['appats'] as $appat) 
+    {
+        if($appat)
+        {
+            $imgAppatRepo = new ImageAppatRepository;
+            $imgAppat = $imgAppatRepo->getImageByAppat($appat->getIdAppat());
+        
+            $promoArticles[] = 
+            [
+                'type' => 'appat',
+                'nom' => $appat->getNomAppat(),
+                'image' => $imgAppat->getNomImageAppat(),
+                'marque' => $appat->getMarqueAppat()
             ];
         }
         else

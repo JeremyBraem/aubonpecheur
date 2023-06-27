@@ -1,3 +1,4 @@
+<?php var_dump($combinedArticles); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

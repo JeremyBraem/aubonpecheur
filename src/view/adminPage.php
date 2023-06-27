@@ -118,6 +118,12 @@
                                         </button>
                                     </li>
 
+                                    <li class="flex items-center">
+                                        <button type="button" id="createTypeAppatModalButton" data-modal-target="createTypeAppatModal" data-modal-toggle="createTypeAppatModal" class="flex items-center justify-center font-semibold">
+                                            Type d'appat
+                                        </button>
+                                    </li>
+
                                 </ul>
 
                             </div>
@@ -175,6 +181,12 @@
                                         </button>
                                     </li>
 
+                                    <li class="flex items-center">
+                                        <button type="button" id="createAppatModalButton" data-modal-target="createAppatModal" data-modal-toggle="createAppatModal" class="flex items-center justify-center font-semibold">
+                                            Appat
+                                        </button>
+                                    </li>
+
                                 </ul>
 
                             </div>
@@ -206,6 +218,7 @@
                             <?php include('src/view/adminCrud/viewArticle/viewLigne.php'); ?>
                             <?php include('src/view/adminCrud/viewArticle/viewEquipement.php'); ?>
                             <?php include('src/view/adminCrud/viewArticle/viewFeeder.php'); ?>
+                            <?php include('src/view/adminCrud/viewArticle/viewAppat.php'); ?>
 
                         </table>
 
@@ -269,6 +282,8 @@
         <?php include('src/view/adminCrud/modalAdd/modalAddEquipement.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeFeeder.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/modalAddFeeder.php'); ?>
+        <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeAppat.php'); ?>
+        <?php include('src/view/adminCrud/modalAdd/modalAddAppat.php'); ?>
 
         <!-- Update modal -->
         <?php include('src/view/adminCrud/modalUpdate/modalCanneUpdate.php'); ?>
@@ -278,6 +293,7 @@
         <?php include('src/view/adminCrud/modalUpdate/modalLigneUpdate.php'); ?>
         <?php include('src/view/adminCrud/modalUpdate/modalEquipementUpdate.php'); ?>
         <?php include('src/view/adminCrud/modalUpdate/modalFeederUpdate.php'); ?>
+        <?php include('src/view/adminCrud/modalUpdate/modalAppatUpdate.php'); ?>
 
         <!-- Read modal -->
         <?php include('src/view/adminCrud/readModal/readModalCanne.php'); ?>
@@ -289,6 +305,7 @@
         <?php include('src/view/adminCrud/modalDelete/modalDeleteLigne.php'); ?>
         <?php include('src/view/adminCrud/modalDelete/modalDeleteEquipement.php'); ?>
         <?php include('src/view/adminCrud/modalDelete/modalDeleteFeeder.php'); ?>
+        <?php include('src/view/adminCrud/modalDelete/modalDeleteAppat.php'); ?>
 
         <?php include('src/view/adminCrud/modalDelete/modalDeleteCategorie.php'); ?>
         <?php include('src/view/adminCrud/modalDelete/modalDeleteMarque.php'); ?>
@@ -298,6 +315,7 @@
         <?php include('src/view/adminCrud/modalDelete/type/modalDeleteTypeLigne.php'); ?>
         <?php include('src/view/adminCrud/modalDelete/type/modalDeleteTypeEquipement.php'); ?>
         <?php include('src/view/adminCrud/modalDelete/type/modalDeleteTypeFeeder.php'); ?>
+        <?php include('src/view/adminCrud/modalDelete/type/modalDeleteTypeAppat.php'); ?>
 
     </main>
 

@@ -8,8 +8,11 @@ require_once('src/model/Produit/Leurre.php');
 require_once('src/model/Produit/Ligne.php');
 require_once('src/model/Produit/Equipement.php');
 require_once('src/model/Produit/Feeder.php');
+require_once('src/model/Produit/Appat.php');
+
 require_once('src/model/Marque.php');
 require_once('src/model/Categorie.php');
+
 require_once('src/model/Type/TypeCanne.php');
 require_once('src/model/Type/TypeMoulinet.php');
 require_once('src/model/Type/TypeHamecon.php');
@@ -17,6 +20,8 @@ require_once('src/model/Type/TypeLeurre.php');
 require_once('src/model/Type/TypeLigne.php');
 require_once('src/model/Type/TypeEquipement.php');
 require_once('src/model/Type/TypeFeeder.php');
+require_once('src/model/Type/TypeAppat.php');
+
 require_once('src/model/Image/ImageCanne.php');
 require_once('src/model/Image/ImageMoulinet.php');
 require_once('src/model/Image/ImageHamecon.php');
@@ -24,6 +29,7 @@ require_once('src/model/Image/ImageLeurre.php');
 require_once('src/model/Image/ImageLigne.php');
 require_once('src/model/Image/ImageEquipement.php');
 require_once('src/model/Image/ImageFeeder.php');
+require_once('src/model/Image/ImageAppat.php');
 
 function adminPage()
 {
@@ -68,6 +74,12 @@ function adminPage()
 
     $typeEquipementRepo = new TypeEquipementRepository;
     $typeEquipements = $typeEquipementRepo->getAllTypeEquipement();
+
+    $appatRepo = new AppatRepository;
+    $appats = $appatRepo->getAllAppat();
+
+    $typeAppatRepo = new TypeAppatRepository;
+    $typeAppats = $typeAppatRepo->getAllTypeAppat();
 
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();
@@ -458,6 +470,68 @@ function addEquipementTraitement()
     }
 }
 
+function addAppatTraitement()
+{
+    if(isset($_POST))
+    {
+        
+        if(!empty($_POST['nom_appat']) && !empty($_POST['detail_appat']) && !empty($_POST['categorie_appat']) && !empty($_POST['type_appat']) && !empty($_POST['marque_appat']) && !empty($_POST['promo_appat']) && !empty($_POST['stock_appat']) && !empty($_POST['description_appat'] && !empty($_FILES['image_appat'])))
+        {
+            $newAppat = [];
+            $newAppat['nom_appat'] = htmlspecialchars($_POST['nom_appat']);
+            $newAppat['detail_appat'] = htmlspecialchars($_POST['detail_appat']);
+            $newAppat['categorie_appat'] = htmlspecialchars($_POST['categorie_appat']);
+            $newAppat['type_appat'] = htmlspecialchars($_POST['type_appat']);
+            $newAppat['marque_appat'] = htmlspecialchars($_POST['marque_appat']);
+            $newAppat['description_appat'] = htmlspecialchars($_POST['description_appat']);
+            $newAppat['promo_appat'] = htmlspecialchars($_POST['promo_appat']);
+            $newAppat['stock_appat'] = htmlspecialchars($_POST['stock_appat']);
+            $newAppat['image_appat'] = $_FILES['image_appat'];
+            
+            if($newAppat['stock_appat'] === 'stock') 
+            {
+                $newAppat['stock_appat'] = 1;
+                $newAppat['hors_stock_appat'] = 0;
+            }
+            else
+            {
+                $newAppat['stock_appat'] = 0;
+                $newAppat['hors_stock_appat'] = 1;
+            }
+
+            if($newAppat['promo_appat'] === 'promo')
+            {
+                $newAppat['promo_appat'] = 1;
+            }
+            else
+            {
+                $newAppat['promo_appat'] = 0;
+            }
+            
+            $imageAppat = new ImageAppat;
+            $appat = new Appat;
+            $appat->createToInsertAppat($newAppat);
+            
+            if($appat == true)
+            {
+                $imageAppat->addImageAppat($newAppat['image_appat']);
+
+                $imageAppatRepo = new ImageAppatRepository;
+                $appatRepo = new AppatRepository;
+
+                $appatRepo->insertAppat($appat);
+            
+                $lastInsertIdAppat = $appatRepo->getLastInsertId();
+                
+                $imageAppat->setIdAppat($lastInsertIdAppat);
+                $imageAppatRepo->insertImageAppat($imageAppat);
+
+                header('location: admin.php');
+            }
+        }
+    }
+}
+
 function addFeederTraitement()
 {
     if(isset($_POST))
@@ -723,6 +797,28 @@ function addTypeEquipementTraitement()
     }
 }
 
+function addTypeAppatTraitement()
+{
+    if(isset($_POST))
+    {
+        if(!empty($_POST['nom_type_appat']))
+        {
+            $newTypeAppat = [];
+            $newTypeAppat['nom_type_appat'] = htmlspecialchars($_POST['nom_type_appat']);
+
+            $typeAppat = new TypeAppat;
+            $typeAppat->createToInserTypeAppat($newTypeAppat);
+
+            if($typeAppat == true)
+            {
+                $typeAppatRepo = new TypeAppatRepository;
+                $typeAppatRepo->insertTypeAppat($typeAppat);
+                header('location: admin.php');
+            }
+        }
+    }
+}
+
 function deleteCanne()
 {
     // if($_SESSION['id_role'] === 1)
@@ -932,6 +1028,37 @@ function deleteEquipement()
     //     home();
     // }
 }
+
+function deleteAppat()
+{
+    // if($_SESSION['id_role'] === 1)
+    // {
+        if(!empty($_POST['id_appat']) && isset($_POST['id_appat']))
+        {
+            var_dump($_POST);
+            die;
+            $id_appat = isset($_POST['id_appat']) ? $_POST['id_appat'] : null;
+            $appatRepository = new AppatRepository();
+            $deleteAppat = $appatRepository->deleteAppat($id_appat);
+    
+            if ($deleteAppat)
+            {
+                header('location: admin.php');
+            }
+            else 
+            {
+                $_SESSION['messageError'] = 'Suppression de l\'article échoué';
+                header('location: admin.php');
+            }
+        }
+        
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
 
 function deleteCategorie()
 {
@@ -1177,6 +1304,34 @@ function deleteTypeEquipement()
             else 
             {
                 $_SESSION['messageError'] = 'Suppression du type de equipement échoué';
+                header('location: admin.php');
+            }
+        }
+        
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
+function deleteTypeAppat()
+{
+    // if($_SESSION['id_role'] === 1)
+    // {
+        if(!empty($_POST['id_type_appat']) && isset($_POST['id_type_appat']))
+        {
+            $id_type_appat = isset($_POST['id_type_appat']) ? $_POST['id_type_appat'] : null;
+            $typeAppatRepository = new TypeAppatRepository();
+            $deleteTypeAppat = $typeAppatRepository->deleteTypeAppat($id_type_appat);
+    
+            if ($deleteTypeAppat)
+            {
+                header('location: admin.php');
+            }
+            else 
+            {
+                $_SESSION['messageError'] = 'Suppression du type de appat échoué';
                 header('location: admin.php');
             }
         }
@@ -1720,6 +1875,83 @@ function UpdateEquipementTraitement()
         $updateImageEquipement = $imageEquipementRepo->updateImageByEquipement($image_equipement, $id_equipement);
         
         if ($update && $updateImageEquipement)
+        {
+            header("location:admin.php");
+        }
+        else 
+        {
+            echo 'non';
+        }
+    } 
+    // }
+    // else
+    // {
+    //     home();
+    // }
+}
+
+function UpdateAppatTraitement()
+{
+    // if($_SESSION['id_role'] === 1)
+    // { 
+    $img = new ImageAppatRepository;
+    $oldImg = $img->getImageByAppat($_POST['id_appat']);
+
+    $cheminFichier = $oldImg->getNomImageAppat();
+
+    if (file_exists($cheminFichier)) 
+    {
+        if (unlink($cheminFichier)) 
+        {
+            echo "Le fichier a été supprimé avec succès.";
+        }
+        else 
+        {
+            echo "Une erreur s'est produite lors de la suppression du fichier.";
+            die;
+        }
+    }
+
+    if(isset($_POST['id_appat']) && isset($_POST['nom_appat']) && isset($_POST['detail_appat']) && isset($_POST['description_appat']) && isset($_POST['promo_appat']) && isset($_POST['stock_appat']) && isset($_POST['categorie_appat']) && isset($_POST['type_appat']) && isset($_POST['marque_appat']) && isset($_FILES['image_appat']))
+    {
+        $id_appat = isset($_POST['id_appat']) ? htmlspecialchars($_POST['id_appat']) : null;
+        $nom_appat = isset($_POST['nom_appat']) ? htmlspecialchars($_POST['nom_appat']) : null;
+        $detail_appat = isset($_POST['detail_appat']) ? htmlspecialchars($_POST['detail_appat']) : null;
+        $description_appat = isset($_POST['description_appat']) ? htmlspecialchars($_POST['description_appat']) : null;
+        $promo_appat = isset($_POST['promo_appat']) ? htmlspecialchars($_POST['promo_appat']) : null;
+        $stock_appat = isset($_POST['stock_appat']) ? htmlspecialchars($_POST['stock_appat']) : null;
+        $id_categorie = isset($_POST['categorie_appat']) ? htmlspecialchars($_POST['categorie_appat']) : null;
+        $id_type_appat = isset($_POST['type_appat']) ? htmlspecialchars($_POST['type_appat']) : null;
+        $id_marque = isset($_POST['marque_appat']) ? htmlspecialchars($_POST['marque_appat']) : null;
+        $image_appat = isset($_FILES['image_appat']) ? $_FILES['image_appat'] : null;
+
+        if($stock_appat === 'stock') 
+        {
+            $stock_appat = 1;
+            $hors_stock_appat = 0;
+        }
+        else
+        {
+            $stock_appat = 0;
+            $hors_stock_appat = 1;
+        }
+
+        if($promo_appat === 'promo')
+        {
+            $promo_appat = 1;
+        }
+        else
+        {
+            $promo_appat = 0;
+        }
+
+        $appatRepository = new AppatRepository;
+        $imageAppatRepo = new ImageAppatRepository;
+        
+        $update = $appatRepository->updateAppat($id_appat, $nom_appat, $detail_appat, $description_appat, $promo_appat, $stock_appat, $hors_stock_appat, $id_categorie, $id_type_appat, $id_marque);
+        $updateImageAppat = $imageAppatRepo->updateImageByAppat($image_appat, $id_appat);
+        
+        if ($update && $updateImageAppat)
         {
             header("location:admin.php");
         }
