@@ -113,12 +113,12 @@ class Moulinet
         $this->poids_moulinet = $poids_moulinet;
     }
 
-    public function getLongueurMoulinet(): string
+    public function getRatioMoulinet(): string
     {
         return $this->ratio_moulinet;
     }
 
-    public function setLongueurMoulinet($ratio_moulinet): void
+    public function setRatioMoulinet($ratio_moulinet): void
     {
         $this->ratio_moulinet = $ratio_moulinet;
     }
@@ -210,7 +210,7 @@ class MoulinetRepository extends connectBdd
         ([
             $moulinet->getNomMoulinet(),
             $moulinet->getPoidsMoulinet(),
-            $moulinet->getLongueurMoulinet(),
+            $moulinet->getRatioMoulinet(),
             $moulinet->getDescriptionMoulinet(),
             $moulinet->getPromoMoulinet(),
             $moulinet->getStockMoulinet(),
@@ -241,7 +241,7 @@ class MoulinetRepository extends connectBdd
             $moulinet->setIdMoulinet($data['id_moulinet']);
             $moulinet->setNomMoulinet($data['nom_moulinet']);
             $moulinet->setPoidsMoulinet($data['poids_moulinet']);
-            $moulinet->setLongueurMoulinet($data['ratio_moulinet']);
+            $moulinet->setRatioMoulinet($data['ratio_moulinet']);
             $moulinet->setDescriptionMoulinet($data['description_moulinet']);
             $moulinet->setPromoMoulinet($data['promo_moulinet']);
             $moulinet->setStockMoulinet($data['stock_moulinet']);
@@ -273,7 +273,7 @@ class MoulinetRepository extends connectBdd
             $moulinet->setIdMoulinet($data['id_moulinet']);
             $moulinet->setNomMoulinet($data['nom_moulinet']);
             $moulinet->setPoidsMoulinet($data['poids_moulinet']);
-            $moulinet->setLongueurMoulinet($data['ratio_moulinet']);
+            $moulinet->setRatioMoulinet($data['ratio_moulinet']);
             $moulinet->setDescriptionMoulinet($data['description_moulinet']);
             $moulinet->setPromoMoulinet($data['promo_moulinet']);
             $moulinet->setStockMoulinet($data['stock_moulinet']);
@@ -285,6 +285,37 @@ class MoulinetRepository extends connectBdd
             $moulinets[] = $moulinet;
         }
         return $moulinets;
+    }
+
+    public function getMoulinetById($id_moulinet)
+    {
+        $req = $this->bdd->prepare("SELECT *, categorie.*, type_moulinet.*, marque.*
+        FROM moulinet
+        INNER JOIN categorie ON moulinet.id_categorie = categorie.id_categorie
+        INNER JOIN type_moulinet ON moulinet.id_type_moulinet = type_moulinet.id_type_moulinet
+        INNER JOIN marque ON moulinet.id_marque = marque.id_marque
+        WHERE id_moulinet = ?
+        ");
+
+        $req->execute([$id_moulinet]);
+        $datas = $req->fetchAll();
+
+        foreach ($datas as $data)
+        {
+            $moulinet = new Moulinet();
+            $moulinet->setIdMoulinet($data['id_moulinet']);
+            $moulinet->setNomMoulinet($data['nom_moulinet']);
+            $moulinet->setPoidsMoulinet($data['poids_moulinet']);
+            $moulinet->setRatioMoulinet($data['ratio_moulinet']);
+            $moulinet->setDescriptionMoulinet($data['description_moulinet']);
+            $moulinet->setPromoMoulinet($data['promo_moulinet']);
+            $moulinet->setStockMoulinet($data['stock_moulinet']);
+            $moulinet->setHorsStockMoulinet($data['hors_stock_moulinet']);
+            $moulinet->setCategorieMoulinet($data['nom_categorie']);
+            $moulinet->setTypeMoulinet($data['nom_type_moulinet']);
+            $moulinet->setMarqueMoulinet($data['nom_marque']);
+        }
+        return $moulinet;
     }
 
     public function getPromoMoulinet()
@@ -307,7 +338,7 @@ class MoulinetRepository extends connectBdd
                 $moulinet->setIdMoulinet($data['id_moulinet']);
                 $moulinet->setNomMoulinet($data['nom_moulinet']);
                 $moulinet->setPoidsMoulinet($data['poids_moulinet']);
-                $moulinet->setLongueurMoulinet($data['ratio_moulinet']);
+                $moulinet->setRatioMoulinet($data['ratio_moulinet']);
                 $moulinet->setDescriptionMoulinet($data['description_moulinet']);
                 $moulinet->setPromoMoulinet($data['promo_moulinet']);
                 $moulinet->setStockMoulinet($data['stock_moulinet']);

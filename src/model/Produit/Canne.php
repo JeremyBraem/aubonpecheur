@@ -254,6 +254,37 @@ class CanneRepository extends connectBdd
         return $cannes;
     }
 
+    public function getCanneById($id_canne)
+    {
+        $req = $this->bdd->prepare("SELECT *, categorie.*, type_canne.*, marque.*
+        FROM canne
+        INNER JOIN categorie ON canne.id_categorie = categorie.id_categorie
+        INNER JOIN type_canne ON canne.id_type_canne = type_canne.id_type_canne
+        INNER JOIN marque ON canne.id_marque = marque.id_marque
+        WHERE id_canne = ?
+        ");
+
+        $req->execute([$id_canne]);
+        $datas = $req->fetchAll();
+
+        foreach ($datas as $data)
+        {
+            $canne = new Canne();
+            $canne->setIdCanne($data['id_canne']);
+            $canne->setNomCanne($data['nom_canne']);
+            $canne->setPoidsCanne($data['poids_canne']);
+            $canne->setLongueurCanne($data['longueur_canne']);
+            $canne->setDescriptionCanne($data['description_canne']);
+            $canne->setPromoCanne($data['promo_canne']);
+            $canne->setStockCanne($data['stock_canne']);
+            $canne->setHorsStockCanne($data['hors_stock_canne']);
+            $canne->setCategorieCanne($data['nom_categorie']);
+            $canne->setTypeCanne($data['nom_type_canne']);
+            $canne->setMarqueCanne($data['nom_marque']);
+        }
+        return $canne;
+    }
+
     public function getLastCanne()
     {
         $req = $this->bdd->prepare("SELECT *, categorie.*, type_canne.*, marque.*
@@ -366,7 +397,6 @@ class CanneRepository extends connectBdd
     {
         try 
         {
-            
             $req = $this->bdd->prepare("UPDATE canne SET nom_canne = ?, poids_canne = ?, longueur_canne = ?, description_canne = ?, promo_canne = ?, stock_canne = ?, hors_stock_canne = ?, id_categorie = ?, id_type_canne = ?, id_marque = ? WHERE id_canne = ?");
             $req->execute([$nom_canne, $poids_canne, $longueur_canne, $description_canne, $promo_canne, $stock_canne, $hors_stock_canne, $id_categorie, $id_type_canne, $id_marque, $id_canne]);
             
@@ -383,16 +413,13 @@ class CanneRepository extends connectBdd
         $query = "SELECT MAX(id_canne) AS last_id FROM canne";
         $result = $this->bdd->prepare($query);
 
-        if ($result->execute()) { // Exécutez la requête ici
+        if ($result->execute()) 
+        {
             $row = $result->fetch(PDO::FETCH_ASSOC);
             $lastId = $row['last_id'];
 
             return $lastId;
-        } else {
-            // Gérez l'erreur de la requête
-            // Retournez une valeur par défaut ou lancez une exception, selon vos besoins
-        }
-        
+        }   
     }
 }
 

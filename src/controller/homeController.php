@@ -96,6 +96,7 @@ function getLastArticles()
             $imgCannes = $imgCanneRepo->getImageByCanne($canne->getIdCanne());
             $combinedArticles[] = [
                 'type' => 'canne',
+                'id' => $canne->getIdCanne(),
                 'nom' => $canne->getNomCanne(),
                 'image' => $imgCannes->getNomImageCanne(),
                 'marque' => $canne->getMarqueCanne()
@@ -115,6 +116,7 @@ function getLastArticles()
             $imgMoulinet = $imgMoulinetRepo->getImageByMoulinet($moulinet->getIdMoulinet());
             $combinedArticles[] = [
                 'type' => 'moulinet',
+                'id' => $moulinet->getIdMoulinet(),
                 'nom' => $moulinet->getNomMoulinet(),
                 'image' => $imgMoulinet->getNomImageMoulinet(),
                 'marque' => $moulinet->getMarqueMoulinet()
@@ -136,6 +138,7 @@ function getLastArticles()
             $combinedArticles[] = 
             [
                 'type' => 'hamecon',
+                'id' => $hamecon->getIdHamecon(),
                 'nom' => $hamecon->getNomHamecon(),
                 'image' => $imgHamecon->getNomImageHamecon(),
                 'marque' => $hamecon->getMarqueHamecon()
@@ -157,6 +160,7 @@ function getLastArticles()
             $combinedArticles[] = 
             [
                 'type' => 'leurre',
+                'id' => $leurre->getIdLeurre(),
                 'nom' => $leurre->getNomLeurre(),
                 'image' => $imgLeurre->getNomImageLeurre(),
                 'marque' => $leurre->getMarqueLeurre()
@@ -178,6 +182,7 @@ function getLastArticles()
             $combinedArticles[] = 
             [
                 'type' => 'ligne',
+                'id' => $ligne->getIdLigne(),
                 'nom' => $ligne->getNomLigne(),
                 'image' => $imgLigne->getNomImageLigne(),
                 'marque' => $ligne->getMarqueLigne()
@@ -199,6 +204,7 @@ function getLastArticles()
             $combinedArticles[] = 
             [
                 'type' => 'equipement',
+                'id' => $equipement->getIdEquipement(),
                 'nom' => $equipement->getNomEquipement(),
                 'image' => $imgEquipement->getNomImageEquipement(),
                 'marque' => $equipement->getMarqueEquipement()
@@ -220,6 +226,7 @@ function getLastArticles()
             $combinedArticles[] = 
             [
                 'type' => 'feeder',
+                'id' => $feeder->getIdFeeder(),
                 'nom' => $feeder->getNomFeeder(),
                 'image' => $imgFeeder->getNomImageFeeder(),
                 'marque' => $feeder->getMarqueFeeder()
@@ -241,6 +248,7 @@ function getLastArticles()
             $combinedArticles[] = 
             [
                 'type' => 'appat',
+                'id' => $appat->getIdAppat(),
                 'nom' => $appat->getNomAppat(),
                 'image' => $imgAppat->getNomImageAppat(),
                 'marque' => $appat->getMarqueAppat()
@@ -288,6 +296,7 @@ function getPromoArticles()
             $imgCannes = $imgCanneRepo->getImageByCanne($canne->getIdCanne());
             $promoArticles[] = [
                 'type' => 'canne',
+                'id' => $canne->getIdCanne(),
                 'nom' => $canne->getNomCanne(),
                 'image' => $imgCannes->getNomImageCanne(),
                 'marque' => $canne->getMarqueCanne()
@@ -307,6 +316,7 @@ function getPromoArticles()
             $imgMoulinet = $imgMoulinetRepo->getImageByMoulinet($moulinet->getIdMoulinet());
             $promoArticles[] = [
                 'type' => 'moulinet',
+                'id' => $moulinet->getIdMoulinet(),
                 'nom' => $moulinet->getNomMoulinet(),
                 'image' => $imgMoulinet->getNomImageMoulinet(),
                 'marque' => $moulinet->getMarqueMoulinet()
@@ -328,6 +338,7 @@ function getPromoArticles()
             $promoArticles[] = 
             [
                 'type' => 'hamecon',
+                'id' => $hamecon->getIdHamecon(),
                 'nom' => $hamecon->getNomHamecon(),
                 'image' => $imgHamecon->getNomImageHamecon(),
                 'marque' => $hamecon->getMarqueHamecon()
@@ -349,6 +360,7 @@ function getPromoArticles()
             $promoArticles[] = 
             [
                 'type' => 'leurre',
+                'id' => $leurre->getIdLeurre(),
                 'nom' => $leurre->getNomLeurre(),
                 'image' => $imgLeurre->getNomImageLeurre(),
                 'marque' => $leurre->getMarqueLeurre()
@@ -370,6 +382,7 @@ function getPromoArticles()
             $promoArticles[] = 
             [
                 'type' => 'ligne',
+                'id' => $ligne->getIdLigne(),
                 'nom' => $ligne->getNomLigne(),
                 'image' => $imgLigne->getNomImageLigne(),
                 'marque' => $ligne->getMarqueLigne()
@@ -391,6 +404,7 @@ function getPromoArticles()
             $promoArticles[] = 
             [
                 'type' => 'equipement',
+                'id' => $equipement->getIdEquipement(),
                 'nom' => $equipement->getNomEquipement(),
                 'image' => $imgEquipement->getNomImageEquipement(),
                 'marque' => $equipement->getMarqueEquipement()
@@ -412,6 +426,7 @@ function getPromoArticles()
             $promoArticles[] = 
             [
                 'type' => 'feeder',
+                'id' => $feeder->getIdFeeder(),
                 'nom' => $feeder->getNomFeeder(),
                 'image' => $imgFeeder->getNomImageFeeder(),
                 'marque' => $feeder->getMarqueFeeder()
@@ -433,6 +448,7 @@ function getPromoArticles()
             $promoArticles[] = 
             [
                 'type' => 'appat',
+                'id' => $appat->getIdAppat(),
                 'nom' => $appat->getNomAppat(),
                 'image' => $imgAppat->getNomImageAppat(),
                 'marque' => $appat->getMarqueAppat()
@@ -640,6 +656,28 @@ function disconnectUser()
 {
     session_destroy();
     header('location:index.php');
+}
+
+function cannePage()
+{
+    $canneRepo = new CanneRepository;
+    $imageCanneRepo = new ImageCanneRepository;
+
+    $imageCanne = $imageCanneRepo->getImageByCanne($_GET['id']);
+    $canne = $canneRepo->getCanneById($_GET['id']);
+
+    require_once('src/view/articlePage/cannePage.php');
+}
+
+function moulinetPage()
+{
+    $moulinetRepo = new MoulinetRepository;
+    $imageMoulinetRepo = new ImageMoulinetRepository;
+    
+    $imageMoulinet = $imageMoulinetRepo->getImageByMoulinet($_GET['id']);
+    $moulinet = $moulinetRepo->getMoulinetById($_GET['id']);
+
+    require_once('src/view/articlePage/moulinetPage.php');
 }
 
 ?>

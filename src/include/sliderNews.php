@@ -12,18 +12,19 @@
                 <?php foreach($combinedArticles as $article) { ?>
                     <div class="relative w-56 md:h-80">
 
-                        <div class="w-56">
-                            <img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" 
-                                src="
-                                <?php echo $article['image']; ?>"
-                            />
-                        </div>
+                        <a href="index.php?action=<?php echo $article['type']; ?>Page&id=<?php echo $article['id']; ?>">
 
-                        <div class="md:w-56">
-                            <p class="text-xs md:text-lg text-center"><?php echo $article['nom']; ?></p>
-                            <p class="text-2xs md:text-sm text-center uppercase"><?php echo $article['marque']; ?></p>
-                        </div>
-                        
+                            <div class="w-56">
+                                <img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="<?php echo $article['image']; ?>"/>
+                            </div>
+
+                            <div class="md:w-56">
+                                <p class="text-xs md:text-lg text-center"><?php echo $article['nom']; ?></p>
+                                <p class="text-2xs md:text-sm text-center uppercase"><?php echo $article['marque']; ?></p>
+                            </div>
+
+                        </a>
+
                     </div>
                 <?php } ?>
             </div>

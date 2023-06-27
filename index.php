@@ -27,8 +27,11 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'deconnexion':
                 disconnectUser();
                 break;
-            case 'test':
-                getPromoArticles();
+            case 'cannePage':
+                cannePage();
+                break;
+            case 'moulinetPage':
+                moulinetPage();
                 break;
             default:
             home();
