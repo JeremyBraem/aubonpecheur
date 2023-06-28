@@ -301,6 +301,36 @@ class AppatRepository extends connectBdd
         return $appats;
     }
 
+    public function getAppatById($id_appat)
+    {
+        $req = $this->bdd->prepare("SELECT *, categorie.*, type_appat.*, marque.*
+        FROM appat
+        INNER JOIN categorie ON appat.id_categorie = categorie.id_categorie
+        INNER JOIN type_appat ON appat.id_type_appat = type_appat.id_type_appat
+        INNER JOIN marque ON appat.id_marque = marque.id_marque
+        WHERE id_appat = ?
+        ");
+
+        $req->execute([$id_appat]);
+        $datas = $req->fetchAll();
+
+        foreach ($datas as $data)
+        {
+            $appat = new Appat();
+            $appat->setIdAppat($data['id_appat']);
+            $appat->setNomAppat($data['nom_appat']);
+            $appat->setDetailAppat($data['detail_appat']);
+            $appat->setDescriptionAppat($data['description_appat']);
+            $appat->setPromoAppat($data['promo_appat']);
+            $appat->setStockAppat($data['stock_appat']);
+            $appat->setHorsStockAppat($data['hors_stock_appat']);
+            $appat->setCategorieAppat($data['nom_categorie']);
+            $appat->setTypeAppat($data['nom_type_appat']);
+            $appat->setMarqueAppat($data['nom_marque']);
+        }
+        return $appat;
+    }
+
     public function deleteAppat($id_appat):bool
     {
         try 

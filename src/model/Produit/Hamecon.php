@@ -321,6 +321,37 @@ class HameconRepository extends connectBdd
         return $hamecons;
     }
 
+    public function getHameconById($id_hamecon)
+    {
+        $req = $this->bdd->prepare("SELECT *, categorie.*, type_hamecon.*, marque.*
+        FROM hamecon
+        INNER JOIN categorie ON hamecon.id_categorie = categorie.id_categorie
+        INNER JOIN type_hamecon ON hamecon.id_type_hamecon = type_hamecon.id_type_hamecon
+        INNER JOIN marque ON hamecon.id_marque = marque.id_marque
+        WHERE id_hamecon = ?
+        ");
+
+        $req->execute([$id_hamecon]);
+        $datas = $req->fetchAll();
+
+        foreach ($datas as $data)
+        {
+            $hamecon = new Hamecon();
+            $hamecon->setIdHamecon($data['id_hamecon']);
+            $hamecon->setNomHamecon($data['nom_hamecon']);
+            $hamecon->setPoidsHamecon($data['poids_hamecon']);
+            $hamecon->setLongueurHamecon($data['longueur_hamecon']);
+            $hamecon->setDescriptionHamecon($data['description_hamecon']);
+            $hamecon->setPromoHamecon($data['promo_hamecon']);
+            $hamecon->setStockHamecon($data['stock_hamecon']);
+            $hamecon->setHorsStockHamecon($data['hors_stock_hamecon']);
+            $hamecon->setCategorieHamecon($data['nom_categorie']);
+            $hamecon->setTypeHamecon($data['nom_type_hamecon']);
+            $hamecon->setMarqueHamecon($data['nom_marque']);
+        }
+        return $hamecon;
+    }
+
     public function deleteHamecon($id_hamecon):bool
     {
         try 

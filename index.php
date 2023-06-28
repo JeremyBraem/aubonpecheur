@@ -9,7 +9,7 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'accueil':
                 home();
                 break;
-            case 'page':
+            case 'articlePage':
                 articlePage();
                 break;
             case 'login':
@@ -32,6 +32,27 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
                 break;
             case 'moulinetPage':
                 moulinetPage();
+                break;
+            case 'hameconPage':
+                hameconPage();
+                break;
+            case 'leurrePage':
+                leurrePage();
+                break;
+            case 'plombPage':
+                plombPage();
+                break;
+            case 'appatPage':
+                appatPage();
+                break;
+            case 'equipementPage':
+                equipementPage();
+                break;
+            case 'lignePage':
+                lignePage();
+                break;
+            case 'filtre':
+                filtre();
                 break;
             default:
             home();

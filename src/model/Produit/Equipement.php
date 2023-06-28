@@ -301,6 +301,36 @@ class EquipementRepository extends connectBdd
         return $equipements;
     }
 
+    public function getEquipementById($id_equipement)
+    {
+        $req = $this->bdd->prepare("SELECT *, categorie.*, type_equipement.*, marque.*
+        FROM equipement
+        INNER JOIN categorie ON equipement.id_categorie = categorie.id_categorie
+        INNER JOIN type_equipement ON equipement.id_type_equipement = type_equipement.id_type_equipement
+        INNER JOIN marque ON equipement.id_marque = marque.id_marque
+        WHERE id_equipement = ?
+        ");
+
+        $req->execute([$id_equipement]);
+        $datas = $req->fetchAll();
+
+        foreach ($datas as $data)
+        {
+            $equipement = new Equipement();
+            $equipement->setIdEquipement($data['id_equipement']);
+            $equipement->setNomEquipement($data['nom_equipement']);
+            $equipement->setDetailEquipement($data['detail_equipement']);
+            $equipement->setDescriptionEquipement($data['description_equipement']);
+            $equipement->setPromoEquipement($data['promo_equipement']);
+            $equipement->setStockEquipement($data['stock_equipement']);
+            $equipement->setHorsStockEquipement($data['hors_stock_equipement']);
+            $equipement->setCategorieEquipement($data['nom_categorie']);
+            $equipement->setTypeEquipement($data['nom_type_equipement']);
+            $equipement->setMarqueEquipement($data['nom_marque']);
+        }
+        return $equipement;
+    }
+
     public function deleteEquipement($id_equipement):bool
     {
         try 

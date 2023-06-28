@@ -343,6 +343,38 @@ class FeederRepository extends connectBdd
         return $feeders;
     }
 
+    public function getFeederById($id_feeder)
+    {
+        $req = $this->bdd->prepare("SELECT *, categorie.*, type_feeder.*, marque.*
+        FROM feeder
+        INNER JOIN categorie ON feeder.id_categorie = categorie.id_categorie
+        INNER JOIN type_feeder ON feeder.id_type_feeder = type_feeder.id_type_feeder
+        INNER JOIN marque ON feeder.id_marque = marque.id_marque
+        WHERE id_feeder = ?
+        ");
+
+        $req->execute([$id_feeder]);
+        $datas = $req->fetchAll();
+
+        foreach ($datas as $data)
+        {
+            $feeder = new Feeder();
+            $feeder->setIdFeeder($data['id_feeder']);
+            $feeder->setNomFeeder($data['nom_feeder']);
+            $feeder->setPoidsFeeder($data['poids_feeder']);
+            $feeder->setLongueurFeeder($data['longueur_feeder']);
+            $feeder->setDiametreFeeder($data['diametre_feeder']);
+            $feeder->setDescriptionFeeder($data['description_feeder']);
+            $feeder->setPromoFeeder($data['promo_feeder']);
+            $feeder->setStockFeeder($data['stock_feeder']);
+            $feeder->setHorsStockFeeder($data['hors_stock_feeder']);
+            $feeder->setCategorieFeeder($data['nom_categorie']);
+            $feeder->setTypeFeeder($data['nom_type_feeder']);
+            $feeder->setMarqueFeeder($data['nom_marque']);
+        }
+        return $feeder;
+    }
+
     public function deleteFeeder($id_feeder):bool
     {
         try 
