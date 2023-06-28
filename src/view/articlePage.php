@@ -1,4 +1,3 @@
-<!-- <?php var_dump($articles); ?> -->
 <!DOCTYPE html>
 <html lang="en">
 

@@ -222,7 +222,7 @@
                         <label for="cat-moulinet">Ligne</label>
                     </div>
                     <div>
-                        <input type="checkbox" value="feeder" class="filtre">
+                        <input type="checkbox" value="plomb" class="filtre">
                         <label for="cat-moulinet">Plomb</label>
                     </div>
         

@@ -711,29 +711,48 @@ function articlePage()
 function filtre()
 {
     $articles = getAllArticles();
-    // Récupérer les valeurs des filtres
+
     $filtres = isset($_POST['filtres']) ? json_decode($_POST['filtres']) : [];
-    // Filtrer les articles en fonction des filtres sélectionnés
+
     $articlesFiltres = [];
-    foreach ($articles as $article) {
-        // Vérifier si la marque de l'article ou le genre de l'article font partie des filtres sélectionnés
-        if (in_array($article['marque'], $filtres) || in_array($article['genre'], $filtres)) {
-            // Vérifier si les deux filtres sont cochés
-            if (count($filtres) >= 2) {
-                // Vérifier si l'article satisfait les deux filtres sans être de même type (marque ou genre)
-                if (in_array($article['marque'], $filtres) && in_array($article['genre'], $filtres) && $article['marque'] !== $article['genre']) {
-                    // Ajouter l'article à la liste des articles filtrés
-                    $articlesFiltres[] = $article;
-                }
-            } else {
-                // Ajouter l'article à la liste des articles filtrés
-                $articlesFiltres[] = $article;
-            }
+
+    $genresFiltres = [];
+    $marquesFiltres = [];
+
+    foreach ($filtres as $filtre) 
+    {
+        if (isGenre($filtre)) 
+        {
+            $genresFiltres[] = $filtre;
+        } 
+        elseif (isMarque($filtre)) 
+        {
+            $marquesFiltres[] = $filtre;
         }
     }
 
-    foreach ($articlesFiltres as $articleFiltred) {
-        // Ajouter ici le code HTML pour afficher les détails de l'article
+    // Vérifier si des genres sont sélectionnés
+    $isGenresSelected = !empty($genresFiltres);
+
+    // Vérifier si des marques sont sélectionnées
+    $isMarquesSelected = !empty($marquesFiltres);
+
+    foreach ($articles as $article) 
+    {
+        // Vérifier si le genre de l'article correspond aux genres sélectionnés ou s'il n'y a pas de genre sélectionné
+        $isGenreMatch = in_array($article['genre'], $genresFiltres) || !$isGenresSelected;
+
+        // Vérifier si la marque de l'article correspond aux marques sélectionnées ou s'il n'y a pas de marque sélectionnée
+        $isMarqueMatch = in_array($article['marque'], $marquesFiltres) || !$isMarquesSelected;
+
+        if ($isGenreMatch && $isMarqueMatch) 
+        {
+            $articlesFiltres[] = $article;
+        }
+    }
+
+    foreach ($articlesFiltres as $articleFiltred) 
+    {
         echo '<a href="index.php?action='. $articleFiltred['genre'] . 'Page&id=' . $articleFiltred['id'] .'">';
         echo '<div class="' . $articleFiltred['type'] . ' article" >';
         echo '<div>';
@@ -747,6 +766,32 @@ function filtre()
         echo '</a>';
     }
 }
+
+function isGenre($filtre)
+{
+    $genres = ['canne', 'moulinet', 'leurre', 'hamecon', 'ligne', 'appat', 'equipement', 'plomb'];
+
+    return in_array($filtre, $genres);
+}
+
+function isMarque($filtre)
+{
+    $allMarques = viewAllMarque();
+
+    $nomMarque = [];
+
+    foreach($allMarques as $marque)
+    {
+        $nomMarque[] = $marque->getNomMarque();
+    }
+
+    $marques = $nomMarque;
+
+    return in_array($filtre, $marques);
+}
+
+
+
 
 function loginPage()
 {
@@ -779,7 +824,9 @@ function signUpTraitement()
         if(!empty($_POST['email']))
         {
             $emailUser = htmlspecialchars($_POST['email']);
+
             $userRepository = new UserRepository();
+
             $user = $userRepository->findByEmail($emailUser);
 
             if ($user == [])
