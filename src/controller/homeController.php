@@ -301,6 +301,7 @@ function getAllArticles()
                 'image' => $imgCannes->getNomImageCanne(),
                 'marque' => $canne->getMarqueCanne(),
                 'type' => $canne->getTypeCanne(),
+                'categorie' => $canne->getCategorieCanne(),
             ];
         }
         else
@@ -322,6 +323,8 @@ function getAllArticles()
                 'image' => $imgMoulinet->getNomImageMoulinet(),
                 'marque' => $moulinet->getMarqueMoulinet(),
                 'type' => $moulinet->getTypeMoulinet(),
+                'categorie' => $moulinet->getCategorieMoulinet(),
+
             ];
         }
         else
@@ -345,6 +348,8 @@ function getAllArticles()
                 'image' => $imgHamecon->getNomImageHamecon(),
                 'marque' => $hamecon->getMarqueHamecon(),
                 'type' => $hamecon->getTypeHamecon(),
+                'categorie' => $hamecon->getCategorieHamecon(),
+
             ];
         }
         else
@@ -368,6 +373,8 @@ function getAllArticles()
                 'image' => $imgLeurre->getNomImageLeurre(),
                 'marque' => $leurre->getMarqueLeurre(),
                 'type' => $leurre->getTypeLeurre(),
+                'categorie' => $leurre->getCategorieLeurre(),
+
             ];
         }
         else
@@ -391,6 +398,7 @@ function getAllArticles()
                 'image' => $imgLigne->getNomImageLigne(),
                 'marque' => $ligne->getMarqueLigne(),
                 'type' => $ligne->getTypeLigne(),
+                'categorie' => $ligne->getCategorieLigne(),
             ];
         }
         else
@@ -413,7 +421,8 @@ function getAllArticles()
                 'nom' => $equipement->getNomEquipement(),
                 'image' => $imgEquipement->getNomImageEquipement(),
                 'marque' => $equipement->getMarqueEquipement(),
-                'type' => $equipement->getTypeEquipement()
+                'type' => $equipement->getTypeEquipement(),
+                'categorie' => $equipement->getCategorieEquipement(),
             ];
         }
         else
@@ -437,6 +446,8 @@ function getAllArticles()
                 'image' => $imgFeeder->getNomImageFeeder(),
                 'marque' => $feeder->getMarqueFeeder(),
                 'type' => $feeder->getTypeFeeder(),
+                'categorie' => $feeder->getCategorieFeeder(),
+
             ];
         }
         else
@@ -459,7 +470,8 @@ function getAllArticles()
                 'nom' => $appat->getNomAppat(),
                 'image' => $imgAppat->getNomImageAppat(),
                 'marque' => $appat->getMarqueAppat(),
-                'type' => $appat->getTypeAppat()
+                'type' => $appat->getTypeAppat(),
+                'categorie' => $appat->getCategorieAppat(),
             ];
         }
         else
@@ -682,11 +694,33 @@ function viewAllMarque()
 
 function viewAllType()
 {
+    $allTypes = [];
+
     $typeMoulinetRepo = new TypemoulinetRepository;
-    $typeMoulinets = $typeMoulinetRepo->getAllTypemoulinet();
+    $allTypes[] = $typeMoulinetRepo->getAllTypemoulinet();
 
     $typeCanneRepo = new TypeCanneRepository;
-    $typeCannes = $typeCanneRepo->getAllTypeCanne();
+    $allTypes[] = $typeCanneRepo->getAllTypeCanne();
+
+    $typeHameconRepo = new TypeHameconRepository;
+    $allTypes[] = $typeHameconRepo->getAllTypeHamecon();
+
+    $typeLeurreRepo = new TypeLeurreRepository;
+    $allTypes[] = $typeLeurreRepo->getAllTypeLeurre();
+
+    $typeLigneRepo = new TypeLigneRepository;
+    $allTypes[] = $typeLigneRepo->getAllTypeLigne();
+
+    $typeFeederRepo = new TypeFeederRepository;
+    $allTypes[] = $typeFeederRepo->getAllTypeFeeder();
+
+    $typeEquipementRepo = new TypeEquipementRepository;
+    $allTypes[] = $typeEquipementRepo->getAllTypeEquipement();
+
+    $typeAppatRepo = new TypeAppatRepository;
+    $allTypes[] = $typeAppatRepo->getAllTypeAppat();
+
+    return $allTypes;
 }
 
 function viewAllCategorie()
@@ -718,6 +752,7 @@ function filtre()
 
     $genresFiltres = [];
     $marquesFiltres = [];
+    $categoriesFiltres = [];
 
     foreach ($filtres as $filtre) 
     {
@@ -729,6 +764,10 @@ function filtre()
         {
             $marquesFiltres[] = $filtre;
         }
+        elseif(isCategorie($filtre))
+        {
+            $categoriesFiltres[] = $filtre;
+        }
     }
 
     // Vérifier si des genres sont sélectionnés
@@ -736,6 +775,9 @@ function filtre()
 
     // Vérifier si des marques sont sélectionnées
     $isMarquesSelected = !empty($marquesFiltres);
+
+    $isCategoriesSelected = !empty($categoriesFiltres);
+
 
     foreach ($articles as $article) 
     {
@@ -745,7 +787,9 @@ function filtre()
         // Vérifier si la marque de l'article correspond aux marques sélectionnées ou s'il n'y a pas de marque sélectionnée
         $isMarqueMatch = in_array($article['marque'], $marquesFiltres) || !$isMarquesSelected;
 
-        if ($isGenreMatch && $isMarqueMatch) 
+        $isCategorieMatch = in_array($article['categorie'], $categoriesFiltres) || !$isCategoriesSelected;
+
+        if ($isGenreMatch && $isMarqueMatch && $isCategorieMatch)
         {
             $articlesFiltres[] = $article;
         }
@@ -772,6 +816,22 @@ function isGenre($filtre)
     $genres = ['canne', 'moulinet', 'leurre', 'hamecon', 'ligne', 'appat', 'equipement', 'plomb'];
 
     return in_array($filtre, $genres);
+}
+
+function isCategorie($filtre)
+{
+    $allCategories = viewAllCategorie();
+
+    $nomCategorie = [];
+
+    foreach($allCategories as $categorie)
+    {
+        $nomCategorie[] = $categorie->getNomCategorie();
+    }
+
+    $categories = $nomCategorie;
+
+    return in_array($filtre, $categories);
 }
 
 function isMarque($filtre)

@@ -14,30 +14,35 @@
 
             <div class="flex flex-col bg-white">
 
-                <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Quantum</label>
-                </div>
+                <?php foreach ($marques as $marque) { ?>
+                    <div>
+                        <input type="checkbox" value="<?php echo $marque->getNomMarque(); ?>" class="filtre">
+                        <label><?php echo $marque->getNomMarque(); ?></label>
+                    </div>
+                <?php } ?>
 
-                <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Black Cat</label>
-                </div>
+            </div>
 
-                <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Zebco</label>
-                </div>
+        </div>
 
-                <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Browning</label>
-                </div>
+    </details>
 
-                <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Rhino</label>
-                </div>
+    <details class="bg-[#fcfcfc] py-3" style="border-top: 1px solid #000000;">
+
+        <summary class="list-none flex flex-wrap items-center">
+            <h3 class="">Categories ▼</h3>
+        </summary>
+
+        <div class="py-3">
+
+            <div class="flex flex-col bg-white">
+
+                <?php foreach ($categories as $categorie) { ?>
+                    <div>
+                        <input type="checkbox" value="<?php echo $categorie->getNomCategorie(); ?>" class="filtre">
+                        <label><?php echo $categorie->getNomCategorie(); ?></label>
+                    </div>
+                <?php } ?>
 
             </div>
 
@@ -53,91 +58,39 @@
 
         <div class="py-3">
 
-            <div class="flex flex-col bg-white">
-
-                <div>
-                    <input type="checkbox" id="scales" name="Coups">
-                    <label for="scales">Coups</label>
-                </div>
-
-                <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Carpe</label>
-                </div>
-
-                <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Carnassier</label>
-                </div>
-
-                <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Truite</label>
-                </div>
-
-                <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Sillure</label>
-                </div>
-
-                <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Feeder</label>
-                </div>
-
-            </div>
-
-        </div>
-
-    </details>
-
-    <details class="bg-[#fcfcfc] py-3" style="border-top: 1px solid #000000;">
-
-        <summary class="list-none flex flex-wrap items-center">
-            <h3 class="">Catégories ▼</h3>
-        </summary>
-
-        <div class="py-3">
-
             <div class="flex flex-col bg-white ">
-                <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Canne</label>
-                </div>
 
                 <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Moulinet</label>
+                    <input type="checkbox" value="canne" class="filtre">
+                    <label for="cat-canne">Canne</label>
                 </div>
-
                 <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Leurre</label>
+                    <input type="checkbox" value="moulinet" class="filtre">
+                    <label for="cat-moulinet">Moulinet</label>
                 </div>
-
                 <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Appat</label>
+                    <input type="checkbox" value="hamecon" class="filtre">
+                    <label for="cat-moulinet">Hamecon</label>
                 </div>
-
                 <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Feeder</label>
+                    <input type="checkbox" value="appat" class="filtre">
+                    <label for="cat-moulinet">Appat</label>
                 </div>
-
                 <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Ligne</label>
+                    <input type="checkbox" value="equipement" class="filtre">
+                    <label for="cat-moulinet">Equipement</label>
                 </div>
-
                 <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Hamecon</label>
+                    <input type="checkbox" value="leurre" class="filtre">
+                    <label for="cat-moulinet">Leurre</label>
                 </div>
-
                 <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Equipement</label>
+                    <input type="checkbox" value="ligne" class="filtre">
+                    <label for="cat-moulinet">Ligne</label>
+                </div>
+                <div>
+                    <input type="checkbox" value="plomb" class="filtre">
+                    <label for="cat-moulinet">Plomb</label>
                 </div>
 
             </div>
@@ -156,11 +109,11 @@
             </summary>
             <div class="py-3">
                 <div class="flex flex-col bg-white">
-                    <?php foreach($marques as $marque) { ?>
-                    <div>
-                        <input type="checkbox"  value="<?php echo $marque->getNomMarque(); ?>" class="filtre">
-                        <label><?php echo $marque->getNomMarque(); ?></label>
-                    </div>
+                    <?php foreach ($marques as $marque) { ?>
+                        <div>
+                            <input type="checkbox" value="<?php echo $marque->getNomMarque(); ?>" class="filtre">
+                            <label><?php echo $marque->getNomMarque(); ?></label>
+                        </div>
                     <?php } ?>
                 </div>
             </div>
@@ -169,19 +122,16 @@
     <div>
         <details class="bg-[#fcfcfc] py-3 p-5 w-52">
             <summary class="cursor-pointer list-none flex flex-wrap justify-center">
-                <h3 class="">Types ▼</h3>
+                <h3 class="">Catégories ▼</h3>
             </summary>
             <div class="py-3">
                 <div class="flex flex-col bg-white">
-                    <div>
-                        <input type="checkbox" value="coups">
-                        <label for="type-coups">Coups</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" value="carpe">
-                        <label for="type-carpe">Carpe</label>
-                    </div>
-                    <!-- Les autres types -->
+                    <?php foreach ($categories as $categorie) { ?>
+                        <div>
+                            <input type="checkbox" value="<?php echo $categorie->getNomCategorie(); ?>" class="filtre">
+                            <label><?php echo $categorie->getNomCategorie(); ?></label>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
         </details>
@@ -189,7 +139,7 @@
     <div>
         <details class="bg-[#fcfcfc] py-3 p-5 w-52">
             <summary class="list-none flex flex-wrap justify-center">
-                <h3 class="cursor-pointer">Catégories ▼</h3>
+                <h3 class="cursor-pointer">Types ▼</h3>
             </summary>
             <div class="py-3">
                 <div class="flex flex-col bg-white">
@@ -225,8 +175,6 @@
                         <input type="checkbox" value="plomb" class="filtre">
                         <label for="cat-moulinet">Plomb</label>
                     </div>
-        
-                    <!-- Les autres catégories -->
                 </div>
             </div>
         </details>

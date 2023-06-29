@@ -41,7 +41,7 @@
         <section>
 
             <div class="bg-[#fcfcfc] w-2/3 m-auto p-6">
-                <h1 class="text-center font-semibold">Nom catégories</h1>
+                <h1 class="text-center font-semibold">Tous les articles</h1>
             </div>
 
             <div class="bg-[#426EC2] p-1">
@@ -49,7 +49,7 @@
             </div>
 
             <div>
-                <div id="listeArticles" class="p-5 relative flex flex-wrap gap-7 items-center justify-center">
+                <div id="listeArticles" class="p-3 md:p-5 relative flex flex-wrap gap-5 md:gap-7 items-center justify-center">
                     <?php foreach ($articles as $article) { ?>
                         <a href="index.php?action=<?php echo $article['genre']; ?>Page&id=<?php echo $article['id']; ?>">
                             <div class="<?php echo $article['type']; ?> article">
