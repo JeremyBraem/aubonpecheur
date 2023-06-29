@@ -79,47 +79,8 @@
         <?php require_once('src/include/footer.php') ?>
     </footer>
 
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    let filtres = document.querySelectorAll('.filtre');
-
-    // Ajouter un écouteur d'événements sur les modifications des éléments de filtre
-    for (let i = 0; i < filtres.length; i++) {
-        filtres[i].addEventListener('change', function() {
-            handleFiltre(); // Appeler la fonction de filtrage lorsqu'un filtre est modifié
-        });
-    }
-
-    // Fonction de filtrage des articles
-    function handleFiltre() 
-    {
-        // Récupérer les valeurs des filtres sélectionnés
-        let valeursFiltres = Array.from(filtres).filter(function(filtre) 
-        {
-            return filtre.checked;
-        }).map(function(filtre) 
-        {
-            console.log(filtre.value)
-            return filtre.value;
-        });
-
-        // Envoyer une requête AJAX pour récupérer les articles filtrés
-        let xhr = new XMLHttpRequest();
-        xhr.open('POST', 'index.php?action=filtre', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                // Mettre à jour le contenu du conteneur avec les nouveaux articles
-                document.getElementById('listeArticles').innerHTML = xhr.responseText;
-            }
-        };
-        xhr.send('filtres=' + encodeURIComponent(JSON.stringify(valeursFiltres)));
-    }
-});
-
-</script>
+    <script src="assets/js/filtre.js"></script>
+    
 </body>
 
 </html>
