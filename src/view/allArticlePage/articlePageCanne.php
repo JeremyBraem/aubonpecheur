@@ -1,4 +1,3 @@
-<!-- <?php var_dump($allCannes); ?> -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -81,7 +80,6 @@
     </footer>
 
     <script src="assets/js/filtreArticle/filtreCanne.js"></script>
-    
-</body>
 
+</body>
 </html>

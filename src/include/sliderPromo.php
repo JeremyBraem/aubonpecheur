@@ -1,6 +1,6 @@
 <div class="flex items-center justify-center">
 
-    <button aria-label="slide backward" class="absolute z-30 left-3 xl:left-24 2xl:left-72 cursor-pointer" id="prevPromo">
+    <button aria-label="slide backward" class="absolute z-30 left-3 xl:left-12 2xl:left-72 cursor-pointer" id="prevPromo">
         <img class="w-5" src="assets/img/site/fleche.png">
     </button>
 
@@ -8,10 +8,10 @@
 
         <div class=" m-auto overflow-x-hidden overflow-y-hidden">
 
-            <div id="sliderPromo" class="h-full ml-2 flex md:w-[1000px] 2xl:w-[1600px] lg:gap-8 md:gap-6 gap-10 items-center justify-start transition ease-out duration-700">
+            <div id="sliderPromo" class="h-full ml-2 flex md:w-[1000px] lg:w-[1100px] 2xl:w-[1800px] lg:gap-8 md:gap-6 gap-10 items-center justify-start transition ease-out duration-700">
                 <?php foreach($promoArticles as $article) { ?>
                     <a href="index.php?action=<?php echo $article['type']; ?>Page&id=<?php echo $article['id']; ?>">
-                        <div class="relative w-56 md:h-80">
+                        <div class="w-56 md:h-80">
 
                             <div class="w-56">
                                 <img src="<?php echo $article['image']; ?>" class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;"/>
@@ -31,7 +31,7 @@
 
     </div>
 
-    <button aria-label="slide forward" class="absolute z-30 right-3 xl:right-24 2xl:right-72 cursor-pointer" id="nextPromo">
+    <button aria-label="slide forward" class="absolute z-30 right-3 xl:right-12 2xl:right-72 cursor-pointer" id="nextPromo">
         <img class="w-5" src="assets/img/site/159606.png">
     </button>
 

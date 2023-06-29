@@ -164,13 +164,14 @@
                 <div class="flex flex-col bg-white">
                     <?php foreach ($categories as $categorie) { ?>
                         <div>
-                            <input type="checkbox" value="<?php echo $categorie->getNomCategorie(); ?>" class="filtre">
+                            <input type="checkbox" id="<?php echo $categorie->getNomCategorie(); ?>" value="<?php echo $categorie->getNomCategorie(); ?>" class="filtre">
                             <label><?php echo $categorie->getNomCategorie(); ?></label>
                         </div>
                     <?php } ?>
                 </div>
             </div>
         </details>
+
     </div>
     <div>
         <details class="bg-[#fcfcfc] py-3 p-5 w-52">
@@ -181,7 +182,7 @@
                 <div class="flex flex-col bg-white">
                     <?php foreach ($typeCannes as $typeCanne) { ?>
                         <div>
-                            <input type="checkbox" value="<?php echo $typeCanne->getNomTypeCanne(); ?>" class="filtre">
+                            <input type="checkbox" id="<?php echo $typeCanne->getNomTypeCanne(); ?>" value="<?php echo $typeCanne->getNomTypeCanne(); ?>" class="filtre">
                             <label><?php echo $typeCanne->getNomTypeCanne(); ?></label>
                         </div>
                     <?php } ?>
@@ -251,6 +252,7 @@
             </div>
 
         </details>
+        
     </div>
 
 </div>

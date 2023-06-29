@@ -1,19 +1,17 @@
-// Récupérer tous les liens correspondant aux filtres
+// Récupérer tous les liens du menu correspondant aux filtres
 const filterLinks = document.querySelectorAll('.filter-link');
 
-// Ajouter un gestionnaire d'événement de clic sur chaque lien
+// Ajouter un gestionnaire d'événement de clic sur chaque lien du menu
 filterLinks.forEach(link => {
   link.addEventListener('click', function(event) {
     event.preventDefault(); // Empêcher le comportement par défaut du lien
 
     const checkboxValue = this.getAttribute('data-value'); // Récupérer la valeur du filtre
 
-    // Cocher ou décocher la checkbox correspondante
+    // Trouver la case à cocher correspondante en utilisant la valeur du filtre
     const checkbox = document.querySelector(`input[value="${checkboxValue}"]`);
-    checkbox.checked = !checkbox.checked;
     
-    // Soumettre le formulaire (si nécessaire)
-    const filterForm = document.getElementById('filter-form');
-    filterForm.submit();
+    // Cocher ou décocher la case à cocher correspondante
+    checkbox.checked = !checkbox.checked;
   });
 });
