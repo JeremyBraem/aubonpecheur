@@ -54,6 +54,12 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             case 'filtre':
                 filtre();
                 break;
+            case 'allCanne':
+                allCannePage();
+                break;
+            case 'filtreCanne':
+                filtreCanne();
+                break;
             default:
             home();
         }

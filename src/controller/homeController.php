@@ -850,7 +850,225 @@ function isMarque($filtre)
     return in_array($filtre, $marques);
 }
 
+function allCannePage()
+{
+    $canneRepo = new CanneRepository;
+    $cannes = $canneRepo->getAllCanne();
 
+    foreach ($cannes as $canne)
+    {
+        if($canne)
+        {
+            $imgCanneRepo = new ImageCanneRepository;
+            $imgCannes = $imgCanneRepo->getImageByCanne($canne->getIdCanne());
+            $allCannes[] = [
+                'genre' => 'canne',
+                'id' => $canne->getIdCanne(),
+                'nom' => $canne->getNomCanne(),
+                'image' => $imgCannes->getNomImageCanne(),
+                'marque' => $canne->getMarqueCanne(),
+                'type' => $canne->getTypeCanne(),
+                'categorie' => $canne->getCategorieCanne(),
+            ];
+        }
+        else
+        {
+            $allCannes[] = [''];
+        }
+    }
+
+    $categories = viewAllCategorie();
+
+    $typeCanneRepo = new TypeCanneRepository;
+    $typeCannes = $typeCanneRepo->getAllTypeCanne();
+
+    $marques = viewAllMarque();
+    
+    foreach($cannes as $canne)
+    {
+        $longueursCanne[] = $canne->getLongueurCanne();
+    }
+
+    foreach($cannes as $canne)
+    {
+        $poidsCanne[] = $canne->getPoidsCanne();
+    }
+    
+    include ('src/view/allArticlePage/articlePageCanne.php');
+}
+
+function filtreCanne()
+{
+    $canneRepo = new CanneRepository;
+    $articlesCanne = $canneRepo->getAllCanne();
+
+    foreach ($articlesCanne as $canne)
+    {
+        if($canne)
+        {
+            $imgCanneRepo = new ImageCanneRepository;
+            $imgCannes = $imgCanneRepo->getImageByCanne($canne->getIdCanne());
+            $allCannes[] = [
+                'genre' => 'canne',
+                'id' => $canne->getIdCanne(),
+                'nom' => $canne->getNomCanne(),
+                'image' => $imgCannes->getNomImageCanne(),
+                'marque' => $canne->getMarqueCanne(),
+                'type' => $canne->getTypeCanne(),
+                'categorie' => $canne->getCategorieCanne(),
+                'longueur' => $canne->getLongueurCanne(),
+                'poids' => $canne->getPoidsCanne(),
+            ];
+        }
+        else
+        {
+            $allCannes[] = [''];
+        }
+    }
+
+    $filtresCanne = isset($_POST['filtres']) ? json_decode($_POST['filtres']) : [];
+
+    $articlesFiltresCanne = [];
+
+    $typesFiltresCanne = [];
+    $marquesFiltresCanne = [];
+    $categoriesFiltresCanne = [];
+    $longueursFiltresCanne = [];
+    $longueurFiltre = null;
+    $poidsFiltresCanne = [];
+    $poidFiltre = null;
+
+    foreach ($filtresCanne as $filtreCanne) 
+    {
+        if (isCategorie($filtreCanne)) 
+        {
+            $categoriesFiltresCanne[] = $filtreCanne;
+        } 
+        elseif (isMarque($filtreCanne)) 
+        {
+            $marquesFiltresCanne[] = $filtreCanne;
+        }
+        elseif(isTypeCanne($filtreCanne))
+        {
+            $typesFiltresCanne[] = $filtreCanne;
+        }
+        elseif (isLongueurCanne($filtreCanne)) 
+        {
+            $longueursFiltresCanne[] = $filtreCanne;
+        }
+        elseif (isPoidsCanne($filtreCanne)) 
+        {
+            $poidsFiltresCanne[] = $filtreCanne;
+        }
+        
+    }
+
+    $isTypesFiltresCanne = !empty($typesFiltresCanne);
+
+    $isMarquesSelected = !empty($marquesFiltresCanne);
+
+    $isCategoriesSelected = !empty($categoriesFiltresCanne);
+
+    foreach ($allCannes as $article) 
+    {
+        $isTypeMatch = in_array($article['type'], $typesFiltresCanne) || !$isTypesFiltresCanne;
+
+        $isMarqueMatch = in_array($article['marque'], $marquesFiltresCanne) || !$isMarquesSelected;
+
+        $isCategorieMatch = in_array($article['categorie'], $categoriesFiltresCanne) || !$isCategoriesSelected;
+        
+        $isLongueurMatch = true;
+
+        $isPoidMatch = true;
+
+        if ($longueursFiltresCanne)
+        {
+            $isLongueurMatch = false;
+            foreach($longueursFiltresCanne as $longueurFiltre)
+            {
+                $longueurArticle = $article['longueur'];
+                $longueurRange = explode('-', $longueurFiltre);
+                $longueurMin = intval($longueurRange[0]);
+                $longueurMax = intval($longueurRange[1]);
+                if ($longueurArticle >= $longueurMin && $longueurArticle <= $longueurMax)
+                {
+                    $isLongueurMatch = true;
+                    break;
+                }
+            }
+        }
+
+        if ($poidsFiltresCanne)
+        {
+            $isPoidMatch = false;
+            foreach($poidsFiltresCanne as $poidFiltre)
+            {
+                $poidArticle = $article['poids'];
+                $poidRange = explode('-', $poidFiltre);
+                $poidMin = intval($poidRange[0]);
+                $poidMax = intval($poidRange[1]);
+                if ($poidArticle >= $poidMin && $poidArticle <= $poidMax)
+                {
+                    $isPoidMatch = true;
+                    break;
+                }
+            }
+        }
+
+
+        if ($isTypeMatch && $isMarqueMatch && $isCategorieMatch && $isLongueurMatch && $isPoidMatch) 
+        {
+            $articlesFiltresCanne[] = $article;
+        }
+        
+    }
+
+    foreach ($articlesFiltresCanne as $articleFiltred) 
+    {
+        echo '<a href="index.php?action='. $articleFiltred['genre'] . 'Page&id=' . $articleFiltred['id'] .'">';
+        echo '<div class="' . $articleFiltred['type'] . ' article" >';
+        echo '<div>';
+        echo '<img src="' . $articleFiltred['image'] . '" alt="' . $articleFiltred['nom'] . '" class="object-cover object-center w-32 h-32 md:w-56 md:h-56" style="border: 1px solid #000000;">';
+        echo '</div>';
+        echo '<div>';
+        echo '<p class="text-xs md:text-lg text-center">' . $articleFiltred['nom'] . '</p>';
+        echo '<p class="text-2xs md:text-sm text-center uppercase">' . $articleFiltred['marque'] . '</p>';
+        echo '</div>';
+        echo '</div>';
+        echo '</a>';
+    }
+}
+
+function isTypeCanne($filtre)
+{
+    $typeCanneRepo = new TypeCanneRepository;
+    $allTypeCannes = $typeCanneRepo->getAllTypeCanne();
+
+    $nomType = [];
+
+    foreach($allTypeCannes as $type)
+    {
+        $nomType[] = $type->getNomTypeCanne();
+    }
+
+    $types = $nomType;
+
+    return in_array($filtre, $types);
+}
+
+function isLongueurCanne($filtre)
+{
+    // Vérifier si le filtre correspond au format de longueur, par exemple "5m-10m"
+    $pattern = '/^\d+m-\d+m$/';
+    return preg_match($pattern, $filtre);
+}
+
+function isPoidsCanne($filtre)
+{
+    // Vérifier si le filtre correspond au format de longueur, par exemple "5m-10m"
+    $pattern = '/^\d+kg-\d+kg$/';
+    return preg_match($pattern, $filtre);
+}
 
 
 function loginPage()

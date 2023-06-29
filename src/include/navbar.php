@@ -13,7 +13,7 @@
         <li><a class="text-m text-white" href="#">Promotion</a></li>
         <li><a class="text-m text-white" href="#">Marque</a></li>
         <li><a class="text-m text-white" href="#">Carpe</a></li>
-        <li><a class="text-m text-white" href="#">Coup</a></li>
+        <li><a data-value="Coup" class="text-m text-white" href="index.php?action=allCanne">Coup</a></li>
         <li><a class="text-m text-white" href="#">Truite</a></li>
         <li><a class="text-m text-white" href="#">Carnassier</a></li>
         <li><a class="text-m text-white" href="#">Sillure</a></li>
@@ -49,7 +49,7 @@
                     <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Carpe</a>
                 </li>
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Coup</a>
+                    <a data-value="coups" class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="index.php?action=allCanne">Coup</a>
                 </li>
                 <li class="mb-1">
                     <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Carnassier</a>
@@ -77,3 +77,4 @@
     </nav>
 </div>
 <script src="assets/js/navbarBurger.js"></script>
+<script src="assets/js/checked.js"></script>
