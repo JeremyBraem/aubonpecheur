@@ -14,13 +14,13 @@
         <li><a class="text-m text-white" href="index.php">Accueil</a></li>
         <li><a class="text-m text-white" href="">Promotion</a></li>
         <li><a class="text-m text-white" href="">Marque</a></li>
-        <li><a class="text-m text-white" href="">Carpe</a></li>
-        <li><a class="text-m text-white" href="">Coup</a></li>
-        <li><a class="text-m text-white" href="">Truite</a></li>
-        <li><a class="text-m text-white" href="">Carnassier</a></li>
-        <li><a class="text-m text-white" href="">Sillure</a></li>
-        <li><a class="text-m text-white" href="">Feeder</a></li>
-        <li><a class="text-m text-white" href="">Equipement</a></li>
+        <li><a class="text-m text-white" href="index.php?action=article&categorie=Carpe">Carpe</a></li>
+        <li><a class="text-m text-white" href="index.php?action=article&categorie=Coup">Coup</a></li>
+        <li><a class="text-m text-white" href="index.php?action=article&categorie=Truite">Truite</a></li>
+        <li><a class="text-m text-white" href="index.php?action=article&categorie=Carnassier">Carnassier</a></li>
+        <li><a class="text-m text-white" href="index.php?action=article&categorie=Silure">Silure</a></li>
+        <li><a class="text-m text-white" href="index.php?action=article&categorie=Feeder">Feeder</a></li>
+        <li><a class="text-m text-white" href="index.php?action=article&categorie=Coup">Equipement</a></li>
     </ul>
 
 </nav>
@@ -42,11 +42,11 @@
             <ul>
 
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Accueil</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="index.php">Accueil</a>
                 </li>
 
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Promotion</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="index.php?action=promoPage">Promotion</a>
                 </li>
 
                 <li class="mb-1">
@@ -54,27 +54,27 @@
                 </li>
 
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="">Carpe</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="index.php?action=article&categorie=Carpe">Carpe</a>
                 </li>
 
                 <li class="mb-1">
-                    <a data-value="Coup" class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="">Coup</a>
+                    <a data-value="Coup" class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="index.php?action=article&categorie=Coup">Coup</a>
                 </li>
 
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Carnassier</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="index.php?action=article&categorie=Carnassier">Carnassier</a>
                 </li>
 
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Truite</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="index.php?action=article&categorie=Truite">Truite</a>
                 </li>
 
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Sillure</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="index.php?action=article&categorie=Silure">Sillure</a>
                 </li>
 
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Feeder</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="index.php?action=article&categorie=Feeder">Feeder</a>
                 </li>
 
                 <li class="mb-1">

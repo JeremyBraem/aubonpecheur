@@ -421,7 +421,41 @@ class MoulinetRepository extends connectBdd
             // Gérez l'erreur de la requête
             // Retournez une valeur par défaut ou lancez une exception, selon vos besoins
         }
-        
+    }
+
+    public function getMoulinetByCategorie($id_categorie)
+    {
+    
+        $req = $this->bdd->prepare("SELECT *, categorie.*, type_moulinet.*, marque.*
+        FROM moulinet
+        INNER JOIN categorie ON moulinet.id_categorie = categorie.id_categorie
+        INNER JOIN type_moulinet ON moulinet.id_type_moulinet = type_moulinet.id_type_moulinet
+        INNER JOIN marque ON moulinet.id_marque = marque.id_marque
+        WHERE moulinet.id_categorie = ?");
+
+        $req->execute([$id_categorie]);
+        $datas = $req->fetchAll();
+
+        $moulinets = [];
+
+        foreach ($datas as $data)
+        {
+            $moulinet = new Moulinet();
+            $moulinet->setIdMoulinet($data['id_moulinet']);
+            $moulinet->setNomMoulinet($data['nom_moulinet']);
+            $moulinet->setPoidsMoulinet($data['poids_moulinet']);
+            $moulinet->setRatioMoulinet($data['ratio_moulinet']);
+            $moulinet->setDescriptionMoulinet($data['description_moulinet']);
+            $moulinet->setPromoMoulinet($data['promo_moulinet']);
+            $moulinet->setStockMoulinet($data['stock_moulinet']);
+            $moulinet->setHorsStockMoulinet($data['hors_stock_moulinet']);
+            $moulinet->setCategorieMoulinet($data['nom_categorie']);
+            $moulinet->setTypeMoulinet($data['nom_type_moulinet']);
+            $moulinet->setMarqueMoulinet($data['nom_marque']);
+
+            $moulinets[] = $moulinet;
+        }
+        return $moulinets;
     }
 }
 

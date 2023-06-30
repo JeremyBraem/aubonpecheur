@@ -399,7 +399,38 @@ class AppatRepository extends connectBdd
             // Gérez l'erreur de la requête
             // Retournez une valeur par défaut ou lancez une exception, selon vos besoins
         }
-        
+    }
+
+    public function getAppatByCategorie($id_categorie)
+    {
+        $req = $this->bdd->prepare("SELECT *, categorie.*, type_appat.*, marque.*
+        FROM appat
+        INNER JOIN categorie ON appat.id_categorie = categorie.id_categorie
+        INNER JOIN type_appat ON appat.id_type_appat = type_appat.id_type_appat
+        INNER JOIN marque ON appat.id_marque = marque.id_marque
+        WHERE appat.id_categorie = ?");
+
+        $req->execute([$id_categorie]);
+        $datas = $req->fetchAll();
+        $appats = [];
+
+        foreach ($datas as $data) 
+        {
+            $appat = new Appat();
+            $appat->setIdAppat($data['id_appat']);
+            $appat->setNomAppat($data['nom_appat']);
+            $appat->setDetailAppat($data['detail_appat']);
+            $appat->setDescriptionAppat($data['description_appat']);
+            $appat->setPromoAppat($data['promo_appat']);
+            $appat->setStockAppat($data['stock_appat']);
+            $appat->setHorsStockAppat($data['hors_stock_appat']);
+            $appat->setCategorieAppat($data['nom_categorie']);
+            $appat->setTypeAppat($data['nom_type_appat']);
+            $appat->setMarqueAppat($data['nom_marque']);
+
+            $appats[] = $appat;
+        }
+        return $appats;
     }
 }
 

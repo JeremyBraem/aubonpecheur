@@ -41,7 +41,7 @@
         <section>
 
             <div class="bg-[#fcfcfc] w-2/3 m-auto p-6">
-                <h1 class="text-center font-semibold">Tous les articles</h1>
+                <h1 class="text-center font-semibold">Tous les articles en Promotion</h1>
             </div>
 
             <div class="bg-[#426EC2] p-1">
@@ -51,13 +51,12 @@
             <div>
 
                 <div id="listeArticles" class="p-3 md:p-5 relative flex flex-wrap gap-5 md:gap-7 items-center justify-center">
-
-                    <?php foreach ($articles as $article) { ?>
+                    <?php foreach ($articlesPromo as $article) { ?> 
 
                         <?php if($article != ['']) { ?>
 
                             <a href="index.php?action=<?php echo $article['genre']; ?>Page&id=<?php echo $article['id']; ?>">
-                                
+
                                 <div class="<?php echo $article['type']; ?> article">
 
                                     <div>
@@ -89,7 +88,7 @@
         <?php require_once('src/include/footer.php') ?>
     </footer>
 
-    <script src="assets/js/filtre.js"></script>
+    <script src="assets/js/filtrePromo.js"></script>
     
 </body>
 

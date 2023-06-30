@@ -92,7 +92,6 @@ class Canne
         $this->id_canne = $id_canne;
     }
 
-
     public function getNomCanne(): string
     {
         return $this->nom_canne;
@@ -206,7 +205,8 @@ class CanneRepository extends connectBdd
         $req = $this->bdd->prepare("INSERT INTO canne (nom_canne, poids_canne, longueur_canne, description_canne, promo_canne, stock_canne, hors_stock_canne, id_categorie, id_type_canne, id_marque)
         VALUES (?,?,?,?,?,?,?,?,?,?)");
 
-        $req->execute([
+        $req->execute
+        ([
             $canne->getNomCanne(),
             $canne->getPoidsCanne(),
             $canne->getLongueurCanne(),
@@ -218,7 +218,7 @@ class CanneRepository extends connectBdd
             $canne->getTypeCanne(),
             $canne->getMarqueCanne()
         ]);
-        
+
         return $canne;
     }
 
@@ -419,8 +419,40 @@ class CanneRepository extends connectBdd
             $lastId = $row['last_id'];
 
             return $lastId;
-        }   
+        }
+    }
+
+    public function getCanneByCategorie($id_categorie)
+    {
+        $req = $this->bdd->prepare("SELECT *, categorie.*, type_canne.*, marque.*
+        FROM canne
+        INNER JOIN categorie ON canne.id_categorie = categorie.id_categorie
+        INNER JOIN type_canne ON canne.id_type_canne = type_canne.id_type_canne
+        INNER JOIN marque ON canne.id_marque = marque.id_marque
+        WHERE canne.id_categorie = ?");
+
+        $req->execute([$id_categorie]);
+        $datas = $req->fetchAll();
+
+        $cannes = [];
+
+        foreach ($datas as $data)
+        {
+            $canne = new Canne();
+            $canne->setIdCanne($data['id_canne']);
+            $canne->setNomCanne($data['nom_canne']);
+            $canne->setPoidsCanne($data['poids_canne']);
+            $canne->setLongueurCanne($data['longueur_canne']);
+            $canne->setDescriptionCanne($data['description_canne']);
+            $canne->setPromoCanne($data['promo_canne']);
+            $canne->setStockCanne($data['stock_canne']);
+            $canne->setHorsStockCanne($data['hors_stock_canne']);
+            $canne->setCategorieCanne($data['nom_categorie']);
+            $canne->setTypeCanne($data['nom_type_canne']);
+            $canne->setMarqueCanne($data['nom_marque']);
+
+            $cannes[] = $canne;
+        }
+        return $cannes;
     }
 }
-
-

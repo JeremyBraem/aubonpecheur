@@ -41,18 +41,17 @@
         <section>
 
             <div class="bg-[#fcfcfc] w-2/3 m-auto p-6">
-                <h1 class="text-center font-semibold">Tous les articles</h1>
+                <h1 class="text-center font-semibold">Tous les articles "<?php echo $_GET['categorie'] ?>"</h1>
             </div>
 
             <div class="bg-[#426EC2] p-1">
-                <?php require_once('src/include/filtre.php'); ?>
+                <?php require_once('src/include/filtreCate.php'); ?>
             </div>
 
             <div>
-
                 <div id="listeArticles" class="p-3 md:p-5 relative flex flex-wrap gap-5 md:gap-7 items-center justify-center">
-
-                    <?php foreach ($articles as $article) { ?>
+                    
+                    <?php foreach ($combinedArticles as $article) { ?>
 
                         <?php if($article != ['']) { ?>
 
@@ -73,9 +72,7 @@
 
                             </a>
 
-                        <?php } else { echo ''; } ?>
-
-                    <?php } ?>
+                        <?php } else { echo ''; } } ?>
 
                 </div>
 
@@ -89,7 +86,7 @@
         <?php require_once('src/include/footer.php') ?>
     </footer>
 
-    <script src="assets/js/filtre.js"></script>
+    <script src="assets/js/filtreByCat.js"></script>
     
 </body>
 

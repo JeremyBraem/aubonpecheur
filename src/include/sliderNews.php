@@ -9,10 +9,12 @@
         <div class="m-auto overflow-x-hidden overflow-y-hidden">
 
             <div id="slider" class="h-full ml-2 flex md:w-[1000px] xl:w-[1100px] 2xl:w-[1800px] lg:gap-8 md:gap-6 gap-10 items-center justify-start transition ease-out duration-700">
+
                 <?php foreach($combinedArticles as $article) { ?>
+
                     <div class="relative w-56 md:h-80">
 
-                        <a href="index.php?action=<?php echo $article['type']; ?>Page&id=<?php echo $article['id']; ?>">
+                        <a href="index.php?action=<?php echo $article['genre']; ?>Page&id=<?php echo $article['id']; ?>">
 
                             <div class="w-56">
                                 <img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="<?php echo $article['image']; ?>"/>
@@ -26,8 +28,11 @@
                         </a>
 
                     </div>
+
                 <?php } ?>
+
             </div>
+            
         </div>
 
     </div>

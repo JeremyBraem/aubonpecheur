@@ -441,7 +441,42 @@ class LigneRepository extends connectBdd
             // Gérez l'erreur de la requête
             // Retournez une valeur par défaut ou lancez une exception, selon vos besoins
         }
-        
+    }
+
+    public function getLigneByCategorie($id_categorie)
+    {
+    
+        $req = $this->bdd->prepare("SELECT *, categorie.*, type_ligne.*, marque.*
+        FROM ligne
+        INNER JOIN categorie ON ligne.id_categorie = categorie.id_categorie
+        INNER JOIN type_ligne ON ligne.id_type_ligne = type_ligne.id_type_ligne
+        INNER JOIN marque ON ligne.id_marque = marque.id_marque
+        WHERE ligne.id_categorie = ?");
+
+        $req->execute([$id_categorie]);
+        $datas = $req->fetchAll();
+
+        $lignes = [];
+
+        foreach ($datas as $data)
+        {
+            $ligne = new Ligne();
+            $ligne->setIdLigne($data['id_ligne']);
+            $ligne->setNomLigne($data['nom_ligne']);
+            $ligne->setPoidsLigne($data['poids_ligne']);
+            $ligne->setLongueurLigne($data['longueur_ligne']);
+            $ligne->setDiametreLigne($data['diametre_ligne']);
+            $ligne->setDescriptionLigne($data['description_ligne']);
+            $ligne->setPromoLigne($data['promo_ligne']);
+            $ligne->setStockLigne($data['stock_ligne']);
+            $ligne->setHorsStockLigne($data['hors_stock_ligne']);
+            $ligne->setCategorieLigne($data['nom_categorie']);
+            $ligne->setTypeLigne($data['nom_type_ligne']);
+            $ligne->setMarqueLigne($data['nom_marque']);
+
+            $lignes[] = $ligne;
+        }
+        return $lignes;
     }
 }
 

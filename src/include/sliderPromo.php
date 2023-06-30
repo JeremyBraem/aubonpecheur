@@ -9,8 +9,11 @@
         <div class=" m-auto overflow-x-hidden overflow-y-hidden">
 
             <div id="sliderPromo" class="h-full ml-2 flex md:w-[1000px] lg:w-[1100px] 2xl:w-[1800px] lg:gap-8 md:gap-6 gap-10 items-center justify-start transition ease-out duration-700">
+                
                 <?php foreach($promoArticles as $article) { ?>
-                    <a href="index.php?action=<?php echo $article['type']; ?>Page&id=<?php echo $article['id']; ?>">
+
+                    <a href="index.php?action=<?php echo $article['genre']; ?>Page&id=<?php echo $article['id']; ?>">
+                        
                         <div class="w-56 md:h-80">
 
                             <div class="w-56">
@@ -23,8 +26,11 @@
                             </div>
 
                         </div>
+
                     </a>
+                    
                 <?php } ?>
+
             </div>
 
         </div>

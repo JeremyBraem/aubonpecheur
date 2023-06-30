@@ -1,10 +1,13 @@
 <?php
 session_start();
-require ('src/controller/adminController.php');
+require('src/controller/adminController.php');
 
-if(isset($_GET['action']) && $_GET['action'] !== '')
+if ($_SESSION['id_role'] == 1) 
+{
+
+    if (isset($_GET['action']) && $_GET['action'] !== '') 
     {
-        switch($_GET['action'])
+        switch ($_GET['action']) 
         {
             case 'admin':
                 adminPage();
@@ -142,11 +145,16 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
                 UpdateAppatTraitement();
                 break;
             default:
-            adminPage();
+                adminPage();
         }
-    }
-    else
+    } 
+    else 
     {
         adminPage();
     }
+}
+else
+{
+    header('location:index.php');
+}
 ?>
