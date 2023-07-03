@@ -2,7 +2,6 @@
     <tbody>
         <?php foreach ($leurres as $leurre) { ?>
             <tr class="border-b" data-leurre-id="<?php echo $leurre->getIdLeurre() ?>" id="leurre-<?php echo $leurre->getIdLeurre() ?>">
-                <td class="px-4 py-3"><?php echo $leurre->getIdLeurre() ?></td>
                 <td scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap"><?php echo $leurre->getNomLeurre() ?></td>
                 <td class="px-4 py-3"><?php echo $leurre->getCategorieLeurre() ?></td>
                 <td class="px-4 py-3"><?php echo $leurre->getTypeLeurre() ?></td>

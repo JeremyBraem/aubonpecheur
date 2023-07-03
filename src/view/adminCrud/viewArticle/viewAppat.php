@@ -2,7 +2,6 @@
     <tbody>
         <?php foreach ($appats as $appat) { ?>
             <tr class="border-b" data-appat-id="<?php echo $appat->getIdAppat() ?>" id="appat-<?php echo $appat->getIdAppat() ?>">
-                <td class="px-4 py-3"><?php echo $appat->getIdAppat() ?></td>
                 <td scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap"><?php echo $appat->getNomAppat() ?></td>
                 <td class="px-4 py-3"><?php echo $appat->getCategorieAppat() ?></td>
                 <td class="px-4 py-3"><?php echo $appat->getTypeAppat() ?></td>

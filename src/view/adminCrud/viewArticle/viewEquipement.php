@@ -2,7 +2,6 @@
     <tbody>
         <?php foreach ($equipements as $equipement) { ?>
             <tr class="border-b" data-equipement-id="<?php echo $equipement->getIdEquipement() ?>" id="equipement-<?php echo $equipement->getIdEquipement() ?>">
-                <td class="px-4 py-3"><?php echo $equipement->getIdEquipement() ?></td>
                 <td scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap"><?php echo $equipement->getNomEquipement() ?></td>
                 <td class="px-4 py-3"><?php echo $equipement->getCategorieEquipement() ?></td>
                 <td class="px-4 py-3"><?php echo $equipement->getTypeEquipement() ?></td>

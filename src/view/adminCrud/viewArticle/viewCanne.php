@@ -2,7 +2,6 @@
     <tbody>
         <?php foreach ($cannes as $canne) { ?>
             <tr class="border-b" data-canne-id="<?php echo $canne->getIdCanne() ?>" id="canne-<?php echo $canne->getIdCanne() ?>">
-                <td class="px-4 py-3"><?php echo $canne->getIdCanne() ?></td>
                 <td scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap"><?php echo $canne->getNomCanne() ?></td>
                 <td class="px-4 py-3"><?php echo $canne->getCategorieCanne() ?></td>
                 <td class="px-4 py-3"><?php echo $canne->getTypeCanne() ?></td>

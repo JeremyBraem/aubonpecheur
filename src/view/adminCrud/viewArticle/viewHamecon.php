@@ -2,7 +2,6 @@
     <tbody>
         <?php foreach ($hamecons as $hamecon) { ?>
             <tr class="border-b" data-hamecon-id="<?php echo $hamecon->getIdHamecon() ?>" id="hamecon-<?php echo $hamecon->getIdHamecon() ?>">
-                <td class="px-4 py-3"><?php echo $hamecon->getIdHamecon() ?></td>
                 <td scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap"><?php echo $hamecon->getNomHamecon() ?></td>
                 <td class="px-4 py-3"><?php echo $hamecon->getCategorieHamecon() ?></td>
                 <td class="px-4 py-3"><?php echo $hamecon->getTypeHamecon() ?></td>

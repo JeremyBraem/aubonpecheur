@@ -2,7 +2,6 @@
     <tbody>
         <?php foreach ($moulinets as $moulinet) { ?>
             <tr class="border-b" data-moulinet-id="<?php echo $moulinet->getIdMoulinet() ?>" id="moulinet-<?php echo $moulinet->getIdMoulinet() ?>">
-                <td class="px-4 py-3"><?php echo $moulinet->getIdMoulinet() ?></td>
                 <td scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap"><?php echo $moulinet->getNomMoulinet() ?></td>
                 <td class="px-4 py-3"><?php echo $moulinet->getCategorieMoulinet() ?></td>
                 <td class="px-4 py-3"><?php echo $moulinet->getTypeMoulinet() ?></td>

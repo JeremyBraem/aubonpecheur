@@ -2,7 +2,6 @@
     <tbody>
         <?php foreach ($feeders as $feeder) { ?>
             <tr class="border-b" data-feeder-id="<?php echo $feeder->getIdFeeder() ?>" id="feeder-<?php echo $feeder->getIdFeeder() ?>">
-                <td class="px-4 py-3"><?php echo $feeder->getIdFeeder() ?></td>
                 <td scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap"><?php echo $feeder->getNomFeeder() ?></td>
                 <td class="px-4 py-3"><?php echo $feeder->getCategorieFeeder() ?></td>
                 <td class="px-4 py-3"><?php echo $feeder->getTypeFeeder() ?></td>
