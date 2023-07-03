@@ -1,4 +1,4 @@
-<div id="deleteFeederModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+<div id="deleteFeederModal-<?php echo $feeder->getIdFeeder() ?>" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     
     <div class="relative p-4 w-full max-w-md max-h-full">
         <!-- Modal content -->
@@ -15,22 +15,12 @@
                 <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
             </svg>
 
-            <p class="mb-4 text-gray-500 dark:text-gray-300">Êtes-vous sûr de bien vouloir supprimer ce feeder ?</p>
+            <p class="mb-4 text-gray-500 dark:text-gray-300">Êtes-vous sûr de bien vouloir supprimer cette feeder ?</p>
             
             <div class="flex justify-center items-center space-x-4">
                 <button data-modal-toggle="deleteFeederModal" type="button" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200">Non, annuler</button>
                 <form action="admin.php?action=deleteFeeder" method="post">
-                    <input name="id_feeder" type="hidden" value="
-                    <?php 
-                        if($feeder)
-                        {
-                            echo $feeder->getIdFeeder();
-                        }
-                        else
-                        {
-                            echo '';
-                        } 
-                        ?>">
+                    <input type="hidden" value="<?php echo $feeder->getIdFeeder() ?>" name="id_feeder">
                     <button type="submit" class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg">Oui, je suis sûr</button>
                 </form>
             </div>

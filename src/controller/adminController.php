@@ -825,8 +825,6 @@ function deleteCanne()
     // {
         if(!empty($_POST['id_canne']) && isset($_POST['id_canne']))
         {
-            var_dump($_POST);
-            die;
             $id_canne = isset($_POST['id_canne']) ? $_POST['id_canne'] : null;
             $canneRepository = new CanneRepository();
             $deleteCanne = $canneRepository->deleteCanne($id_canne);

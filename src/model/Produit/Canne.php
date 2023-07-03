@@ -356,22 +356,20 @@ class CanneRepository extends connectBdd
 
     public function deleteCanne($id_canne):bool
     {
-        try 
+        try
         {
-            var_dump($_POST);
-            die;
             $imageCanneRepo = new ImageCanneRepository;
             $oldImg = $imageCanneRepo->getImageByCanne($_POST['id_canne']);
            
             $cheminFichier = $oldImg->getNomImageCanne();
 
-            if (file_exists($cheminFichier)) 
+            if (file_exists($cheminFichier))
             {
-                if (unlink($cheminFichier)) 
+                if (unlink($cheminFichier))
                 {
                     echo "Le fichier a été supprimé avec succès.";
-                } 
-                else 
+                }
+                else
                 {
                     echo "Une erreur s'est produite lors de la suppression du fichier.";
                 }

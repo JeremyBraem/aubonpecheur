@@ -259,7 +259,7 @@ class LigneRepository extends connectBdd
             $ligne->setIdLigne($data['id_ligne']);
             $ligne->setNomLigne($data['nom_ligne']);
             $ligne->setLongueurLigne($data['longueur_ligne']);
-            $ligne->setPoidsLigne($data['diametre_ligne']);
+            $ligne->setDiametreLigne($data['diametre_ligne']);
             $ligne->setPoidsLigne($data['poids_ligne']);
             $ligne->setDescriptionLigne($data['description_ligne']);
             $ligne->setPromoLigne($data['promo_ligne']);
@@ -294,7 +294,7 @@ class LigneRepository extends connectBdd
                 $ligne->setIdLigne($data['id_ligne']);
                 $ligne->setNomLigne($data['nom_ligne']);
                 $ligne->setLongueurLigne($data['longueur_ligne']);
-                $ligne->setPoidsLigne($data['diametre_ligne']);
+                $ligne->setDiametreLigne($data['diametre_ligne']);
                 $ligne->setPoidsLigne($data['poids_ligne']);
                 $ligne->setDescriptionLigne($data['description_ligne']);
                 $ligne->setPromoLigne($data['promo_ligne']);
@@ -360,7 +360,7 @@ class LigneRepository extends connectBdd
             $ligne->setIdLigne($data['id_ligne']);
             $ligne->setNomLigne($data['nom_ligne']);
             $ligne->setLongueurLigne($data['longueur_ligne']);
-            $ligne->setPoidsLigne($data['diametre_ligne']);
+            $ligne->setDiametreLigne($data['diametre_ligne']);
             $ligne->setPoidsLigne($data['poids_ligne']);
             $ligne->setDescriptionLigne($data['description_ligne']);
             $ligne->setPromoLigne($data['promo_ligne']);

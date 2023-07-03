@@ -28,7 +28,6 @@
     </script>
     <!-- flowbite -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
-
     <title>Admin</title>
 </head>
 
@@ -39,24 +38,36 @@
     </header>
 
     <main>
+
         <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 antialiased">
+
             <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
-                <!-- Start coding here -->
+
                 <div class="relative overflow-hidden">
+
                     <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+                        
                         <div class="w-full md:w-1/2">
+
                             <form class="flex items-center">
+
                                 <label for="simple-search" class="sr-only">Search</label>
+
                                 <div class="relative w-full">
+
                                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                         <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                                         </svg>
                                     </div>
+
                                     <input type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 " placeholder="Search" required="">
                                 </div>
+
                             </form>
+
                         </div>
+
                         <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
 
                             <button type="button" id="createCategorieModalButton" data-modal-target="createCategorieModal" data-modal-toggle="createCategorieModal" class="flex items-center justify-center border border-gray-200 bg-primary-700 text-gray-900 font-medium rounded-lg text-sm px-4 py-2">
@@ -228,6 +239,7 @@
                     <nav class="flex flex-col md:flex-row justify-center items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
 
                         <ul class="inline-flex items-stretch -space-x-px">
+
                             <li>
                                 <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                     <span class="sr-only">Previous</span>
@@ -236,95 +248,82 @@
                                     </svg>
                                 </a>
                             </li>
+
                             <li>
                                 <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
                             </li>
+
                             <li>
                                 <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
                             </li>
+
                             <li>
                                 <a href="#" aria-current="page" class="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 ">3</a>
                             </li>
+
                             <li>
                                 <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
                             </li>
+
                             <li>
                                 <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
                             </li>
+
                             <li>
                                 <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                    
                                     <span class="sr-only">Next</span>
                                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                                     </svg>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </section>
-        <!-- End block -->
 
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                    </nav>
+
+                </div>
+
+            </div>
+
+        </section>
         <!-- Create modal -->
         <?php include('src/view/adminCrud/modalAdd/modalAddCategorie.php'); ?>
+
         <?php include('src/view/adminCrud/modalAdd/modalAddMarque.php'); ?>
+
         <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeCanne.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/modalAddCanne.php'); ?>
+
         <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeMoulinet.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/modalAddMoulinet.php'); ?>
+
         <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeHamecon.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/modalAddHamecon.php'); ?>
+
         <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeLeurre.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/modalAddLeurre.php'); ?>
+
         <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeLigne.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/modalAddLigne.php'); ?>
+
         <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeEquipement.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/modalAddEquipement.php'); ?>
+
         <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeFeeder.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/modalAddFeeder.php'); ?>
+
         <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeAppat.php'); ?>
-        <?php include('src/view/adminCrud/modalAdd/modalAddAppat.php'); ?>
-
-        <!-- Update modal -->
-        <?php include('src/view/adminCrud/modalUpdate/modalCanneUpdate.php'); ?>
-        <?php include('src/view/adminCrud/modalUpdate/modalMoulinetUpdate.php'); ?>
-        <?php include('src/view/adminCrud/modalUpdate/modalHameconUpdate.php'); ?>
-        <?php include('src/view/adminCrud/modalUpdate/modalLeurreUpdate.php'); ?>
-        <?php include('src/view/adminCrud/modalUpdate/modalLigneUpdate.php'); ?>
-        <?php include('src/view/adminCrud/modalUpdate/modalEquipementUpdate.php'); ?>
-        <?php include('src/view/adminCrud/modalUpdate/modalFeederUpdate.php'); ?>
-        <?php include('src/view/adminCrud/modalUpdate/modalAppatUpdate.php'); ?>
-
-        <!-- Read modal -->
-        <?php include('src/view/adminCrud/readModal/readModalCanne.php'); ?>
-        <!-- Delete modal -->
-        <?php include('src/view/adminCrud/modalDelete/modalDeleteCanne.php'); ?>
-        <?php include('src/view/adminCrud/modalDelete/modalDeleteMoulinet.php'); ?>
-        <?php include('src/view/adminCrud/modalDelete/modalDeleteHamecon.php'); ?>
-        <?php include('src/view/adminCrud/modalDelete/modalDeleteLeurre.php'); ?>
-        <?php include('src/view/adminCrud/modalDelete/modalDeleteLigne.php'); ?>
-        <?php include('src/view/adminCrud/modalDelete/modalDeleteEquipement.php'); ?>
-        <?php include('src/view/adminCrud/modalDelete/modalDeleteFeeder.php'); ?>
-        <?php include('src/view/adminCrud/modalDelete/modalDeleteAppat.php'); ?>
-
-        <?php include('src/view/adminCrud/modalDelete/modalDeleteCategorie.php'); ?>
-        <?php include('src/view/adminCrud/modalDelete/modalDeleteMarque.php'); ?>
-
-        <?php include('src/view/adminCrud/modalDelete/type/modalDeleteTypeHamecon.php'); ?>
-        <?php include('src/view/adminCrud/modalDelete/type/modalDeleteTypeLeurre.php'); ?>
-        <?php include('src/view/adminCrud/modalDelete/type/modalDeleteTypeLigne.php'); ?>
-        <?php include('src/view/adminCrud/modalDelete/type/modalDeleteTypeEquipement.php'); ?>
-        <?php include('src/view/adminCrud/modalDelete/type/modalDeleteTypeFeeder.php'); ?>
-        <?php include('src/view/adminCrud/modalDelete/type/modalDeleteTypeAppat.php'); ?>
-
+        <?php include('src/view/adminCrud/modalAdd/modalAddAppat.php'); ?>        
     </main>
 
     <footer class="bg-[#fcfcfc]">
         <?php require_once('src/include/footer.php') ?>
     </footer>
 
-    <script src="assets/js/recupId.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
 
 </body>

@@ -259,7 +259,7 @@ class FeederRepository extends connectBdd
             $feeder->setIdFeeder($data['id_feeder']);
             $feeder->setNomFeeder($data['nom_feeder']);
             $feeder->setLongueurFeeder($data['longueur_feeder']);
-            $feeder->setPoidsFeeder($data['diametre_feeder']);
+            $feeder->setDiametreFeeder($data['diametre_feeder']);
             $feeder->setPoidsFeeder($data['poids_feeder']);
             $feeder->setDescriptionFeeder($data['description_feeder']);
             $feeder->setPromoFeeder($data['promo_feeder']);
@@ -292,7 +292,7 @@ class FeederRepository extends connectBdd
             $feeder->setIdFeeder($data['id_feeder']);
             $feeder->setNomFeeder($data['nom_feeder']);
             $feeder->setLongueurFeeder($data['longueur_feeder']);
-            $feeder->setPoidsFeeder($data['diametre_feeder']);
+            $feeder->setDiametreFeeder($data['diametre_feeder']);
             $feeder->setPoidsFeeder($data['poids_feeder']);
             $feeder->setDescriptionFeeder($data['description_feeder']);
             $feeder->setPromoFeeder($data['promo_feeder']);
@@ -327,7 +327,7 @@ class FeederRepository extends connectBdd
                 $feeder->setIdFeeder($data['id_feeder']);
                 $feeder->setNomFeeder($data['nom_feeder']);
                 $feeder->setLongueurFeeder($data['longueur_feeder']);
-                $feeder->setPoidsFeeder($data['diametre_feeder']);
+                $feeder->setDiametreFeeder($data['diametre_feeder']);
                 $feeder->setPoidsFeeder($data['poids_feeder']);
                 $feeder->setDescriptionFeeder($data['description_feeder']);
                 $feeder->setPromoFeeder($data['promo_feeder']);
@@ -432,20 +432,21 @@ class FeederRepository extends connectBdd
         $query = "SELECT MAX(id_feeder) AS last_id FROM feeder";
         $result = $this->bdd->prepare($query);
 
-        if ($result->execute()) { // Exécutez la requête ici
+        if ($result->execute())
+        { 
             $row = $result->fetch(PDO::FETCH_ASSOC);
             $lastId = $row['last_id'];
 
             return $lastId;
-        } else {
-            // Gérez l'erreur de la requête
-            // Retournez une valeur par défaut ou lancez une exception, selon vos besoins
+        } 
+        else 
+        {
+            echo 'fail';
         }
     }
 
     public function getFeederByCategorie($id_categorie)
     {
-    
         $req = $this->bdd->prepare("SELECT *, categorie.*, type_feeder.*, marque.*
         FROM feeder
         INNER JOIN categorie ON feeder.id_categorie = categorie.id_categorie

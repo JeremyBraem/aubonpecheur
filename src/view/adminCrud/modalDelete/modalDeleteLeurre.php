@@ -1,5 +1,4 @@
-
-<div id="deleteLeurreModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+<div id="deleteLeurreModal-<?php echo $leurre->getIdLeurre() ?>" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     
     <div class="relative p-4 w-full max-w-md max-h-full">
         <!-- Modal content -->
@@ -21,17 +20,7 @@
             <div class="flex justify-center items-center space-x-4">
                 <button data-modal-toggle="deleteLeurreModal" type="button" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200">Non, annuler</button>
                 <form action="admin.php?action=deleteLeurre" method="post">
-                    <input type="hidden" value="
-                    <?php 
-                        if($leurre)
-                        {
-                            echo $leurre->getIdLeurre();
-                        }
-                        else
-                        {
-                            echo '';
-                        }  
-                    ?>" name="id_leurre">
+                    <input type="hidden" value="<?php echo $leurre->getIdLeurre() ?>" name="id_leurre">
                     <button type="submit" class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg">Oui, je suis sûr</button>
                 </form>
             </div>
