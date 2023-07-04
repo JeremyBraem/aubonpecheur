@@ -33,50 +33,52 @@ require_once('src/model/Image/ImageAppat.php');
 
 function adminPage()
 {
+    $article = [];
+
     $canneRepo = new CanneRepository;
-    $cannes = $canneRepo->getAllCanne();
+    $article['cannes'] = $canneRepo->getAllCanne();
 
     $typeCanneRepo = new TypeCanneRepository;
     $typeCannes = $typeCanneRepo->getAllTypeCanne();
 
     $moulinetRepo = new MoulinetRepository;
-    $moulinets = $moulinetRepo->getAllmoulinet();
+    $article['moulinets'] = $moulinetRepo->getAllmoulinet();
 
     $typeMoulinetRepo = new TypemoulinetRepository;
     $typeMoulinets = $typeMoulinetRepo->getAllTypemoulinet();
 
     $hameconRepo = new HameconRepository;
-    $hamecons = $hameconRepo->getAllHamecon();
+    $article['hamecons'] = $hameconRepo->getAllHamecon();
 
     $typeHameconRepo = new TypeHameconRepository;
     $typeHamecons = $typeHameconRepo->getAllTypeHamecon();
 
     $leurreRepo = new LeurreRepository;
-    $leurres = $leurreRepo->getAllleurre();
+    $article['leurres'] = $leurreRepo->getAllleurre();
 
     $typeLeurreRepo = new TypeLeurreRepository;
     $typeLeurres = $typeLeurreRepo->getAllTypeLeurre();
 
     $ligneRepo = new LigneRepository;
-    $lignes = $ligneRepo->getAllLigne();
+    $article['lignes'] = $ligneRepo->getAllLigne();
 
     $typeLigneRepo = new TypeLigneRepository;
     $typeLignes = $typeLigneRepo->getAllTypeLigne();
 
     $feederRepo = new FeederRepository;
-    $feeders = $feederRepo->getAllFeeder();
+    $article['feeders'] = $feederRepo->getAllFeeder();
 
     $typeFeederRepo = new TypeFeederRepository;
     $typeFeeders = $typeFeederRepo->getAllTypeFeeder();
 
     $equipementRepo = new EquipementRepository;
-    $equipements = $equipementRepo->getAllEquipement();
+    $article['equipements'] = $equipementRepo->getAllEquipement();
 
     $typeEquipementRepo = new TypeEquipementRepository;
     $typeEquipements = $typeEquipementRepo->getAllTypeEquipement();
 
     $appatRepo = new AppatRepository;
-    $appats = $appatRepo->getAllAppat();
+    $article['appats'] = $appatRepo->getAllAppat();
 
     $typeAppatRepo = new TypeAppatRepository;
     $typeAppats = $typeAppatRepo->getAllTypeAppat();
@@ -87,13 +89,14 @@ function adminPage()
     $categorieRepo = new CategorieRepository;
     $categories = $categorieRepo->getAllCategorie();
 
+    $articles = combinedArticle($article);
+
     require('src/view/adminPage.php');
 }
 
 function addCanneTraitement()
 {
     if(isset($_POST))
-    
     {
         if(!empty($_POST['nom_canne']) && !empty($_POST['poids_canne']) && !empty($_POST['longueur_canne']) && !empty($_POST['categorie_canne']) && !empty($_POST['type_canne']) && !empty($_POST['marque_canne']) && !empty($_POST['promo_canne']) && !empty($_POST['stock_canne']) && !empty($_POST['description_canne'] && !empty($_FILES['image_canne'])))
         {
@@ -1963,4 +1966,215 @@ function UpdateAppatTraitement()
     // {
     //     home();
     // }
+}
+
+function combinedArticle($articles)
+{
+    $combinedArticles = [];
+
+    foreach ($articles['cannes'] as $canne) 
+    {
+        if ($canne) 
+        {
+            $imgCanneRepo = new ImageCanneRepository;
+            $imgCannes = $imgCanneRepo->getImageByCanne($canne->getIdCanne());
+            $combinedArticles[] =
+            [
+                'genre' => 'canne',
+                'id' => $canne->getIdCanne(),
+                'nom' => $canne->getNomCanne(),
+                'image' => $imgCannes->getNomImageCanne(),
+                'marque' => $canne->getMarqueCanne(),
+                'type' => $canne->getTypeCanne(),
+                'categorie' => $canne->getCategorieCanne(),
+            ];
+        }
+        else
+        {
+            $combinedArticles[] = [''];
+        }
+    }
+
+    foreach ($articles['moulinets'] as $moulinet) 
+    {
+        if ($moulinet) 
+        {
+            $imgMoulinetRepo = new ImageMoulinetRepository;
+            $imgMoulinet = $imgMoulinetRepo->getImageByMoulinet($moulinet->getIdMoulinet());
+            $combinedArticles[] =
+            [
+                'genre' => 'moulinet',
+                'id' => $moulinet->getIdMoulinet(),
+                'nom' => $moulinet->getNomMoulinet(),
+                'image' => $imgMoulinet->getNomImageMoulinet(),
+                'marque' => $moulinet->getMarqueMoulinet(),
+                'type' => $moulinet->getTypeMoulinet(),
+                'categorie' => $moulinet->getCategorieMoulinet(),
+                'promo' => $moulinet->getPromoMoulinet(),
+                'stock' => $moulinet->getStockMoulinet(),
+                'description' => $moulinet->getDescriptionMoulinet(),                
+                'poids' => $moulinet->getPoidsMoulinet(),                
+                'ratio' => $moulinet->getRatioMoulinet(),                
+            ];
+        }
+        else 
+        {
+            $combinedArticles[] = [''];
+        }
+    }
+
+    foreach ($articles['hamecons'] as $hamecon) 
+    {
+        if ($hamecon) 
+        {
+            $imgHameconRepo = new ImageHameconRepository;
+            $imgHamecon = $imgHameconRepo->getImageByHamecon($hamecon->getIdHamecon());
+
+            $combinedArticles[] =
+            [
+                'genre' => 'hamecon',
+                'id' => $hamecon->getIdHamecon(),
+                'nom' => $hamecon->getNomHamecon(),
+                'image' => $imgHamecon->getNomImageHamecon(),
+                'marque' => $hamecon->getMarqueHamecon(),
+                'type' => $hamecon->getTypeHamecon(),
+                'categorie' => $hamecon->getCategorieHamecon(),
+                'description' => $hamecon->getDescriptionHamecon(),
+                'poids' => $hamecon->getPoidsHamecon(),
+                'longueur' => $hamecon->getLongueurHamecon(),
+                'stock' => $hamecon->getStockHamecon(),
+                'promo' => $hamecon->getPromoHamecon(),
+            ];
+        } 
+        else 
+        {
+            $combinedArticles[] = [''];
+        }
+    }
+
+    foreach ($articles['leurres'] as $leurre) 
+    {
+        if ($leurre) 
+        {
+            $imgLeurreRepo = new ImageLeurreRepository;
+            $imgLeurre = $imgLeurreRepo->getImageByLeurre($leurre->getIdLeurre());
+
+            $combinedArticles[] =
+            [
+                'genre' => 'leurre',
+                'id' => $leurre->getIdLeurre(),
+                'nom' => $leurre->getNomLeurre(),
+                'image' => $imgLeurre->getNomImageLeurre(),
+                'marque' => $leurre->getMarqueLeurre(),
+                'type' => $leurre->getTypeLeurre(),
+                'categorie' => $leurre->getCategorieLeurre(),
+                'description' => $leurre->getDescriptionLeurre(),
+                'couleur' => $leurre->getCouleurLeurre(),
+                'poids' => $leurre->getPoidsLeurre(),
+                'promo' => $leurre->getPromoLeurre(),
+                'stock' => $leurre->getStockLeurre(),
+            ];
+        }
+        else 
+        {
+            $combinedArticles[] = [''];
+        }
+    }
+
+    foreach ($articles['lignes'] as $ligne) 
+    {
+        if ($ligne) 
+        {
+            $imgLigneRepo = new ImageLigneRepository;
+            $imgLigne = $imgLigneRepo->getImageByLigne($ligne->getIdLigne());
+
+            $combinedArticles[] =
+            [
+                'genre' => 'ligne',
+                'id' => $ligne->getIdLigne(),
+                'nom' => $ligne->getNomLigne(),
+                'image' => $imgLigne->getNomImageLigne(),
+                'marque' => $ligne->getMarqueLigne(),
+                'type' => $ligne->getTypeLigne(),
+                'categorie' => $ligne->getCategorieLigne(),
+            ];
+        } 
+        else 
+        {
+            $combinedArticles[] = [''];
+        }
+    }
+
+    foreach ($articles['equipements'] as $equipement) 
+    {
+        if ($equipement) 
+        {
+            $imgEquipementRepo = new ImageEquipementRepository;
+            $imgEquipement = $imgEquipementRepo->getImageByEquipement($equipement->getIdEquipement());
+
+            $combinedArticles[] =
+            [
+                'genre' => 'equipement',
+                'id' => $equipement->getIdEquipement(),
+                'nom' => $equipement->getNomEquipement(),
+                'image' => $imgEquipement->getNomImageEquipement(),
+                'marque' => $equipement->getMarqueEquipement(),
+                'type' => $equipement->getTypeEquipement(),
+                'categorie' => $equipement->getCategorieEquipement(),
+            ];
+        }
+        else 
+        {
+            $combinedArticles[] = [''];
+        }
+    }
+
+    foreach ($articles['feeders'] as $feeder) 
+    {
+        if ($feeder) 
+        {
+            $imgFeederRepo = new ImageFeederRepository;
+            $imgFeeder = $imgFeederRepo->getImageByFeeder($feeder->getIdFeeder());
+
+            $combinedArticles[] =
+            [
+                'genre' => 'plomb',
+                'id' => $feeder->getIdFeeder(),
+                'nom' => $feeder->getNomFeeder(),
+                'image' => $imgFeeder->getNomImageFeeder(),
+                'marque' => $feeder->getMarqueFeeder(),
+                'type' => $feeder->getTypeFeeder(),
+                'categorie' => $feeder->getCategorieFeeder(),
+            ];
+        } 
+        else 
+        {
+            $combinedArticles[] = [''];
+        }
+    }
+
+    foreach ($articles['appats'] as $appat) 
+    {
+        if ($appat) 
+        {
+            $imgAppatRepo = new ImageAppatRepository;
+            $imgAppat = $imgAppatRepo->getImageByAppat($appat->getIdAppat());
+
+            $combinedArticles[] =
+            [
+                'genre' => 'appat',
+                'id' => $appat->getIdAppat(),
+                'nom' => $appat->getNomAppat(),
+                'image' => $imgAppat->getNomImageAppat(),
+                'marque' => $appat->getMarqueAppat(),
+                'type' => $appat->getTypeAppat(),
+                'categorie' => $appat->getCategorieAppat(),
+            ];
+        }
+        else 
+        {
+            $combinedArticles[] = [''];
+        }
+    }
+    return $combinedArticles;
 }

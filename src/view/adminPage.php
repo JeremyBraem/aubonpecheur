@@ -9,7 +9,7 @@
     <link href="assets/css/swiper.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
-    <link rel="icon" href="assets/img/site/icon.png"/>
+    <link rel="icon" href="assets/img/site/icon.png" />
     <!--FLowbite-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
     <!--Tailwind -->
@@ -46,22 +46,22 @@
                 <div class="relative overflow-hidden">
 
                     <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
-                        
+
                         <div class="w-full md:w-1/2">
 
-                            <form class="flex items-center">
+                            <form class="flex items-center" action="admin.php?action=search" method="post">
 
-                                <label for="simple-search" class="sr-only">Search</label>
+                                <label for="simple-search" class="sr-only">Rechercher</label>
 
                                 <div class="relative w-full">
 
                                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                                         </svg>
                                     </div>
 
-                                    <input type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 " placeholder="Search" required="">
+                                    <input type="text" id="simple-search" name="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700" placeholder="Rechercher" required="">
                                 </div>
 
                             </form>
@@ -222,14 +222,38 @@
                                 </tr>
                             </thead>
 
-                            <?php include('src/view/adminCrud/viewArticle/viewCanne.php'); ?>
-                            <?php include('src/view/adminCrud/viewArticle/viewMoulinet.php'); ?>
-                            <?php include('src/view/adminCrud/viewArticle/viewHamecon.php'); ?>
-                            <?php include('src/view/adminCrud/viewArticle/viewLeurre.php'); ?>
-                            <?php include('src/view/adminCrud/viewArticle/viewLigne.php'); ?>
-                            <?php include('src/view/adminCrud/viewArticle/viewEquipement.php'); ?>
-                            <?php include('src/view/adminCrud/viewArticle/viewFeeder.php'); ?>
-                            <?php include('src/view/adminCrud/viewArticle/viewAppat.php'); ?>
+                            <?php
+
+                            $articlesParPage = 5;
+
+                            $totalArticles = count($articles);
+
+                            $nombreDePages = ceil($totalArticles / $articlesParPage);
+
+                            if (isset($_GET['page']) && $_GET['page'] > 0 && $_GET['page'] <= $nombreDePages) 
+                            {
+                                $selectedPage = $_GET['page'];
+                            } 
+                            else 
+                            {
+                                $selectedPage = 1;
+                            }
+
+                            $indexDebut = ($selectedPage - 1) * $articlesParPage;
+                            $indexFin = $indexDebut + $articlesParPage;
+
+                            $articlesSelectionnes = array_slice($articles, $indexDebut, $articlesParPage);
+
+                            if (!empty($articlesSelectionnes)) 
+                            {
+                                include('src/view/adminCrud/viewAllArticles.php');
+                            } 
+                            else 
+                            {
+                                echo '<tbody></tbody>';
+                            }
+
+                            ?>
 
                         </table>
 
@@ -240,38 +264,24 @@
                         <ul class="inline-flex items-stretch -space-x-px">
 
                             <li>
-                                <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                    <span class="sr-only">Previous</span>
+                                <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700<<<<<<<">
+                                    <span class="sr-only">Précédent</span>
                                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
                                     </svg>
                                 </a>
                             </li>
 
+                            <?php for ($page = 1; $page <= $nombreDePages; $page++) { ?>
                             <li>
-                                <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
+                                <a href="admin.php?page=<?php echo $page ?>" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 "><?php echo $page ?></a>
                             </li>
+                            <?php } ?>
 
                             <li>
-                                <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-                            </li>
+                                <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
 
-                            <li>
-                                <a href="#" aria-current="page" class="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 ">3</a>
-                            </li>
-
-                            <li>
-                                <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
-                            </li>
-
-                            <li>
-                                <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
-                            </li>
-
-                            <li>
-                                <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                    
-                                    <span class="sr-only">Next</span>
+                                    <span class="sr-only">Suivant</span>
                                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                                     </svg>
@@ -316,7 +326,7 @@
         <?php include('src/view/adminCrud/modalAdd/modalAddFeeder.php'); ?>
 
         <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeAppat.php'); ?>
-        <?php include('src/view/adminCrud/modalAdd/modalAddAppat.php'); ?>        
+        <?php include('src/view/adminCrud/modalAdd/modalAddAppat.php'); ?>
     </main>
 
     <footer class="bg-[#fcfcfc]">

@@ -4,7 +4,6 @@ require('src/controller/adminController.php');
 
 if ($_SESSION['id_role'] == 1) 
 {
-
     if (isset($_GET['action']) && $_GET['action'] !== '') 
     {
         switch ($_GET['action']) 
@@ -147,7 +146,7 @@ if ($_SESSION['id_role'] == 1)
             default:
                 adminPage();
         }
-    } 
+    }
     else 
     {
         adminPage();
