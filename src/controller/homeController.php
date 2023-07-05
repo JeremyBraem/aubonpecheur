@@ -112,6 +112,9 @@ function loginTraitement()
                     {
                         $_SESSION['id_role'] = $user->getIdRole();
                         $_SESSION['id_user'] = $user->getIdUser();
+                        $_SESSION['prenom_user'] = $user->getNameUser();
+                        $_SESSION['nom_user'] = $user->getLastnameUser();
+                        $_SESSION['email_user'] = $user->getEmailUser();
                         header('location: index.php');
                     } 
                     else 
@@ -233,6 +236,12 @@ function disconnectUser()
     header('location:index.php');
 }
 
+//AFFICHAGE DE LA PAGE DE PROFIL
+function profilPage()
+{
+    include('src/view/profilPage.php');
+}
+
 //AFFICHAGE DE LA PAGE DE TOUS LES ARTICLES
 function articlePage()
 {
@@ -245,6 +254,7 @@ function articlePage()
     include('src/view/articlePage.php');
 }
 
+//AFFICHAGE DE LA PAGE DE TOUTES LES MARQUES
 function marquePage()
 {
     $marques = getAllMarque();
@@ -310,6 +320,7 @@ function viewPageCategorie()
     include('src/view/articlePageByCat.php');
 }
 
+//AFFICHAGE DE LA PAGE D'ARTICLE EN FONCTION DE LA MARQUE EN GET
 function viewPageMarque()
 {
     $marqueRepo = new MarqueRepository;
@@ -618,7 +629,7 @@ function getIdCategorie()
     return $idCategorie;
 }
 
-//RECUPERATION D'ID DE CATEGORIE EN FONCTION DES NOM DE CATEGORIE EN GET
+//RECUPERATION D'ID DE MARQUE EN FONCTION DES NOM DE MARQUE EN GET
 function getIdMarque()
 {
     $marqueRepo = new MarqueRepository;
@@ -1099,7 +1110,7 @@ function filtrePageCate()
     }
 }
 
-//TRAITEMENT POUR LES FILTRES DES PAGES D'ARTICLES EN FONCTION DE LA CATEGORIE PRIT EN GET
+//TRAITEMENT POUR LES FILTRES DES ARTICLES EN FONCTION DE LA MARQUE PRIT EN GET
 function filtrePageMarque()
 {
     $allCanneRepo = new CanneRepository;

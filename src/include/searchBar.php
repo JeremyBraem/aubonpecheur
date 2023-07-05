@@ -20,9 +20,9 @@
         </div>
     </div>
     <div class="flex items-center">
-        <div>
+        <a href="index.php?action=profil">
             <img src="assets/img/site/3106773.png" class="w-[30px] h-[30px]">
-        </div>
+        </a>
         <?php 
         if(empty($_SESSION['id_role']))
         { 

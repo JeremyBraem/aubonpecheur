@@ -81,6 +81,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'marquePage':
             marquePage();
             break;
+        case 'profil':
+            profilPage();
+            break;
         default:
         home();
     }
