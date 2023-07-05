@@ -1,8 +1,8 @@
-document.addEventListener("DOMContentLoaded", function () 
+document.addEventListener("DOMContentLoaded", function ()
 {
     let filtres = document.querySelectorAll(".filtre");
 
-    for (let i = 0; i < filtres.length; i++) 
+    for (let i = 0; i < filtres.length; i++)
     {
         filtres[i].addEventListener("change", function () 
         {
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function ()
         let xhr = new XMLHttpRequest();
         xhr.open("POST", "index.php?action=filtrePromo", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function () 
+        xhr.onreadystatechange = function ()
         {
             if (xhr.readyState === 4 && xhr.status === 200) 
             {

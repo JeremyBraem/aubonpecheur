@@ -39,7 +39,7 @@
 
     <main>
 
-        <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 antialiased">
+        <section class="bg-gray-50 p-3 sm:p-5">
 
             <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
 
@@ -61,7 +61,7 @@
                                         </svg>
                                     </div>
 
-                                    <input type="text" id="simple-search" name="keywords" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700" placeholder="Rechercher" required="">
+                                    <input type="text" id="simple-search" name="keywords" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700" placeholder="Rechercher">
                                 </div>
 
                             </form>
@@ -224,30 +224,10 @@
 
                             <?php
 
-                            $articlesParPage = 5;
-
-                            $totalArticles = count($articles);
-
-                            $nombreDePages = ceil($totalArticles / $articlesParPage);
-
-                            if (isset($_GET['page']) && $_GET['page'] > 0 && $_GET['page'] <= $nombreDePages) 
-                            {
-                                $selectedPage = $_GET['page'];
-                            } 
-                            else 
-                            {
-                                $selectedPage = 1;
-                            }
-
-                            $indexDebut = ($selectedPage - 1) * $articlesParPage;
-                            $indexFin = $indexDebut + $articlesParPage;
-
-                            $articlesSelectionnes = array_slice($articles, $indexDebut, $articlesParPage);
-
                             if (!empty($articlesSelectionnes))
                             {
                                 include('src/view/adminCrud/viewAllArticles.php');
-                            } 
+                            }
                             else 
                             {
                                 echo '<tbody></tbody>';
@@ -258,45 +238,6 @@
                         </table>
 
                     </div>
-
-                    <nav class="flex flex-col md:flex-row justify-center items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
-
-                        <ul class="inline-flex items-stretch -space-x-px">
-                            
-                            <?php if ($selectedPage > 1) { ?>
-                                <li>
-                                    <a href="admin.php?page=<?php echo $selectedPage - 1; ?>" class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-                                        <span class="sr-only">Précédent</span>
-                                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                        </svg>
-                                    </a>
-                                </li>
-                            <?php } ?>
-
-                            <?php for ($page = 1; $page <= $nombreDePages; $page++) { ?>
-                                <li>
-                                    <a href="admin.php?page=<?php echo $page; ?>" class="flex items-center justify-center text-sm py-2 px-3 leading-tight <?php if ($page === $selectedPage) echo 'text-gray-700 bg-gray-100';
-                                                                                                                                                            else echo 'text-gray-500 bg-white'; ?> border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-                                        <?php echo $page; ?>
-                                    </a>
-                                </li>
-                            <?php } ?>
-
-                            <?php if ($selectedPage < $nombreDePages) { ?>
-                                <li>
-                                    <a href="admin.php?page=<?php echo $selectedPage + 1; ?>" class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-                                        <span class="sr-only">Suivant</span>
-                                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                                        </svg>
-                                    </a>
-                                </li>
-                            <?php } ?>
-
-                        </ul>
-                        
-                    </nav>
 
                 </div>
 

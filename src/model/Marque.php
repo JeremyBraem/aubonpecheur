@@ -182,4 +182,21 @@ class MarqueRepository extends connectBdd
         }
     }
 
+    public function existMarque($nom_marque)
+    {
+        $req = $this->bdd->prepare("SELECT * FROM marque WHERE nom_marque = ?");
+        $req->execute([$nom_marque]);
+        $datas = $req->fetchAll();
+        
+        foreach ($datas as $data)
+        {
+            $marque = new Marque();
+            $marque->setIdMarque($data['id_marque']);
+            $marque->setNomMarque($data['nom_marque']);
+            
+            $marques[] = $marque;
+        }
+        return $marques;
+    }
+
 }

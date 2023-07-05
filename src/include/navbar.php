@@ -12,22 +12,35 @@
 
     <ul class="hidden gap-4 absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
         <li><a class="text-m text-white" href="index.php">Accueil</a></li>
-        <li><a class="text-m text-white" href="">Promotion</a></li>
-        <li><a class="text-m text-white" href="">Marque</a></li>
+        <li><a class="text-m text-white" href="index.php?action=promoPage">Promotion</a></li>
+        <li><a class="text-m text-white" href="index.php?action=marquePage">Marque</a></li>
         <li><a class="text-m text-white" href="index.php?action=article&categorie=Carpe">Carpe</a></li>
         <li><a class="text-m text-white" href="index.php?action=article&categorie=Coup">Coup</a></li>
         <li><a class="text-m text-white" href="index.php?action=article&categorie=Truite">Truite</a></li>
         <li><a class="text-m text-white" href="index.php?action=article&categorie=Carnassier">Carnassier</a></li>
         <li><a class="text-m text-white" href="index.php?action=article&categorie=Silure">Silure</a></li>
         <li><a class="text-m text-white" href="index.php?action=article&categorie=Feeder">Feeder</a></li>
-        <li><a class="text-m text-white" href="index.php?action=article&categorie=Coup">Equipement</a></li>
+        <li><a class="text-m text-white" href="index.php?action=article&categorie=">Equipement</a></li>
+        <?php 
+        if(isset($_SESSION['id_role']))
+        {
+            if(!empty($_SESSION['id_role']))
+            {
+                if($_SESSION['id_role'] == 1)
+                {
+        ?>
+        <li><a class="text-m text-white" href="admin.php">Admin</a></li>
+        <?php } } } ?>
     </ul>
 
 </nav>
 
 <div class="navbar-menu relative z-50 hidden">
+    
     <div class="navbar-backdrop fixed inset-0 bg-[#FCFCFC] opacity-25"></div>
+
     <nav class="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
+        
         <div class="flex items-center mb-8">
             <a class="m-auto text-3xl font-bold leading-none" href="#">
                 <img class="w-[100px]" src="assets/img/site/logo_au_bon_pecheur.svg">
@@ -38,6 +51,7 @@
                 </svg>
             </button>
         </div>
+
         <div>
             <ul>
 
@@ -80,6 +94,19 @@
                 <li class="mb-1">
                     <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Equipement</a>
                 </li>
+
+                <?php 
+                    if(isset($_SESSION['id_role']))
+                    {
+                        if(!empty($_SESSION['id_role']))
+                        {
+                            if($_SESSION['id_role'] == 1)
+                            {
+                ?>
+                <li class="mb-1">
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="admin.php">Admin</a>
+                </li>
+                <?php } } } ?>
 
             </ul>
 

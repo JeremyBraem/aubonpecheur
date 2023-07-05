@@ -477,7 +477,6 @@ function addAppatTraitement()
 {
     if(isset($_POST))
     {
-        
         if(!empty($_POST['nom_appat']) && !empty($_POST['detail_appat']) && !empty($_POST['categorie_appat']) && !empty($_POST['type_appat']) && !empty($_POST['marque_appat']) && !empty($_POST['promo_appat']) && !empty($_POST['stock_appat']) && !empty($_POST['description_appat'] && !empty($_FILES['image_appat'])))
         {
             $newAppat = [];
@@ -824,8 +823,6 @@ function addTypeAppatTraitement()
 
 function deleteCanne()
 {
-    // if($_SESSION['id_role'] === 1)
-    // {
         if(!empty($_POST['id_canne']) && isset($_POST['id_canne']))
         {
             $id_canne = isset($_POST['id_canne']) ? $_POST['id_canne'] : null;
@@ -842,18 +839,10 @@ function deleteCanne()
                 header('location: admin.php');
             }
         }
-        
-    // }
-    // else
-    // {
-    //     home();
-    // }
 }
 
 function deleteMoulinet()
 {
-    // if($_SESSION['id_role'] === 1)
-    // {
         if(!empty($_POST['id_moulinet']) && isset($_POST['id_moulinet']))
         {
             var_dump($_POST);
@@ -872,18 +861,10 @@ function deleteMoulinet()
                 header('location: admin.php');
             }
         }
-        
-    // }
-    // else
-    // {
-    //     home();
-    // }
 }
 
 function deleteHamecon()
 {
-    // if($_SESSION['id_role'] === 1)
-    // {
         if(!empty($_POST['id_hamecon']) && isset($_POST['id_hamecon']))
         {
             var_dump($_POST);
@@ -902,18 +883,10 @@ function deleteHamecon()
                 header('location: admin.php');
             }
         }
-        
-    // }
-    // else
-    // {
-    //     home();
-    // }
 }
 
 function deleteLeurre()
 {
-    // if($_SESSION['id_role'] === 1)
-    // {
         if(!empty($_POST['id_leurre']) && isset($_POST['id_leurre']))
         {
             var_dump($_POST);
@@ -932,18 +905,10 @@ function deleteLeurre()
                 header('location: admin.php');
             }
         }
-        
-    // }
-    // else
-    // {
-    //     home();
-    // }
 }
 
 function deleteLigne()
 {
-    // if($_SESSION['id_role'] === 1)
-    // {
         if(!empty($_POST['id_ligne']) && isset($_POST['id_ligne']))
         {
             var_dump($_POST);
@@ -962,18 +927,10 @@ function deleteLigne()
                 header('location: admin.php');
             }
         }
-        
-    // }
-    // else
-    // {
-    //     home();
-    // }
 }
 
 function deleteFeeder()
 {
-    // if($_SESSION['id_role'] === 1)
-    // {
         if(!empty($_POST['id_feeder']) && isset($_POST['id_feeder']))
         {
             var_dump($_POST);
@@ -992,18 +949,10 @@ function deleteFeeder()
                 header('location: admin.php');
             }
         }
-        
-    // }
-    // else
-    // {
-    //     home();
-    // }
 }
 
 function deleteEquipement()
 {
-    // if($_SESSION['id_role'] === 1)
-    // {
         if(!empty($_POST['id_equipement']) && isset($_POST['id_equipement']))
         {
             var_dump($_POST);
@@ -1022,18 +971,10 @@ function deleteEquipement()
                 header('location: admin.php');
             }
         }
-        
-    // }
-    // else
-    // {
-    //     home();
-    // }
 }
 
 function deleteAppat()
 {
-    // if($_SESSION['id_role'] === 1)
-    // {
         if(!empty($_POST['id_appat']) && isset($_POST['id_appat']))
         {
             var_dump($_POST);
@@ -1052,19 +993,11 @@ function deleteAppat()
                 header('location: admin.php');
             }
         }
-        
-    // }
-    // else
-    // {
-    //     home();
-    // }
 }
 
 
 function deleteCategorie()
 {
-    // if($_SESSION['id_role'] === 1)
-    // {
         if(!empty($_POST['id_categorie']) && isset($_POST['id_categorie']))
         {
             $id_categorie = isset($_POST['id_categorie']) ? $_POST['id_categorie'] : null;
@@ -1081,18 +1014,10 @@ function deleteCategorie()
                 header('location: admin.php');
             }
         }
-        
-    // }
-    // else
-    // {
-    //     home();
-    // }
 }
 
 function deleteMarque()
 {
-    // if($_SESSION['id_role'] === 1)
-    // {
         if(!empty($_POST['id_marque']) && isset($_POST['id_marque']))
         {
             $id_marque = isset($_POST['id_marque']) ? $_POST['id_marque'] : null;
@@ -1112,18 +1037,10 @@ function deleteMarque()
                 header('location: admin.php');
             }
         }
-        
-    // }
-    // else
-    // {
-    //     home();
-    // }
 }
 
 function deleteTypeCanne()
 {
-    // if($_SESSION['id_role'] === 1)
-    // {
         if(!empty($_POST['id_type_canne']) && isset($_POST['id_type_canne']))
         {
             $id_type_canne = isset($_POST['id_type_canne']) ? $_POST['id_type_canne'] : null;
@@ -1140,18 +1057,10 @@ function deleteTypeCanne()
                 header('location: admin.php');
             }
         }
-        
-    // }
-    // else
-    // {
-    //     home();
-    // }
 }
 
 function deleteTypeMoulinet()
 {
-    // if($_SESSION['id_role'] === 1)
-    // {
         if(!empty($_POST['id_type_moulinet']) && isset($_POST['id_type_moulinet']))
         {
             $id_type_moulinet = isset($_POST['id_type_moulinet']) ? $_POST['id_type_moulinet'] : null;
@@ -1168,18 +1077,10 @@ function deleteTypeMoulinet()
                 header('location: admin.php');
             }
         }
-        
-    // }
-    // else
-    // {
-    //     home();
-    // }
 }
 
 function deleteTypeHamecon()
 {
-    // if($_SESSION['id_role'] === 1)
-    // {
         if(!empty($_POST['id_type_hamecon']) && isset($_POST['id_type_hamecon']))
         {
             $id_type_hamecon = isset($_POST['id_type_hamecon']) ? $_POST['id_type_hamecon'] : null;
@@ -1196,18 +1097,10 @@ function deleteTypeHamecon()
                 header('location: admin.php');
             }
         }
-        
-    // }
-    // else
-    // {
-    //     home();
-    // }
 }
 
 function deleteTypeLeurre()
 {
-    // if($_SESSION['id_role'] === 1)
-    // {
         if(!empty($_POST['id_type_leurre']) && isset($_POST['id_type_leurre']))
         {
             $id_type_leurre = isset($_POST['id_type_leurre']) ? $_POST['id_type_leurre'] : null;
@@ -1224,18 +1117,10 @@ function deleteTypeLeurre()
                 header('location: admin.php');
             }
         }
-        
-    // }
-    // else
-    // {
-    //     home();
-    // }
 }
 
 function deleteTypeLigne()
 {
-    // if($_SESSION['id_role'] === 1)
-    // {
         if(!empty($_POST['id_type_ligne']) && isset($_POST['id_type_ligne']))
         {
             $id_type_ligne = isset($_POST['id_type_ligne']) ? $_POST['id_type_ligne'] : null;
@@ -1252,18 +1137,11 @@ function deleteTypeLigne()
                 header('location: admin.php');
             }
         }
-        
-    // }
-    // else
-    // {
-    //     home();
-    // }
 }
 
 function deleteTypeFeeder()
 {
-    // if($_SESSION['id_role'] === 1)
-    // {
+
         if(!empty($_POST['id_type_feeder']) && isset($_POST['id_type_feeder']))
         {
             $id_type_feeder = isset($_POST['id_type_feeder']) ? $_POST['id_type_feeder'] : null;
@@ -1280,18 +1158,10 @@ function deleteTypeFeeder()
                 header('location: admin.php');
             }
         }
-        
-    // }
-    // else
-    // {
-    //     home();
-    // }
 }
 
 function deleteTypeEquipement()
 {
-    // if($_SESSION['id_role'] === 1)
-    // {
         if(!empty($_POST['id_type_equipement']) && isset($_POST['id_type_equipement']))
         {
             $id_type_equipement = isset($_POST['id_type_equipement']) ? $_POST['id_type_equipement'] : null;
@@ -1308,18 +1178,10 @@ function deleteTypeEquipement()
                 header('location: admin.php');
             }
         }
-        
-    // }
-    // else
-    // {
-    //     home();
-    // }
 }
 
 function deleteTypeAppat()
 {
-    // if($_SESSION['id_role'] === 1)
-    // {
         if(!empty($_POST['id_type_appat']) && isset($_POST['id_type_appat']))
         {
             $id_type_appat = isset($_POST['id_type_appat']) ? $_POST['id_type_appat'] : null;
@@ -1336,18 +1198,10 @@ function deleteTypeAppat()
                 header('location: admin.php');
             }
         }
-        
-    // }
-    // else
-    // {
-    //     home();
-    // }
 }
 
 function UpdateCanneTraitement()
 {
-    // if($_SESSION['id_role'] === 1)
-    // { 
     $img = new ImageCanneRepository;
     $oldImg = $img->getImageByCanne($_POST['id_canne']);
 
@@ -1414,18 +1268,11 @@ function UpdateCanneTraitement()
         {
             echo 'non';
         }
-    } 
-    // }
-    // else
-    // {
-    //     home();
-    // }
+    }
 }
 
 function UpdateMoulinetTraitement()
 {
-    // if($_SESSION['id_role'] === 1)
-    // { 
     $img = new ImageMoulinetRepository;
     $oldImg = $img->getImageByMoulinet($_POST['id_moulinet']);
 
@@ -1492,18 +1339,11 @@ function UpdateMoulinetTraitement()
         {
             echo 'non';
         }
-    } 
-    // }
-    // else
-    // {
-    //     home();
-    // }
+    }
 }
 
 function UpdateHameconTraitement()
 {
-    // if($_SESSION['id_role'] === 1)
-    // { 
     $img = new ImageHameconRepository;
     $oldImg = $img->getImageByHamecon($_POST['id_hamecon']);
 
@@ -1570,18 +1410,11 @@ function UpdateHameconTraitement()
         {
             echo 'non';
         }
-    } 
-    // }
-    // else
-    // {
-    //     home();
-    // }
+    }
 }
 
 function UpdateLeurreTraitement()
-{
-    // if($_SESSION['id_role'] === 1)
-    // { 
+{ 
     $img = new ImageLeurreRepository;
     $oldImg = $img->getImageByLeurre($_POST['id_leurre']);
 
@@ -1648,12 +1481,7 @@ function UpdateLeurreTraitement()
         {
             echo 'non';
         }
-    } 
-    // }
-    // else
-    // {
-    //     home();
-    // }
+    }
 }
 
 function UpdateLigneTraitement()
@@ -1727,18 +1555,11 @@ function UpdateLigneTraitement()
         {
             echo 'non';
         }
-    } 
-    // }
-    // else
-    // {
-    //     home();
-    // }
+    }
 }
 
 function UpdateFeederTraitement()
 {
-    // if($_SESSION['id_role'] === 1)
-    // { 
     $img = new ImageFeederRepository;
     $oldImg = $img->getImageByFeeder($_POST['id_feeder']);
 
@@ -1806,18 +1627,11 @@ function UpdateFeederTraitement()
         {
             echo 'non';
         }
-    } 
-    // }
-    // else
-    // {
-    //     home();
-    // }
+    }
 }
 
 function UpdateEquipementTraitement()
 {
-    // if($_SESSION['id_role'] === 1)
-    // { 
     $img = new ImageEquipementRepository;
     $oldImg = $img->getImageByEquipement($_POST['id_equipement']);
 
@@ -1829,7 +1643,7 @@ function UpdateEquipementTraitement()
         {
             echo "Le fichier a été supprimé avec succès.";
         }
-        else 
+        else
         {
             echo "Une erreur s'est produite lors de la suppression du fichier.";
             die;
@@ -1883,18 +1697,11 @@ function UpdateEquipementTraitement()
         {
             echo 'non';
         }
-    } 
-    // }
-    // else
-    // {
-    //     home();
-    // }
+    }
 }
 
 function UpdateAppatTraitement()
 {
-    // if($_SESSION['id_role'] === 1)
-    // { 
     $img = new ImageAppatRepository;
     $oldImg = $img->getImageByAppat($_POST['id_appat']);
 
@@ -1960,12 +1767,7 @@ function UpdateAppatTraitement()
         {
             echo 'non';
         }
-    } 
-    // }
-    // else
-    // {
-    //     home();
-    // }
+    }
 }
 
 function combinedArticle($articles)
@@ -2174,7 +1976,7 @@ function combinedArticle($articles)
         }
     }
 
-    foreach ($articles['appats'] as $appat) 
+    foreach ($articles['appats'] as $appat)
     {
         if ($appat) 
         {
@@ -2202,4 +2004,100 @@ function combinedArticle($articles)
         }
     }
     return $combinedArticles;
+}
+
+function searchPage()
+{
+    $article = [];
+
+    $canneRepo = new CanneRepository;
+    $article['cannes'] = $canneRepo->getAllCanne();
+
+    $typeCanneRepo = new TypeCanneRepository;
+    $typeCannes = $typeCanneRepo->getAllTypeCanne();
+
+    $moulinetRepo = new MoulinetRepository;
+    $article['moulinets'] = $moulinetRepo->getAllmoulinet();
+
+    $typeMoulinetRepo = new TypemoulinetRepository;
+    $typeMoulinets = $typeMoulinetRepo->getAllTypemoulinet();
+
+    $hameconRepo = new HameconRepository;
+    $article['hamecons'] = $hameconRepo->getAllHamecon();
+
+    $typeHameconRepo = new TypeHameconRepository;
+    $typeHamecons = $typeHameconRepo->getAllTypeHamecon();
+
+    $leurreRepo = new LeurreRepository;
+    $article['leurres'] = $leurreRepo->getAllleurre();
+
+    $typeLeurreRepo = new TypeLeurreRepository;
+    $typeLeurres = $typeLeurreRepo->getAllTypeLeurre();
+
+    $ligneRepo = new LigneRepository;
+    $article['lignes'] = $ligneRepo->getAllLigne();
+
+    $typeLigneRepo = new TypeLigneRepository;
+    $typeLignes = $typeLigneRepo->getAllTypeLigne();
+
+    $feederRepo = new FeederRepository;
+    $article['feeders'] = $feederRepo->getAllFeeder();
+
+    $typeFeederRepo = new TypeFeederRepository;
+    $typeFeeders = $typeFeederRepo->getAllTypeFeeder();
+
+    $equipementRepo = new EquipementRepository;
+    $article['equipements'] = $equipementRepo->getAllEquipement();
+
+    $typeEquipementRepo = new TypeEquipementRepository;
+    $typeEquipements = $typeEquipementRepo->getAllTypeEquipement();
+
+    $appatRepo = new AppatRepository;
+    $article['appats'] = $appatRepo->getAllAppat();
+
+    $typeAppatRepo = new TypeAppatRepository;
+    $typeAppats = $typeAppatRepo->getAllTypeAppat();
+
+    $marqueRepo = new MarqueRepository;
+    $marques = $marqueRepo->getAllMarque();
+
+    $categorieRepo = new CategorieRepository;
+    $categories = $categorieRepo->getAllCategorie();
+
+    $articles = combinedArticle($article);
+
+    $searchResults = [];
+    if(!empty($_POST['keywords']))
+    {
+        $keywords[] = $_POST['keywords']; 
+
+        if ($keywords != null)
+        {
+            $keywords = array_map('strtolower', $keywords);
+        }
+
+        foreach ($articles as $article)
+        {
+            $nom = strtolower($article['nom']);
+            $description = strtolower($article['description']);
+            $type = strtolower($article['type']);
+            $marque = strtolower($article['marque']);
+            $categorie = strtolower($article['categorie']);
+            $genre = strtolower($article['genre']);
+    
+            foreach ($keywords as $keyword) 
+            {
+                if (strpos($nom, $keyword) !== false || strpos($description, $keyword) !== false || strpos($type, $keyword) !== false || strpos($marque, $keyword) !== false || strpos($categorie, $keyword) !== false || strpos($genre, $keyword) !== false ) 
+                {
+                    $articlesSelectionnes[] = $article;
+                }
+            }
+        }
+    }
+    else
+    {
+        header('location:admin.php');
+    }
+    
+    require('src/view/adminCrud/adminSearchPage.php');
 }

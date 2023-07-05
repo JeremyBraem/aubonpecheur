@@ -245,6 +245,13 @@ function articlePage()
     include('src/view/articlePage.php');
 }
 
+function marquePage()
+{
+    $marques = getAllMarque();
+
+    include('src/view/marquePage.php');
+}
+
 //AFFICHAGE DE LA PAGE DE TOUS LES ARTICLES EN PROMOTION
 function promoPage()
 {
@@ -301,6 +308,51 @@ function viewPageCategorie()
     $combinedArticles = combinedArticle($articles);
 
     include('src/view/articlePageByCat.php');
+}
+
+function viewPageMarque()
+{
+    $marqueRepo = new MarqueRepository;
+
+    if($marqueRepo->existMarque($_GET['marque']))
+    {
+        $marque = $marqueRepo->existMarque($_GET['marque']);
+    }
+    else
+    {
+        header('location:index.php');
+    }
+
+    $allCanneRepo = new CanneRepository;
+    $allMoulinetRepo = new MoulinetRepository;
+    $allHameconRepo = new HameconRepository;
+    $allLeurreRepo = new LeurreRepository;
+    $allLigneRepo = new LigneRepository;
+    $allEquipementRepo = new EquipementRepository;
+    $allFeederRepo = new FeederRepository;
+    $allAppatRepo = new AppatRepository;
+
+    $categories = getAllCategorie();
+
+    foreach($marque as $idMarques)
+    {
+        $idMarque = $idMarques->getIdMarque();
+    }
+
+    $articles = [];
+
+    $articles['cannes'] = $allCanneRepo->getCanneByMarque($idMarque);
+    $articles['moulinets'] = $allMoulinetRepo->getMoulinetByMarque($idMarque);
+    $articles['hamecons'] = $allHameconRepo->getHameconByMarque($idMarque);
+    $articles['leurres'] = $allLeurreRepo->getLeurreByMarque($idMarque);
+    $articles['equipements'] = $allEquipementRepo->getEquipementByMarque($idMarque);
+    $articles['lignes'] = $allLigneRepo->getLigneByMarque($idMarque);
+    $articles['appats'] = $allAppatRepo->getAppatByMarque($idMarque);
+    $articles['feeders'] = $allFeederRepo->getFeederByMarque($idMarque);
+
+    $combinedArticles = combinedArticle($articles);
+
+    include('src/view/articlePageByMarque.php');
 }
 
 //PAGE D'AFFICHAGE DE TOUTES LES CANNES
@@ -564,6 +616,21 @@ function getIdCategorie()
     }
 
     return $idCategorie;
+}
+
+//RECUPERATION D'ID DE CATEGORIE EN FONCTION DES NOM DE CATEGORIE EN GET
+function getIdMarque()
+{
+    $marqueRepo = new MarqueRepository;
+
+    $marque = $marqueRepo->existMarque($_GET['marque']);
+
+    foreach ($marque as $idMarques) 
+    {
+        $idMarque = $idMarques->getIdMarque();
+    }
+
+    return $idMarque;
 }
 
 //RECUPERATION DE TOUS LES TYPE D'ARTICLE
@@ -962,6 +1029,100 @@ function filtrePageCate()
     $articles['lignes'] = $allLigneRepo->getLigneByCategorie($idCategorie);
     $articles['appats'] = $allAppatRepo->getAppatByCategorie($idCategorie);
     $articles['feeders'] = $allFeederRepo->getFeederByCategorie($idCategorie);
+
+    $combinedArticles = combinedArticle($articles);
+
+    $filtres = isset($_POST['filtres']) ? json_decode($_POST['filtres']) : [];
+
+    $articlesFiltres = [];
+
+    $genresFiltres = [];
+    $marquesFiltres = [];
+    $categoriesFiltres = [];
+
+    foreach ($filtres as $filtre) 
+    {
+        if (isGenre($filtre)) 
+        {
+            $genresFiltres[] = $filtre;
+        } 
+        elseif (isMarque($filtre)) 
+        {
+            $marquesFiltres[] = $filtre;
+        } 
+        elseif (isCategorie($filtre)) 
+        {
+            $categoriesFiltres[] = $filtre;
+        }
+    }
+
+    $isGenresSelected = !empty($genresFiltres);
+
+    $isMarquesSelected = !empty($marquesFiltres);
+
+    $isCategoriesSelected = !empty($categoriesFiltres);
+
+    foreach ($combinedArticles as $article) 
+    {
+        if (($article != ['']))
+        {
+            $isGenreMatch = in_array($article['genre'], $genresFiltres) || !$isGenresSelected;
+
+            $isMarqueMatch = in_array($article['marque'], $marquesFiltres) || !$isMarquesSelected;
+
+            $isCategorieMatch = in_array($article['categorie'], $categoriesFiltres) || !$isCategoriesSelected;
+
+            if ($isGenreMatch && $isMarqueMatch && $isCategorieMatch) 
+            {
+                $articlesFiltres[] = $article;
+            }
+        } 
+        else 
+        {
+            echo '';
+        }
+    }
+
+    foreach ($articlesFiltres as $articleFiltred) 
+    {
+        echo '<a href="index.php?action=' . $articleFiltred['genre'] . 'Page&id=' . $articleFiltred['id'] . '">';
+        echo '<div class="' . $articleFiltred['type'] . ' article" >';
+        echo '<div>';
+        echo '<img src="' . $articleFiltred['image'] . '" alt="' . $articleFiltred['nom'] . '" class="object-cover object-center w-32 h-32 md:w-56 md:h-56" style="border: 1px solid #000000;">';
+        echo '</div>';
+        echo '<div>';
+        echo '<p class="text-xs md:text-lg text-center">' . $articleFiltred['nom'] . '</p>';
+        echo '<p class="text-2xs md:text-sm text-center uppercase">' . $articleFiltred['marque'] . '</p>';
+        echo '</div>';
+        echo '</div>';
+        echo '</a>';
+    }
+}
+
+//TRAITEMENT POUR LES FILTRES DES PAGES D'ARTICLES EN FONCTION DE LA CATEGORIE PRIT EN GET
+function filtrePageMarque()
+{
+    $allCanneRepo = new CanneRepository;
+    $allMoulinetRepo = new MoulinetRepository;
+    $allHameconRepo = new HameconRepository;
+    $allLeurreRepo = new LeurreRepository;
+    $allLigneRepo = new LigneRepository;
+    $allEquipementRepo = new EquipementRepository;
+    $allFeederRepo = new FeederRepository;
+    $allAppatRepo = new AppatRepository;
+
+    $idMarque = getIdMarque();
+
+    $articles = [];
+
+    $articles['cannes'] = $allCanneRepo->getCanneByMarque($idMarque);
+    $articles['moulinets'] = $allMoulinetRepo->getMoulinetByMarque($idMarque);
+    $articles['hamecons'] = $allHameconRepo->getHameconByMarque($idMarque);
+    $articles['leurres'] = $allLeurreRepo->getLeurreByMarque($idMarque);
+    $articles['equipements'] = $allEquipementRepo->getEquipementByMarque($idMarque);
+    $articles['lignes'] = $allLigneRepo->getLigneByMarque($idMarque);
+    $articles['appats'] = $allAppatRepo->getAppatByMarque($idMarque);
+    $articles['feeders'] = $allFeederRepo->getFeederByMarque($idMarque);
 
     $combinedArticles = combinedArticle($articles);
 

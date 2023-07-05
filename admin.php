@@ -143,6 +143,10 @@ if ($_SESSION['id_role'] == 1)
             case 'UpdateAppatTraitement':
                 UpdateAppatTraitement();
                 break;
+            case 'search':
+                searchPage();
+                break;
+           
             default:
                 adminPage();
         }

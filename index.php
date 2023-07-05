@@ -66,11 +66,20 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'article':
             viewPageCategorie();
             break;
+        case 'articleM':
+            viewPageMarque();
+            break;
         case 'filtrePageCate':
             filtrePageCate();
             break;
+        case 'filtrePageMarque':
+            filtrePageMarque();
+            break;
         case 'filtrePromo':
             filtrePromo();
+            break;
+        case 'marquePage':
+            marquePage();
             break;
         default:
         home();

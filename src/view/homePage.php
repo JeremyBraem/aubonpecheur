@@ -71,28 +71,24 @@
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-3 p-5 md:px-14 lg:px-32">
-                <?php foreach($marques as $marque)
-                {
-                    if($marque)
-                    {
-                ?>
-                <a href="index.php?action=articlePage&filtre=<?php echo $marque->getNomMarque() ?>">
-                    <div class="bg-[#fcfcfc] w-32 h-16 md:w-40 md:h-20 m-auto flex">
+                
+                <?php foreach($marques as $marque) { ?>
+                <?php if($marque) { ?>
+                
+                    <a class="w-32 h-16 md:w-40 md:h-20 m-auto" href="index.php?action=articleM&marque=<?php echo $marque->getNomMarque() ?>">
 
-                        <div class="w-28 h-16 md:w-36 md:h-20 m-auto overflow-hidden">
-                            <img src="<?php echo $marque->getImageMarque(); ?>" class="w-full h-full object-contain" />
+                        <div class="bg-[#fcfcfc] w-32 h-16 md:w-40 md:h-20 m-auto flex">
+
+                            <div class="w-28 h-16 md:w-36 md:h-20 m-auto overflow-hidden">
+                                <img src="<?php echo $marque->getImageMarque(); ?>" class="w-full h-full object-contain" />
+                            </div>
+
                         </div>
+                
+                    </a>
 
-                    </div>
-                </a>
-                <?php
-                    }
-                    else
-                    {
-                        echo '';
-                    }
-                } 
-                ?>
+                <?php } else { echo ''; } } ?>
+
             </div>
 
         </section>
