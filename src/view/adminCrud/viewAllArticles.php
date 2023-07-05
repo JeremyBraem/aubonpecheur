@@ -22,6 +22,26 @@
             {
                 include('src/view/adminCrud/viewArticle/viewLeurre.php');
             }
+
+            if ($article['genre'] === 'appat') 
+            {
+                include('src/view/adminCrud/viewArticle/viewAppat.php');
+            }
+
+            if ($article['genre'] === 'equipement') 
+            {
+                include('src/view/adminCrud/viewArticle/viewEquipement.php');
+            }
+
+            if ($article['genre'] === 'ligne') 
+            {
+                include('src/view/adminCrud/viewArticle/viewLigne.php');
+            }
+
+            if ($article['genre'] === 'plomb') 
+            {
+                include('src/view/adminCrud/viewArticle/viewFeeder.php');
+            }
         }
     } 
     else 

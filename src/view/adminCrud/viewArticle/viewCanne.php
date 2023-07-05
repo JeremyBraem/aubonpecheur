@@ -58,3 +58,6 @@
                 </td>
 
             </tr>
+            <?php include('src/view/adminCrud/modalUpdate/modalCanneUpdate.php'); ?>
+            <?php include('src/view/adminCrud/readModal/readModalCanne.php'); ?>
+            <?php include('src/view/adminCrud/modalDelete/modalDeleteCanne.php'); ?>

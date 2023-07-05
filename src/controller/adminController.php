@@ -1987,6 +1987,11 @@ function combinedArticle($articles)
                 'marque' => $canne->getMarqueCanne(),
                 'type' => $canne->getTypeCanne(),
                 'categorie' => $canne->getCategorieCanne(),
+                'description' => $canne->getDescriptionCanne(),
+                'poids' => $canne->getPoidsCanne(),
+                'longueur' => $canne->getLongueurCanne(),
+                'stock' => $canne->getStockCanne(),
+                'promo' => $canne->getPromoCanne(),
             ];
         }
         else
@@ -2097,6 +2102,12 @@ function combinedArticle($articles)
                 'marque' => $ligne->getMarqueLigne(),
                 'type' => $ligne->getTypeLigne(),
                 'categorie' => $ligne->getCategorieLigne(),
+                'description' => $ligne->getDescriptionLigne(),
+                'stock' => $ligne->getStockLigne(),
+                'promo' => $ligne->getPromoLigne(),
+                'longueur' => $ligne->getLongueurLigne(),
+                'diametre' => $ligne->getDiametreLigne(),
+                'poids' => $ligne->getPoidsLigne(),
             ];
         } 
         else 
@@ -2121,6 +2132,10 @@ function combinedArticle($articles)
                 'marque' => $equipement->getMarqueEquipement(),
                 'type' => $equipement->getTypeEquipement(),
                 'categorie' => $equipement->getCategorieEquipement(),
+                'promo' => $equipement->getPromoEquipement(),
+                'stock' => $equipement->getStockEquipement(),
+                'description' => $equipement->getDescriptionEquipement(),
+                'detail' => $equipement->getDetailEquipement(),
             ];
         }
         else 
@@ -2145,6 +2160,12 @@ function combinedArticle($articles)
                 'marque' => $feeder->getMarqueFeeder(),
                 'type' => $feeder->getTypeFeeder(),
                 'categorie' => $feeder->getCategorieFeeder(),
+                'promo' => $feeder->getPromoFeeder(),
+                'stock' => $feeder->getStockFeeder(),
+                'description' => $feeder->getDescriptionFeeder(),
+                'poids' => $feeder->getPoidsFeeder(),
+                'longueur' => $feeder->getLongueurFeeder(),
+                'diametre' => $feeder->getDiametreFeeder(),
             ];
         } 
         else 
@@ -2169,6 +2190,10 @@ function combinedArticle($articles)
                 'marque' => $appat->getMarqueAppat(),
                 'type' => $appat->getTypeAppat(),
                 'categorie' => $appat->getCategorieAppat(),
+                'description' => $appat->getDescriptionAppat(),
+                'promo' => $appat->getPromoAppat(),
+                'stock' => $appat->getStockAppat(),
+                'detail' => $appat->getDetailAppat(),
             ];
         }
         else 
