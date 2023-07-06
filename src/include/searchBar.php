@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="flex items-center">
-        <a href="index.php?action=profil">
+        <a href="<?php if(isset($_SESSION['id_role'])) echo 'index.php?action=profil'; else echo 'index.php?action=login'; ?> ">
             <img src="assets/img/site/3106773.png" class="w-[30px] h-[30px]">
         </a>
         <?php 

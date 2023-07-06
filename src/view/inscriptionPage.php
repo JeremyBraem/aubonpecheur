@@ -83,7 +83,7 @@
                 </form>
 
                 <div>
-                    <p class="text-center my-5">Déjà inscrit ? <a class="text-[#426EC2] underline" href="#">Connectez-vous !</a></p>
+                    <p class="text-center my-5">Déjà inscrit ? <a class="text-[#426EC2] underline" href="index.php?action=login">Connectez-vous !</a></p>
                 </div>
 
             </div>
