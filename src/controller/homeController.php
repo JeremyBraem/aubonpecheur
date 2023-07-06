@@ -2,6 +2,7 @@
 
 require_once('autoload/autoloader.php');
 require_once('src/model/User.php');
+require_once('src/model/Favoris.php');
 
 require_once('src/model/Produit/Canne.php');
 require_once('src/model/Produit/Moulinet.php');
@@ -116,7 +117,7 @@ function loginTraitement()
                         $_SESSION['nom_user'] = $user->getLastnameUser();
                         $_SESSION['email_user'] = $user->getEmailUser();
                         header('location: index.php');
-                    } 
+                    }
                     else 
                     {
                         $_SESSION['messageError'] = "Informations incorrects.";
@@ -234,6 +235,30 @@ function disconnectUser()
 {
     session_destroy();
     header('location:index.php');
+}
+
+function addFavorisTraitement()
+{
+    if($_POST['genre'] === 'canne')
+    {
+        $favoris = new Favoris();
+        $favorisRepo = new FavorisRepository;
+
+        $_POST['genre'] = htmlspecialchars($_POST['genre']);
+        $_POST['id_canne'] = htmlspecialchars($_POST['id_canne']);
+        $_POST['date_ajout_favoris'] = htmlspecialchars($_POST['date_ajout_favoris']);
+        $_POST['id_user'] = htmlspecialchars($_POST['id_user']);
+        
+        $favoris->createToInsertFavoris($_POST);
+        
+        $favorisRepo->insertFavoris($favoris);
+
+        $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
+
+        $favorisRepo->insertFavCanneAndUser($lastIdFav, $_POST['id_canne']);
+
+        header('location:index.php');
+    }
 }
 
 //AFFICHAGE DE LA PAGE DE PROFIL

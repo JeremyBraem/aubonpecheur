@@ -27,6 +27,16 @@
 
                         </a>
 
+                        <div>
+                            <form method="post" action="index.php?action=addFavorisTraitement">
+                                <input type="hidden" name="id_<?php echo $article['genre']; ?>" value="<?php echo $article['id']; ?>">
+                                <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
+                                <input type="hidden" name="genre" value="<?php echo $article['genre']; ?>">
+                                <input type="hidden" name="date_ajout_favoris" value="<?php echo $today = date("d/m/y"); ?>">
+                                <button type="submit">Favoris</button>
+                            </form>
+                        </div>
+
                     </div>
 
                 <?php } ?>

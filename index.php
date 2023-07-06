@@ -84,6 +84,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'profil':
             profilPage();
             break;
+        case 'addFavorisTraitement':
+            addFavorisTraitement();
+            break;
         default:
         home();
     }
