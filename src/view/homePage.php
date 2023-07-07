@@ -94,11 +94,11 @@
         </section>
 
         <section>
+
             <div class="pt-7 pb-1">
                 <h2 class="font-medium text-l lg:text-2xl text-[#426EC2] text-center mb-5">Actuellement en Promotion</h2>
                 <hr class="border-b border-[#426EC2] w-2/3 m-auto">
                 <?php require_once ('src/include/sliderPromo.php'); ?>
-
             </div>
 
         </section>
@@ -184,6 +184,8 @@
 
     <script src="assets/js/swiper.js"></script>
     <script src="assets/js/sliderPromo.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/favoris.js"></script>
 
 </body>
 </html>

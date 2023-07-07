@@ -237,34 +237,293 @@ function disconnectUser()
     header('location:index.php');
 }
 
+//TRAITEMENT POUR AJOUTER DES FAVORIS
 function addFavorisTraitement()
 {
-    if($_POST['genre'] === 'canne')
+    if ($_POST['genre'] === 'canne')
     {
+        $id_canne = $_POST['id_canne'];
+
+        $favorisRepo = new FavorisRepository(); 
         $favoris = new Favoris();
-        $favorisRepo = new FavorisRepository;
 
-        $_POST['genre'] = htmlspecialchars($_POST['genre']);
-        $_POST['id_canne'] = htmlspecialchars($_POST['id_canne']);
-        $_POST['date_ajout_favoris'] = htmlspecialchars($_POST['date_ajout_favoris']);
-        $_POST['id_user'] = htmlspecialchars($_POST['id_user']);
-        
-        $favoris->createToInsertFavoris($_POST);
-        
-        $favorisRepo->insertFavoris($favoris);
+        if (isset($_SESSION['canne']) && !empty($_SESSION['canne']))
+        {
+            foreach ($_SESSION['canne'] as $key => $canne)
+            {
+                if (in_array($id_canne, $canne))
+                {
+                    $favByIdCanne = $favorisRepo->getFavorisByIdCanne($id_canne);
+                    
+                    $idFavByIdUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+    
+                    foreach ($favByIdCanne as $favCannes)
+                    {
+                        $favIdCanne = $favCannes->getIdFavoris();
+                    }
+                    
+                    foreach ($idFavByIdUser as $favCannesUser)
+                    {
+                        $favIdCanneUser[] = $favCannesUser->getIdFavoris();
+                    }
+    
+                    if (in_array($favIdCanne, $favIdCanneUser))
+                    {
+                        $deleteFavAndCanne = $favorisRepo->deleteFavCanneAndUser($favIdCanne, $id_canne);
+                    }
+                    
+                    foreach ($_SESSION['canne'] as $key => $subArray)
+                    {
+                        foreach ($subArray as $subKey => $subValue)
+                        {
+                            if ($id_canne == $subValue)
+                            {
+                                unset($_SESSION['canne'][$key][$subKey]);
+                                // Réindexer les clés du sous-tableau
+                                $_SESSION['canne'][$key] = array_values($_SESSION['canne'][$key]);
+                                // Vérifier si le sous-tableau est vide après suppression
+                                if (empty($_SESSION['canne'][$key])) {
+                                    unset($_SESSION['canne'][$key]);
+                                }
+                                break; // Sortir de la boucle après suppression de l'élément
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    $favoris->createToInsertFavoris($_POST);
+                    $favorisRepo->insertFavoris($favoris);
+                    $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
+                    $favorisRepo->insertFavCanneAndUser($lastIdFav, $id_canne);
+                    $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+    
+                    foreach ($favUser as $idFavo)
+                    {
+                        $allIdFav[] = $idFavo->getIdFavoris();
+                    }
+    
+                    foreach ($allIdFav as $idFavoris)
+                    {
+                        $idCanneFav[] = $favorisRepo->getCanneByIdFav($idFavoris);
+                    }
 
-        $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
+                    $_SESSION['canne'] = [$idCanneFav];
+                }
+            }
+        }
+        else
+        {
+            $favoris->createToInsertFavoris($_POST);
+            $favorisRepo->insertFavoris($favoris);
+            $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
+            $favorisRepo->insertFavCanneAndUser($lastIdFav, $id_canne);
+            $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
 
-        $favorisRepo->insertFavCanneAndUser($lastIdFav, $_POST['id_canne']);
+            foreach ($favUser as $idFavo)
+            {
+                $allIdFav[] = $idFavo->getIdFavoris();
+            }
 
-        header('location:index.php');
+            foreach ($allIdFav as $idFavoris)
+            {
+                $idCanneFav[] = $favorisRepo->getCanneByIdFav($idFavoris);
+            }
+            
+            $_SESSION['canne'] = [$idCanneFav];
+        }
     }
+
+    if ($_POST['genre'] === 'moulinet')
+    {
+        $id_moulinet = $_POST['id_moulinet'];
+
+        $favorisRepo = new FavorisRepository(); 
+        $favoris = new Favoris();
+
+        if (isset($_SESSION['moulinet']) && !empty($_SESSION['moulinet']))
+        {
+            foreach ($_SESSION['moulinet'] as $key => $moulinet)
+            {
+                if (in_array($id_moulinet, $moulinet))
+                {
+                    $favByIdMoulinet = $favorisRepo->getFavorisByIdMoulinet($id_moulinet);
+                    
+                    $idFavByIdUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+
+                    foreach ($favByIdMoulinet as $favMoulinets)
+                    {
+                        $favIdMoulinet = $favMoulinets->getIdFavoris();
+                    }
+                    
+                    foreach ($idFavByIdUser as $favMoulinetsUser)
+                    {
+                        $favIdMoulinetUser[] = $favMoulinetsUser->getIdFavoris();
+                    }
+    
+                    if (in_array($favIdMoulinet, $favIdMoulinetUser))
+                    {
+                        $deleteFavAndMoulinet = $favorisRepo->deleteFavMoulinetAndUser($favIdMoulinet, $id_moulinet);
+                    }
+                    
+                    foreach ($_SESSION['moulinet'] as $key => $subArray)
+                    {
+                        foreach ($subArray as $subKey => $subValue)
+                        {
+                            if ($id_moulinet == $subValue)
+                            {
+                                unset($_SESSION['moulinet'][$key][$subKey]);
+                                // Réindexer les clés du sous-tableau
+                                $_SESSION['moulinet'][$key] = array_values($_SESSION['moulinet'][$key]);
+                                // Vérifier si le sous-tableau est vide après suppression
+                                if (empty($_SESSION['moulinet'][$key])) {
+                                    unset($_SESSION['moulinet'][$key]);
+                                }
+                                break; // Sortir de la boucle après suppression de l'élément
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    $favoris->createToInsertFavoris($_POST);
+                    $favorisRepo->insertFavoris($favoris);
+                    $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
+                    $favorisRepo->insertFavMoulinetAndUser($lastIdFav, $id_moulinet);
+                    $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+    
+                    foreach ($favUser as $idFavo)
+                    {
+                        $allIdFav[] = $idFavo->getIdFavoris();
+                    }
+    
+                    foreach ($allIdFav as $idFavoris)
+                    {
+                        $idMoulinetFav[] = $favorisRepo->getMoulinetByIdFav($idFavoris);
+                    }
+
+                    $_SESSION['moulinet'] = [$idMoulinetFav];
+                }
+            }
+        }
+        else
+        {
+            $favoris->createToInsertFavoris($_POST);
+            $favorisRepo->insertFavoris($favoris);
+            $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
+            $favorisRepo->insertFavMoulinetAndUser($lastIdFav, $id_moulinet);
+            $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+
+            foreach ($favUser as $idFavo)
+            {
+                $allIdFav[] = $idFavo->getIdFavoris();
+            }
+
+            foreach ($allIdFav as $idFavoris)
+            {
+                $idMoulinetFav[] = $favorisRepo->getMoulinetByIdFav($idFavoris);
+            }
+            
+            $_SESSION['moulinet'] = [$idMoulinetFav];
+        }
+    }
+    header('location: index.php');
+    exit();
 }
 
 //AFFICHAGE DE LA PAGE DE PROFIL
 function profilPage()
 {
+    $cannes = getFavorisCanneId();
+
+    $combinedArticles = [];
+
+    foreach($cannes as $canne)
+    {
+        if($canne != null)
+        {
+            $canneRepo = new CanneRepository;
+            $canneFav = $canneRepo->getCanneById($canne);
+      
+            $imgCanneRepo = new ImageCanneRepository;
+            $imgCannes = $imgCanneRepo->getImageByCanne($canne);
+
+            $combinedArticles[] = 
+            [
+                'genre' => 'canne',
+                'id' => $canneFav->getIdCanne(),
+                'nom' => $canneFav->getNomCanne(),
+                'image' => $imgCannes->getNomImageCanne(),
+                'marque' => $canneFav->getMarqueCanne(),
+                'type' => $canneFav->getTypeCanne(),
+                'categorie' => $canneFav->getCategorieCanne(),
+                'longueur' => $canneFav->getLongueurCanne(),
+                'poids' => $canneFav->getPoidsCanne(),
+            ];
+        }
+    }
+
+    $moulinets = getFavorisMoulinetId();
+
+    foreach($moulinets as $moulinet)
+    {
+        if($moulinet != null)
+        {
+            $moulinetRepo = new MoulinetRepository;
+            $moulinetFav = $moulinetRepo->getMoulinetById($moulinet);
+           
+            $imgMoulinetRepo = new ImageMoulinetRepository;
+            $imgMoulinets = $imgMoulinetRepo->getImageByMoulinet($moulinet);
+            $combinedArticles[] = 
+            [
+                'genre' => 'moulinet',
+                'id' => $moulinetFav->getIdMoulinet(),
+                'nom' => $moulinetFav->getNomMoulinet(),
+                'image' => $imgMoulinets->getNomImageMoulinet(),
+                'marque' => $moulinetFav->getMarqueMoulinet(),
+                'type' => $moulinetFav->getTypeMoulinet(),
+                'categorie' => $moulinetFav->getCategorieMoulinet(),
+                'ratio' => $moulinetFav->getRatioMoulinet(),
+                'poids' => $moulinetFav->getPoidsMoulinet(),
+            ];
+        }
+    }
+    
     include('src/view/profilPage.php');
+}
+
+function getFavorisCanneId()
+{
+    $articles = getAllArticles();
+
+    foreach($articles as $article)
+    {
+        if($article['genre'] == 'canne')
+        {
+            foreach($_SESSION['canne'] as $cannes)
+            {
+                return $cannes;
+            }
+            
+        }
+    }
+}
+
+function getFavorisMoulinetId()
+{
+    $articles = getAllArticles();
+
+    foreach($articles as $article)
+    {
+        if($article['genre'] == 'moulinet')
+        {
+            foreach($_SESSION['moulinet'] as $moulinets)
+            {
+                return $moulinets;
+            }
+            
+        }
+    }
 }
 
 //AFFICHAGE DE LA PAGE DE TOUS LES ARTICLES
@@ -412,6 +671,7 @@ function allCannePage()
                 'marque' => $canne->getMarqueCanne(),
                 'type' => $canne->getTypeCanne(),
                 'categorie' => $canne->getCategorieCanne(),
+                'favorie' => 'non',
             ];
         } 
         else 
