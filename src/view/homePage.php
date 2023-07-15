@@ -71,7 +71,7 @@
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-3 p-5 md:px-14 lg:px-32">
-                
+
                 <?php foreach($marques as $marque) { ?>
                 <?php if($marque) { ?>
                 
