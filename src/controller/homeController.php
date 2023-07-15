@@ -116,9 +116,43 @@ function loginTraitement()
                         $_SESSION['prenom_user'] = $user->getNameUser();
                         $_SESSION['nom_user'] = $user->getLastnameUser();
                         $_SESSION['email_user'] = $user->getEmailUser();
+
+                        $favorisRepo = new FavorisRepository(); 
+                        $favoris = new Favoris();
+
+                        $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+
+                        if(!empty($favUser))
+                        {
+                            foreach ($favUser as $idFavo)
+                            {
+                                $allIdFav[] = $idFavo->getIdFavoris();
+                            }
+            
+                            foreach ($allIdFav as $idFavoris)
+                            {
+                                $idCanneFav[] = $favorisRepo->getCanneByIdFav($idFavoris);
+                            }
+    
+                            foreach ($allIdFav as $idFavoris)
+                            {
+                                $idMoulinetFav[] = $favorisRepo->getMoulinetByIdFav($idFavoris);
+                            }
+    
+                            $_SESSION['canne'] = [$idCanneFav];
+                            $_SESSION['moulinet'] = [$idMoulinetFav];
+                        }
+                        else
+                        {
+                            $_SESSION['canne'] = [];
+                            $_SESSION['moulinet'] = [];
+                        }
+                        
+        
                         header('location: index.php');
+
                     }
-                    else 
+                    else
                     {
                         $_SESSION['messageError'] = "Informations incorrects.";
                         header("Location:index.php?action=login");
@@ -270,6 +304,7 @@ function addFavorisTraitement()
                     if (in_array($favIdCanne, $favIdCanneUser))
                     {
                         $deleteFavAndCanne = $favorisRepo->deleteFavCanneAndUser($favIdCanne, $id_canne);
+                        $isFavorite = false;
                     }
                     
                     foreach ($_SESSION['canne'] as $key => $subArray)
@@ -279,13 +314,16 @@ function addFavorisTraitement()
                             if ($id_canne == $subValue)
                             {
                                 unset($_SESSION['canne'][$key][$subKey]);
-                                // Réindexer les clés du sous-tableau
+                                session_write_close();
+
                                 $_SESSION['canne'][$key] = array_values($_SESSION['canne'][$key]);
-                                // Vérifier si le sous-tableau est vide après suppression
-                                if (empty($_SESSION['canne'][$key])) {
+
+                                if (empty($_SESSION['canne'][$key])) 
+                                {
                                     unset($_SESSION['canne'][$key]);
+                                    session_write_close();
                                 }
-                                break; // Sortir de la boucle après suppression de l'élément
+                                break;
                             }
                         }
                     }
@@ -309,6 +347,7 @@ function addFavorisTraitement()
                     }
 
                     $_SESSION['canne'] = [$idCanneFav];
+                    session_write_close();
                 }
             }
         }
@@ -331,6 +370,7 @@ function addFavorisTraitement()
             }
             
             $_SESSION['canne'] = [$idCanneFav];
+            session_write_close();
         }
     }
 
@@ -373,13 +413,16 @@ function addFavorisTraitement()
                             if ($id_moulinet == $subValue)
                             {
                                 unset($_SESSION['moulinet'][$key][$subKey]);
-                                // Réindexer les clés du sous-tableau
+                                session_write_close();
+
                                 $_SESSION['moulinet'][$key] = array_values($_SESSION['moulinet'][$key]);
-                                // Vérifier si le sous-tableau est vide après suppression
-                                if (empty($_SESSION['moulinet'][$key])) {
+
+                                if (empty($_SESSION['moulinet'][$key])) 
+                                {
                                     unset($_SESSION['moulinet'][$key]);
+                                    session_write_close();
                                 }
-                                break; // Sortir de la boucle après suppression de l'élément
+                                break;
                             }
                         }
                     }
@@ -403,6 +446,7 @@ function addFavorisTraitement()
                     }
 
                     $_SESSION['moulinet'] = [$idMoulinetFav];
+                    session_write_close();
                 }
             }
         }
@@ -425,8 +469,10 @@ function addFavorisTraitement()
             }
             
             $_SESSION['moulinet'] = [$idMoulinetFav];
+            session_write_close();
         }
     }
+
     header('location: index.php');
     exit();
 }
@@ -438,57 +484,63 @@ function profilPage()
 
     $combinedArticles = [];
 
-    foreach($cannes as $canne)
+    if($cannes != false)
     {
-        if($canne != null)
+        foreach($cannes as $canne)
         {
-            $canneRepo = new CanneRepository;
-            $canneFav = $canneRepo->getCanneById($canne);
-      
-            $imgCanneRepo = new ImageCanneRepository;
-            $imgCannes = $imgCanneRepo->getImageByCanne($canne);
+            if($canne != null)
+            {
+                $canneRepo = new CanneRepository;
+                $canneFav = $canneRepo->getCanneById($canne);
+        
+                $imgCanneRepo = new ImageCanneRepository;
+                $imgCannes = $imgCanneRepo->getImageByCanne($canne);
 
-            $combinedArticles[] = 
-            [
-                'genre' => 'canne',
-                'id' => $canneFav->getIdCanne(),
-                'nom' => $canneFav->getNomCanne(),
-                'image' => $imgCannes->getNomImageCanne(),
-                'marque' => $canneFav->getMarqueCanne(),
-                'type' => $canneFav->getTypeCanne(),
-                'categorie' => $canneFav->getCategorieCanne(),
-                'longueur' => $canneFav->getLongueurCanne(),
-                'poids' => $canneFav->getPoidsCanne(),
-            ];
+                $combinedArticles[] = 
+                [
+                    'genre' => 'canne',
+                    'id' => $canneFav->getIdCanne(),
+                    'nom' => $canneFav->getNomCanne(),
+                    'image' => $imgCannes->getNomImageCanne(),
+                    'marque' => $canneFav->getMarqueCanne(),
+                    'type' => $canneFav->getTypeCanne(),
+                    'categorie' => $canneFav->getCategorieCanne(),
+                    'longueur' => $canneFav->getLongueurCanne(),
+                    'poids' => $canneFav->getPoidsCanne(),
+                ];
+            }
         }
     }
 
     $moulinets = getFavorisMoulinetId();
 
-    foreach($moulinets as $moulinet)
+    if($moulinets != false)
     {
-        if($moulinet != null)
+        foreach($moulinets as $moulinet)
         {
-            $moulinetRepo = new MoulinetRepository;
-            $moulinetFav = $moulinetRepo->getMoulinetById($moulinet);
-           
-            $imgMoulinetRepo = new ImageMoulinetRepository;
-            $imgMoulinets = $imgMoulinetRepo->getImageByMoulinet($moulinet);
-            $combinedArticles[] = 
-            [
-                'genre' => 'moulinet',
-                'id' => $moulinetFav->getIdMoulinet(),
-                'nom' => $moulinetFav->getNomMoulinet(),
-                'image' => $imgMoulinets->getNomImageMoulinet(),
-                'marque' => $moulinetFav->getMarqueMoulinet(),
-                'type' => $moulinetFav->getTypeMoulinet(),
-                'categorie' => $moulinetFav->getCategorieMoulinet(),
-                'ratio' => $moulinetFav->getRatioMoulinet(),
-                'poids' => $moulinetFav->getPoidsMoulinet(),
-            ];
+            if($moulinet != null)
+            {
+                $moulinetRepo = new MoulinetRepository;
+                $moulinetFav = $moulinetRepo->getMoulinetById($moulinet);
+               
+                $imgMoulinetRepo = new ImageMoulinetRepository;
+                $imgMoulinets = $imgMoulinetRepo->getImageByMoulinet($moulinet);
+                $combinedArticles[] = 
+                [
+                    'genre' => 'moulinet',
+                    'id' => $moulinetFav->getIdMoulinet(),
+                    'nom' => $moulinetFav->getNomMoulinet(),
+                    'image' => $imgMoulinets->getNomImageMoulinet(),
+                    'marque' => $moulinetFav->getMarqueMoulinet(),
+                    'type' => $moulinetFav->getTypeMoulinet(),
+                    'categorie' => $moulinetFav->getCategorieMoulinet(),
+                    'ratio' => $moulinetFav->getRatioMoulinet(),
+                    'poids' => $moulinetFav->getPoidsMoulinet(),
+                ];
+            }
         }
     }
-    
+
     include('src/view/profilPage.php');
 }
 
@@ -500,11 +552,17 @@ function getFavorisCanneId()
     {
         if($article['genre'] == 'canne')
         {
-            foreach($_SESSION['canne'] as $cannes)
+            if(isset($_SESSION['moulinet']))
             {
-                return $cannes;
+                foreach($_SESSION['canne'] as $cannes)
+                {
+                    return $cannes;
+                }
             }
-            
+            else
+            {
+                return false;
+            }
         }
     }
 }
@@ -517,11 +575,17 @@ function getFavorisMoulinetId()
     {
         if($article['genre'] == 'moulinet')
         {
-            foreach($_SESSION['moulinet'] as $moulinets)
+            if(isset($_SESSION['moulinet']))
             {
-                return $moulinets;
+                foreach($_SESSION['moulinet'] as $moulinets)
+                {
+                    return $moulinets;
+                }
             }
-            
+            else
+            {
+                return false;
+            }
         }
     }
 }

@@ -55,7 +55,7 @@
         <section>
 
             <div class="pt-7 pb-1">
-                <h2 class="font-medium text-l lg:text-2xl text-[#426EC2] text-center mb-5">Nos Nouveautés</h2>
+                <h2 class="font-medium text-xl lg:text-2xl text-[#426EC2] text-center mb-5">Nos Nouveautés</h2>
                 <hr class="border-b border-[#426EC2] w-2/3 m-auto">
 
                 <?php require_once ('src/include/sliderNews.php'); ?>
