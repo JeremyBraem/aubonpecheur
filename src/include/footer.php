@@ -19,11 +19,11 @@
             <div class="p-3">
 
                 <div class="flex flex-col">
-                    <a class="text-sm">Accueil</a>
-                    <a class="text-sm">Promotion</a>
-                    <a class="text-sm">Marque</a>
+                    <a href="index.php" class="text-sm">Accueil</a>
+                    <a href="index.php?action=promoPage" class="text-sm">Promotion</a>
+                    <a href="index.php?action=marquePage" class="text-sm">Marque</a>
                     <a class="text-sm">Contact</a>
-                    <a class="text-sm">Facebook</a>
+                    <a href="https://www.facebook.com/aubonpecheur.sedan" target="_blank" class="text-sm">Facebook</a>
                 </div>
 
             </div>
@@ -113,11 +113,11 @@
                 <div class="pt-2">
 
                     <div class="flex flex-col gap-1">
-                        <a class="text-sm">Accueil</a>
-                        <a class="text-sm">Promotion</a>
-                        <a class="text-sm">Marque</a>
-                        <a class="text-sm">Contact</a>
-                        <a class="text-sm">Facebook</a>
+                        <a href="index.php" class="text-sm">Accueil</a>
+                        <a href="index.php?action=promoPage" class="text-sm">Promotion</a>
+                        <a href="index.php?action=marquePage" class="text-sm">Marque</a>
+                        <a href="" class="text-sm">Contact</a>
+                        <a href="https://www.facebook.com/aubonpecheur.sedan" target="_blank" class="text-sm">Facebook</a>
                     </div>
 
                 </div>

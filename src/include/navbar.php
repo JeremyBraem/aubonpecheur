@@ -42,7 +42,7 @@
     <nav class="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
         
         <div class="flex items-center mb-8">
-            <a class="m-auto text-3xl font-bold leading-none" href="#">
+            <a class="m-auto text-3xl font-bold leading-none" href="index.php">
                 <img class="w-[100px]" src="assets/img/site/logo_au_bon_pecheur.svg">
             </a>
             <button class="navbar-close">
@@ -111,12 +111,28 @@
             </ul>
 
             <div class="items-center p-4">
-                <div class="flex flex-col">
-                    <a class="py-1 text-sm font-semibold text-gray-600" href="#">Connexion</a>
-                    <a class="py-1 text-sm font-semibold text-gray-600" href="#">Inscription</a>  
-                </div>
+                <?php 
+                    if(empty($_SESSION['id_role']))
+                    { 
+                    ?>
+                    <div class="flex flex-col">
+                        <a class="py-1 text-sm font-semibold text-gray-600" href="index.php?action=login">Connexion</a>
+                        <a class="py-1 text-sm font-semibold text-gray-600" href="index.php?action=signUp">Inscription</a>  
+                    </div>
+                    <?php 
+                    }
+                    else
+                    { 
+                    ?>
+                    <div class="flex flex-col">
+                        <a class="py-1 text-sm font-semibold text-gray-600" href="index.php?action=">Favoris</a>
+                        <a class="py-1 text-sm font-semibold text-gray-600" href="index.php?action=deconnexion">Déconnexion</a>
+                    </div>
+                    <?php 
+                    }
+                ?>
             </div>
-
+            
         </div>
 
     </nav>

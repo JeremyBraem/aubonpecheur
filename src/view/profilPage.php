@@ -52,16 +52,16 @@
 
         <section>
 
-            <div class="w-2/3 m-auto p-10">
+            <div class="w-2/3 m-auto py-10 md:p-10">
 
                 <div class="flex justify-center">
-                    <h2 class="font-semibold text-[20px]">Profil de <?php echo $_SESSION['nom_user'] ?></h2>
+                    <h2 class="font-semibold text-[20px]">Profil de <?php echo $_SESSION['prenom_user'] ?></h2>
                 </div>
 
                 <div>
-                    <div class="flex justify-center gap-20 p-5">
+                    <div class="flex flex-col md:flex-row justify-center md:gap-20 py-5 md:p-5">
 
-                        <div>
+                        <div class="">
                             <p class="mb-5">Nom : <span class="font-semibold"><?php echo $_SESSION['nom_user'] ?></span></p>
                             <p class="mb-5">Prénom : <span class="font-semibold"><?php echo $_SESSION['prenom_user'] ?></span></p>
                         </div>

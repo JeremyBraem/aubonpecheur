@@ -105,7 +105,7 @@
 
         <section class="bg-[url('assets/img/site/devanture-103.jpg')] w-full">
             
-            <div class="bg-[#426EC2] bg-opacity-80 pb-14">
+            <div class="bg-[#426EC2] bg-opacity-90 pb-14">
 
                 <div>
 
@@ -116,7 +116,7 @@
                             <hr class="border-b border-[#fcfcfc] w-2/3 m-auto">
                         </div>
 
-                        <div class="w-2/3 m-auto flex flex-col gap-4 md:flex-row md:w-2/3 md:m-auto md:px-12 md:justify-between">
+                        <div class="w-2/3 m-auto flex flex-col gap-4 md:flex-row md:px-12 md:justify-center md:gap-20">
 
                             <div class="flex flex-col gap-1">
                                 <p class="text-[#fcfcfc] md:text-xl font-semibold">Téléphone :</p>
@@ -132,16 +132,16 @@
 
                     </div>
 
-                    <div class="">
+                    <div>
 
                         <div class="pt-7 pb-5 ml-auto">
                             <h2 class="font-medium text-l lg:text-2xl text-[#fcfcfc] text-center mb-5">Notre magasin</h2>
                             <hr class="border-b border-[#fcfcfc] w-2/3 m-auto">
                         </div>
 
-                        <div class="flex flex-col gap-3 md:flex-row md:m-auto md:px-24 md:justify-between">
+                        <div class="flex flex-col gap-3 md:flex-row md:px-24 md:justify-center md:gap-32">
 
-                            <div class="m-auto flex flex-col gap-3 w-2/3 md:w-auto">
+                            <div class="m-auto flex flex-col gap-3 w-2/3 md:m-1 md:w-auto">
 
                                 <p class="text-[#fcfcfc] md:text-xl font-semibold">Horaires :</p>
 
@@ -155,7 +155,7 @@
                                 
                             </div>
 
-                            <div class="m-auto flex flex-col gap-3 w-2/3 md:w-auto">
+                            <div class="m-auto flex flex-col gap-3 w-2/3 md:m-1 md:w-auto">
 
                                 <p class="text-[#fcfcfc] md:text-xl font-semibold">Adresse :</p>
 

@@ -49,9 +49,9 @@
 
 
 <div class="lg:hidden w-full flex flex-row justify-between items-center px-3">
-    <div>
+    <a href="index.php">
         <img class="w-[60px] h-[60px]" src="assets/img/site/logo_au_bon_pecheur.svg">
-    </div>
+    </a>
     <div class="w-2/3 relative">
         <div class="relative flex items-center">
             <input
@@ -69,7 +69,7 @@
             </span>
         </div>
     </div>
-    <div>
+    <a href="index.php?action=profil">
         <img src="assets/img/site/3106773.png" class="w-[30px] h-[30px]">
-    </div>
+    </a>
 </div>

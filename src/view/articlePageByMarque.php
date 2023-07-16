@@ -99,7 +99,9 @@
                                                 <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
                                                 <input type="hidden" name="genre" value="<?php echo $article['genre']; ?>">
                                                 <input type="hidden" name="date_ajout_favoris" value="<?php echo $today = date("d/m/y"); ?>">
-
+                                                <?php if(isset($_GET['action'])) { ?>
+                                                <input type="hidden" name="page" value="<?php echo $_GET['action'] ?>">
+                                                <?php }else{ echo ''; } ?>
                                                 <?php if ($_SESSION[$article['genre']]) { ?>
 
                                                     <?php foreach ($_SESSION[$article['genre']] as $idTab) { ?>

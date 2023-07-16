@@ -1109,250 +1109,266 @@ function addFavorisTraitement()
         }
     }
 
-    header('location: index.php');
+    $page = $_POST['page'];
+
+    if(!empty($page))
+    {
+        header('location: index.php?action='. $page);
+    }
+    else
+    {
+        header('location: index.php');
+    }
     exit();
 }
 
 //AFFICHAGE DE LA PAGE DE PROFIL
 function profilPage()
 {
-    $cannes = getFavorisCanneId();
-
-    $combinedArticles = [];
-
-    if($cannes != false)
+    if($_SESSION)
     {
-        foreach($cannes as $canne)
-        {
-            if($canne != null)
-            {
-                $canneRepo = new CanneRepository;
-                $canneFav = $canneRepo->getCanneById($canne);
-        
-                $imgCanneRepo = new ImageCanneRepository;
-                $imgCannes = $imgCanneRepo->getImageByCanne($canne);
+        $cannes = getFavorisCanneId();
 
-                $combinedArticles[] = 
-                [
-                    'genre' => 'canne',
-                    'id' => $canneFav->getIdCanne(),
-                    'nom' => $canneFav->getNomCanne(),
-                    'image' => $imgCannes->getNomImageCanne(),
-                    'marque' => $canneFav->getMarqueCanne(),
-                    'type' => $canneFav->getTypeCanne(),
-                    'categorie' => $canneFav->getCategorieCanne(),
-                    'longueur' => $canneFav->getLongueurCanne(),
-                    'poids' => $canneFav->getPoidsCanne(),
-                ];
+        $combinedArticles = [];
+
+        if($cannes != false)
+        {
+            foreach($cannes as $canne)
+            {
+                if($canne != null)
+                {
+                    $canneRepo = new CanneRepository;
+                    $canneFav = $canneRepo->getCanneById($canne);
+            
+                    $imgCanneRepo = new ImageCanneRepository;
+                    $imgCannes = $imgCanneRepo->getImageByCanne($canne);
+
+                    $combinedArticles[] = 
+                    [
+                        'genre' => 'canne',
+                        'id' => $canneFav->getIdCanne(),
+                        'nom' => $canneFav->getNomCanne(),
+                        'image' => $imgCannes->getNomImageCanne(),
+                        'marque' => $canneFav->getMarqueCanne(),
+                        'type' => $canneFav->getTypeCanne(),
+                        'categorie' => $canneFav->getCategorieCanne(),
+                        'longueur' => $canneFav->getLongueurCanne(),
+                        'poids' => $canneFav->getPoidsCanne(),
+                    ];
+                }
             }
         }
-    }
 
-    $moulinets = getFavorisMoulinetId();
+        $moulinets = getFavorisMoulinetId();
 
-    if($moulinets != false)
-    {
-        foreach($moulinets as $moulinet)
+        if($moulinets != false)
         {
-            if($moulinet != null)
+            foreach($moulinets as $moulinet)
             {
-                $moulinetRepo = new MoulinetRepository;
-                $moulinetFav = $moulinetRepo->getMoulinetById($moulinet);
-               
-                $imgMoulinetRepo = new ImageMoulinetRepository;
-                $imgMoulinets = $imgMoulinetRepo->getImageByMoulinet($moulinet);
-                $combinedArticles[] = 
-                [
-                    'genre' => 'moulinet',
-                    'id' => $moulinetFav->getIdMoulinet(),
-                    'nom' => $moulinetFav->getNomMoulinet(),
-                    'image' => $imgMoulinets->getNomImageMoulinet(),
-                    'marque' => $moulinetFav->getMarqueMoulinet(),
-                    'type' => $moulinetFav->getTypeMoulinet(),
-                    'categorie' => $moulinetFav->getCategorieMoulinet(),
-                    'ratio' => $moulinetFav->getRatioMoulinet(),
-                    'poids' => $moulinetFav->getPoidsMoulinet(),
-                ];
+                if($moulinet != null)
+                {
+                    $moulinetRepo = new MoulinetRepository;
+                    $moulinetFav = $moulinetRepo->getMoulinetById($moulinet);
+                
+                    $imgMoulinetRepo = new ImageMoulinetRepository;
+                    $imgMoulinets = $imgMoulinetRepo->getImageByMoulinet($moulinet);
+                    $combinedArticles[] = 
+                    [
+                        'genre' => 'moulinet',
+                        'id' => $moulinetFav->getIdMoulinet(),
+                        'nom' => $moulinetFav->getNomMoulinet(),
+                        'image' => $imgMoulinets->getNomImageMoulinet(),
+                        'marque' => $moulinetFav->getMarqueMoulinet(),
+                        'type' => $moulinetFav->getTypeMoulinet(),
+                        'categorie' => $moulinetFav->getCategorieMoulinet(),
+                        'ratio' => $moulinetFav->getRatioMoulinet(),
+                        'poids' => $moulinetFav->getPoidsMoulinet(),
+                    ];
+                }
             }
         }
-    }
 
-    $hamecons = getFavorisHameconId();
+        $hamecons = getFavorisHameconId();
 
-    if($hamecons != false)
-    {
-        foreach($hamecons as $hamecon)
+        if($hamecons != false)
         {
-            if($hamecon != null)
+            foreach($hamecons as $hamecon)
             {
-                $hameconRepo = new HameconRepository;
-                $hameconFav = $hameconRepo->getHameconById($hamecon);
-               
-                $imgHameconRepo = new ImageHameconRepository;
-                $imgHamecons = $imgHameconRepo->getImageByHamecon($hamecon);
-                $combinedArticles[] = 
-                [
-                    'genre' => 'hamecon',
-                    'id' => $hameconFav->getIdHamecon(),
-                    'nom' => $hameconFav->getNomHamecon(),
-                    'image' => $imgHamecons->getNomImageHamecon(),
-                    'marque' => $hameconFav->getMarqueHamecon(),
-                    'type' => $hameconFav->getTypeHamecon(),
-                    'categorie' => $hameconFav->getCategorieHamecon(),
-                    'longueur' => $hameconFav->getLongueurHamecon(),
-                    'poids' => $hameconFav->getPoidsHamecon(),
-                ];
+                if($hamecon != null)
+                {
+                    $hameconRepo = new HameconRepository;
+                    $hameconFav = $hameconRepo->getHameconById($hamecon);
+                
+                    $imgHameconRepo = new ImageHameconRepository;
+                    $imgHamecons = $imgHameconRepo->getImageByHamecon($hamecon);
+                    $combinedArticles[] = 
+                    [
+                        'genre' => 'hamecon',
+                        'id' => $hameconFav->getIdHamecon(),
+                        'nom' => $hameconFav->getNomHamecon(),
+                        'image' => $imgHamecons->getNomImageHamecon(),
+                        'marque' => $hameconFav->getMarqueHamecon(),
+                        'type' => $hameconFav->getTypeHamecon(),
+                        'categorie' => $hameconFav->getCategorieHamecon(),
+                        'longueur' => $hameconFav->getLongueurHamecon(),
+                        'poids' => $hameconFav->getPoidsHamecon(),
+                    ];
+                }
             }
         }
-    }
 
-    $leurres = getFavorisLeurreId();
+        $leurres = getFavorisLeurreId();
 
-    if($leurres != false)
-    {
-        foreach($leurres as $leurre)
+        if($leurres != false)
         {
-            if($leurre != null)
+            foreach($leurres as $leurre)
             {
-                $leurreRepo = new LeurreRepository;
-                $leurreFav = $leurreRepo->getLeurreById($leurre);
-               
-                $imgLeurreRepo = new ImageLeurreRepository;
-                $imgLeurres = $imgLeurreRepo->getImageByLeurre($leurre);
-                $combinedArticles[] = 
-                [
-                    'genre' => 'leurre',
-                    'id' => $leurreFav->getIdLeurre(),
-                    'nom' => $leurreFav->getNomLeurre(),
-                    'image' => $imgLeurres->getNomImageLeurre(),
-                    'marque' => $leurreFav->getMarqueLeurre(),
-                    'type' => $leurreFav->getTypeLeurre(),
-                    'categorie' => $leurreFav->getCategorieLeurre(),
-                    'longueur' => $leurreFav->getLongueurLeurre(),
-                    'diametre' => $leurreFav->getDiametreLeurre(),
-                    'poids' => $leurreFav->getPoidsLeurre(),
-                ];
+                if($leurre != null)
+                {
+                    $leurreRepo = new LeurreRepository;
+                    $leurreFav = $leurreRepo->getLeurreById($leurre);
+                
+                    $imgLeurreRepo = new ImageLeurreRepository;
+                    $imgLeurres = $imgLeurreRepo->getImageByLeurre($leurre);
+                    $combinedArticles[] = 
+                    [
+                        'genre' => 'leurre',
+                        'id' => $leurreFav->getIdLeurre(),
+                        'nom' => $leurreFav->getNomLeurre(),
+                        'image' => $imgLeurres->getNomImageLeurre(),
+                        'marque' => $leurreFav->getMarqueLeurre(),
+                        'type' => $leurreFav->getTypeLeurre(),
+                        'categorie' => $leurreFav->getCategorieLeurre(),
+                        'longueur' => $leurreFav->getLongueurLeurre(),
+                        'diametre' => $leurreFav->getDiametreLeurre(),
+                        'poids' => $leurreFav->getPoidsLeurre(),
+                    ];
+                }
             }
         }
-    }
 
-    $lignes = getFavorisLigneId();
+        $lignes = getFavorisLigneId();
 
-    if($lignes != false)
-    {
-        foreach($lignes as $ligne)
+        if($lignes != false)
         {
-            if($ligne != null)
+            foreach($lignes as $ligne)
             {
-                $ligneRepo = new LigneRepository;
-                $ligneFav = $ligneRepo->getLigneById($ligne);
-               
-                $imgLigneRepo = new ImageLigneRepository;
-                $imgLignes = $imgLigneRepo->getImageByLigne($ligne);
-                $combinedArticles[] = 
-                [
-                    'genre' => 'ligne',
-                    'id' => $ligneFav->getIdLigne(),
-                    'nom' => $ligneFav->getNomLigne(),
-                    'image' => $imgLignes->getNomImageLigne(),
-                    'marque' => $ligneFav->getMarqueLigne(),
-                    'type' => $ligneFav->getTypeLigne(),
-                    'categorie' => $ligneFav->getCategorieLigne(),
-                    'longueur' => $ligneFav->getLongueurLigne(),
-                    'poids' => $ligneFav->getPoidsLigne(),
-                    'diametre' => $leurreFav->getDiametreLigne(),
-                ];
+                if($ligne != null)
+                {
+                    $ligneRepo = new LigneRepository;
+                    $ligneFav = $ligneRepo->getLigneById($ligne);
+                
+                    $imgLigneRepo = new ImageLigneRepository;
+                    $imgLignes = $imgLigneRepo->getImageByLigne($ligne);
+                    $combinedArticles[] = 
+                    [
+                        'genre' => 'ligne',
+                        'id' => $ligneFav->getIdLigne(),
+                        'nom' => $ligneFav->getNomLigne(),
+                        'image' => $imgLignes->getNomImageLigne(),
+                        'marque' => $ligneFav->getMarqueLigne(),
+                        'type' => $ligneFav->getTypeLigne(),
+                        'categorie' => $ligneFav->getCategorieLigne(),
+                        'longueur' => $ligneFav->getLongueurLigne(),
+                        'poids' => $ligneFav->getPoidsLigne(),
+                        'diametre' => $leurreFav->getDiametreLigne(),
+                    ];
+                }
             }
         }
-    }
 
-    $equipements = getFavorisEquipementId();
+        $equipements = getFavorisEquipementId();
 
-    if($equipements != false)
-    {
-        foreach($equipements as $equipement)
+        if($equipements != false)
         {
-            if($equipement != null)
+            foreach($equipements as $equipement)
             {
-                $equipementRepo = new EquipementRepository;
-                $equipementFav = $equipementRepo->getEquipementById($equipement);
-               
-                $imgEquipementRepo = new ImageEquipementRepository;
-                $imgEquipements = $imgEquipementRepo->getImageByEquipement($equipement);
-                $combinedArticles[] = 
-                [
-                    'genre' => 'equipement',
-                    'id' => $equipementFav->getIdEquipement(),
-                    'nom' => $equipementFav->getNomEquipement(),
-                    'image' => $imgEquipements->getNomImageEquipement(),
-                    'marque' => $equipementFav->getMarqueEquipement(),
-                    'type' => $equipementFav->getTypeEquipement(),
-                    'categorie' => $equipementFav->getCategorieEquipement(),
-                    'detail' => $equipementFav->getDetailEquipement(),
-                ];
+                if($equipement != null)
+                {
+                    $equipementRepo = new EquipementRepository;
+                    $equipementFav = $equipementRepo->getEquipementById($equipement);
+                
+                    $imgEquipementRepo = new ImageEquipementRepository;
+                    $imgEquipements = $imgEquipementRepo->getImageByEquipement($equipement);
+                    $combinedArticles[] = 
+                    [
+                        'genre' => 'equipement',
+                        'id' => $equipementFav->getIdEquipement(),
+                        'nom' => $equipementFav->getNomEquipement(),
+                        'image' => $imgEquipements->getNomImageEquipement(),
+                        'marque' => $equipementFav->getMarqueEquipement(),
+                        'type' => $equipementFav->getTypeEquipement(),
+                        'categorie' => $equipementFav->getCategorieEquipement(),
+                        'detail' => $equipementFav->getDetailEquipement(),
+                    ];
+                }
             }
         }
-    }
 
-    $plombs = getFavorisPlombId();
+        $plombs = getFavorisPlombId();
 
-    if($plombs != false)
-    {
-        foreach($plombs as $plomb)
+        if($plombs != false)
         {
-            if($plomb != null)
+            foreach($plombs as $plomb)
             {
-                $plombRepo = new FeederRepository;
-                $plombFav = $plombRepo->getFeederById($plomb);
-               
-                $imgFeederRepo = new ImageFeederRepository;
-                $imgFeeders = $imgFeederRepo->getImageByFeeder($plomb);
-                $combinedArticles[] = 
-                [
-                    'genre' => 'plomb',
-                    'id' => $plombFav->getIdFeeder(),
-                    'nom' => $plombFav->getNomFeeder(),
-                    'image' => $imgFeeders->getNomImageFeeder(),
-                    'marque' => $plombFav->getMarqueFeeder(),
-                    'type' => $plombFav->getTypeFeeder(),
-                    'categorie' => $plombFav->getCategorieFeeder(),
-                    'longueur' => $plombFav->getLongueurFeeder(),
-                    'poids' => $plombFav->getPoidsFeeder(),
-                    'diametre' => $plombFav->getDiametreFeeder(),
-                ];
+                if($plomb != null)
+                {
+                    $plombRepo = new FeederRepository;
+                    $plombFav = $plombRepo->getFeederById($plomb);
+                
+                    $imgFeederRepo = new ImageFeederRepository;
+                    $imgFeeders = $imgFeederRepo->getImageByFeeder($plomb);
+                    $combinedArticles[] = 
+                    [
+                        'genre' => 'plomb',
+                        'id' => $plombFav->getIdFeeder(),
+                        'nom' => $plombFav->getNomFeeder(),
+                        'image' => $imgFeeders->getNomImageFeeder(),
+                        'marque' => $plombFav->getMarqueFeeder(),
+                        'type' => $plombFav->getTypeFeeder(),
+                        'categorie' => $plombFav->getCategorieFeeder(),
+                        'longueur' => $plombFav->getLongueurFeeder(),
+                        'poids' => $plombFav->getPoidsFeeder(),
+                        'diametre' => $plombFav->getDiametreFeeder(),
+                    ];
+                }
             }
         }
-    }
 
-    $appats = getFavorisAppatId();
+        $appats = getFavorisAppatId();
 
-    if($appats != false)
-    {
-        foreach($appats as $appat)
+        if($appats != false)
         {
-            if($appat != null)
+            foreach($appats as $appat)
             {
-                $appatRepo = new AppatRepository;
-                $appatFav = $appatRepo->getAppatById($appat);
-               
-                $imgAppatRepo = new ImageAppatRepository;
-                $imgAppats = $imgAppatRepo->getImageByAppat($appat);
-                $combinedArticles[] = 
-                [
-                    'genre' => 'appat',
-                    'id' => $appatFav->getIdAppat(),
-                    'nom' => $appatFav->getNomAppat(),
-                    'image' => $imgAppats->getNomImageAppat(),
-                    'marque' => $appatFav->getMarqueAppat(),
-                    'type' => $appatFav->getTypeAppat(),
-                    'categorie' => $appatFav->getCategorieAppat(),
-                    'detail' => $appatFav->getDetailAppat(),
-                ];
+                if($appat != null)
+                {
+                    $appatRepo = new AppatRepository;
+                    $appatFav = $appatRepo->getAppatById($appat);
+                
+                    $imgAppatRepo = new ImageAppatRepository;
+                    $imgAppats = $imgAppatRepo->getImageByAppat($appat);
+                    $combinedArticles[] = 
+                    [
+                        'genre' => 'appat',
+                        'id' => $appatFav->getIdAppat(),
+                        'nom' => $appatFav->getNomAppat(),
+                        'image' => $imgAppats->getNomImageAppat(),
+                        'marque' => $appatFav->getMarqueAppat(),
+                        'type' => $appatFav->getTypeAppat(),
+                        'categorie' => $appatFav->getCategorieAppat(),
+                        'detail' => $appatFav->getDetailAppat(),
+                    ];
+                }
             }
         }
-    }
 
-    include('src/view/profilPage.php');
+        include('src/view/profilPage.php');
+    }
+    else
+    {
+        header('location: index.php?action=login');
+    }
 }
 
 function getFavorisCanneId()
