@@ -222,11 +222,9 @@ function addMoulinetTraitement()
 function addHameconTraitement()
 {
     if(isset($_POST))
-    
     {
         if(!empty($_POST['nom_hamecon']) && !empty($_POST['poids_hamecon']) && !empty($_POST['longueur_hamecon']) && !empty($_POST['categorie_hamecon']) && !empty($_POST['type_hamecon']) && !empty($_POST['marque_hamecon']) && !empty($_POST['promo_hamecon']) && !empty($_POST['stock_hamecon']) && !empty($_POST['description_hamecon'] && !empty($_FILES['image_hamecon'])))
         {
-            
             $newHamecon = [];
             $newHamecon['nom_hamecon'] = htmlspecialchars($_POST['nom_hamecon']);
             $newHamecon['poids_hamecon'] = htmlspecialchars($_POST['poids_hamecon']);

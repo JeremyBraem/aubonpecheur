@@ -112,7 +112,7 @@ class ImageHameconRepository extends ConnectBdd
         $dataImage = $req->fetch();
 
         $imageHamecon = new ImageHamecon();
-
+        
         $imageHamecon->setIdImageHamecon($dataImage['id_image_hamecon']);
         $imageHamecon->setNomImageHamecon($dataImage['nom_image_hamecon']);
         $imageHamecon->setIdHamecon($dataImage['id_hamecon']);

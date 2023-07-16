@@ -107,7 +107,7 @@ function loginTraitement()
                 $userRepo = new UserRepository();
                 $user = $userRepo->getUserByEmail($email);
 
-                if ($user) 
+                if ($user)
                 {
                     if (password_verify($password, $user->getPasswordUser())) 
                     {
@@ -138,14 +138,56 @@ function loginTraitement()
                             {
                                 $idMoulinetFav[] = $favorisRepo->getMoulinetByIdFav($idFavoris);
                             }
+
+                            foreach ($allIdFav as $idFavoris)
+                            {
+                                $idHameconFav[] = $favorisRepo->getHameconByIdFav($idFavoris);
+                            }
+
+                            foreach ($allIdFav as $idFavoris)
+                            {
+                                $idLeurreFav[] = $favorisRepo->getLeurreByIdFav($idFavoris);
+                            }
+
+                            foreach ($allIdFav as $idFavoris)
+                            {
+                                $idLigneFav[] = $favorisRepo->getLigneByIdFav($idFavoris);
+                            }
+
+                            foreach ($allIdFav as $idFavoris)
+                            {
+                                $idEquipementFav[] = $favorisRepo->getEquipementByIdFav($idFavoris);
+                            }
+
+                            foreach ($allIdFav as $idFavoris)
+                            {
+                                $idFeederFav[] = $favorisRepo->getFeederByIdFav($idFavoris);
+                            }
+
+                            foreach ($allIdFav as $idFavoris)
+                            {
+                                $idAppatFav[] = $favorisRepo->getAppatByIdFav($idFavoris);
+                            }
     
                             $_SESSION['canne'] = [$idCanneFav];
                             $_SESSION['moulinet'] = [$idMoulinetFav];
+                            $_SESSION['hamecon'] = [$idHameconFav];
+                            $_SESSION['leurre'] = [$idLeurreFav];
+                            $_SESSION['ligne'] = [$idLigneFav];
+                            $_SESSION['equipement'] = [$idEquipementFav];
+                            $_SESSION['plomb'] = [$idFeederFav];
+                            $_SESSION['appat'] = [$idAppatFav];
                         }
                         else
                         {
                             $_SESSION['canne'] = [];
                             $_SESSION['moulinet'] = [];
+                            $_SESSION['hamecon'] = [];
+                            $_SESSION['leurre'] = [];
+                            $_SESSION['ligne'] = [];
+                            $_SESSION['equipement'] = [];
+                            $_SESSION['plomb'] = [];
+                            $_SESSION['appat'] = [];
                         }
                         
         
@@ -187,7 +229,7 @@ function signUpTraitement()
 {
     if (isset($_POST))
     {
-        if (!empty($_POST['email'])) 
+        if (!empty($_POST['email']))
         {
             $emailUser = htmlspecialchars($_POST['email']);
 
@@ -473,6 +515,600 @@ function addFavorisTraitement()
         }
     }
 
+    if ($_POST['genre'] === 'hamecon')
+    {
+        $id_hamecon = $_POST['id_hamecon'];
+
+        $favorisRepo = new FavorisRepository(); 
+        $favoris = new Favoris();
+
+        if (isset($_SESSION['hamecon']) && !empty($_SESSION['hamecon']))
+        {
+            foreach ($_SESSION['hamecon'] as $key => $hamecon)
+            {
+                if (in_array($id_hamecon, $hamecon))
+                {
+                    $favByIdHamecon = $favorisRepo->getFavorisByIdHamecon($id_hamecon);
+                    
+                    $idFavByIdUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+
+                    foreach ($favByIdHamecon as $favHamecons)
+                    {
+                        $favIdHamecon = $favHamecons->getIdFavoris();
+                    }
+                    
+                    foreach ($idFavByIdUser as $favHameconsUser)
+                    {
+                        $favIdHameconUser[] = $favHameconsUser->getIdFavoris();
+                    }
+    
+                    if (in_array($favIdHamecon, $favIdHameconUser))
+                    {
+                        $deleteFavAndHamecon = $favorisRepo->deleteFavHameconAndUser($favIdHamecon, $id_hamecon);
+                    }
+                    
+                    foreach ($_SESSION['hamecon'] as $key => $subArray)
+                    {
+                        foreach ($subArray as $subKey => $subValue)
+                        {
+                            if ($id_hamecon == $subValue)
+                            {
+                                unset($_SESSION['hamecon'][$key][$subKey]);
+                                session_write_close();
+
+                                $_SESSION['hamecon'][$key] = array_values($_SESSION['hamecon'][$key]);
+
+                                if (empty($_SESSION['hamecon'][$key])) 
+                                {
+                                    unset($_SESSION['hamecon'][$key]);
+                                    session_write_close();
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    $favoris->createToInsertFavoris($_POST);
+                    $favorisRepo->insertFavoris($favoris);
+                    $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
+                    $favorisRepo->insertFavHameconAndUser($lastIdFav, $id_hamecon);
+                    $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+    
+                    foreach ($favUser as $idFavo)
+                    {
+                        $allIdFav[] = $idFavo->getIdFavoris();
+                    }
+    
+                    foreach ($allIdFav as $idFavoris)
+                    {
+                        $idHameconFav[] = $favorisRepo->getHameconByIdFav($idFavoris);
+                    }
+
+                    $_SESSION['hamecon'] = [$idHameconFav];
+                    session_write_close();
+                }
+            }
+        }
+        else
+        {
+            $favoris->createToInsertFavoris($_POST);
+            $favorisRepo->insertFavoris($favoris);
+            $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
+            $favorisRepo->insertFavHameconAndUser($lastIdFav, $id_hamecon);
+            $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+
+            foreach ($favUser as $idFavo)
+            {
+                $allIdFav[] = $idFavo->getIdFavoris();
+            }
+
+            foreach ($allIdFav as $idFavoris)
+            {
+                $idHameconFav[] = $favorisRepo->getHameconByIdFav($idFavoris);
+            }
+            
+            $_SESSION['hamecon'] = [$idHameconFav];
+            session_write_close();
+        }
+    }
+
+    if ($_POST['genre'] === 'leurre')
+    {
+        $id_leurre = $_POST['id_leurre'];
+
+        $favorisRepo = new FavorisRepository(); 
+        $favoris = new Favoris();
+
+        if (isset($_SESSION['leurre']) && !empty($_SESSION['leurre']))
+        {
+            foreach ($_SESSION['leurre'] as $key => $leurre)
+            {
+                if (in_array($id_leurre, $leurre))
+                {
+                    $favByIdLeurre = $favorisRepo->getFavorisByIdLeurre($id_leurre);
+                    
+                    $idFavByIdUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+
+                    foreach ($favByIdLeurre as $favLeurres)
+                    {
+                        $favIdLeurre = $favLeurres->getIdFavoris();
+                    }
+                    
+                    foreach ($idFavByIdUser as $favLeurresUser)
+                    {
+                        $favIdLeurreUser[] = $favLeurresUser->getIdFavoris();
+                    }
+    
+                    if (in_array($favIdLeurre, $favIdLeurreUser))
+                    {
+                        $deleteFavAndLeurre = $favorisRepo->deleteFavLeurreAndUser($favIdLeurre, $id_leurre);
+                    }
+                    
+                    foreach ($_SESSION['leurre'] as $key => $subArray)
+                    {
+                        foreach ($subArray as $subKey => $subValue)
+                        {
+                            if ($id_leurre == $subValue)
+                            {
+                                unset($_SESSION['leurre'][$key][$subKey]);
+                                session_write_close();
+
+                                $_SESSION['leurre'][$key] = array_values($_SESSION['leurre'][$key]);
+
+                                if (empty($_SESSION['leurre'][$key])) 
+                                {
+                                    unset($_SESSION['leurre'][$key]);
+                                    session_write_close();
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    $favoris->createToInsertFavoris($_POST);
+                    $favorisRepo->insertFavoris($favoris);
+                    $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
+                    $favorisRepo->insertFavLeurreAndUser($lastIdFav, $id_leurre);
+                    $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+    
+                    foreach ($favUser as $idFavo)
+                    {
+                        $allIdFav[] = $idFavo->getIdFavoris();
+                    }
+    
+                    foreach ($allIdFav as $idFavoris)
+                    {
+                        $idLeurreFav[] = $favorisRepo->getLeurreByIdFav($idFavoris);
+                    }
+
+                    $_SESSION['leurre'] = [$idLeurreFav];
+                    session_write_close();
+                }
+            }
+        }
+        else
+        {
+            $favoris->createToInsertFavoris($_POST);
+            $favorisRepo->insertFavoris($favoris);
+            $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
+            $favorisRepo->insertFavLeurreAndUser($lastIdFav, $id_leurre);
+            $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+
+            foreach ($favUser as $idFavo)
+            {
+                $allIdFav[] = $idFavo->getIdFavoris();
+            }
+
+            foreach ($allIdFav as $idFavoris)
+            {
+                $idLeurreFav[] = $favorisRepo->getLeurreByIdFav($idFavoris);
+            }
+            
+            $_SESSION['leurre'] = [$idLeurreFav];
+            session_write_close();
+        }
+    }
+
+    if ($_POST['genre'] === 'ligne')
+    {
+        $id_ligne = $_POST['id_ligne'];
+
+        $favorisRepo = new FavorisRepository(); 
+        $favoris = new Favoris();
+
+        if (isset($_SESSION['ligne']) && !empty($_SESSION['ligne']))
+        {
+            foreach ($_SESSION['ligne'] as $key => $ligne)
+            {
+                if (in_array($id_ligne, $ligne))
+                {
+                    $favByIdLigne = $favorisRepo->getFavorisByIdLigne($id_ligne);
+                    
+                    $idFavByIdUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+
+                    foreach ($favByIdLigne as $favLignes)
+                    {
+                        $favIdLigne = $favLignes->getIdFavoris();
+                    }
+                    
+                    foreach ($idFavByIdUser as $favLignesUser)
+                    {
+                        $favIdLigneUser[] = $favLignesUser->getIdFavoris();
+                    }
+    
+                    if (in_array($favIdLigne, $favIdLigneUser))
+                    {
+                        $deleteFavAndLigne = $favorisRepo->deleteFavLigneAndUser($favIdLigne, $id_ligne);
+                    }
+                    
+                    foreach ($_SESSION['ligne'] as $key => $subArray)
+                    {
+                        foreach ($subArray as $subKey => $subValue)
+                        {
+                            if ($id_ligne == $subValue)
+                            {
+                                unset($_SESSION['ligne'][$key][$subKey]);
+                                session_write_close();
+
+                                $_SESSION['ligne'][$key] = array_values($_SESSION['ligne'][$key]);
+
+                                if (empty($_SESSION['ligne'][$key])) 
+                                {
+                                    unset($_SESSION['ligne'][$key]);
+                                    session_write_close();
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    $favoris->createToInsertFavoris($_POST);
+                    $favorisRepo->insertFavoris($favoris);
+                    $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
+                    $favorisRepo->insertFavLigneAndUser($lastIdFav, $id_ligne);
+                    $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+    
+                    foreach ($favUser as $idFavo)
+                    {
+                        $allIdFav[] = $idFavo->getIdFavoris();
+                    }
+    
+                    foreach ($allIdFav as $idFavoris)
+                    {
+                        $idLigneFav[] = $favorisRepo->getLigneByIdFav($idFavoris);
+                    }
+
+                    $_SESSION['ligne'] = [$idLigneFav];
+                    session_write_close();
+                }
+            }
+        }
+        else
+        {
+            $favoris->createToInsertFavoris($_POST);
+            $favorisRepo->insertFavoris($favoris);
+            $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
+            $favorisRepo->insertFavLigneAndUser($lastIdFav, $id_ligne);
+            $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+
+            foreach ($favUser as $idFavo)
+            {
+                $allIdFav[] = $idFavo->getIdFavoris();
+            }
+
+            foreach ($allIdFav as $idFavoris)
+            {
+                $idLigneFav[] = $favorisRepo->getLigneByIdFav($idFavoris);
+            }
+            
+            $_SESSION['ligne'] = [$idLigneFav];
+            session_write_close();
+        }
+    }
+
+    if ($_POST['genre'] === 'equipement')
+    {
+        $id_equipement = $_POST['id_equipement'];
+
+        $favorisRepo = new FavorisRepository(); 
+        $favoris = new Favoris();
+
+        if (isset($_SESSION['equipement']) && !empty($_SESSION['equipement']))
+        {
+            foreach ($_SESSION['equipement'] as $key => $equipement)
+            {
+                if (in_array($id_equipement, $equipement))
+                {
+                    $favByIdEquipement = $favorisRepo->getFavorisByIdEquipement($id_equipement);
+                    
+                    $idFavByIdUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+
+                    foreach ($favByIdEquipement as $favEquipements)
+                    {
+                        $favIdEquipement = $favEquipements->getIdFavoris();
+                    }
+                    
+                    foreach ($idFavByIdUser as $favEquipementsUser)
+                    {
+                        $favIdEquipementUser[] = $favEquipementsUser->getIdFavoris();
+                    }
+    
+                    if (in_array($favIdEquipement, $favIdEquipementUser))
+                    {
+                        $deleteFavAndEquipement = $favorisRepo->deleteFavEquipementAndUser($favIdEquipement, $id_equipement);
+                    }
+                    
+                    foreach ($_SESSION['equipement'] as $key => $subArray)
+                    {
+                        foreach ($subArray as $subKey => $subValue)
+                        {
+                            if ($id_equipement == $subValue)
+                            {
+                                unset($_SESSION['equipement'][$key][$subKey]);
+                                session_write_close();
+
+                                $_SESSION['equipement'][$key] = array_values($_SESSION['equipement'][$key]);
+
+                                if (empty($_SESSION['equipement'][$key])) 
+                                {
+                                    unset($_SESSION['equipement'][$key]);
+                                    session_write_close();
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    $favoris->createToInsertFavoris($_POST);
+                    $favorisRepo->insertFavoris($favoris);
+                    $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
+                    $favorisRepo->insertFavEquipementAndUser($lastIdFav, $id_equipement);
+                    $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+    
+                    foreach ($favUser as $idFavo)
+                    {
+                        $allIdFav[] = $idFavo->getIdFavoris();
+                    }
+    
+                    foreach ($allIdFav as $idFavoris)
+                    {
+                        $idEquipementFav[] = $favorisRepo->getEquipementByIdFav($idFavoris);
+                    }
+
+                    $_SESSION['equipement'] = [$idEquipementFav];
+                    session_write_close();
+                }
+            }
+        }
+        else
+        {
+            $favoris->createToInsertFavoris($_POST);
+            $favorisRepo->insertFavoris($favoris);
+            $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
+            $favorisRepo->insertFavEquipementAndUser($lastIdFav, $id_equipement);
+            $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+
+            foreach ($favUser as $idFavo)
+            {
+                $allIdFav[] = $idFavo->getIdFavoris();
+            }
+
+            foreach ($allIdFav as $idFavoris)
+            {
+                $idEquipementFav[] = $favorisRepo->getEquipementByIdFav($idFavoris);
+            }
+            
+            $_SESSION['equipement'] = [$idEquipementFav];
+            session_write_close();
+        }
+    }
+
+    if ($_POST['genre'] === 'plomb')
+    {
+        $id_plomb = $_POST['id_plomb'];
+
+        $favorisRepo = new FavorisRepository(); 
+        $favoris = new Favoris();
+
+        if (isset($_SESSION['plomb']) && !empty($_SESSION['plomb']))
+        {
+            foreach ($_SESSION['plomb'] as $key => $plomb)
+            {
+                if (in_array($id_plomb, $plomb))
+                {
+                    $favByIdFeeder = $favorisRepo->getFavorisByIdFeeder($id_plomb);
+                    
+                    $idFavByIdUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+
+                    foreach ($favByIdFeeder as $favFeeders)
+                    {
+                        $favIdFeeder = $favFeeders->getIdFavoris();
+                    }
+                    
+                    foreach ($idFavByIdUser as $favFeedersUser)
+                    {
+                        $favIdFeederUser[] = $favFeedersUser->getIdFavoris();
+                    }
+    
+                    if (in_array($favIdFeeder, $favIdFeederUser))
+                    {
+                        $deleteFavAndFeeder = $favorisRepo->deleteFavFeederAndUser($favIdFeeder, $id_plomb);
+                    }
+                    
+                    foreach ($_SESSION['plomb'] as $key => $subArray)
+                    {
+                        foreach ($subArray as $subKey => $subValue)
+                        {
+                            if ($id_plomb == $subValue)
+                            {
+                                unset($_SESSION['plomb'][$key][$subKey]);
+                                session_write_close();
+
+                                $_SESSION['plomb'][$key] = array_values($_SESSION['plomb'][$key]);
+
+                                if (empty($_SESSION['plomb'][$key])) 
+                                {
+                                    unset($_SESSION['plomb'][$key]);
+                                    session_write_close();
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    $favoris->createToInsertFavoris($_POST);
+                    $favorisRepo->insertFavoris($favoris);
+                    $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
+                    $favorisRepo->insertFavFeederAndUser($lastIdFav, $id_plomb);
+                    $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+    
+                    foreach ($favUser as $idFavo)
+                    {
+                        $allIdFav[] = $idFavo->getIdFavoris();
+                    }
+    
+                    foreach ($allIdFav as $idFavoris)
+                    {
+                        $idFeederFav[] = $favorisRepo->getFeederByIdFav($idFavoris);
+                    }
+
+                    $_SESSION['plomb'] = [$idFeederFav];
+                    session_write_close();
+                }
+            }
+        }
+        else
+        {
+            $favoris->createToInsertFavoris($_POST);
+            $favorisRepo->insertFavoris($favoris);
+            $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
+            $favorisRepo->insertFavFeederAndUser($lastIdFav, $id_plomb);
+            $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+
+            foreach ($favUser as $idFavo)
+            {
+                $allIdFav[] = $idFavo->getIdFavoris();
+            }
+
+            foreach ($allIdFav as $idFavoris)
+            {
+                $idFeederFav[] = $favorisRepo->getFeederByIdFav($idFavoris);
+            }
+            
+            $_SESSION['plomb'] = [$idFeederFav];
+            session_write_close();
+        }
+    }
+
+    if ($_POST['genre'] === 'appat')
+    {
+        $id_appat = $_POST['id_appat'];
+
+        $favorisRepo = new FavorisRepository(); 
+        $favoris = new Favoris();
+
+        if (isset($_SESSION['appat']) && !empty($_SESSION['appat']))
+        {
+            foreach ($_SESSION['appat'] as $key => $appat)
+            {
+                if (in_array($id_appat, $appat))
+                {
+                    $favByIdAppat = $favorisRepo->getFavorisByIdAppat($id_appat);
+                    
+                    $idFavByIdUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+
+                    foreach ($favByIdAppat as $favAppats)
+                    {
+                        $favIdAppat = $favAppats->getIdFavoris();
+                    }
+                    
+                    foreach ($idFavByIdUser as $favAppatsUser)
+                    {
+                        $favIdAppatUser[] = $favAppatsUser->getIdFavoris();
+                    }
+    
+                    if (in_array($favIdAppat, $favIdAppatUser))
+                    {
+                        $deleteFavAndAppat = $favorisRepo->deleteFavAppatAndUser($favIdAppat, $id_appat);
+                    }
+                    
+                    foreach ($_SESSION['appat'] as $key => $subArray)
+                    {
+                        foreach ($subArray as $subKey => $subValue)
+                        {
+                            if ($id_appat == $subValue)
+                            {
+                                unset($_SESSION['appat'][$key][$subKey]);
+                                session_write_close();
+
+                                $_SESSION['appat'][$key] = array_values($_SESSION['appat'][$key]);
+
+                                if (empty($_SESSION['appat'][$key])) 
+                                {
+                                    unset($_SESSION['appat'][$key]);
+                                    session_write_close();
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    $favoris->createToInsertFavoris($_POST);
+                    $favorisRepo->insertFavoris($favoris);
+                    $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
+                    $favorisRepo->insertFavAppatAndUser($lastIdFav, $id_appat);
+                    $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+    
+                    foreach ($favUser as $idFavo)
+                    {
+                        $allIdFav[] = $idFavo->getIdFavoris();
+                    }
+    
+                    foreach ($allIdFav as $idFavoris)
+                    {
+                        $idAppatFav[] = $favorisRepo->getAppatByIdFav($idFavoris);
+                    }
+
+                    $_SESSION['appat'] = [$idAppatFav];
+                    session_write_close();
+                }
+            }
+        }
+        else
+        {
+            $favoris->createToInsertFavoris($_POST);
+            $favorisRepo->insertFavoris($favoris);
+            $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
+            $favorisRepo->insertFavAppatAndUser($lastIdFav, $id_appat);
+            $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
+
+            foreach ($favUser as $idFavo)
+            {
+                $allIdFav[] = $idFavo->getIdFavoris();
+            }
+
+            foreach ($allIdFav as $idFavoris)
+            {
+                $idAppatFav[] = $favorisRepo->getAppatByIdFav($idFavoris);
+            }
+            
+            $_SESSION['appat'] = [$idAppatFav];
+            session_write_close();
+        }
+    }
+
     header('location: index.php');
     exit();
 }
@@ -541,6 +1177,181 @@ function profilPage()
         }
     }
 
+    $hamecons = getFavorisHameconId();
+
+    if($hamecons != false)
+    {
+        foreach($hamecons as $hamecon)
+        {
+            if($hamecon != null)
+            {
+                $hameconRepo = new HameconRepository;
+                $hameconFav = $hameconRepo->getHameconById($hamecon);
+               
+                $imgHameconRepo = new ImageHameconRepository;
+                $imgHamecons = $imgHameconRepo->getImageByHamecon($hamecon);
+                $combinedArticles[] = 
+                [
+                    'genre' => 'hamecon',
+                    'id' => $hameconFav->getIdHamecon(),
+                    'nom' => $hameconFav->getNomHamecon(),
+                    'image' => $imgHamecons->getNomImageHamecon(),
+                    'marque' => $hameconFav->getMarqueHamecon(),
+                    'type' => $hameconFav->getTypeHamecon(),
+                    'categorie' => $hameconFav->getCategorieHamecon(),
+                    'longueur' => $hameconFav->getLongueurHamecon(),
+                    'poids' => $hameconFav->getPoidsHamecon(),
+                ];
+            }
+        }
+    }
+
+    $leurres = getFavorisLeurreId();
+
+    if($leurres != false)
+    {
+        foreach($leurres as $leurre)
+        {
+            if($leurre != null)
+            {
+                $leurreRepo = new LeurreRepository;
+                $leurreFav = $leurreRepo->getLeurreById($leurre);
+               
+                $imgLeurreRepo = new ImageLeurreRepository;
+                $imgLeurres = $imgLeurreRepo->getImageByLeurre($leurre);
+                $combinedArticles[] = 
+                [
+                    'genre' => 'leurre',
+                    'id' => $leurreFav->getIdLeurre(),
+                    'nom' => $leurreFav->getNomLeurre(),
+                    'image' => $imgLeurres->getNomImageLeurre(),
+                    'marque' => $leurreFav->getMarqueLeurre(),
+                    'type' => $leurreFav->getTypeLeurre(),
+                    'categorie' => $leurreFav->getCategorieLeurre(),
+                    'longueur' => $leurreFav->getLongueurLeurre(),
+                    'diametre' => $leurreFav->getDiametreLeurre(),
+                    'poids' => $leurreFav->getPoidsLeurre(),
+                ];
+            }
+        }
+    }
+
+    $lignes = getFavorisLigneId();
+
+    if($lignes != false)
+    {
+        foreach($lignes as $ligne)
+        {
+            if($ligne != null)
+            {
+                $ligneRepo = new LigneRepository;
+                $ligneFav = $ligneRepo->getLigneById($ligne);
+               
+                $imgLigneRepo = new ImageLigneRepository;
+                $imgLignes = $imgLigneRepo->getImageByLigne($ligne);
+                $combinedArticles[] = 
+                [
+                    'genre' => 'ligne',
+                    'id' => $ligneFav->getIdLigne(),
+                    'nom' => $ligneFav->getNomLigne(),
+                    'image' => $imgLignes->getNomImageLigne(),
+                    'marque' => $ligneFav->getMarqueLigne(),
+                    'type' => $ligneFav->getTypeLigne(),
+                    'categorie' => $ligneFav->getCategorieLigne(),
+                    'longueur' => $ligneFav->getLongueurLigne(),
+                    'poids' => $ligneFav->getPoidsLigne(),
+                    'diametre' => $leurreFav->getDiametreLigne(),
+                ];
+            }
+        }
+    }
+
+    $equipements = getFavorisEquipementId();
+
+    if($equipements != false)
+    {
+        foreach($equipements as $equipement)
+        {
+            if($equipement != null)
+            {
+                $equipementRepo = new EquipementRepository;
+                $equipementFav = $equipementRepo->getEquipementById($equipement);
+               
+                $imgEquipementRepo = new ImageEquipementRepository;
+                $imgEquipements = $imgEquipementRepo->getImageByEquipement($equipement);
+                $combinedArticles[] = 
+                [
+                    'genre' => 'equipement',
+                    'id' => $equipementFav->getIdEquipement(),
+                    'nom' => $equipementFav->getNomEquipement(),
+                    'image' => $imgEquipements->getNomImageEquipement(),
+                    'marque' => $equipementFav->getMarqueEquipement(),
+                    'type' => $equipementFav->getTypeEquipement(),
+                    'categorie' => $equipementFav->getCategorieEquipement(),
+                    'detail' => $equipementFav->getDetailEquipement(),
+                ];
+            }
+        }
+    }
+
+    $plombs = getFavorisPlombId();
+
+    if($plombs != false)
+    {
+        foreach($plombs as $plomb)
+        {
+            if($plomb != null)
+            {
+                $plombRepo = new FeederRepository;
+                $plombFav = $plombRepo->getFeederById($plomb);
+               
+                $imgFeederRepo = new ImageFeederRepository;
+                $imgFeeders = $imgFeederRepo->getImageByFeeder($plomb);
+                $combinedArticles[] = 
+                [
+                    'genre' => 'plomb',
+                    'id' => $plombFav->getIdFeeder(),
+                    'nom' => $plombFav->getNomFeeder(),
+                    'image' => $imgFeeders->getNomImageFeeder(),
+                    'marque' => $plombFav->getMarqueFeeder(),
+                    'type' => $plombFav->getTypeFeeder(),
+                    'categorie' => $plombFav->getCategorieFeeder(),
+                    'longueur' => $plombFav->getLongueurFeeder(),
+                    'poids' => $plombFav->getPoidsFeeder(),
+                    'diametre' => $plombFav->getDiametreFeeder(),
+                ];
+            }
+        }
+    }
+
+    $appats = getFavorisAppatId();
+
+    if($appats != false)
+    {
+        foreach($appats as $appat)
+        {
+            if($appat != null)
+            {
+                $appatRepo = new AppatRepository;
+                $appatFav = $appatRepo->getAppatById($appat);
+               
+                $imgAppatRepo = new ImageAppatRepository;
+                $imgAppats = $imgAppatRepo->getImageByAppat($appat);
+                $combinedArticles[] = 
+                [
+                    'genre' => 'appat',
+                    'id' => $appatFav->getIdAppat(),
+                    'nom' => $appatFav->getNomAppat(),
+                    'image' => $imgAppats->getNomImageAppat(),
+                    'marque' => $appatFav->getMarqueAppat(),
+                    'type' => $appatFav->getTypeAppat(),
+                    'categorie' => $appatFav->getCategorieAppat(),
+                    'detail' => $appatFav->getDetailAppat(),
+                ];
+            }
+        }
+    }
+
     include('src/view/profilPage.php');
 }
 
@@ -580,6 +1391,144 @@ function getFavorisMoulinetId()
                 foreach($_SESSION['moulinet'] as $moulinets)
                 {
                     return $moulinets;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+}
+
+function getFavorisHameconId()
+{
+    $articles = getAllArticles();
+
+    foreach($articles as $article)
+    {
+        if($article['genre'] == 'hamecon')
+        {
+            if(isset($_SESSION['hamecon']))
+            {
+                foreach($_SESSION['hamecon'] as $hamecons)
+                {
+                    return $hamecons;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+}
+
+function getFavorisLeurreId()
+{
+    $articles = getAllArticles();
+
+    foreach($articles as $article)
+    {
+        if($article['genre'] == 'leurre')
+        {
+            if(isset($_SESSION['leurre']))
+            {
+                foreach($_SESSION['leurre'] as $leurres)
+                {
+                    return $leurres;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+}
+
+function getFavorisLigneId()
+{
+    $articles = getAllArticles();
+
+    foreach($articles as $article)
+    {
+        if($article['genre'] == 'ligne')
+        {
+            if(isset($_SESSION['ligne']))
+            {
+                foreach($_SESSION['ligne'] as $lignes)
+                {
+                    return $lignes;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+}
+
+function getFavorisEquipementId()
+{
+    $articles = getAllArticles();
+
+    foreach($articles as $article)
+    {
+        if($article['genre'] == 'equipement')
+        {
+            if(isset($_SESSION['equipement']))
+            {
+                foreach($_SESSION['equipement'] as $equipements)
+                {
+                    return $equipements;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+}
+
+function getFavorisPlombId()
+{
+    $articles = getAllArticles();
+
+    foreach($articles as $article)
+    {
+        if($article['genre'] == 'plomb')
+        {
+            if(isset($_SESSION['plomb']))
+            {
+                foreach($_SESSION['plomb'] as $plombs)
+                {
+                    return $plombs;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+}
+
+function getFavorisAppatId()
+{
+    $articles = getAllArticles();
+
+    foreach($articles as $article)
+    {
+        if($article['genre'] == 'appat')
+        {
+            if(isset($_SESSION['appat']))
+            {
+                foreach($_SESSION['appat'] as $appats)
+                {
+                    return $appats;
                 }
             }
             else
@@ -1285,18 +2234,56 @@ function filtre()
 
     foreach ($articlesFiltres as $articleFiltred) 
     {
+        echo '<div class="w-56">';
         echo '<a href="index.php?action=' . $articleFiltred['genre'] . 'Page&id=' . $articleFiltred['id'] . '">';
-        echo '<div class="' . $articleFiltred['type'] . ' article" >';
-        echo '<div>';
-        echo '<img src="' . $articleFiltred['image'] . '" alt="' . $articleFiltred['nom'] . '" class="object-cover object-center w-32 h-32 md:w-56 md:h-56" style="border: 1px solid #000000;">';
-        echo '</div>';
-        echo '<div>';
-        echo '<p class="text-xs md:text-lg text-center">' . $articleFiltred['nom'] . '</p>';
-        echo '<p class="text-2xs md:text-sm text-center uppercase">' . $articleFiltred['marque'] . '</p>';
-        echo '</div>';
+        echo '<div class="w-56">';
+        echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="' . $articleFiltred['image'] . '"/>';
         echo '</div>';
         echo '</a>';
+        echo '<div class="flex justify-center gap-10 py-3">';
+        echo '<div>';
+        echo '<p class="text-s md:text-lg">';
+        echo $articleFiltred['nom'];
+        echo '</p>';
+        echo '<p class="text-xs md:text-sm uppercase">';
+        echo $articleFiltred['marque'];
+        echo '</p>';
+        echo '</div>';
+        
+        if ($_SESSION) {
+            echo '<div>';
+            echo '<form class="favoris-form" method="post" action="index.php?action=addFavorisTraitement">';
+            echo '<input type="hidden" name="id_' . $articleFiltred['genre'] . '" value="' . $articleFiltred['id'] . '">';
+            echo '<input type="hidden" name="id_user" value="' . $_SESSION['id_user'] . '">';
+            echo '<input type="hidden" name="genre" value="' . $articleFiltred['genre'] . '">';
+            echo '<input type="hidden" name="date_ajout_favoris" value="' . date("d/m/y") . '">';
+            
+            if ($_SESSION[$articleFiltred['genre']]) {
+                foreach ($_SESSION[$articleFiltred['genre']] as $idTab) {
+                    if (in_array($articleFiltred['id'], $idTab)) {
+                        echo '<button class="favoris-button" type="submit">';
+                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/liked.png">';
+                        echo '</button>';
+                    } else {
+                        echo '<button class="favoris-button" type="submit">';
+                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                        echo '</button>';
+                    }
+                }
+            } else {
+                echo '<button class="favoris-button" type="submit">';
+                echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                echo '</button>';
+            }
+            
+            echo '</form>';
+            echo '</div>';
+        }
+        
+        echo '</div>';
+        echo '</div>';
     }
+    
 }
 
 //TRAITEMENT POUR LES FILTRE DE LA PAGE DE TOUS LES ARTICLES EN PROMOTION
@@ -1349,20 +2336,57 @@ function filtrePromo()
         }
     }
 
-    foreach ($articlesFiltres as $articleFiltred) 
-    {
+    foreach ($articlesFiltres as $articleFiltred) {
+        echo '<div class="w-56">';
         echo '<a href="index.php?action=' . $articleFiltred['genre'] . 'Page&id=' . $articleFiltred['id'] . '">';
-        echo '<div class="' . $articleFiltred['type'] . ' article" >';
-        echo '<div>';
-        echo '<img src="' . $articleFiltred['image'] . '" alt="' . $articleFiltred['nom'] . '" class="object-cover object-center w-32 h-32 md:w-56 md:h-56" style="border: 1px solid #000000;">';
-        echo '</div>';
-        echo '<div>';
-        echo '<p class="text-xs md:text-lg text-center">' . $articleFiltred['nom'] . '</p>';
-        echo '<p class="text-2xs md:text-sm text-center uppercase">' . $articleFiltred['marque'] . '</p>';
-        echo '</div>';
+        echo '<div class="w-56">';
+        echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="' . $articleFiltred['image'] . '"/>';
         echo '</div>';
         echo '</a>';
+        echo '<div class="flex justify-center gap-10 py-3">';
+        echo '<div>';
+        echo '<p class="text-s md:text-lg">';
+        echo $articleFiltred['nom'];
+        echo '</p>';
+        echo '<p class="text-xs md:text-sm uppercase">';
+        echo $articleFiltred['marque'];
+        echo '</p>';
+        echo '</div>';
+        
+        if ($_SESSION) {
+            echo '<div>';
+            echo '<form class="favoris-form" method="post" action="index.php?action=addFavorisTraitement">';
+            echo '<input type="hidden" name="id_' . $articleFiltred['genre'] . '" value="' . $articleFiltred['id'] . '">';
+            echo '<input type="hidden" name="id_user" value="' . $_SESSION['id_user'] . '">';
+            echo '<input type="hidden" name="genre" value="' . $articleFiltred['genre'] . '">';
+            echo '<input type="hidden" name="date_ajout_favoris" value="' . date("d/m/y") . '">';
+            
+            if ($_SESSION[$articleFiltred['genre']]) {
+                foreach ($_SESSION[$articleFiltred['genre']] as $idTab) {
+                    if (in_array($articleFiltred['id'], $idTab)) {
+                        echo '<button class="favoris-button" type="submit">';
+                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/liked.png">';
+                        echo '</button>';
+                    } else {
+                        echo '<button class="favoris-button" type="submit">';
+                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                        echo '</button>';
+                    }
+                }
+            } else {
+                echo '<button class="favoris-button" type="submit">';
+                echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                echo '</button>';
+            }
+            
+            echo '</form>';
+            echo '</div>';
+        }
+        
+        echo '</div>';
+        echo '</div>';
     }
+    
 }
 
 //TRAITEMENT POUR LES FILTRES DES PAGES D'ARTICLES EN FONCTION DE LA CATEGORIE PRIT EN GET
@@ -1443,20 +2467,57 @@ function filtrePageCate()
         }
     }
 
-    foreach ($articlesFiltres as $articleFiltred) 
-    {
+    foreach ($articlesFiltres as $articleFiltred) {
+        echo '<div class="w-56">';
         echo '<a href="index.php?action=' . $articleFiltred['genre'] . 'Page&id=' . $articleFiltred['id'] . '">';
-        echo '<div class="' . $articleFiltred['type'] . ' article" >';
-        echo '<div>';
-        echo '<img src="' . $articleFiltred['image'] . '" alt="' . $articleFiltred['nom'] . '" class="object-cover object-center w-32 h-32 md:w-56 md:h-56" style="border: 1px solid #000000;">';
-        echo '</div>';
-        echo '<div>';
-        echo '<p class="text-xs md:text-lg text-center">' . $articleFiltred['nom'] . '</p>';
-        echo '<p class="text-2xs md:text-sm text-center uppercase">' . $articleFiltred['marque'] . '</p>';
-        echo '</div>';
+        echo '<div class="w-56">';
+        echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="' . $articleFiltred['image'] . '"/>';
         echo '</div>';
         echo '</a>';
+        echo '<div class="flex justify-center gap-10 py-3">';
+        echo '<div>';
+        echo '<p class="text-s md:text-lg">';
+        echo $articleFiltred['nom'];
+        echo '</p>';
+        echo '<p class="text-xs md:text-sm uppercase">';
+        echo $articleFiltred['marque'];
+        echo '</p>';
+        echo '</div>';
+        
+        if ($_SESSION) {
+            echo '<div>';
+            echo '<form class="favoris-form" method="post" action="index.php?action=addFavorisTraitement">';
+            echo '<input type="hidden" name="id_' . $articleFiltred['genre'] . '" value="' . $articleFiltred['id'] . '">';
+            echo '<input type="hidden" name="id_user" value="' . $_SESSION['id_user'] . '">';
+            echo '<input type="hidden" name="genre" value="' . $articleFiltred['genre'] . '">';
+            echo '<input type="hidden" name="date_ajout_favoris" value="' . date("d/m/y") . '">';
+            
+            if ($_SESSION[$articleFiltred['genre']]) {
+                foreach ($_SESSION[$articleFiltred['genre']] as $idTab) {
+                    if (in_array($articleFiltred['id'], $idTab)) {
+                        echo '<button class="favoris-button" type="submit">';
+                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/liked.png">';
+                        echo '</button>';
+                    } else {
+                        echo '<button class="favoris-button" type="submit">';
+                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                        echo '</button>';
+                    }
+                }
+            } else {
+                echo '<button class="favoris-button" type="submit">';
+                echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                echo '</button>';
+            }
+            
+            echo '</form>';
+            echo '</div>';
+        }
+        
+        echo '</div>';
+        echo '</div>';
     }
+    
 }
 
 //TRAITEMENT POUR LES FILTRES DES ARTICLES EN FONCTION DE LA MARQUE PRIT EN GET
@@ -1539,18 +2600,57 @@ function filtrePageMarque()
 
     foreach ($articlesFiltres as $articleFiltred) 
     {
+        echo '<div class="w-56">';
         echo '<a href="index.php?action=' . $articleFiltred['genre'] . 'Page&id=' . $articleFiltred['id'] . '">';
-        echo '<div class="' . $articleFiltred['type'] . ' article" >';
-        echo '<div>';
-        echo '<img src="' . $articleFiltred['image'] . '" alt="' . $articleFiltred['nom'] . '" class="object-cover object-center w-32 h-32 md:w-56 md:h-56" style="border: 1px solid #000000;">';
-        echo '</div>';
-        echo '<div>';
-        echo '<p class="text-xs md:text-lg text-center">' . $articleFiltred['nom'] . '</p>';
-        echo '<p class="text-2xs md:text-sm text-center uppercase">' . $articleFiltred['marque'] . '</p>';
-        echo '</div>';
+        echo '<div class="w-56">';
+        echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="' . $articleFiltred['image'] . '"/>';
         echo '</div>';
         echo '</a>';
+        echo '<div class="flex justify-center gap-10 py-3">';
+        echo '<div>';
+        echo '<p class="text-s md:text-lg">';
+        echo $articleFiltred['nom'];
+        echo '</p>';
+        echo '<p class="text-xs md:text-sm uppercase">';
+        echo $articleFiltred['marque'];
+        echo '</p>';
+        echo '</div>';
+        
+        if ($_SESSION) 
+        {
+            echo '<div>';
+            echo '<form class="favoris-form" method="post" action="index.php?action=addFavorisTraitement">';
+            echo '<input type="hidden" name="id_' . $articleFiltred['genre'] . '" value="' . $articleFiltred['id'] . '">';
+            echo '<input type="hidden" name="id_user" value="' . $_SESSION['id_user'] . '">';
+            echo '<input type="hidden" name="genre" value="' . $articleFiltred['genre'] . '">';
+            echo '<input type="hidden" name="date_ajout_favoris" value="' . date("d/m/y") . '">';
+            
+            if ($_SESSION[$articleFiltred['genre']]) {
+                foreach ($_SESSION[$articleFiltred['genre']] as $idTab) {
+                    if (in_array($articleFiltred['id'], $idTab)) {
+                        echo '<button class="favoris-button" type="submit">';
+                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/liked.png">';
+                        echo '</button>';
+                    } else {
+                        echo '<button class="favoris-button" type="submit">';
+                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                        echo '</button>';
+                    }
+                }
+            } else {
+                echo '<button class="favoris-button" type="submit">';
+                echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                echo '</button>';
+            }
+            
+            echo '</form>';
+            echo '</div>';
+        }
+        
+        echo '</div>';
+        echo '</div>';
     }
+    
 }
 
 //TRAITEMENT POUR LES FILTRES DES PAGES DE CANNE
@@ -1681,18 +2781,56 @@ function filtreCanne()
 
     foreach ($articlesFiltresCanne as $articleFiltred) 
     {
+        echo '<div class="w-56">';
         echo '<a href="index.php?action=' . $articleFiltred['genre'] . 'Page&id=' . $articleFiltred['id'] . '">';
-        echo '<div class="' . $articleFiltred['type'] . ' article" >';
-        echo '<div>';
-        echo '<img src="' . $articleFiltred['image'] . '" alt="' . $articleFiltred['nom'] . '" class="object-cover object-center w-32 h-32 md:w-56 md:h-56" style="border: 1px solid #000000;">';
-        echo '</div>';
-        echo '<div>';
-        echo '<p class="text-xs md:text-lg text-center">' . $articleFiltred['nom'] . '</p>';
-        echo '<p class="text-2xs md:text-sm text-center uppercase">' . $articleFiltred['marque'] . '</p>';
-        echo '</div>';
+        echo '<div class="w-56">';
+        echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="' . $articleFiltred['image'] . '"/>';
         echo '</div>';
         echo '</a>';
+        echo '<div class="flex justify-center gap-10 py-3">';
+        echo '<div>';
+        echo '<p class="text-s md:text-lg">';
+        echo $articleFiltred['nom'];
+        echo '</p>';
+        echo '<p class="text-xs md:text-sm uppercase">';
+        echo $articleFiltred['marque'];
+        echo '</p>';
+        echo '</div>';
+        
+        if ($_SESSION) {
+            echo '<div>';
+            echo '<form class="favoris-form" method="post" action="index.php?action=addFavorisTraitement">';
+            echo '<input type="hidden" name="id_' . $articleFiltred['genre'] . '" value="' . $articleFiltred['id'] . '">';
+            echo '<input type="hidden" name="id_user" value="' . $_SESSION['id_user'] . '">';
+            echo '<input type="hidden" name="genre" value="' . $articleFiltred['genre'] . '">';
+            echo '<input type="hidden" name="date_ajout_favoris" value="' . date("d/m/y") . '">';
+            
+            if ($_SESSION[$articleFiltred['genre']]) {
+                foreach ($_SESSION[$articleFiltred['genre']] as $idTab) {
+                    if (in_array($articleFiltred['id'], $idTab)) {
+                        echo '<button class="favoris-button" type="submit">';
+                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/liked.png">';
+                        echo '</button>';
+                    } else {
+                        echo '<button class="favoris-button" type="submit">';
+                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                        echo '</button>';
+                    }
+                }
+            } else {
+                echo '<button class="favoris-button" type="submit">';
+                echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                echo '</button>';
+            }
+            
+            echo '</form>';
+            echo '</div>';
+        }
+        
+        echo '</div>';
+        echo '</div>';
     }
+    
 }
 
 //CREER UN TABLEAU DE GENRE POUR LES FILTRES
