@@ -1995,7 +1995,7 @@ function getIdMarque()
 
     $marque = $marqueRepo->existMarque($_GET['marque']);
 
-    foreach ($marque as $idMarques) 
+    foreach ($marque as $idMarques)
     {
         $idMarque = $idMarques->getIdMarque();
     }
@@ -2298,7 +2298,7 @@ function filtre()
         echo '<div class="w-56">';
         echo '<a href="/' . $articleFiltred['genre'] . 'Page/' . $articleFiltred['id'] . '">';
         echo '<div class="w-56">';
-        echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="' . $articleFiltred['image'] . '"/>';
+        echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/' . $articleFiltred['image'] . '"/>';
         echo '</div>';
         echo '</a>';
         echo '<div class="flex justify-center gap-10 py-3">';
@@ -2401,7 +2401,7 @@ function filtrePromo()
         echo '<div class="w-56">';
         echo '<a href="/' . $articleFiltred['genre'] . 'Page/' . $articleFiltred['id'] . '">';
         echo '<div class="w-56">';
-        echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="' . $articleFiltred['image'] . '"/>';
+        echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/' . $articleFiltred['image'] . '"/>';
         echo '</div>';
         echo '</a>';
         echo '<div class="flex justify-center gap-10 py-3">';
@@ -2528,11 +2528,12 @@ function filtrePageCate()
         }
     }
 
-    foreach ($articlesFiltres as $articleFiltred) {
+    foreach ($articlesFiltres as $articleFiltred) 
+    {
         echo '<div class="w-56">';
         echo '<a href="/' . $articleFiltred['genre'] . 'Page/' . $articleFiltred['id'] . '">';
         echo '<div class="w-56">';
-        echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="' . $articleFiltred['image'] . '"/>';
+        echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/' . $articleFiltred['image'] . '"/>';
         echo '</div>';
         echo '</a>';
         echo '<div class="flex justify-center gap-10 py-3">';
@@ -2664,7 +2665,7 @@ function filtrePageMarque()
         echo '<div class="w-56">';
         echo '<a href="/' . $articleFiltred['genre'] . 'Page/' . $articleFiltred['id'] . '">';
         echo '<div class="w-56">';
-        echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="' . $articleFiltred['image'] . '"/>';
+        echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/' . $articleFiltred['image'] . '"/>';
         echo '</div>';
         echo '</a>';
         echo '<div class="flex justify-center gap-10 py-3">';
@@ -2844,7 +2845,7 @@ function filtreCanne()
         echo '<div class="w-56">';
         echo '<a href="/' . $articleFiltred['genre'] . 'Page/' . $articleFiltred['id'] . '">';
         echo '<div class="w-56">';
-        echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="' . $articleFiltred['image'] . '"/>';
+        echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/' . $articleFiltred['image'] . '"/>';
         echo '</div>';
         echo '</a>';
         echo '<div class="flex justify-center gap-10 py-3">';
@@ -2976,7 +2977,7 @@ function filtreEquipement()
         echo '<div class="w-56">';
         echo '<a href="/' . $articleFiltred['genre'] . 'Page/' . $articleFiltred['id'] . '">';
         echo '<div class="w-56">';
-        echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="' . $articleFiltred['image'] . '"/>';
+        echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/' . $articleFiltred['image'] . '"/>';
         echo '</div>';
         echo '</a>';
         echo '<div class="flex justify-center gap-10 py-3">';

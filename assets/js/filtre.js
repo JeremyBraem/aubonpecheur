@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function ()
         });
 
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", "index.php?action=filtre", true);
+        xhr.open("POST", "/index.php?action=filtre", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function () 
         {

@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function ()
         })
         .map(function (filtre) 
         {
-            console.log(filtre.value);
             return filtre.value;
         });
 
@@ -30,7 +29,6 @@ document.addEventListener("DOMContentLoaded", function ()
         {
             if (xhr.readyState === 4 && xhr.status === 200) 
             {
-                // Mettre à jour le contenu du conteneur avec les nouveaux articles
                 document.getElementById("listeArticles").innerHTML = xhr.responseText;
             }
         };
