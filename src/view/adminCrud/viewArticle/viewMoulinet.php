@@ -8,7 +8,6 @@
                 <td class="px-4 py-3">
                     <img class="w-10 h-10" src="
                 <?php
-                
                 echo $article['image'];
                 ?>">
                 </td>
@@ -60,6 +59,7 @@
 
             </tr>
             <?php include('src/view/adminCrud/modalUpdate/modalMoulinetUpdate.php'); ?>
+            <?php include('src/view/adminCrud/modalDelete/modalDeleteMoulinet.php'); ?>
             <?php include('src/view/adminCrud/readModal/readModalMoulinet.php'); ?>
 
             

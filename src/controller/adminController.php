@@ -283,14 +283,14 @@ function addHameconTraitement()
 
 function addLeurreTraitement()
 {
+    
     if(isset($_POST))
-    {
-        if(!empty($_POST['nom_leurre']) && !empty($_POST['poids_leurre']) && !empty($_POST['diametre_leurre']) && !empty($_POST['longueur_leurre']) && !empty($_POST['categorie_leurre']) && !empty($_POST['type_leurre']) && !empty($_POST['marque_leurre']) && !empty($_POST['promo_leurre']) && !empty($_POST['stock_leurre']) && !empty($_POST['description_leurre'] && !empty($_FILES['image_leurre'])))
+    {   
+        if(!empty($_POST['nom_leurre']) && !empty($_POST['poids_leurre']) && !empty($_POST['couleur_leurre']) && !empty($_POST['categorie_leurre']) && !empty($_POST['type_leurre']) && !empty($_POST['marque_leurre']) && !empty($_POST['promo_leurre']) && !empty($_POST['stock_leurre']) && !empty($_POST['description_leurre'] && !empty($_FILES['image_leurre'])))
         {
             $newLeurre = [];
             $newLeurre['nom_leurre'] = htmlspecialchars($_POST['nom_leurre']);
-            $newLeurre['longueur_leurre'] = htmlspecialchars($_POST['longueur_leurre']);
-            $newLeurre['diametre_leurre'] = htmlspecialchars($_POST['diametre_leurre']);
+            $newLeurre['couleur_leurre'] = htmlspecialchars($_POST['couleur_leurre']);
             $newLeurre['poids_leurre'] = htmlspecialchars($_POST['poids_leurre']);
             $newLeurre['categorie_leurre'] = htmlspecialchars($_POST['categorie_leurre']);
             $newLeurre['type_leurre'] = htmlspecialchars($_POST['type_leurre']);
@@ -843,8 +843,6 @@ function deleteMoulinet()
 {
         if(!empty($_POST['id_moulinet']) && isset($_POST['id_moulinet']))
         {
-            var_dump($_POST);
-            die;
             $id_moulinet = isset($_POST['id_moulinet']) ? $_POST['id_moulinet'] : null;
             $moulinetRepository = new MoulinetRepository();
             $deleteMoulinet = $moulinetRepository->deleteMoulinet($id_moulinet);
