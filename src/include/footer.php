@@ -1,7 +1,7 @@
 <div class="md:hidden w-full" style="border-top: 1.5px solid rgba(0, 0, 0, 0.35);">
 
     <div>
-        <img src="assets/img/site/logo_au_bon_pecheur.svg" class="w-28 m-auto py-2">
+        <img src="/assets/img/site/logo_au_bon_pecheur.svg" class="w-28 m-auto py-2">
     </div>
 
     <div class="mx-3">
@@ -19,9 +19,9 @@
             <div class="p-3">
 
                 <div class="flex flex-col">
-                    <a href="index.php" class="text-sm">Accueil</a>
-                    <a href="index.php?action=promoPage" class="text-sm">Promotion</a>
-                    <a href="index.php?action=marquePage" class="text-sm">Marque</a>
+                    <a href="/home" class="text-sm">Accueil</a>
+                    <a href="/promoPage" class="text-sm">Promotion</a>
+                    <a href="/marquePage" class="text-sm">Marque</a>
                     <a class="text-sm">Contact</a>
                     <a href="https://www.facebook.com/aubonpecheur.sedan" target="_blank" class="text-sm">Facebook</a>
                 </div>
@@ -99,7 +99,7 @@
     <div class="flex flex-row justify-between p-3">
 
         <div class="w-1/6 m-auto">
-            <img src="assets/img/site/logo_au_bon_pecheur.svg" class="h-44 m-auto">
+            <img src="/assets/img/site/logo_au_bon_pecheur.svg" class="h-44 m-auto">
         </div>
 
         <div class="w-1/6">
@@ -113,9 +113,9 @@
                 <div class="pt-2">
 
                     <div class="flex flex-col gap-1">
-                        <a href="index.php" class="text-sm">Accueil</a>
-                        <a href="index.php?action=promoPage" class="text-sm">Promotion</a>
-                        <a href="index.php?action=marquePage" class="text-sm">Marque</a>
+                        <a href="/home" class="text-sm">Accueil</a>
+                        <a href="/promoPage" class="text-sm">Promotion</a>
+                        <a href="/marquePage" class="text-sm">Marque</a>
                         <a href="" class="text-sm">Contact</a>
                         <a href="https://www.facebook.com/aubonpecheur.sedan" target="_blank" class="text-sm">Facebook</a>
                     </div>

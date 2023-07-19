@@ -103,10 +103,6 @@
     <footer class="bg-[#fcfcfc]">
         <?php require_once('src/include/footer.php') ?>
     </footer>
-
-    <script src="assets/js/swiper.js"></script>
-    <script src="assets/js/sliderPromo.js"></script>
-
 </body>
 
 </html>

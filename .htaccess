@@ -1,0 +1,29 @@
+#--------------------------------------------------
+#Répertoire : /articles/
+#--------------------------------------------------
+
+#Le serveur doit suivre les liens symboliques :
+Options +FollowSymlinks
+
+#Activation du module de réécriture d'URL :
+RewriteEngine on
+
+#--------------------------------------------------
+#Règles de réécriture d'URL :
+#--------------------------------------------------
+
+#page sans id
+
+RewriteRule ^([a-zA-Z]+)$   /index.php?action=$1 [L]
+
+# Réécriture d'URL pour le lien avec "marque"
+RewriteRule ^marque/([a-zA-Z]+)$ /index.php?action=marque&marque=$1 [L]
+
+# Réécriture d'URL pour le lien avec "article"
+RewriteRule ^article/([a-zA-Z]+)$ /index.php?action=article&categorie=$1 [L]
+
+
+
+
+RewriteRule ^([a-zA-Z]+)/([0-9]+)$   /index.php?action=$1&id=$2 [L]
+

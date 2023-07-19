@@ -26,7 +26,7 @@
             }
         }
     </script>
-    <title>Page allCanne</title>
+    <title>Page allEquipement</title>
 </head>
 
 <body class="bg-[#fcfcfc]">
@@ -41,26 +41,26 @@
         <section>
 
             <div class="bg-[#fcfcfc] w-2/3 m-auto p-6">
-                <h1 class="text-center font-semibold">Toutes les Cannes</h1>
+                <h1 class="text-center font-semibold">Touts les "Equipements"</h1>
             </div>
 
             <div class="bg-[#426EC2] p-1">
-                <?php require_once('src/include/filtreArticle/filtreCanne.php'); ?>
+                <?php require_once('src/include/filtreArticle/filtreEquipement.php'); ?>
             </div>
 
             <div>
                 <div id="listeArticles" class="p-3 md:p-5 relative flex flex-wrap gap-5 md:gap-7 items-center justify-center">
-                    <?php foreach ($allCannes as $allCanne) { ?>
-                        <a href="/<?php echo $allCanne['genre']; ?>Page/<?php echo $allCanne['id']; ?>">
-                            <div class="<?php echo $allCanne['type']; ?> allCanne">
+                    <?php foreach ($allEquipements as $allEquipement) { ?>
+                        <a href="/<?php echo $allEquipement['genre']; ?>Page/<?php echo $allEquipement['id']; ?>">
+                            <div class="<?php echo $allEquipement['type']; ?> allEquipement">
 
                                 <div>
-                                    <img src="<?php echo $allCanne['image']; ?>" class="object-cover object-center w-32 h-32 md:w-56 md:h-56" style="border: 1px solid #000000;" />
+                                    <img src="<?php echo $allEquipement['image']; ?>" class="object-cover object-center w-32 h-32 md:w-56 md:h-56" style="border: 1px solid #000000;" />
                                 </div>
 
                                 <div>
-                                    <p class="text-xs md:text-lg text-center"><?php echo $allCanne['nom']; ?></p>
-                                    <p class="text-2xs md:text-sm text-center uppercase"><?php echo $allCanne['marque']; ?></p>
+                                    <p class="text-xs md:text-lg text-center"><?php echo $allEquipement['nom']; ?></p>
+                                    <p class="text-2xs md:text-sm text-center uppercase"><?php echo $allEquipement['marque']; ?></p>
                                 </div>
 
                             </div>
@@ -79,7 +79,7 @@
         <?php require_once('src/include/footer.php') ?>
     </footer>
 
-    <script src="assets/js/filtreArticle/filtreCanne.js"></script>
+    <script src="assets/js/filtreArticle/filtreEquipement.js"></script>
 
 </body>
 </html>

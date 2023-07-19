@@ -74,7 +74,7 @@
                 </form>
 
                 <div>
-                    <p class="text-center mb-5">Pas de compte ? <a class="text-[#426EC2] underline" href="index.php?action=signUp">Inscrivez-vous !</a></p>
+                    <p class="text-center mb-5">Pas de compte ? <a class="text-[#426EC2] underline" href="/signUp">Inscrivez-vous !</a></p>
                 </div>
 
             </div>

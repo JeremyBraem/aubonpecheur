@@ -158,6 +158,6 @@ if ($_SESSION['id_role'] == 1)
 }
 else
 {
-    header('location:index.php');
+    header('location: /home');
 }
 ?>

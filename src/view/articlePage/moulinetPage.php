@@ -45,7 +45,7 @@
                 <div class="md:flex md:flex-row">
 
                     <div class="md:w-2/4 lg:w-2/5 md:p-5">
-                        <img src="<?php echo $imageMoulinet->getNomImageMoulinet(); ?>" style="border: 1px solid #000000;" class="w-56 h-56 m-auto my-5 md:w-[400px] md:h-[400px]">
+                        <img src="/<?php echo $imageMoulinet->getNomImageMoulinet(); ?>" style="border: 1px solid #000000;" class="w-56 h-56 m-auto my-5 md:w-[400px] md:h-[400px]">
                     </div>
 
                     <div class="md:w-2/4 lg:w-3/5 md:py-10 md:px-5">

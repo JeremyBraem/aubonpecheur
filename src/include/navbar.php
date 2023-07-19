@@ -11,16 +11,16 @@
     </div>
 
     <ul class="hidden gap-4 absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
-        <li><a class="text-m text-white" href="index.php">Accueil</a></li>
-        <li><a class="text-m text-white" href="index.php?action=promoPage">Promotion</a></li>
-        <li><a class="text-m text-white" href="index.php?action=marquePage">Marque</a></li>
-        <li><a class="text-m text-white" href="index.php?action=article&categorie=Carpe">Carpe</a></li>
-        <li><a class="text-m text-white" href="index.php?action=article&categorie=Coup">Coup</a></li>
-        <li><a class="text-m text-white" href="index.php?action=article&categorie=Truite">Truite</a></li>
-        <li><a class="text-m text-white" href="index.php?action=article&categorie=Carnassier">Carnassier</a></li>
-        <li><a class="text-m text-white" href="index.php?action=article&categorie=Silure">Silure</a></li>
-        <li><a class="text-m text-white" href="index.php?action=article&categorie=Feeder">Feeder</a></li>
-        <li><a class="text-m text-white" href="index.php?action=article&categorie=">Equipement</a></li>
+        <li><a class="text-m text-white" href="/home">Accueil</a></li>
+        <li><a class="text-m text-white" href="/promotion">Promotion</a></li>
+        <li><a class="text-m text-white" href="/Marque">Marque</a></li>
+        <li><a class="text-m text-white" href="/article/Carpe">Carpe</a></li>
+        <li><a class="text-m text-white" href="/article/Coup">Coup</a></li>
+        <li><a class="text-m text-white" href="/article/Truite">Truite</a></li>
+        <li><a class="text-m text-white" href="/article/Carnassier">Carnassier</a></li>
+        <li><a class="text-m text-white" href="/article/Silure">Silure</a></li>
+        <li><a class="text-m text-white" href="/article/Feeder">Feeder</a></li>
+        <li><a class="text-m text-white" href="/Equipement">Equipement</a></li>
         <?php 
         if(isset($_SESSION['id_role']))
         {
@@ -29,7 +29,7 @@
                 if($_SESSION['id_role'] == 1)
                 {
         ?>
-        <li><a class="text-m text-white" href="admin.php">Admin</a></li>
+        <li><a class="text-m text-white" href="/admin">Admin</a></li>
         <?php } } } ?>
     </ul>
 
@@ -42,8 +42,8 @@
     <nav class="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
         
         <div class="flex items-center mb-8">
-            <a class="m-auto text-3xl font-bold leading-none" href="index.php">
-                <img class="w-[100px]" src="assets/img/site/logo_au_bon_pecheur.svg">
+            <a class="m-auto text-3xl font-bold leading-none" href="/home">
+                <img class="w-[100px]" src="/assets/img/site/logo_au_bon_pecheur.svg">
             </a>
             <button class="navbar-close">
                 <svg class="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -56,43 +56,43 @@
             <ul>
 
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="index.php">Accueil</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="/index">Accueil</a>
                 </li>
 
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="index.php?action=promoPage">Promotion</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="/promotion">Promotion</a>
                 </li>
 
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Marque</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="/marque">Marque</a>
                 </li>
 
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="index.php?action=article&categorie=Carpe">Carpe</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="/article/Carpe">Carpe</a>
                 </li>
 
                 <li class="mb-1">
-                    <a data-value="Coup" class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="index.php?action=article&categorie=Coup">Coup</a>
+                    <a data-value="Coup" class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="/article/Coup">Coup</a>
                 </li>
 
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="index.php?action=article&categorie=Carnassier">Carnassier</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="/article/Carnassier">Carnassier</a>
                 </li>
 
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="index.php?action=article&categorie=Truite">Truite</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="/article/Truite">Truite</a>
                 </li>
 
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="index.php?action=article&categorie=Silure">Sillure</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="/article/Silure">Sillure</a>
                 </li>
 
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="index.php?action=article&categorie=Feeder">Feeder</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="/article/Feeder">Feeder</a>
                 </li>
 
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="#">Equipement</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="/Equipement">Equipement</a>
                 </li>
 
                 <?php 
@@ -104,7 +104,7 @@
                             {
                 ?>
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="admin.php">Admin</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="/admin.php">Admin</a>
                 </li>
                 <?php } } } ?>
 
@@ -116,8 +116,8 @@
                     { 
                     ?>
                     <div class="flex flex-col">
-                        <a class="py-1 text-sm font-semibold text-gray-600" href="index.php?action=login">Connexion</a>
-                        <a class="py-1 text-sm font-semibold text-gray-600" href="index.php?action=signUp">Inscription</a>  
+                        <a class="py-1 text-sm font-semibold text-gray-600" href="/login">Connexion</a>
+                        <a class="py-1 text-sm font-semibold text-gray-600" href="/signUp">Inscription</a>  
                     </div>
                     <?php 
                     }
@@ -125,8 +125,8 @@
                     { 
                     ?>
                     <div class="flex flex-col">
-                        <a class="py-1 text-sm font-semibold text-gray-600" href="index.php?action=">Favoris</a>
-                        <a class="py-1 text-sm font-semibold text-gray-600" href="index.php?action=deconnexion">Déconnexion</a>
+                        <a class="py-1 text-sm font-semibold text-gray-600" href="/action=">Favoris</a>
+                        <a class="py-1 text-sm font-semibold text-gray-600" href="/action=deconnexion">Déconnexion</a>
                     </div>
                     <?php 
                     }
@@ -139,4 +139,4 @@
 
 </div>
 
-<script src="assets/js/navbarBurger.js"></script>
+<script src="/assets/js/navbarBurger.js"></script>

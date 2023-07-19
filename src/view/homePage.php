@@ -46,7 +46,7 @@
 
             <div class="w-full lg:h-[300px] h-[120px]">
                 <video class="w-full h-full object-cover" loop muted autoplay>
-                    <source src="assets/video/homeVideo.mp4" type="video/mp4">
+                    <source src="/assets/video/homeVideo.mp4" type="video/mp4">
                 </video>
             </div>
 
@@ -75,7 +75,7 @@
                 <?php foreach($marques as $marque) { ?>
                 <?php if($marque) { ?>
                 
-                    <a class="w-32 h-16 md:w-40 md:h-20 m-auto" href="index.php?action=articleM&marque=<?php echo $marque->getNomMarque() ?>">
+                    <a class="w-32 h-16 md:w-40 md:h-20 m-auto" href="/marque/<?php echo $marque->getNomMarque() ?>">
 
                         <div class="bg-[#fcfcfc] w-32 h-16 md:w-40 md:h-20 m-auto flex">
 

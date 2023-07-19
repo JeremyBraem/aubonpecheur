@@ -75,7 +75,7 @@ function loginPage()
     } 
     else 
     {
-        header('location: index.php');
+        header('location: /home');
     }
 }
 
@@ -88,7 +88,7 @@ function signUpPage()
     } 
     else 
     {
-        header('location: index.php');
+        header('location: /home');
     }
 }
 
@@ -191,36 +191,36 @@ function loginTraitement()
                         }
                         
         
-                        header('location: index.php');
+                        header('location: /home');
 
                     }
                     else
                     {
                         $_SESSION['messageError'] = "Informations incorrects.";
-                        header("Location:index.php?action=login");
+                        header("Location: /login");
                     }
                 } 
                 else 
                 {
                     $_SESSION['messageError'] = "Informations incorrects.";
-                    header("Location:index.php?action=login");
+                    header("Location: /login");
                 }
             } 
             else 
             {
                 $_SESSION['messageError'] = "Un des champs est vide.";
-                header("Location:index.php?action=login");
+                header("Location: /login");
             }
         } 
         else 
         {
             $_SESSION['messageError'] = "Un des champs est vide.";
-            header('location:index.php?action=signUp');
+            header('location: /signUp');
         }
     } 
     else 
     {
-        header('location:index.php?action=404');
+        header('location:/404');
     }
 }
 
@@ -262,47 +262,47 @@ function signUpTraitement()
                                 $userRepository->insertUser($user);
                                 // $token =  $userRepository['token'];
                                 // $email_user = $user->email;
-                                header('Location: index.php?action=login');
+                                header('Location: /login');
                             } 
                             else 
                             {
                                 $_SESSION['messageError'] = "Erreur lors de l'inscription.";
-                                header("Location: index.php?action=signUp");
+                                header("Location: /signUp");
                             }
                         } 
                         else 
                         {
                             $_SESSION['messageError'] = "Les mots de passe ne sont pas identiques.";
-                            header("Location: index.php?action=signUp");
+                            header("Location: /signUp");
                         }
                     } 
                     else 
                     {
                         $_SESSION['messageError'] = "Votre mot de passe doit contenir au minimum 8 caractères avec au moins une lettre minuscule et une lettre majuscule et un chiffre.";
-                        header("Location: index.php?action=signUp");
+                        header("Location: /signUp");
                     }
                 } 
                 else 
                 {
                     $_SESSION['messageError'] = "Un des champs est vide.";
-                    header("Location: index.php?action=signUp");
+                    header("Location: /signUp");
                 }
             } 
             else 
             {
                 $_SESSION['messageError'] = "Cette email est déjà utilisé.";
-                header("Location: index.php?action=signUp");
+                header("Location: /signUp");
             }
         } 
         else 
         {
             $_SESSION['messageError'] = "Un des champs est vide.";
-            header("Location: index.php?action=signUp");
+            header("Location: /signUp");
         }
     } 
     else 
     {
-        header("Location: index.php?action=404");
+        header("Location: /404");
     }
 }
 
@@ -310,7 +310,7 @@ function signUpTraitement()
 function disconnectUser()
 {
     session_destroy();
-    header('location:index.php');
+    header('location: /home');
 }
 
 //TRAITEMENT POUR AJOUTER DES FAVORIS
@@ -1113,11 +1113,11 @@ function addFavorisTraitement()
 
     if(!empty($page))
     {
-        header('location: index.php?action='. $page);
+        header('location: /'. $page);
     }
     else
     {
-        header('location: index.php');
+        header('location: /home');
     }
     exit();
 }
@@ -1367,7 +1367,7 @@ function profilPage()
     }
     else
     {
-        header('location: index.php?action=login');
+        header('location: /login');
     }
 }
 
@@ -1598,7 +1598,7 @@ function viewPageCategorie()
     }
     else
     {
-        header('location:index.php');
+        header('location: /home');
     }
 
     $allCanneRepo = new CanneRepository;
@@ -1644,7 +1644,7 @@ function viewPageMarque()
     }
     else
     {
-        header('location:index.php');
+        header('location: /home');
     }
 
     $allCanneRepo = new CanneRepository;
@@ -1727,6 +1727,51 @@ function allCannePage()
     }
 
     include('src/view/allArticlePage/articlePageCanne.php');
+}
+
+//PAGE D'AFFICHAGE DE TOUTES LES CANNES
+function allEquipementPage()
+{
+    $equipementRepo = new EquipementRepository;
+    $equipements = $equipementRepo->getAllEquipement();
+
+    foreach ($equipements as $equipement) 
+    {
+        if ($equipement) 
+        {
+            $imgEquipementRepo = new ImageEquipementRepository;
+            $imgEquipements = $imgEquipementRepo->getImageByEquipement($equipement->getIdEquipement());
+            $allEquipements[] =
+            [
+                'genre' => 'equipement',
+                'id' => $equipement->getIdEquipement(),
+                'nom' => $equipement->getNomEquipement(),
+                'image' => $imgEquipements->getNomImageEquipement(),
+                'marque' => $equipement->getMarqueEquipement(),
+                'type' => $equipement->getTypeEquipement(),
+                'categorie' => $equipement->getCategorieEquipement(),
+                'favorie' => 'non',
+            ];
+        } 
+        else 
+        {
+            $allEquipements[] = [''];
+        }
+    }
+
+    $categories = getAllCategorie();
+
+    $typeEquipementRepo = new TypeEquipementRepository;
+    $typeEquipements = $typeEquipementRepo->getAllTypeEquipement();
+
+    $marques = getAllMarque();
+
+    // foreach ($equipements as $equipement) 
+    // {
+    //     $longueursEquipement[] = $equipement->getDetailEquipement();
+    // }
+
+    include('src/view/allArticlePage/articlePageEquipement.php');
 }
 
 //PAGE D'AFFICHAGE DES INFOS D'UNE CANNE EN FONCTION DE L'ID EN GET
@@ -2251,7 +2296,7 @@ function filtre()
     foreach ($articlesFiltres as $articleFiltred) 
     {
         echo '<div class="w-56">';
-        echo '<a href="index.php?action=' . $articleFiltred['genre'] . 'Page&id=' . $articleFiltred['id'] . '">';
+        echo '<a href="/' . $articleFiltred['genre'] . 'Page/' . $articleFiltred['id'] . '">';
         echo '<div class="w-56">';
         echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="' . $articleFiltred['image'] . '"/>';
         echo '</div>';
@@ -2278,17 +2323,17 @@ function filtre()
                 foreach ($_SESSION[$articleFiltred['genre']] as $idTab) {
                     if (in_array($articleFiltred['id'], $idTab)) {
                         echo '<button class="favoris-button" type="submit">';
-                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/liked.png">';
+                        echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/liked.png">';
                         echo '</button>';
                     } else {
                         echo '<button class="favoris-button" type="submit">';
-                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                        echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
                         echo '</button>';
                     }
                 }
             } else {
                 echo '<button class="favoris-button" type="submit">';
-                echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
                 echo '</button>';
             }
             
@@ -2354,7 +2399,7 @@ function filtrePromo()
 
     foreach ($articlesFiltres as $articleFiltred) {
         echo '<div class="w-56">';
-        echo '<a href="index.php?action=' . $articleFiltred['genre'] . 'Page&id=' . $articleFiltred['id'] . '">';
+        echo '<a href="/' . $articleFiltred['genre'] . 'Page/' . $articleFiltred['id'] . '">';
         echo '<div class="w-56">';
         echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="' . $articleFiltred['image'] . '"/>';
         echo '</div>';
@@ -2381,17 +2426,17 @@ function filtrePromo()
                 foreach ($_SESSION[$articleFiltred['genre']] as $idTab) {
                     if (in_array($articleFiltred['id'], $idTab)) {
                         echo '<button class="favoris-button" type="submit">';
-                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/liked.png">';
+                        echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/liked.png">';
                         echo '</button>';
                     } else {
                         echo '<button class="favoris-button" type="submit">';
-                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                        echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
                         echo '</button>';
                     }
                 }
             } else {
                 echo '<button class="favoris-button" type="submit">';
-                echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
                 echo '</button>';
             }
             
@@ -2485,7 +2530,7 @@ function filtrePageCate()
 
     foreach ($articlesFiltres as $articleFiltred) {
         echo '<div class="w-56">';
-        echo '<a href="index.php?action=' . $articleFiltred['genre'] . 'Page&id=' . $articleFiltred['id'] . '">';
+        echo '<a href="/' . $articleFiltred['genre'] . 'Page/' . $articleFiltred['id'] . '">';
         echo '<div class="w-56">';
         echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="' . $articleFiltred['image'] . '"/>';
         echo '</div>';
@@ -2512,17 +2557,17 @@ function filtrePageCate()
                 foreach ($_SESSION[$articleFiltred['genre']] as $idTab) {
                     if (in_array($articleFiltred['id'], $idTab)) {
                         echo '<button class="favoris-button" type="submit">';
-                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/liked.png">';
+                        echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/liked.png">';
                         echo '</button>';
                     } else {
                         echo '<button class="favoris-button" type="submit">';
-                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                        echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
                         echo '</button>';
                     }
                 }
             } else {
                 echo '<button class="favoris-button" type="submit">';
-                echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
                 echo '</button>';
             }
             
@@ -2617,7 +2662,7 @@ function filtrePageMarque()
     foreach ($articlesFiltres as $articleFiltred) 
     {
         echo '<div class="w-56">';
-        echo '<a href="index.php?action=' . $articleFiltred['genre'] . 'Page&id=' . $articleFiltred['id'] . '">';
+        echo '<a href="/' . $articleFiltred['genre'] . 'Page/' . $articleFiltred['id'] . '">';
         echo '<div class="w-56">';
         echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="' . $articleFiltred['image'] . '"/>';
         echo '</div>';
@@ -2645,17 +2690,17 @@ function filtrePageMarque()
                 foreach ($_SESSION[$articleFiltred['genre']] as $idTab) {
                     if (in_array($articleFiltred['id'], $idTab)) {
                         echo '<button class="favoris-button" type="submit">';
-                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/liked.png">';
+                        echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/liked.png">';
                         echo '</button>';
                     } else {
                         echo '<button class="favoris-button" type="submit">';
-                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                        echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
                         echo '</button>';
                     }
                 }
             } else {
                 echo '<button class="favoris-button" type="submit">';
-                echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
                 echo '</button>';
             }
             
@@ -2666,7 +2711,6 @@ function filtrePageMarque()
         echo '</div>';
         echo '</div>';
     }
-    
 }
 
 //TRAITEMENT POUR LES FILTRES DES PAGES DE CANNE
@@ -2798,7 +2842,7 @@ function filtreCanne()
     foreach ($articlesFiltresCanne as $articleFiltred) 
     {
         echo '<div class="w-56">';
-        echo '<a href="index.php?action=' . $articleFiltred['genre'] . 'Page&id=' . $articleFiltred['id'] . '">';
+        echo '<a href="/' . $articleFiltred['genre'] . 'Page/' . $articleFiltred['id'] . '">';
         echo '<div class="w-56">';
         echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="' . $articleFiltred['image'] . '"/>';
         echo '</div>';
@@ -2825,17 +2869,149 @@ function filtreCanne()
                 foreach ($_SESSION[$articleFiltred['genre']] as $idTab) {
                     if (in_array($articleFiltred['id'], $idTab)) {
                         echo '<button class="favoris-button" type="submit">';
-                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/liked.png">';
+                        echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/liked.png">';
                         echo '</button>';
                     } else {
                         echo '<button class="favoris-button" type="submit">';
-                        echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                        echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
                         echo '</button>';
                     }
                 }
             } else {
                 echo '<button class="favoris-button" type="submit">';
-                echo '<img class="w-6 h-6 mt-1" src="assets/img/site/like.png">';
+                echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
+                echo '</button>';
+            }
+            
+            echo '</form>';
+            echo '</div>';
+        }
+        
+        echo '</div>';
+        echo '</div>';
+    }
+    
+}
+
+//TRAITEMENT POUR LES FILTRES DES PAGES D'EQUIPEMENT
+function filtreEquipement()
+{
+    $equipementRepo = new EquipementRepository;
+    $articlesEquipement = $equipementRepo->getAllEquipement();
+
+    foreach ($articlesEquipement as $equipement) 
+    {
+        if ($equipement) 
+        {
+            $imgEquipementRepo = new ImageEquipementRepository;
+            $imgEquipements = $imgEquipementRepo->getImageByEquipement($equipement->getIdEquipement());
+            $allEquipements[] = 
+            [
+                'genre' => 'equipement',
+                'id' => $equipement->getIdEquipement(),
+                'nom' => $equipement->getNomEquipement(),
+                'image' => $imgEquipements->getNomImageEquipement(),
+                'marque' => $equipement->getMarqueEquipement(),
+                'type' => $equipement->getTypeEquipement(),
+                'categorie' => $equipement->getCategorieEquipement(),
+                'detail' => $equipement->getDetailEquipement(),
+            ];
+        }
+        else 
+        {
+            $allEquipements[] = [''];
+        }
+    }
+
+    $filtresEquipement = isset($_POST['filtres']) ? json_decode($_POST['filtres']) : [];
+
+    $articlesFiltresEquipement = [];
+
+    $typesFiltresEquipement = [];
+    $marquesFiltresEquipement = [];
+    $categoriesFiltresEquipement = [];
+
+    foreach ($filtresEquipement as $filtreEquipement) 
+    {
+        if (isCategorie($filtreEquipement))
+        {
+            $categoriesFiltresEquipement[] = $filtreEquipement;
+        } 
+        elseif (isMarque($filtreEquipement)) 
+        {
+            $marquesFiltresEquipement[] = $filtreEquipement;
+        } 
+        elseif (isTypeEquipement($filtreEquipement)) 
+        {
+            $typesFiltresEquipement[] = $filtreEquipement;
+        }
+    }
+
+    $isTypesFiltresEquipement = !empty($typesFiltresEquipement);
+
+    $isMarquesSelected = !empty($marquesFiltresEquipement);
+
+    $isCategoriesSelected = !empty($categoriesFiltresEquipement);
+
+    foreach ($allEquipements as $article) 
+    {
+        $isTypeMatch = in_array($article['type'], $typesFiltresEquipement) || !$isTypesFiltresEquipement;
+
+        $isMarqueMatch = in_array($article['marque'], $marquesFiltresEquipement) || !$isMarquesSelected;
+
+        $isCategorieMatch = in_array($article['categorie'], $categoriesFiltresEquipement) || !$isCategoriesSelected;
+
+        $isLongueurMatch = true;
+
+        $isPoidMatch = true;
+
+        if ($isTypeMatch && $isMarqueMatch && $isCategorieMatch && $isLongueurMatch && $isPoidMatch) 
+        {
+            $articlesFiltresEquipement[] = $article;
+        }
+    }
+
+    foreach ($articlesFiltresEquipement as $articleFiltred) 
+    {
+        echo '<div class="w-56">';
+        echo '<a href="/' . $articleFiltred['genre'] . 'Page/' . $articleFiltred['id'] . '">';
+        echo '<div class="w-56">';
+        echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="' . $articleFiltred['image'] . '"/>';
+        echo '</div>';
+        echo '</a>';
+        echo '<div class="flex justify-center gap-10 py-3">';
+        echo '<div>';
+        echo '<p class="text-s md:text-lg">';
+        echo $articleFiltred['nom'];
+        echo '</p>';
+        echo '<p class="text-xs md:text-sm uppercase">';
+        echo $articleFiltred['marque'];
+        echo '</p>';
+        echo '</div>';
+        
+        if ($_SESSION) {
+            echo '<div>';
+            echo '<form class="favoris-form" method="post" action="index.php?action=addFavorisTraitement">';
+            echo '<input type="hidden" name="id_' . $articleFiltred['genre'] . '" value="' . $articleFiltred['id'] . '">';
+            echo '<input type="hidden" name="id_user" value="' . $_SESSION['id_user'] . '">';
+            echo '<input type="hidden" name="genre" value="' . $articleFiltred['genre'] . '">';
+            echo '<input type="hidden" name="date_ajout_favoris" value="' . date("d/m/y") . '">';
+            
+            if ($_SESSION[$articleFiltred['genre']]) {
+                foreach ($_SESSION[$articleFiltred['genre']] as $idTab) {
+                    if (in_array($articleFiltred['id'], $idTab)) {
+                        echo '<button class="favoris-button" type="submit">';
+                        echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/liked.png">';
+                        echo '</button>';
+                    } else {
+                        echo '<button class="favoris-button" type="submit">';
+                        echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
+                        echo '</button>';
+                    }
+                }
+            } else {
+                echo '<button class="favoris-button" type="submit">';
+                echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
                 echo '</button>';
             }
             
@@ -2902,6 +3078,24 @@ function isTypeCanne($filtre)
     foreach ($allTypeCannes as $type) 
     {
         $nomType[] = $type->getNomTypeCanne();
+    }
+
+    $types = $nomType;
+
+    return in_array($filtre, $types);
+}
+
+//CREE UN TABLEAU AVEC LES TYPES D'EQUIPEMENT POUR LES FILTRES
+function isTypeEquipement($filtre)
+{
+    $typeEquipementRepo = new TypeEquipementRepository;
+    $allTypeEquipements = $typeEquipementRepo->getAllTypeEquipement();
+
+    $nomType = [];
+
+    foreach ($allTypeEquipements as $type)
+    {
+        $nomType[] = $type->getNomTypeEquipement();
     }
 
     $types = $nomType;

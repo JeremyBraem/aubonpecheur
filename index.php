@@ -12,7 +12,7 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'articlePage':
             articlePage();
             break;
-        case 'promoPage':
+        case 'promotion':
             promoPage();
             break;
         case 'login':
@@ -60,13 +60,19 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'allCanne':
             allCannePage();
             break;
+        case 'Equipement':
+            allEquipementPage();
+            break;
         case 'filtreCanne':
             filtreCanne();
+            break;
+        case 'filtreEquipement':
+            filtreEquipement();
             break;
         case 'article':
             viewPageCategorie();
             break;
-        case 'articleM':
+        case 'marque':
             viewPageMarque();
             break;
         case 'filtrePageCate':
@@ -78,7 +84,7 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'filtrePromo':
             filtrePromo();
             break;
-        case 'marquePage':
+        case 'Marque':
             marquePage();
             break;
         case 'profil':

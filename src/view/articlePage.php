@@ -58,7 +58,7 @@
 
                             <div class="w-56">
 
-                                <a href="index.php?action=<?php echo $article['genre']; ?>Page&id=<?php echo $article['id']; ?>">
+                                <a href="/<?php echo $article['genre']; ?>Page/<?php echo $article['id']; ?>">
 
                                     <div class="w-56">
                                         <img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="<?php echo $article['image']; ?>" />

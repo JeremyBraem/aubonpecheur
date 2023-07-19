@@ -57,7 +57,7 @@
 
                             <div class="w-56">
 
-                                <a href="index.php?action=<?php echo $article['genre']; ?>Page&id=<?php echo $article['id']; ?>">
+                                <a href="/<?php echo $article['genre']; ?>Page/<?php echo $article['id']; ?>">
 
                                     <div class="w-56">
                                         <img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="<?php echo $article['image']; ?>" />
@@ -107,13 +107,13 @@
                                                         <?php if (in_array($article['id'], $idTab)) { ?>
 
                                                             <button class="favoris-button" type="submit">
-                                                                <img class="w-6 h-6 mt-1" src="assets/img/site/liked.png">
+                                                                <img class="w-6 h-6 mt-1" src="/assets/img/site/liked.png">
                                                             </button>
 
                                                         <?php } else { ?>
 
                                                             <button class="favoris-button" type="submit">
-                                                                <img class="w-6 h-6 mt-1" src="assets/img/site/like.png">
+                                                                <img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">
                                                             </button>
 
                                                         <?php } ?>
@@ -123,7 +123,7 @@
                                                 <?php } else { ?>
 
                                                     <button class="favoris-button" type="submit">
-                                                        <img class="w-6 h-6 mt-1" src="assets/img/site/like.png">
+                                                        <img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">
                                                     </button>
 
                                                 <?php } ?>
@@ -157,7 +157,7 @@
         <?php require_once('src/include/footer.php') ?>
     </footer>
 
-    <script src="assets/js/filtrePromo.js"></script>
+    <script src="/assets/js/filtrePromo.js"></script>
 
 </body>
 

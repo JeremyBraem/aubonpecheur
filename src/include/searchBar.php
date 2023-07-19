@@ -1,6 +1,6 @@
 <div class="hidden lg:flex w-full flex-row justify-between items-center px-6">
     <div>
-        <a href="index.php?action=home"><img class="w-[105px] h-[105px]" src="assets/img/site/logo_au_bon_pecheur.svg"></a>
+        <a href="/home"><img class="w-[90px] h-[90px]" src="/assets/img/site/logo_au_bon_pecheur.svg"></a>
     </div>
     <div class="w-3/5 relative">
         <div class="relative flex items-center">
@@ -20,16 +20,16 @@
         </div>
     </div>
     <div class="flex items-center">
-        <a href="<?php if(isset($_SESSION['id_role'])) echo 'index.php?action=profil'; else echo 'index.php?action=login'; ?> ">
-            <img src="assets/img/site/3106773.png" class="w-[30px] h-[30px]">
+        <a href="<?php if(isset($_SESSION['id_role'])) echo '/profil'; else echo '/login'; ?> ">
+            <img src="/assets/img/site/3106773.png" class="w-[30px] h-[30px]">
         </a>
         <?php 
         if(empty($_SESSION['id_role']))
         { 
         ?>
         <div class="flex flex-col pl-3 pr-8">
-            <a class="px-3 py-1 text-l text-black" href="index.php?action=login">Connexion</a>
-            <a class="px-3 py-1 text-l text-black" href="index.php?action=signUp">Inscription</a>
+            <a class="px-3 py-1 text-l text-black" href="/login">Connexion</a>
+            <a class="px-3 py-1 text-l text-black" href="/signUp">Inscription</a>
         </div>
         <?php 
         }
@@ -38,7 +38,7 @@
         ?>
         <div class="flex flex-col pl-3 pr-8">
             <a class="px-3 py-1 text-l text-black" href="index.php?action=">Favoris</a>
-            <a class="px-3 py-1 text-l text-black" href="index.php?action=deconnexion">Déconnexion</a>
+            <a class="px-3 py-1 text-l text-black" href="/deconnexion">Déconnexion</a>
         </div>
         <?php 
         }
@@ -49,7 +49,7 @@
 
 
 <div class="lg:hidden w-full flex flex-row justify-between items-center px-3">
-    <a href="index.php">
+    <a href="/home">
         <img class="w-[60px] h-[60px]" src="assets/img/site/logo_au_bon_pecheur.svg">
     </a>
     <div class="w-2/3 relative">
@@ -69,7 +69,7 @@
             </span>
         </div>
     </div>
-    <a href="index.php?action=profil">
+    <a href="/profil">
         <img src="assets/img/site/3106773.png" class="w-[30px] h-[30px]">
     </a>
 </div>
