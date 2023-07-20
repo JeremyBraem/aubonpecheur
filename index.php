@@ -93,6 +93,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'addFavorisTraitement':
             addFavorisTraitement();
             break;
+        case 'search':
+            searchPage();
+            break;
         default:
         home();
     }

@@ -1555,6 +1555,111 @@ function getFavorisAppatId()
     }
 }
 
+//AFFICHAGE DES RECHERCHES
+function searchPage()
+{
+    if(isset($_GET['keywords']))
+    {
+        $marqueRepo = new MarqueRepository;
+        $marques = $marqueRepo->getAllMarque();
+
+        $categorieRepo = new CategorieRepository;
+        $categories = $categorieRepo->getAllCategorie();
+
+        $articlesSelectionnes = searchResult();
+        
+        require('src/view/searchPage.php');
+    }
+}
+
+function searchResult()
+{
+    $article = [];
+
+    $canneRepo = new CanneRepository;
+    $article['cannes'] = $canneRepo->getAllCanne();
+
+    $typeCanneRepo = new TypeCanneRepository;
+    $typeCannes = $typeCanneRepo->getAllTypeCanne();
+
+    $moulinetRepo = new MoulinetRepository;
+    $article['moulinets'] = $moulinetRepo->getAllmoulinet();
+
+    $typeMoulinetRepo = new TypemoulinetRepository;
+    $typeMoulinets = $typeMoulinetRepo->getAllTypemoulinet();
+
+    $hameconRepo = new HameconRepository;
+    $article['hamecons'] = $hameconRepo->getAllHamecon();
+
+    $typeHameconRepo = new TypeHameconRepository;
+    $typeHamecons = $typeHameconRepo->getAllTypeHamecon();
+
+    $leurreRepo = new LeurreRepository;
+    $article['leurres'] = $leurreRepo->getAllleurre();
+
+    $typeLeurreRepo = new TypeLeurreRepository;
+    $typeLeurres = $typeLeurreRepo->getAllTypeLeurre();
+
+    $ligneRepo = new LigneRepository;
+    $article['lignes'] = $ligneRepo->getAllLigne();
+
+    $typeLigneRepo = new TypeLigneRepository;
+    $typeLignes = $typeLigneRepo->getAllTypeLigne();
+
+    $feederRepo = new FeederRepository;
+    $article['feeders'] = $feederRepo->getAllFeeder();
+
+    $typeFeederRepo = new TypeFeederRepository;
+    $typeFeeders = $typeFeederRepo->getAllTypeFeeder();
+
+    $equipementRepo = new EquipementRepository;
+    $article['equipements'] = $equipementRepo->getAllEquipement();
+
+    $typeEquipementRepo = new TypeEquipementRepository;
+    $typeEquipements = $typeEquipementRepo->getAllTypeEquipement();
+
+    $appatRepo = new AppatRepository;
+    $article['appats'] = $appatRepo->getAllAppat();
+
+    $typeAppatRepo = new TypeAppatRepository;
+    $typeAppats = $typeAppatRepo->getAllTypeAppat();
+
+    $articles = combinedArticle($article);
+
+    if(!empty($_GET['keywords']))
+    {
+        $keywords[] = htmlspecialchars($_GET['keywords']); 
+
+        if ($keywords != null)
+        {
+            $keywords = array_map('strtolower', $keywords);
+        }
+
+        foreach ($articles as $article)
+        {
+            $nom = strtolower($article['nom']);
+            $description = strtolower($article['description']);
+            $type = strtolower($article['type']);
+            $marque = strtolower($article['marque']);
+            $categorie = strtolower($article['categorie']);
+            $genre = strtolower($article['genre']);
+            
+            foreach ($keywords as $keyword)
+            {
+                if (strpos($nom, $keyword) !== false || strpos($description, $keyword) !== false || strpos($type, $keyword) !== false || strpos($marque, $keyword) !== false || strpos($categorie, $keyword) !== false || strpos($genre, $keyword) !== false ) 
+                {
+                    $articlesSelectionnes[] = $article;
+                }
+            }
+        }
+        return $articlesSelectionnes;
+    }
+    else
+    {
+        header('location: /home');
+    }
+}
+
 //AFFICHAGE DE LA PAGE DE TOUS LES ARTICLES
 function articlePage()
 {
@@ -2064,6 +2169,11 @@ function combinedArticle($articles)
                 'marque' => $canne->getMarqueCanne(),
                 'type' => $canne->getTypeCanne(),
                 'categorie' => $canne->getCategorieCanne(),
+                'description' => $canne->getDescriptionCanne(),
+                'poids' => $canne->getPoidsCanne(),
+                'longueur' => $canne->getLongueurCanne(),
+                'stock' => $canne->getStockCanne(),
+                'promo' => $canne->getPromoCanne(),
             ];
         }
         else
@@ -2087,6 +2197,11 @@ function combinedArticle($articles)
                 'marque' => $moulinet->getMarqueMoulinet(),
                 'type' => $moulinet->getTypeMoulinet(),
                 'categorie' => $moulinet->getCategorieMoulinet(),
+                'promo' => $moulinet->getPromoMoulinet(),
+                'stock' => $moulinet->getStockMoulinet(),
+                'description' => $moulinet->getDescriptionMoulinet(),                
+                'poids' => $moulinet->getPoidsMoulinet(),                
+                'ratio' => $moulinet->getRatioMoulinet(),                
             ];
         }
         else 
@@ -2111,7 +2226,11 @@ function combinedArticle($articles)
                 'marque' => $hamecon->getMarqueHamecon(),
                 'type' => $hamecon->getTypeHamecon(),
                 'categorie' => $hamecon->getCategorieHamecon(),
-
+                'description' => $hamecon->getDescriptionHamecon(),
+                'poids' => $hamecon->getPoidsHamecon(),
+                'longueur' => $hamecon->getLongueurHamecon(),
+                'stock' => $hamecon->getStockHamecon(),
+                'promo' => $hamecon->getPromoHamecon(),
             ];
         } 
         else 
@@ -2136,9 +2255,13 @@ function combinedArticle($articles)
                 'marque' => $leurre->getMarqueLeurre(),
                 'type' => $leurre->getTypeLeurre(),
                 'categorie' => $leurre->getCategorieLeurre(),
-
+                'description' => $leurre->getDescriptionLeurre(),
+                'couleur' => $leurre->getCouleurLeurre(),
+                'poids' => $leurre->getPoidsLeurre(),
+                'promo' => $leurre->getPromoLeurre(),
+                'stock' => $leurre->getStockLeurre(),
             ];
-        } 
+        }
         else 
         {
             $combinedArticles[] = [''];
@@ -2161,6 +2284,12 @@ function combinedArticle($articles)
                 'marque' => $ligne->getMarqueLigne(),
                 'type' => $ligne->getTypeLigne(),
                 'categorie' => $ligne->getCategorieLigne(),
+                'description' => $ligne->getDescriptionLigne(),
+                'stock' => $ligne->getStockLigne(),
+                'promo' => $ligne->getPromoLigne(),
+                'longueur' => $ligne->getLongueurLigne(),
+                'diametre' => $ligne->getDiametreLigne(),
+                'poids' => $ligne->getPoidsLigne(),
             ];
         } 
         else 
@@ -2185,6 +2314,10 @@ function combinedArticle($articles)
                 'marque' => $equipement->getMarqueEquipement(),
                 'type' => $equipement->getTypeEquipement(),
                 'categorie' => $equipement->getCategorieEquipement(),
+                'promo' => $equipement->getPromoEquipement(),
+                'stock' => $equipement->getStockEquipement(),
+                'description' => $equipement->getDescriptionEquipement(),
+                'detail' => $equipement->getDetailEquipement(),
             ];
         }
         else 
@@ -2209,6 +2342,12 @@ function combinedArticle($articles)
                 'marque' => $feeder->getMarqueFeeder(),
                 'type' => $feeder->getTypeFeeder(),
                 'categorie' => $feeder->getCategorieFeeder(),
+                'promo' => $feeder->getPromoFeeder(),
+                'stock' => $feeder->getStockFeeder(),
+                'description' => $feeder->getDescriptionFeeder(),
+                'poids' => $feeder->getPoidsFeeder(),
+                'longueur' => $feeder->getLongueurFeeder(),
+                'diametre' => $feeder->getDiametreFeeder(),
             ];
         } 
         else 
@@ -2217,7 +2356,7 @@ function combinedArticle($articles)
         }
     }
 
-    foreach ($articles['appats'] as $appat) 
+    foreach ($articles['appats'] as $appat)
     {
         if ($appat) 
         {
@@ -2233,6 +2372,10 @@ function combinedArticle($articles)
                 'marque' => $appat->getMarqueAppat(),
                 'type' => $appat->getTypeAppat(),
                 'categorie' => $appat->getCategorieAppat(),
+                'description' => $appat->getDescriptionAppat(),
+                'promo' => $appat->getPromoAppat(),
+                'stock' => $appat->getStockAppat(),
+                'detail' => $appat->getDetailAppat(),
             ];
         }
         else 
