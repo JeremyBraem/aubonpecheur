@@ -17,7 +17,7 @@
                         <a href="/<?php echo $article['genre']; ?>Page/<?php echo $article['id']; ?>">
 
                             <div class="w-56">
-                                <img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="<?php echo $article['image']; ?>"/>
+                                <img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="<?php echo $article['image']; ?>" />
                             </div>
 
                         </a>
@@ -25,29 +25,46 @@
                         <div class="flex justify-center gap-10 py-3">
 
                             <div>
-                                <p class="text-s md:text-lg">
-                                    <?php
-                                    $nom = $article['nom'];
-                                    if (strlen($nom) > 20) {
-                                        echo substr($nom, 0, 17) . '...';
-                                    } else {
-                                        echo $nom;
-                                    }
-                                    ?>
-                                </p>
-                                <p class="text-xs md:text-sm uppercase">
-                                    <?php
-                                        $marque = $article['marque'];
+
+                                <div class="flex">
+
+                                    <p class="text-s md:text-lg">
+                                        <?php
+                                        $nom = $article['nom'];
+                                        if (strlen($nom) > 20) {
+                                            echo substr($nom, 0, 17) . '...';
+                                        } else {
+                                            echo $nom;
+                                        }
+                                        ?>
+                                    </p>
+
+                                    <p class="ml-10 text-s md:text-xl uppercase">
+                                        <?php
+                                        $marque = $article['prix'] . '€';
                                         if (strlen($marque) > 50) {
                                             echo substr($marque, 0, 47) . '...';
                                         } else {
                                             echo $marque;
                                         }
+                                        ?>
+                                    </p>
+
+                                </div>
+                                <p class="text-xs md:text-sm uppercase">
+                                    <?php
+                                    $marque = $article['marque'];
+                                    if (strlen($marque) > 50) {
+                                        echo substr($marque, 0, 47) . '...';
+                                    } else {
+                                        echo $marque;
+                                    }
                                     ?>
                                 </p>
+
                             </div>
 
-                            <?php if($_SESSION) { ?>
+                            <?php if ($_SESSION) { ?>
 
                                 <div>
 
@@ -59,9 +76,9 @@
 
                                         <?php if ($_SESSION[$article['genre']]) { ?>
 
-                                            <?php foreach($_SESSION[$article['genre']] as $idTab) { ?>
+                                            <?php foreach ($_SESSION[$article['genre']] as $idTab) { ?>
 
-                                                <?php if(in_array($article['id'], $idTab)) { ?>
+                                                <?php if (in_array($article['id'], $idTab)) { ?>
 
                                                     <button class="favoris-button" type="submit">
                                                         <img class="w-6 h-6 mt-1" src="/assets/img/site/liked.png">
@@ -72,7 +89,7 @@
                                                     <button class="favoris-button" type="submit">
                                                         <img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">
                                                     </button>
-                                                    
+
                                                 <?php } ?>
 
                                             <?php } ?>
@@ -89,10 +106,10 @@
 
                                 </div>
 
-                                <?php } ?>
+                            <?php } ?>
 
                         </div>
-                        
+
 
                     </div>
 

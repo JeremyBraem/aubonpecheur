@@ -21,20 +21,36 @@
                             </div>
 
                         </a>
-
+                        
                         <div class="flex justify-center gap-10 py-3">
 
                             <div>
-                                <p class="text-s md:text-lg">
-                                    <?php
-                                    $nom = $article['nom'];
-                                    if (strlen($nom) > 20) {
-                                        echo substr($nom, 0, 17) . '...';
-                                    } else {
-                                        echo $nom;
-                                    }
-                                    ?>
-                                </p>
+                                
+                                <div class="flex">
+                            
+                                    <p class="text-s md:text-lg">
+                                        <?php
+                                        $nom = $article['nom'];
+                                        if (strlen($nom) > 20) {
+                                            echo substr($nom, 0, 17) . '...';
+                                        } else {
+                                            echo $nom;
+                                        }
+                                        ?>
+                                    </p>
+
+                                    <p class="ml-10 text-s md:text-xl uppercase">
+                                        <?php
+                                            $marque = $article['prix'] . '€';
+                                            if (strlen($marque) > 50) {
+                                                echo substr($marque, 0, 47) . '...';
+                                            } else {
+                                                echo $marque;
+                                            }
+                                        ?>
+                                    </p>
+
+                                </div>
                                 <p class="text-xs md:text-sm uppercase">
                                     <?php
                                         $marque = $article['marque'];
@@ -45,6 +61,7 @@
                                         }
                                     ?>
                                 </p>
+
                             </div>
 
                             <?php if($_SESSION) { ?>

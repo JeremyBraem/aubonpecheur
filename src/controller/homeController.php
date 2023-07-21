@@ -2170,6 +2170,7 @@ function combinedArticle($articles)
                 'type' => $canne->getTypeCanne(),
                 'categorie' => $canne->getCategorieCanne(),
                 'description' => $canne->getDescriptionCanne(),
+                'prix' => $canne->getPrixCanne(),
                 'poids' => $canne->getPoidsCanne(),
                 'longueur' => $canne->getLongueurCanne(),
                 'stock' => $canne->getStockCanne(),

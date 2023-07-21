@@ -4,14 +4,7 @@
     </div>
     <div class="w-3/5 relative">
         <form class="relative flex items-center" method="get" action="/search/">
-            <input
-                type="search"
-                name="keywords"
-                class="relative m-0 block min-w-0 flex-auto rounded-full border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none"
-                placeholder="Recherche"
-                aria-label="Search"
-                aria-describedby="button-addon2"
-            />
+            <input type="search" name="keywords" class="relative m-0 block min-w-0 flex-auto rounded-full border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none" placeholder="Recherche" aria-label="Search" aria-describedby="button-addon2" />
             <!-- Search icon -->
             <span class="absolute right-0 top-0 bottom-0 flex items-center pr-3">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
@@ -20,28 +13,50 @@
             </span>
         </form>
     </div>
+
     <div class="flex items-center">
-        <a href="<?php if(isset($_SESSION['id_role'])) echo '/profil'; else echo '/login'; ?> ">
-            <img src="/assets/img/site/3106773.png" class="w-[30px] h-[30px]">
-        </a>
-        <?php 
-        if(empty($_SESSION['id_role']))
-        { 
-        ?>
-        <div class="flex flex-col pl-3 pr-8">
-            <a class="px-3 py-1 text-l text-black" href="/login">Connexion</a>
-            <a class="px-3 py-1 text-l text-black" href="/signUp">Inscription</a>
+        
+        <div class="relative">
+
+            <button class="bg-[#426EC2] rounded-full p-2">
+                <img src="/assets/img/site/3106773.png" class="w-[25px] h-[25px]">
+            </button>
+
+            <div class="hidden absolute z-50 right-0 mt-2 w-64 bg-white rounded-lg shadow-lg">
+                <div class="p-4">
+                    <p class="text-gray-800 font-semibold">Articles dans le panier :</p>
+                    <ul class="mt-2">
+                
+                        <li class="flex justify-between items-center">
+                            <span class="font-medium">Article 1</span>
+                            <span class="text-gray-600">19.99€</span>
+                        </li>
+
+                        <li class="flex justify-between items-center">
+                            <span class="font-medium">Article 2</span>
+                            <span class="text-gray-600">9.99€</span>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
         </div>
-        <?php 
-        }
-        else
-        { 
+
+        <?php
+        if (empty($_SESSION['id_role'])) {
         ?>
-        <div class="flex flex-col pl-3 pr-8">
-            <a class="px-3 py-1 text-l text-black" href="index.php?action=">Favoris</a>
-            <a class="px-3 py-1 text-l text-black" href="/deconnexion">Déconnexion</a>
-        </div>
-        <?php 
+            <div class="flex flex-col pl-3 pr-8">
+                <a class="px-3 py-1 text-l text-black" href="/login">Connexion</a>
+                <a class="px-3 py-1 text-l text-black" href="/signUp">Inscription</a>
+            </div>
+        <?php
+        } else {
+        ?>
+            <div class="flex flex-col pl-3 pr-8">
+                <a class="px-3 py-1 text-l text-black" href="/profil">Compte</a>
+                <a class="px-3 py-1 text-l text-black" href="/deconnexion">Déconnexion</a>
+            </div>
+        <?php
         }
         ?>
 
@@ -55,13 +70,7 @@
     </a>
     <div class="w-2/3 relative">
         <div class="relative flex items-center">
-            <input
-                type="search"
-                class="relative m-0 block min-w-0 flex-auto rounded-full border border-solid border-neutral-300 bg-transparent bg-clip-padding py-[0.05rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_#426EC2] focus:outline-none"
-                placeholder="Recherche"
-                aria-label="Search"
-                aria-describedby="button-addon2" 
-            />
+            <input type="search" class="relative m-0 block min-w-0 flex-auto rounded-full border border-solid border-neutral-300 bg-transparent bg-clip-padding py-[0.05rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_#426EC2] focus:outline-none" placeholder="Recherche" aria-label="Search" aria-describedby="button-addon2" />
             <!-- Search icon -->
             <span class="absolute right-0 top-0 bottom-0 flex items-center pr-3">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">

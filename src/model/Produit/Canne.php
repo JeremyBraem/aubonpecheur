@@ -8,6 +8,7 @@ class Canne
     private $poids_canne;
     private $longueur_canne;
     private $description_canne;
+    private $prix_canne;
     private $promo_canne;
     private $stock_canne;
     private $hors_stock_canne;
@@ -34,6 +35,11 @@ class Canne
         }
 
         if (!isset($canneForm['description_canne']) or $canneForm['description_canne'] == '') 
+        {
+            return false;
+        }
+
+        if (!isset($canneForm['prix_canne']) or $canneForm['prix_canne'] == '') 
         {
             return false;
         }
@@ -72,6 +78,7 @@ class Canne
         $this->poids_canne = $canneForm['poids_canne'];
         $this->longueur_canne = $canneForm['longueur_canne'];
         $this->description_canne = $canneForm['description_canne'];
+        $this->prix_canne = $canneForm['prix_canne'];
         $this->promo_canne = $canneForm['promo_canne'];
         $this->stock_canne = $canneForm['stock_canne'];
         $this->hors_stock_canne = $canneForm['hors_stock_canne'];
@@ -130,6 +137,16 @@ class Canne
     public function setDescriptionCanne($description_canne): void
     {
         $this->description_canne = $description_canne;
+    }
+
+    public function getPrixCanne(): string
+    {
+        return $this->prix_canne;
+    }
+
+    public function setPrixCanne($prix_canne): void
+    {
+        $this->prix_canne = $prix_canne;
     }
 
     public function getPromoCanne(): int
@@ -202,8 +219,8 @@ class CanneRepository extends connectBdd
 
     public function insertCanne(Canne $canne)
     {
-        $req = $this->bdd->prepare("INSERT INTO canne (nom_canne, poids_canne, longueur_canne, description_canne, promo_canne, stock_canne, hors_stock_canne, id_categorie, id_type_canne, id_marque)
-        VALUES (?,?,?,?,?,?,?,?,?,?)");
+        $req = $this->bdd->prepare("INSERT INTO canne (nom_canne, poids_canne, longueur_canne, description_canne, prix_canne, promo_canne, stock_canne, hors_stock_canne, id_categorie, id_type_canne, id_marque)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 
         $req->execute
         ([
@@ -211,6 +228,7 @@ class CanneRepository extends connectBdd
             $canne->getPoidsCanne(),
             $canne->getLongueurCanne(),
             $canne->getDescriptionCanne(),
+            $canne->getPrixCanne(),
             $canne->getPromoCanne(),
             $canne->getStockCanne(),
             $canne->getHorsStockCanne(),
@@ -242,6 +260,7 @@ class CanneRepository extends connectBdd
             $canne->setPoidsCanne($data['poids_canne']);
             $canne->setLongueurCanne($data['longueur_canne']);
             $canne->setDescriptionCanne($data['description_canne']);
+            $canne->setPrixCanne($data['prix_canne']);
             $canne->setPromoCanne($data['promo_canne']);
             $canne->setStockCanne($data['stock_canne']);
             $canne->setHorsStockCanne($data['hors_stock_canne']);
@@ -275,6 +294,7 @@ class CanneRepository extends connectBdd
             $canne->setPoidsCanne($data['poids_canne']);
             $canne->setLongueurCanne($data['longueur_canne']);
             $canne->setDescriptionCanne($data['description_canne']);
+            $canne->setPrixCanne($data['prix_canne']);
             $canne->setPromoCanne($data['promo_canne']);
             $canne->setStockCanne($data['stock_canne']);
             $canne->setHorsStockCanne($data['hors_stock_canne']);
@@ -306,6 +326,7 @@ class CanneRepository extends connectBdd
             $canne->setPoidsCanne($data['poids_canne']);
             $canne->setLongueurCanne($data['longueur_canne']);
             $canne->setDescriptionCanne($data['description_canne']);
+            $canne->setPrixCanne($data['prix_canne']);
             $canne->setPromoCanne($data['promo_canne']);
             $canne->setStockCanne($data['stock_canne']);
             $canne->setHorsStockCanne($data['hors_stock_canne']);
@@ -341,6 +362,7 @@ class CanneRepository extends connectBdd
                 $canne->setPoidsCanne($data['poids_canne']);
                 $canne->setLongueurCanne($data['longueur_canne']);
                 $canne->setDescriptionCanne($data['description_canne']);
+                $canne->setPrixCanne($data['prix_canne']);
                 $canne->setPromoCanne($data['promo_canne']);
                 $canne->setStockCanne($data['stock_canne']);
                 $canne->setHorsStockCanne($data['hors_stock_canne']);
@@ -391,12 +413,12 @@ class CanneRepository extends connectBdd
         }
     }
 
-    public function updateCanne($id_canne, $nom_canne, $poids_canne, $longueur_canne, $description_canne, $promo_canne, $stock_canne, $hors_stock_canne, $id_categorie, $id_type_canne, $id_marque)
+    public function updateCanne($id_canne, $nom_canne, $poids_canne, $longueur_canne, $prix_canne, $description_canne, $promo_canne, $stock_canne, $hors_stock_canne, $id_categorie, $id_type_canne, $id_marque)
     {
         try 
         {
-            $req = $this->bdd->prepare("UPDATE canne SET nom_canne = ?, poids_canne = ?, longueur_canne = ?, description_canne = ?, promo_canne = ?, stock_canne = ?, hors_stock_canne = ?, id_categorie = ?, id_type_canne = ?, id_marque = ? WHERE id_canne = ?");
-            $req->execute([$nom_canne, $poids_canne, $longueur_canne, $description_canne, $promo_canne, $stock_canne, $hors_stock_canne, $id_categorie, $id_type_canne, $id_marque, $id_canne]);
+            $req = $this->bdd->prepare("UPDATE canne SET nom_canne = ?, poids_canne = ?, longueur_canne = ?, prix_canne = ?, description_canne = ?, promo_canne = ?, stock_canne = ?, hors_stock_canne = ?, id_categorie = ?, id_type_canne = ?, id_marque = ? WHERE id_canne = ?");
+            $req->execute([$nom_canne, $poids_canne, $longueur_canne, $description_canne, $prix_canne, $promo_canne, $stock_canne, $hors_stock_canne, $id_categorie, $id_type_canne, $id_marque, $id_canne]);
             
             return true;
         } 
@@ -442,6 +464,7 @@ class CanneRepository extends connectBdd
             $canne->setPoidsCanne($data['poids_canne']);
             $canne->setLongueurCanne($data['longueur_canne']);
             $canne->setDescriptionCanne($data['description_canne']);
+            $canne->setPrixCanne($data['prix_canne']);
             $canne->setPromoCanne($data['promo_canne']);
             $canne->setStockCanne($data['stock_canne']);
             $canne->setHorsStockCanne($data['hors_stock_canne']);
@@ -476,6 +499,7 @@ class CanneRepository extends connectBdd
             $canne->setPoidsCanne($data['poids_canne']);
             $canne->setLongueurCanne($data['longueur_canne']);
             $canne->setDescriptionCanne($data['description_canne']);
+            $canne->setPrixCanne($data['prix_canne']);
             $canne->setPromoCanne($data['promo_canne']);
             $canne->setStockCanne($data['stock_canne']);
             $canne->setHorsStockCanne($data['hors_stock_canne']);

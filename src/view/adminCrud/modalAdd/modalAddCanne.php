@@ -33,8 +33,13 @@
                     </div>
 
                     <div>
-                        <label for="price_canne" class="block mb-2 text-sm font-medium text-gray-900 ">Longueur</label>
+                        <label for="longueur_canne" class="block mb-2 text-sm font-medium text-gray-900 ">Longueur</label>
                         <input type="number" name="longueur_canne" id="longueur_canne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Longueur en m" required>
+                    </div>
+
+                    <div>
+                        <label for="prix_canne" class="block mb-2 text-sm font-medium text-gray-900 ">Prix</label>
+                        <input type="number" name="prix_canne" id="prix_canne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Prix en euro" required>
                     </div>
 
                     <div>

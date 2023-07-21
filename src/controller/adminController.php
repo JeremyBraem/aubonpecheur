@@ -98,7 +98,7 @@ function addCanneTraitement()
 {
     if(isset($_POST))
     {
-        if(!empty($_POST['nom_canne']) && !empty($_POST['poids_canne']) && !empty($_POST['longueur_canne']) && !empty($_POST['categorie_canne']) && !empty($_POST['type_canne']) && !empty($_POST['marque_canne']) && !empty($_POST['promo_canne']) && !empty($_POST['stock_canne']) && !empty($_POST['description_canne'] && !empty($_FILES['image_canne'])))
+        if(!empty($_POST['nom_canne']) && !empty($_POST['poids_canne']) && !empty($_POST['longueur_canne']) && !empty($_POST['categorie_canne']) && !empty($_POST['type_canne']) && !empty($_POST['marque_canne']) && !empty($_POST['promo_canne']) && !empty($_POST['stock_canne']) && !empty($_POST['description_canne']) && !empty($_POST['prix_canne']) && !empty($_FILES['image_canne']))
         {
             $newCanne = [];
             $newCanne['nom_canne'] = htmlspecialchars($_POST['nom_canne']);
@@ -108,6 +108,7 @@ function addCanneTraitement()
             $newCanne['type_canne'] = htmlspecialchars($_POST['type_canne']);
             $newCanne['marque_canne'] = htmlspecialchars($_POST['marque_canne']);
             $newCanne['description_canne'] = htmlspecialchars($_POST['description_canne']);
+            $newCanne['prix_canne'] = htmlspecialchars($_POST['prix_canne']);
             $newCanne['promo_canne'] = htmlspecialchars($_POST['promo_canne']);
             $newCanne['stock_canne'] = htmlspecialchars($_POST['stock_canne']);
             $newCanne['image_canne'] = $_FILES['image_canne'];
@@ -1216,13 +1217,14 @@ function UpdateCanneTraitement()
         }
     }
 
-    if(isset($_POST['id_canne']) && isset($_POST['nom_canne']) && isset($_POST['poids_canne']) && isset($_POST['longueur_canne']) && isset($_POST['description_canne']) && isset($_POST['promo_canne']) && isset($_POST['stock_canne']) && isset($_POST['categorie_canne']) && isset($_POST['type_canne']) && isset($_POST['marque_canne']) && isset($_FILES['image_canne']))
+    if(isset($_POST['id_canne']) && isset($_POST['nom_canne']) && isset($_POST['poids_canne']) && isset($_POST['longueur_canne']) && isset($_POST['description_canne']) && isset($_POST['prix_canne']) && isset($_POST['promo_canne']) && isset($_POST['stock_canne']) && isset($_POST['categorie_canne']) && isset($_POST['type_canne']) && isset($_POST['marque_canne']) && isset($_FILES['image_canne']))
     {
         $id_canne = isset($_POST['id_canne']) ? htmlspecialchars($_POST['id_canne']) : null;
         $nom_canne = isset($_POST['nom_canne']) ? htmlspecialchars($_POST['nom_canne']) : null;
         $poids_canne = isset($_POST['poids_canne']) ? htmlspecialchars($_POST['poids_canne']) : null;
         $longueur_canne = isset($_POST['longueur_canne']) ? htmlspecialchars($_POST['longueur_canne']) : null;
         $description_canne = isset($_POST['description_canne']) ? htmlspecialchars($_POST['description_canne']) : null;
+        $prix_canne = isset($_POST['prix_canne']) ? htmlspecialchars($_POST['prix_canne']) : null;
         $promo_canne = isset($_POST['promo_canne']) ? htmlspecialchars($_POST['promo_canne']) : null;
         $stock_canne = isset($_POST['stock_canne']) ? htmlspecialchars($_POST['stock_canne']) : null;
         $id_categorie = isset($_POST['categorie_canne']) ? htmlspecialchars($_POST['categorie_canne']) : null;
@@ -1230,6 +1232,7 @@ function UpdateCanneTraitement()
         $id_marque = isset($_POST['marque_canne']) ? htmlspecialchars($_POST['marque_canne']) : null;
         $image_canne = isset($_FILES['image_canne']) ? $_FILES['image_canne'] : null;
 
+        
         if($stock_canne === 'stock') 
         {
             $stock_canne = 1;
@@ -1253,7 +1256,7 @@ function UpdateCanneTraitement()
         $canneRepository = new CanneRepository;
         $imageCanneRepo = new ImageCanneRepository;
         
-        $update = $canneRepository->updateCanne($id_canne, $nom_canne, $poids_canne, $longueur_canne, $description_canne, $promo_canne, $stock_canne, $hors_stock_canne, $id_categorie, $id_type_canne, $id_marque);
+        $update = $canneRepository->updateCanne($id_canne, $nom_canne, $poids_canne, $longueur_canne, $description_canne, $prix_canne, $promo_canne, $stock_canne, $hors_stock_canne, $id_categorie, $id_type_canne, $id_marque);
         $updateImageCanne = $imageCanneRepo->updateImageByCanne($image_canne, $id_canne);
         
         if ($update && $updateImageCanne)
@@ -1786,6 +1789,7 @@ function combinedArticle($articles)
                 'type' => $canne->getTypeCanne(),
                 'categorie' => $canne->getCategorieCanne(),
                 'description' => $canne->getDescriptionCanne(),
+                'prix' => $canne->getPrixCanne(),
                 'poids' => $canne->getPoidsCanne(),
                 'longueur' => $canne->getLongueurCanne(),
                 'stock' => $canne->getStockCanne(),
