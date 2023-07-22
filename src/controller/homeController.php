@@ -37,31 +37,7 @@ require_once('src/model/Image/ImageAppat.php');
 // PAGE D'ACCUEIL
 function home()
 {
-    $canneRepo = new CanneRepository;
-    $cannes = $canneRepo->getAllCanne();
-
-    $typeCanneRepo = new TypeCanneRepository;
-    $typeCannes = $typeCanneRepo->getAllTypeCanne();
-
-    $moulinetRepo = new MoulinetRepository;
-    $moulinets = $moulinetRepo->getAllmoulinet();
-
-    $typeMoulinetRepo = new TypemoulinetRepository;
-    $typeMoulinets = $typeMoulinetRepo->getAllTypemoulinet();
-
-    $hameconRepo = new HameconRepository;
-    $hamecons = $hameconRepo->getAllHamecon();
-
-    $typeHameconRepo = new TypeHameconRepository;
-    $typeHamecons = $typeHameconRepo->getAllTypeHamecon();
-
-    $marques = getAllMarque();
-
-    $categories = getAllCategorie();
-
-    $combinedArticles = getLastArticles();
-
-    $promoArticles = getPromoArticles();
+    
 
     include('src/view/homePage.php');
 }
@@ -116,80 +92,6 @@ function loginTraitement()
                         $_SESSION['prenom_user'] = $user->getNameUser();
                         $_SESSION['nom_user'] = $user->getLastnameUser();
                         $_SESSION['email_user'] = $user->getEmailUser();
-
-                        $favorisRepo = new FavorisRepository(); 
-                        $favoris = new Favoris();
-
-                        $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
-
-                        if(!empty($favUser))
-                        {
-                            foreach ($favUser as $idFavo)
-                            {
-                                $allIdFav[] = $idFavo->getIdFavoris();
-                            }
-            
-                            foreach ($allIdFav as $idFavoris)
-                            {
-                                $idCanneFav[] = $favorisRepo->getCanneByIdFav($idFavoris);
-                            }
-    
-                            foreach ($allIdFav as $idFavoris)
-                            {
-                                $idMoulinetFav[] = $favorisRepo->getMoulinetByIdFav($idFavoris);
-                            }
-
-                            foreach ($allIdFav as $idFavoris)
-                            {
-                                $idHameconFav[] = $favorisRepo->getHameconByIdFav($idFavoris);
-                            }
-
-                            foreach ($allIdFav as $idFavoris)
-                            {
-                                $idLeurreFav[] = $favorisRepo->getLeurreByIdFav($idFavoris);
-                            }
-
-                            foreach ($allIdFav as $idFavoris)
-                            {
-                                $idLigneFav[] = $favorisRepo->getLigneByIdFav($idFavoris);
-                            }
-
-                            foreach ($allIdFav as $idFavoris)
-                            {
-                                $idEquipementFav[] = $favorisRepo->getEquipementByIdFav($idFavoris);
-                            }
-
-                            foreach ($allIdFav as $idFavoris)
-                            {
-                                $idFeederFav[] = $favorisRepo->getFeederByIdFav($idFavoris);
-                            }
-
-                            foreach ($allIdFav as $idFavoris)
-                            {
-                                $idAppatFav[] = $favorisRepo->getAppatByIdFav($idFavoris);
-                            }
-    
-                            $_SESSION['canne'] = [$idCanneFav];
-                            $_SESSION['moulinet'] = [$idMoulinetFav];
-                            $_SESSION['hamecon'] = [$idHameconFav];
-                            $_SESSION['leurre'] = [$idLeurreFav];
-                            $_SESSION['ligne'] = [$idLigneFav];
-                            $_SESSION['equipement'] = [$idEquipementFav];
-                            $_SESSION['plomb'] = [$idFeederFav];
-                            $_SESSION['appat'] = [$idAppatFav];
-                        }
-                        else
-                        {
-                            $_SESSION['canne'] = [];
-                            $_SESSION['moulinet'] = [];
-                            $_SESSION['hamecon'] = [];
-                            $_SESSION['leurre'] = [];
-                            $_SESSION['ligne'] = [];
-                            $_SESSION['equipement'] = [];
-                            $_SESSION['plomb'] = [];
-                            $_SESSION['appat'] = [];
-                        }
-                        
         
                         header('location: /home');
 

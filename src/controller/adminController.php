@@ -1,7 +1,8 @@
 <?php
+require_once('src/model/Produit.php');
+require_once('src/model/Canne.php');
+require_once('src/model/Image.php');
 
-require_once('autoload/autoloader.php');
-require_once('src/model/Produit/Canne.php');
 require_once('src/model/Produit/Moulinet.php');
 require_once('src/model/Produit/Hamecon.php');
 require_once('src/model/Produit/Leurre.php');
@@ -33,55 +34,7 @@ require_once('src/model/Image/ImageAppat.php');
 
 function adminPage()
 {
-    $article = [];
-
-    $canneRepo = new CanneRepository;
-    $article['cannes'] = $canneRepo->getAllCanne();
-
-    $typeCanneRepo = new TypeCanneRepository;
-    $typeCannes = $typeCanneRepo->getAllTypeCanne();
-
-    $moulinetRepo = new MoulinetRepository;
-    $article['moulinets'] = $moulinetRepo->getAllmoulinet();
-
-    $typeMoulinetRepo = new TypemoulinetRepository;
-    $typeMoulinets = $typeMoulinetRepo->getAllTypemoulinet();
-
-    $hameconRepo = new HameconRepository;
-    $article['hamecons'] = $hameconRepo->getAllHamecon();
-
-    $typeHameconRepo = new TypeHameconRepository;
-    $typeHamecons = $typeHameconRepo->getAllTypeHamecon();
-
-    $leurreRepo = new LeurreRepository;
-    $article['leurres'] = $leurreRepo->getAllleurre();
-
-    $typeLeurreRepo = new TypeLeurreRepository;
-    $typeLeurres = $typeLeurreRepo->getAllTypeLeurre();
-
-    $ligneRepo = new LigneRepository;
-    $article['lignes'] = $ligneRepo->getAllLigne();
-
-    $typeLigneRepo = new TypeLigneRepository;
-    $typeLignes = $typeLigneRepo->getAllTypeLigne();
-
-    $feederRepo = new FeederRepository;
-    $article['feeders'] = $feederRepo->getAllFeeder();
-
-    $typeFeederRepo = new TypeFeederRepository;
-    $typeFeeders = $typeFeederRepo->getAllTypeFeeder();
-
-    $equipementRepo = new EquipementRepository;
-    $article['equipements'] = $equipementRepo->getAllEquipement();
-
-    $typeEquipementRepo = new TypeEquipementRepository;
-    $typeEquipements = $typeEquipementRepo->getAllTypeEquipement();
-
-    $appatRepo = new AppatRepository;
-    $article['appats'] = $appatRepo->getAllAppat();
-
-    $typeAppatRepo = new TypeAppatRepository;
-    $typeAppats = $typeAppatRepo->getAllTypeAppat();
+    $produitRepo = new ProduitRepository();
 
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();
@@ -89,73 +42,122 @@ function adminPage()
     $categorieRepo = new CategorieRepository;
     $categories = $categorieRepo->getAllCategorie();
 
-    $articles = combinedArticle($article);
+    $allType = getAllType();
+
+    $allProduits = getAllProducts();
+
+    $typeCannes =  $allType['cannes'];
 
     require('src/view/adminPage.php');
 }
 
 function addCanneTraitement()
 {
-    if(isset($_POST))
+    if (isset($_POST)) 
     {
-        if(!empty($_POST['nom_canne']) && !empty($_POST['poids_canne']) && !empty($_POST['longueur_canne']) && !empty($_POST['categorie_canne']) && !empty($_POST['type_canne']) && !empty($_POST['marque_canne']) && !empty($_POST['promo_canne']) && !empty($_POST['stock_canne']) && !empty($_POST['description_canne']) && !empty($_POST['prix_canne']) && !empty($_FILES['image_canne']))
+        if (!empty($_POST['nom_produit']) && !empty($_POST['poids_canne']) && !empty($_POST['longueur_canne']) && !empty($_POST['categorie_produit']) && !empty($_POST['type_canne']) && !empty($_POST['marque_produit']) && !empty($_POST['promo_produit']) && !empty($_POST['stock_produit']) && !empty($_POST['description_produit']) && !empty($_POST['prix_produit']) && !empty($_FILES['images'])) 
         {
-            $newCanne = [];
-            $newCanne['nom_canne'] = htmlspecialchars($_POST['nom_canne']);
-            $newCanne['poids_canne'] = htmlspecialchars($_POST['poids_canne']);
-            $newCanne['longueur_canne'] = htmlspecialchars($_POST['longueur_canne']);
-            $newCanne['categorie_canne'] = htmlspecialchars($_POST['categorie_canne']);
-            $newCanne['type_canne'] = htmlspecialchars($_POST['type_canne']);
-            $newCanne['marque_canne'] = htmlspecialchars($_POST['marque_canne']);
-            $newCanne['description_canne'] = htmlspecialchars($_POST['description_canne']);
-            $newCanne['prix_canne'] = htmlspecialchars($_POST['prix_canne']);
-            $newCanne['promo_canne'] = htmlspecialchars($_POST['promo_canne']);
-            $newCanne['stock_canne'] = htmlspecialchars($_POST['stock_canne']);
-            $newCanne['image_canne'] = $_FILES['image_canne'];
-            
-            if($newCanne['stock_canne'] === 'stock') 
+            if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
             {
-                $newCanne['stock_canne'] = 1;
-                $newCanne['hors_stock_canne'] = 0;
-            }
-            else
-            {
-                $newCanne['stock_canne'] = 0;
-                $newCanne['hors_stock_canne'] = 1;
-            }
-
-            if($newCanne['promo_canne'] === 'promo')
-            {
-                $newCanne['promo_canne'] = 1;
-            }
-            else
-            {
-                $newCanne['promo_canne'] = 0;
-            }
-            
-            $imageCanne = new ImageCanne;
-            $canne = new Canne;
-            $canne->createToInsertCanne($newCanne);
-            
-            if($canne == true)
-            {
-                $imageCanne->addImageCanne($newCanne['image_canne']);
-
-                $imageCanneRepo = new ImageCanneRepository;
-                $canneRepo = new CanneRepository;
-
-                $canneRepo->insertCanne($canne);
-            
-                $lastInsertIdCanne = $canneRepo->getLastInsertId();
                 
-                $imageCanne->setIdCanne($lastInsertIdCanne);
-                $imageCanneRepo->insertImageCanne($imageCanne);
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
 
-                header('location: admin.php');
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    $image_repo = new ImageRepository;
+                    $image_repo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                
             }
+
+
+            $genre = 1;
+            $prixPromo = 12;
+            $newCanne = new Canne
+            (
+                htmlspecialchars($_POST['nom_produit']),
+                htmlspecialchars($_POST['description_produit']),
+                htmlspecialchars($_POST['prix_produit']),
+                htmlspecialchars($_POST['stock_produit']),
+                htmlspecialchars($_POST['promo_produit']),
+                htmlspecialchars($prixPromo),
+                htmlspecialchars($_POST['categorie_produit']),
+                htmlspecialchars($_POST['marque_produit']),
+                htmlspecialchars($genre),
+                htmlspecialchars($_POST['longueur_canne']),
+                htmlspecialchars($_POST['poids_canne']),
+                htmlspecialchars($_POST['type_canne'])
+            );
+
+            if ($_POST['stock_produit'] === 'stock') 
+            {
+                $stock = 1;
+            } else {
+                $stock = 0;
+            }
+
+            if ($_POST['promo_produit'] === 'promo') 
+            {
+                $promo = 1;
+            } 
+            else 
+            {
+                $promo = 0;
+            }
+
+            $newCanne->setNomProduit(htmlspecialchars($_POST['nom_produit']));
+            $newCanne->setDescriptionProduit(htmlspecialchars($_POST['description_produit']));
+            $newCanne->setPrixProduit(htmlspecialchars($_POST['prix_produit']));
+            $newCanne->setStockProduit(htmlspecialchars($stock));
+            $newCanne->setPromoProduit(htmlspecialchars($promo));
+            $newCanne->setCategorieProduit(htmlspecialchars($_POST['categorie_produit']));
+            $newCanne->setMarqueProduit(htmlspecialchars($_POST['marque_produit']));
+            $newCanne->setCategorieProduit(htmlspecialchars($_POST['categorie_produit']));
+            $newCanne->setGenreProduit(htmlspecialchars($genre));
+            $newCanne->setPrixPromoProduit(htmlspecialchars($prixPromo));
+
+            $produitRepo = new ProduitRepository();
+            $produitRepo->addCanne($newCanne);
+
+            if (isset($_FILES['images']) && $_FILES['images']['name']) 
+            {
+                $image_repo = new ImageRepository;
+                $nomImage = $_FILES['images']['name'];
+                $descriptionImage = htmlspecialchars($_POST['description_images']);
+
+                $imagePath = $image->addImage($_FILES['images']); // Récupérer le nom de l'image après l'upload
+
+                $image = new Image();
+                $image->setNomImage($imagePath);
+                $image->setDescriptionImage($descriptionImage);
+
+                $idProduit = $produitRepo->getLastInsertId();
+                $idImage = $image_repo->getLastInsertId(); // Utilisez la méthode de l'instance de ImageRepository
+                $image_repo->addImageToProduit($idProduit, $idImage);
+            }
+
+            header('Location: admin.php');
+            exit();
         }
     }
 }
+
+
+
+function getAllProducts()
+{
+    $produitRepo = new ProduitRepository();
+
+    $products = $produitRepo->getAllProduct();
+    return $products;
+}
+
 
 function addMoulinetTraitement()
 {
@@ -2004,6 +2006,19 @@ function combinedArticle($articles)
         }
     }
     return $combinedArticles;
+}
+
+function getAllType()
+{
+    $types = [];
+
+    $typeCanneRepo = new TypeCanneRepository;
+    $types['cannes'] = $typeCanneRepo->getAllTypeCanne();
+
+    $typeMoulinetRepo = new TypemoulinetRepository;
+    $type['moulinets'] = $typeMoulinetRepo->getAllTypemoulinet();
+
+    return $types;
 }
 
 function searchPage()
