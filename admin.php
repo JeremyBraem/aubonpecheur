@@ -98,8 +98,8 @@ if ($_SESSION['id_role'] == 1)
             case 'deleteTypeCanne':
                 deleteTypeCanne();
                 break;
-            case 'UpdateCanneTraitement':
-                UpdateCanneTraitement();
+            case 'updateCanneTraitement':
+                updateCanneTraitement();
                 break;
             case 'deleteTypeMoulinet':
                 deleteTypeMoulinet();

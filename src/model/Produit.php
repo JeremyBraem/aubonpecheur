@@ -194,60 +194,6 @@ class Produit
 
 class ProduitRepository extends connectBdd
 {
-    function addCanne(Canne $canne)
-    {
-        try
-        {
-            $req = $this->bdd->prepare("INSERT INTO produit (nom_produit, description_produit, prix_produit, promo_produit, prix_promo_produit, stock_produit, id_categorie, id_marque, id_genre) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-            $req->execute
-            ([
-                $canne->getNomProduit(),
-                $canne->getDescriptionProduit(),
-                $canne->getPrixProduit(),
-                $canne->getPromoProduit(),
-                $canne->getPrixPromoProduit(),
-                $canne->getStockProduit(),
-                $canne->getCategorieProduit(),
-                $canne->getMarqueProduit(),
-                $canne->getGenreProduit(),
-            ]);
-
-            $produitRepo = new ProduitRepository;
-            $nouvelArticleId = $produitRepo->getLastInsertId();
-
-            $reqCanne = $this->bdd->prepare("INSERT INTO caracteristiques_canne (longueur_canne, poids_canne, id_produit, id_type_canne) VALUES (?, ?, ?, ?)");
-
-            $reqCanne->execute([
-                $canne->getLongueurCanne(),
-                $canne->getPoidsCanne(),
-                $nouvelArticleId,
-                $canne->getTypeCanne(),
-            ]);
-
-            foreach ($canne->getImages() as $image)
-            {
-                $reqImage = $this->bdd->prepare("INSERT INTO image (nom_image, description_image) VALUES (?, ?)");
-                $reqImage->execute([
-                    $image->getNomImage(),
-                    $image->getDescriptionImage(),
-                ]);
-    
-                $nouvelleImageId = $this->getLastInsertId();
-    
-                $reqImageProduit = $this->bdd->prepare("INSERT INTO image_produit (id_image, id_produit) VALUES (?, ?)");
-                $reqImageProduit->execute([$nouvelleImageId, $nouvelArticleId]);
-            }
-
-            echo "La canne a été ajoutée avec succès à la base de données !";
-        } 
-        catch (PDOException $e) 
-        {
-            die("Erreur lors de l'ajout de la canne à la base de données: " . $e->getMessage());
-        }
-    }
-
-
     public function getLastInsertId()
     {
         $query = "SELECT MAX(id_produit) AS last_id FROM produit";
@@ -288,6 +234,21 @@ class ProduitRepository extends connectBdd
         catch (PDOException $e) 
         {
             die("Erreur lors de la récupération des produits : " . $e->getMessage());
+        }
+    }
+
+    public function deleteProduit($id_produit)
+    {
+        try 
+        {
+            $reqProduit = $this->bdd->prepare("DELETE FROM produit WHERE id_produit = ?");
+            $reqProduit->execute([$id_produit]);
+    
+            echo "La canne a été supprimée avec succès de la base de données !";
+        } 
+        catch (PDOException $e) 
+        {
+            die("Erreur lors de la suppression de la canne de la base de données: " . $e->getMessage());
         }
     }
 

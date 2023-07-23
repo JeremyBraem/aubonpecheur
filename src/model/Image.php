@@ -12,7 +12,7 @@ class Image
         if (!empty($newProduit))
         {
             
-            $path = 'assets/img/article/canne';
+            $path = 'assets/img/article';
             $nameFile = $newProduit['name'];
             $typeFile = $newProduit['type'];
             $tmpFile = $newProduit['tmp_name'];
@@ -107,7 +107,7 @@ class ImageRepository extends ConnectBdd
 
     public function getImageByProduit($id_produit)
     {
-        $req =  $this->bdd->prepare('SELECT * FROM image WHERE id = ?');
+        $req =  $this->bdd->prepare('SELECT * FROM image WHERE id_produit = ?');
         $req->execute([$id_produit]);
 
         $dataImage = $req->fetch();
@@ -181,23 +181,57 @@ class ImageRepository extends ConnectBdd
         $req->execute([$image, $description_image]);
     }
 
-
-    public function deleteImageBy($id_produit)
+    public function addImageToProduit(int $idProduit, int $idImage)
     {
-        $req = $this->bdd->prepare('DELETE FROM image WHERE id = ?');
-        $req->execute([$id_produit]);
+        try
+        {
+            $reqImageProduit = $this->bdd->prepare("INSERT INTO image_produit (id_image, id_produit) VALUES (?, ?)");
+            $reqImageProduit->execute([$idImage, $idProduit]);
+        } 
+        catch (PDOException $e) 
+        {
+            die("Erreur lors de l'ajout de l'image au produit : " . $e->getMessage());
+        }
     }
 
-    public function updateImageBy($newImage, $description_image)
+    public function getLastInsertId()
     {
-        if (!empty($newImage))
+        $query = "SELECT MAX(id_image) AS last_id FROM image";
+        $result = $this->bdd->prepare($query);
+
+        if ($result->execute())
+        {
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+            $lastId = $row['last_id'];
+
+            return $lastId;
+        }
+    }
+
+    public function deleteImagesByProduit($id_produit)
+    {
+        $reqImages = $this->bdd->prepare("SELECT id_image FROM image_produit WHERE id_produit = ?");
+        $reqImages->execute([$id_produit]);
+
+        $imageIds = $reqImages->fetch(PDO::FETCH_COLUMN);
+        
+        $reqImageProduit = $this->bdd->prepare("DELETE FROM image_produit WHERE id_produit = ?");
+        $reqImageProduit->execute([$id_produit]);
+
+        $reqImage = $this->bdd->prepare("DELETE FROM image WHERE id_image = ?");
+        $reqImage->execute([$imageIds]);
+    }
+
+    public function updateImageByProduit($newImageCanne, $id_produit)
+    {
+        if (!empty($newImageCanne))
         {
             $path = 'assets/img/article';
-            $nameFile = $newImage['name'];
-            $typeFile = $newImage['type'];
-            $tmpFile = $newImage['tmp_name'];
-            $errorFile = $newImage['error'];
-            $sizeFile = $newImage['size'];
+            $nameFile = $newImageCanne['name'];
+            $typeFile = $newImageCanne['type'];
+            $tmpFile = $newImageCanne['tmp_name'];
+            $errorFile = $newImageCanne['error'];
+            $sizeFile = $newImageCanne['size'];
 
             $extensions = ['png', 'jpg', 'jpeg', 'webp'];
             $type = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'];
@@ -212,7 +246,7 @@ class ImageRepository extends ConnectBdd
                 {
                     if ($sizeFile <= $max_size && $errorFile == 0) 
                     {
-                        if (move_uploaded_file($tmpFile, $image = 'assets/img/article/' . uniqid() . '.' . end($extension))) 
+                        if (move_uploaded_file($tmpFile, $image_produit = 'assets/img/article/' . uniqid() . '.' . end($extension))) 
                         {
                             echo "upload  effectué !";
                         }
@@ -243,9 +277,11 @@ class ImageRepository extends ConnectBdd
 
         try
         {
-            
+            $reqImages = $this->bdd->prepare("SELECT id_image FROM image_produit WHERE id_produit = ?");
+            $reqImages->execute([$id_produit]);
+
             $reqImage = $this->bdd->prepare("UPDATE image SET nom_image = ? WHERE id_produit = ?");
-            $reqImage->execute([$image, $description_image]);
+            $reqImage->execute([$image_produit, $id_produit]);
             return true;
         }
         catch (Exception $e)
@@ -253,34 +289,4 @@ class ImageRepository extends ConnectBdd
             return false;
         }
     }
-
-    public function addImageToProduit(int $idProduit, int $idImage)
-    {
-        try
-        {
-            $reqImageProduit = $this->bdd->prepare("INSERT INTO image_produit (id_image, id_produit) VALUES (?, ?)");
-            $reqImageProduit->execute([$idImage, $idProduit]);
-        } 
-        catch (PDOException $e) 
-        {
-            die("Erreur lors de l'ajout de l'image au produit : " . $e->getMessage());
-        }
-    }
-
-    public function getLastInsertId()
-    {
-        $query = "SELECT MAX(id_image) AS last_id FROM image";
-        $result = $this->bdd->prepare($query);
-
-        if ($result->execute())
-        {
-            $row = $result->fetch(PDO::FETCH_ASSOC);
-            $lastId = $row['last_id'];
-
-            return $lastId;
-        }
-    }
-
-
-    
 }

@@ -57,26 +57,6 @@ function addCanneTraitement()
     {
         if (!empty($_POST['nom_produit']) && !empty($_POST['poids_canne']) && !empty($_POST['longueur_canne']) && !empty($_POST['categorie_produit']) && !empty($_POST['type_canne']) && !empty($_POST['marque_produit']) && !empty($_POST['promo_produit']) && !empty($_POST['stock_produit']) && !empty($_POST['description_produit']) && !empty($_POST['prix_produit']) && !empty($_FILES['images'])) 
         {
-            if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-            {
-                
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    $image_repo = new ImageRepository;
-                    $image_repo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
-                
-            }
-
-
             $genre = 1;
             $prixPromo = 12;
             $newCanne = new Canne
@@ -123,22 +103,40 @@ function addCanneTraitement()
             $newCanne->setPrixPromoProduit(htmlspecialchars($prixPromo));
 
             $produitRepo = new ProduitRepository();
-            $produitRepo->addCanne($newCanne);
+            $canneRepo = new CanneRepository();
+            
+            $canneRepo->addCanne($newCanne);
 
             if (isset($_FILES['images']) && $_FILES['images']['name']) 
             {
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
+
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    $image_repo = new ImageRepository;
+                    $image_repo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                }
+
                 $image_repo = new ImageRepository;
-                $nomImage = $_FILES['images']['name'];
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']); // Récupérer le nom de l'image après l'upload
+                $imagePath = $image->addImage($_FILES['images']); 
 
                 $image = new Image();
                 $image->setNomImage($imagePath);
                 $image->setDescriptionImage($descriptionImage);
 
                 $idProduit = $produitRepo->getLastInsertId();
-                $idImage = $image_repo->getLastInsertId(); // Utilisez la méthode de l'instance de ImageRepository
+                $idImage = $image_repo->getLastInsertId();
                 $image_repo->addImageToProduit($idProduit, $idImage);
             }
 
@@ -147,6 +145,127 @@ function addCanneTraitement()
         }
     }
 }
+
+function updateCanneTraitement()
+{if (isset($_POST)) 
+    {
+        if (!empty($_POST['nom_produit']) && !empty($_POST['poids_canne']) && !empty($_POST['longueur_canne']) && !empty($_POST['categorie_produit']) && !empty($_POST['type_canne']) && !empty($_POST['marque_produit']) && !empty($_POST['promo_produit']) && !empty($_POST['stock_produit']) && !empty($_POST['description_produit']) && !empty($_POST['prix_produit']) && !empty($_FILES['images'])) 
+        {
+            $genre = 1;
+            $prixPromo = 12;
+            $newCanne = new Canne
+            (
+                htmlspecialchars($_POST['nom_produit']),
+                htmlspecialchars($_POST['description_produit']),
+                htmlspecialchars($_POST['prix_produit']),
+                htmlspecialchars($_POST['stock_produit']),
+                htmlspecialchars($_POST['promo_produit']),
+                htmlspecialchars($prixPromo),
+                htmlspecialchars($_POST['categorie_produit']),
+                htmlspecialchars($_POST['marque_produit']),
+                htmlspecialchars($genre),
+                htmlspecialchars($_POST['longueur_canne']),
+                htmlspecialchars($_POST['poids_canne']),
+                htmlspecialchars($_POST['type_canne'])
+            );
+
+            if ($_POST['stock_produit'] === 'stock') 
+            {
+                $stock = 1;
+            } else {
+                $stock = 0;
+            }
+
+            
+            if ($_POST['promo_produit'] === 'promo') 
+            {
+                $promo = 1;
+            } 
+            else 
+            {
+                $promo = 0;
+            }
+
+            $newCanne->setIdProduit(htmlspecialchars($_POST['id_produit']));
+            $newCanne->setNomProduit(htmlspecialchars($_POST['nom_produit']));
+            $newCanne->setDescriptionProduit(htmlspecialchars($_POST['description_produit']));
+            $newCanne->setPrixProduit(htmlspecialchars($_POST['prix_produit']));
+            $newCanne->setStockProduit(htmlspecialchars($stock));
+            $newCanne->setPromoProduit(htmlspecialchars($promo));
+            $newCanne->setCategorieProduit(htmlspecialchars($_POST['categorie_produit']));
+            $newCanne->setMarqueProduit(htmlspecialchars($_POST['marque_produit']));
+            $newCanne->setCategorieProduit(htmlspecialchars($_POST['categorie_produit']));
+            $newCanne->setGenreProduit(htmlspecialchars($genre));
+            $newCanne->setPrixPromoProduit(htmlspecialchars($prixPromo));
+
+            $produitRepo = new ProduitRepository();
+            $canneRepo = new CanneRepository();
+            
+            $canneRepo->updateCanne($newCanne);
+
+            if (isset($_FILES['images']) && $_FILES['images']['name']) 
+            {
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
+
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    $image_repo = new ImageRepository;
+                    $image_repo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                }
+
+                $image_repo = new ImageRepository;
+                $descriptionImage = htmlspecialchars($_POST['description_images']);
+
+                $imagePath = $image->addImage($_FILES['images']); 
+
+                $image = new Image();
+                $image->setNomImage($imagePath);
+                $image->setDescriptionImage($descriptionImage);
+
+                $idProduit = $produitRepo->getLastInsertId();
+                $idImage = $image_repo->getLastInsertId();
+                $image_repo->addImageToProduit($idProduit, $idImage);
+            }
+
+            header('Location: admin.php');
+            exit();
+        }
+    }
+}
+
+function deleteCanne()
+{
+    if (isset($_POST['id_produit']))
+    {
+        $id_produit = $_POST['id_produit'];
+
+        $canneRepo = new CanneRepository();
+        $imageRepo = new ImageRepository();
+        $produitRepo = new ProduitRepository();
+
+        $imageRepo->deleteImagesByProduit($id_produit);
+
+        $canneRepo->deleteCanne($id_produit);
+
+        $produitRepo->deleteProduit($id_produit);
+
+        header('Location: admin.php');
+    } 
+    else 
+    {
+        echo "ID de la canne manquant.";
+    }
+}
+
 
 
 
@@ -822,26 +941,6 @@ function addTypeAppatTraitement()
     }
 }
 
-function deleteCanne()
-{
-        if(!empty($_POST['id_canne']) && isset($_POST['id_canne']))
-        {
-            $id_canne = isset($_POST['id_canne']) ? $_POST['id_canne'] : null;
-            $canneRepository = new CanneRepository();
-            $deleteCanne = $canneRepository->deleteCanne($id_canne);
-    
-            if ($deleteCanne)
-            {
-                header('location: admin.php');
-            }
-            else 
-            {
-                $_SESSION['messageError'] = 'Suppression de l\'article échoué';
-                header('location: admin.php');
-            }
-        }
-}
-
 function deleteMoulinet()
 {
         if(!empty($_POST['id_moulinet']) && isset($_POST['id_moulinet']))
@@ -866,8 +965,7 @@ function deleteHamecon()
 {
         if(!empty($_POST['id_hamecon']) && isset($_POST['id_hamecon']))
         {
-            var_dump($_POST);
-            die;
+
             $id_hamecon = isset($_POST['id_hamecon']) ? $_POST['id_hamecon'] : null;
             $hameconRepository = new HameconRepository();
             $deleteHamecon = $hameconRepository->deleteHamecon($id_hamecon);
@@ -1197,79 +1295,6 @@ function deleteTypeAppat()
                 header('location: admin.php');
             }
         }
-}
-
-function UpdateCanneTraitement()
-{
-    $img = new ImageCanneRepository;
-    $oldImg = $img->getImageByCanne($_POST['id_canne']);
-
-    $cheminFichier = $oldImg->getNomImageCanne();
-
-    if (file_exists($cheminFichier)) 
-    {
-        if (unlink($cheminFichier)) 
-        {
-            echo "Le fichier a été supprimé avec succès.";
-        }
-        else 
-        {
-            echo "Une erreur s'est produite lors de la suppression du fichier.";
-            die;
-        }
-    }
-
-    if(isset($_POST['id_canne']) && isset($_POST['nom_canne']) && isset($_POST['poids_canne']) && isset($_POST['longueur_canne']) && isset($_POST['description_canne']) && isset($_POST['prix_canne']) && isset($_POST['promo_canne']) && isset($_POST['stock_canne']) && isset($_POST['categorie_canne']) && isset($_POST['type_canne']) && isset($_POST['marque_canne']) && isset($_FILES['image_canne']))
-    {
-        $id_canne = isset($_POST['id_canne']) ? htmlspecialchars($_POST['id_canne']) : null;
-        $nom_canne = isset($_POST['nom_canne']) ? htmlspecialchars($_POST['nom_canne']) : null;
-        $poids_canne = isset($_POST['poids_canne']) ? htmlspecialchars($_POST['poids_canne']) : null;
-        $longueur_canne = isset($_POST['longueur_canne']) ? htmlspecialchars($_POST['longueur_canne']) : null;
-        $description_canne = isset($_POST['description_canne']) ? htmlspecialchars($_POST['description_canne']) : null;
-        $prix_canne = isset($_POST['prix_canne']) ? htmlspecialchars($_POST['prix_canne']) : null;
-        $promo_canne = isset($_POST['promo_canne']) ? htmlspecialchars($_POST['promo_canne']) : null;
-        $stock_canne = isset($_POST['stock_canne']) ? htmlspecialchars($_POST['stock_canne']) : null;
-        $id_categorie = isset($_POST['categorie_canne']) ? htmlspecialchars($_POST['categorie_canne']) : null;
-        $id_type_canne = isset($_POST['type_canne']) ? htmlspecialchars($_POST['type_canne']) : null;
-        $id_marque = isset($_POST['marque_canne']) ? htmlspecialchars($_POST['marque_canne']) : null;
-        $image_canne = isset($_FILES['image_canne']) ? $_FILES['image_canne'] : null;
-
-        
-        if($stock_canne === 'stock') 
-        {
-            $stock_canne = 1;
-            $hors_stock_canne = 0;
-        }
-        else
-        {
-            $stock_canne = 0;
-            $hors_stock_canne = 1;
-        }
-
-        if($promo_canne === 'promo')
-        {
-            $promo_canne = 1;
-        }
-        else
-        {
-            $promo_canne = 0;
-        }
-
-        $canneRepository = new CanneRepository;
-        $imageCanneRepo = new ImageCanneRepository;
-        
-        $update = $canneRepository->updateCanne($id_canne, $nom_canne, $poids_canne, $longueur_canne, $description_canne, $prix_canne, $promo_canne, $stock_canne, $hors_stock_canne, $id_categorie, $id_type_canne, $id_marque);
-        $updateImageCanne = $imageCanneRepo->updateImageByCanne($image_canne, $id_canne);
-        
-        if ($update && $updateImageCanne)
-        {
-            header("location:admin.php");
-        }
-        else 
-        {
-            echo 'non';
-        }
-    }
 }
 
 function UpdateMoulinetTraitement()
