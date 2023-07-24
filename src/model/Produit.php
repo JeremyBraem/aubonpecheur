@@ -214,14 +214,13 @@ class ProduitRepository extends connectBdd
         {
             $req = $this->bdd->prepare
             (
-                "SELECT produit.*, marque.nom_marque, caracteristiques_canne.*, type_canne.nom_type_canne as type, categorie.nom_categorie as categorie, image.*
+                "SELECT produit.*, marque.nom_marque, categorie.nom_categorie as categorie, image.*, genre.nom_genre as genre
                 FROM produit
                 INNER JOIN marque ON produit.id_marque = marque.id_marque
-                INNER JOIN caracteristiques_canne ON produit.id_produit = caracteristiques_canne.id_produit
-                INNER JOIN type_canne ON caracteristiques_canne.id_type_canne = type_canne.id_type_canne
                 INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
                 INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
                 INNER JOIN image ON image.id_image = image_produit.id_image
+                INNER JOIN genre ON genre.id_genre = produit.id_genre
                 GROUP BY produit.id_produit"
             );
 
@@ -236,6 +235,8 @@ class ProduitRepository extends connectBdd
             die("Erreur lors de la récupération des produits : " . $e->getMessage());
         }
     }
+
+    
 
     public function deleteProduit($id_produit)
     {

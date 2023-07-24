@@ -39,7 +39,7 @@
                     
                     <div class="grid grid-cols-2">
 
-                        <?php foreach ($typeLignes as $typeLigne) { ?>
+                        <?php foreach ($allTypes['ligne'] as $typeLigne) { ?>
                         <div class="text-sm flex">
 
                             <p class="py-2"><?php echo $typeLigne->getNomTypeLigne(); ?></p>

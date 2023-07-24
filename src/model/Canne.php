@@ -173,5 +173,41 @@ class CanneRepository extends ConnectBdd
             die("Erreur lors de la suppression de la canne de la base de données: " . $e->getMessage());
         }
     }
-    
+
+    public function getLastInsertId()
+    {
+        $query = "SELECT MAX(id_canne) AS last_id FROM caracteristique_canne";
+        $result = $this->bdd->prepare($query);
+
+        if ($result->execute()) 
+        {
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+            $lastId = $row['last_id'];
+
+            return $lastId;
+        }
+    }
+
+    public function getAllCanne()
+    {
+        $req = $this->bdd->prepare("SELECT * FROM produit WHERE id_genre = ?");
+        $req->execute([1]);
+
+        $produitCanne = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        return $produitCanne;
+    }
+
+    public function getInfoCanne($id_produit)
+    {
+        $req = $this->bdd->prepare("SELECT caracteristiques_canne.*, type_canne.nom_type_canne as type
+        FROM caracteristiques_canne 
+        INNER JOIN type_canne ON type_canne.id_type_canne = caracteristiques_canne.id_type_canne
+        WHERE id_produit = ?");
+        $req->execute([$id_produit]);
+
+        $canne = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        return $canne;
+    }
 }

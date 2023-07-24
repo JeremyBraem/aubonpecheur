@@ -39,7 +39,7 @@
                     
                     <div class="grid grid-cols-2">
 
-                        <?php foreach ($typeMoulinets as $typeMoulinet) { ?>
+                        <?php foreach ($allTypes['moulinet'] as $typeMoulinet) { ?>
                         <div class="text-sm flex">
 
                             <p class="py-2"><?php echo $typeMoulinet->getNomTypeMoulinet(); ?></p>

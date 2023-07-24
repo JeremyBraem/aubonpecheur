@@ -39,7 +39,7 @@
                     
                     <div class="grid grid-cols-2">
 
-                        <?php foreach ($typeHamecons as $typeHamecon) { ?>
+                        <?php foreach ($allTypes['hamecon'] as $typeHamecon) { ?>
                         <div class="text-sm flex">
 
                             <p class="py-2"><?php echo $typeHamecon->getNomTypeHamecon(); ?></p>

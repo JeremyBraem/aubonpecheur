@@ -1,84 +1,84 @@
 <?php
 require_once 'src/config/connectBdd.php';
 
-class TypeFeeder
+class TypePlomb
 {
-    private $id_type_feeder;
-    private $nom_type_feeder;
+    private $id_type_plomb;
+    private $nom_type_plomb;
 
-    public function createToInserTypeFeeder($type_feederForm):bool
+    public function createToInserTypePlomb($type_plombForm):bool
     {
-        if(!isset($type_feederForm['nom_type_feeder']) OR $type_feederForm['nom_type_feeder'] == '')
+        if(!isset($type_plombForm['nom_type_plomb']) OR $type_plombForm['nom_type_plomb'] == '')
         {
             return false;
         }
     
-        $this->nom_type_feeder = $type_feederForm['nom_type_feeder'];
+        $this->nom_type_plomb = $type_plombForm['nom_type_plomb'];
 
         return true;
     }
 
-    public function getIdTypeFeeder():int
+    public function getIdTypePlomb():int
     {
-        return $this->id_type_feeder;
+        return $this->id_type_plomb;
     }
 
-    public function setIdTypeFeeder($id_type_feeder):void
+    public function setIdTypePlomb($id_type_plomb):void
     {
-        $this->id_type_feeder = $id_type_feeder;
+        $this->id_type_plomb = $id_type_plomb;
     }
 
-    public function getNomTypeFeeder():string
+    public function getNomTypePlomb():string
     {
-        return $this->nom_type_feeder;
+        return $this->nom_type_plomb;
     }
 
-    public function setNomTypeFeeder($nom_type_feeder):void
+    public function setNomTypePlomb($nom_type_plomb):void
     {
-        $this->nom_type_feeder = $nom_type_feeder;
+        $this->nom_type_plomb = $nom_type_plomb;
     }
 }
 
-class TypeFeederRepository extends connectBdd
+class TypePlombRepository extends connectBdd
 {
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function getAllTypeFeeder()
+    public function getAllTypePlomb()
     {
-        $req = $this->bdd->prepare("SELECT * FROM type_feeder");
+        $req = $this->bdd->prepare("SELECT * FROM type_plomb");
         $req->execute();
         $datas = $req->fetchAll();
-        $type_feeders = [];
-        foreach ($datas as $data) 
+        $type_plombs = [];
+        foreach ($datas as $data)
         {
-            $type_feeder = new TypeFeeder();
-            $type_feeder->setIdTypeFeeder($data['id_type_feeder']);
-            $type_feeder->setNomTypeFeeder($data['nom_type_feeder']);
+            $type_plomb = new TypePlomb();
+            $type_plomb->setIdTypePlomb($data['id_type_plomb']);
+            $type_plomb->setNomTypePlomb($data['nom_type_plomb']);
            
-            $type_feeders[] = $type_feeder;
+            $type_plombs[] = $type_plomb;
         }
-        return $type_feeders;
+        return $type_plombs;
     }
 
-    public function insertTypeFeeder(TypeFeeder $type_feeder)
+    public function insertTypePlomb(TypePlomb $type_plomb)
     {
-        $req = $this->bdd->prepare("INSERT INTO type_feeder(nom_type_feeder) VALUES (?)");
+        $req = $this->bdd->prepare("INSERT INTO type_plomb(nom_type_plomb) VALUES (?)");
         
         $req->execute
         ([
-            $type_feeder->getNomTypeFeeder()
+            $type_plomb->getNomTypePlomb()
         ]);
     }
 
-    public function deleteTypeFeeder($id_type_feeder):bool
+    public function deleteTypePlomb($id_type_plomb):bool
     {
         try 
         {
-            $req = $this->bdd->prepare('DELETE FROM type_feeder WHERE id_type_feeder = ?');
-            $req->execute([$id_type_feeder]);
+            $req = $this->bdd->prepare('DELETE FROM type_plomb WHERE id_type_plomb = ?');
+            $req->execute([$id_type_plomb]);
 
             return true;
         } 

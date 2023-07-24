@@ -39,7 +39,7 @@
                     
                     <div class="grid grid-cols-2">
 
-                        <?php foreach ($typeLeurres as $typeLeurre) { ?>
+                        <?php foreach ($allTypes['leurre'] as $typeLeurre) { ?>
                         <div class="text-sm flex">
 
                             <p class="py-2"><?php echo $typeLeurre->getNomTypeLeurre(); ?></p>

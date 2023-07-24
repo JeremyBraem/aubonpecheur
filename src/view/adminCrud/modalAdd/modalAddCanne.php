@@ -24,7 +24,7 @@
 
                     <div>
                         <label for="images" class="block mb-2 text-sm font-medium text-gray-900 ">Images</label>
-                        <input type="file" id="images" name="images" multiple required>
+                        <input type="file" id="images" name="images" multiple class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full" required>
                     </div>
 
                     <div class="sm:col-span-2">
@@ -59,7 +59,7 @@
                     <div>
                         <label for="type_canne" class="block mb-2 text-sm font-medium text-gray-900 ">Type</label>
                         <select id="type_canne" name="type_canne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                            <?php foreach ($typeCannes as $typeCanne) { ?>
+                            <?php foreach ($allTypes['canne'] as $typeCanne) { ?>
                                 <option value="<?php echo $typeCanne->getIdTypeCanne(); ?>"><?php echo $typeCanne->getNomTypeCanne(); ?></option>
                             <?php } ?>
                         </select>

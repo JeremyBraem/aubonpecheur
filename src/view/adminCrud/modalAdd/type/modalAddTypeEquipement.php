@@ -39,7 +39,7 @@
                     
                     <div class="grid grid-cols-2">
 
-                        <?php foreach ($typeEquipements as $typeEquipement) { ?>
+                        <?php foreach ($allTypes['equipement'] as $typeEquipement) { ?>
                         <div class="text-sm flex">
 
                             <p class="py-2"><?php echo $typeEquipement->getNomTypeEquipement(); ?></p>

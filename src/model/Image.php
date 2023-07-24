@@ -214,12 +214,26 @@ class ImageRepository extends ConnectBdd
         $reqImages->execute([$id_produit]);
 
         $imageIds = $reqImages->fetch(PDO::FETCH_COLUMN);
+
+        $reqNomImages = $this->bdd->prepare("SELECT nom_image FROM image WHERE id_image = ?");
+        $reqNomImages->execute([$imageIds]);
+
+        $imageNom = $reqNomImages->fetch(PDO::FETCH_COLUMN);
         
         $reqImageProduit = $this->bdd->prepare("DELETE FROM image_produit WHERE id_produit = ?");
         $reqImageProduit->execute([$id_produit]);
 
         $reqImage = $this->bdd->prepare("DELETE FROM image WHERE id_image = ?");
         $reqImage->execute([$imageIds]);
+
+        if (file_exists($imageNom)) 
+        {
+            unlink($imageNom);
+        } 
+        else 
+        {
+            echo "Le fichier n'existe pas ou ne peut pas être supprimé.";
+        }
     }
 
     public function updateImageByProduit($newImageCanne, $id_produit)

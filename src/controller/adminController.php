@@ -1,10 +1,10 @@
 <?php
 require_once('src/model/Produit.php');
 require_once('src/model/Canne.php');
+require_once('src/model/Moulinet.php');
+require_once('src/model/Hamecon.php');
 require_once('src/model/Image.php');
 
-require_once('src/model/Produit/Moulinet.php');
-require_once('src/model/Produit/Hamecon.php');
 require_once('src/model/Produit/Leurre.php');
 require_once('src/model/Produit/Ligne.php');
 require_once('src/model/Produit/Equipement.php');
@@ -42,12 +42,48 @@ function adminPage()
     $categorieRepo = new CategorieRepository;
     $categories = $categorieRepo->getAllCategorie();
 
-    $allType = getAllType();
+    $allTypes = getAllType();
 
     $allProduits = getAllProducts();
 
-    $typeCannes =  $allType['cannes'];
+    $canneRepo = new CanneRepository;
+    $cannes = $canneRepo->getAllCanne();
 
+    foreach($cannes as $canne)
+    {
+        $idPCannes[] = $canne['id_produit'];
+    }
+
+    foreach($idPCannes as $idPCanne)
+    {
+        $canneInfo = $canneRepo->getInfoCanne($idPCanne);
+    }
+    
+    $moulinetRepo = new MoulinetRepository;
+    $moulinets = $moulinetRepo->getAllMoulinet();
+
+    foreach($moulinets as $moulinet)
+    {
+        $idPMoulinets[] = $moulinet['id_produit'];
+    }
+
+    foreach($idPMoulinets as $idPMoulinet)
+    {
+        $moulinetInfo = $moulinetRepo->getInfoMoulinet($idPMoulinet);
+    }
+
+    $hameconRepo = new HameconRepository;
+    $hamecons = $hameconRepo->getAllHamecon();
+
+    foreach($hamecons as $hamecon)
+    {
+        $idPHamecons[] = $hamecon['id_produit'];
+    }
+
+    foreach($idPHamecons as $idPHamecon)
+    {
+        $hameconInfo = $hameconRepo->getInfoHamecon($idPHamecon);
+    }
     require('src/view/adminPage.php');
 }
 
@@ -57,7 +93,7 @@ function addCanneTraitement()
     {
         if (!empty($_POST['nom_produit']) && !empty($_POST['poids_canne']) && !empty($_POST['longueur_canne']) && !empty($_POST['categorie_produit']) && !empty($_POST['type_canne']) && !empty($_POST['marque_produit']) && !empty($_POST['promo_produit']) && !empty($_POST['stock_produit']) && !empty($_POST['description_produit']) && !empty($_POST['prix_produit']) && !empty($_FILES['images'])) 
         {
-            $genre = 1;
+            $genre = 3;
             $prixPromo = 12;
             $newCanne = new Canne
             (
@@ -151,7 +187,7 @@ function updateCanneTraitement()
     {
         if (!empty($_POST['nom_produit']) && !empty($_POST['poids_canne']) && !empty($_POST['longueur_canne']) && !empty($_POST['categorie_produit']) && !empty($_POST['type_canne']) && !empty($_POST['marque_produit']) && !empty($_POST['promo_produit']) && !empty($_POST['stock_produit']) && !empty($_POST['description_produit']) && !empty($_POST['prix_produit']) && !empty($_FILES['images'])) 
         {
-            $genre = 1;
+            $genre = 3;
             $prixPromo = 12;
             $newCanne = new Canne
             (
@@ -266,8 +302,436 @@ function deleteCanne()
     }
 }
 
+function addMoulinetTraitement()
+{
+    if (isset($_POST)) 
+    {
+       
+        if (!empty($_POST['nom_produit']) && !empty($_POST['poids_moulinet']) && !empty($_POST['ratio_moulinet']) && !empty($_POST['categorie_produit']) && !empty($_POST['type_moulinet']) && !empty($_POST['marque_produit']) && !empty($_POST['promo_produit']) && !empty($_POST['stock_produit']) && !empty($_POST['description_produit']) && !empty($_POST['prix_produit']) && !empty($_FILES['images'])) 
+        {
+            $genre = 2;
+            $prixPromo = 12;
+            $newMoulinet = new Moulinet
+            (
+                htmlspecialchars($_POST['nom_produit']),
+                htmlspecialchars($_POST['description_produit']),
+                htmlspecialchars($_POST['prix_produit']),
+                htmlspecialchars($_POST['stock_produit']),
+                htmlspecialchars($_POST['promo_produit']),
+                htmlspecialchars($prixPromo),
+                htmlspecialchars($_POST['categorie_produit']),
+                htmlspecialchars($_POST['marque_produit']),
+                htmlspecialchars($genre),
+                htmlspecialchars($_POST['ratio_moulinet']),
+                htmlspecialchars($_POST['poids_moulinet']),
+                htmlspecialchars($_POST['type_moulinet'])
+            );
 
+            if ($_POST['stock_produit'] === 'stock') 
+            {
+                $stock = 1;
+            } else {
+                $stock = 0;
+            }
 
+            if ($_POST['promo_produit'] === 'promo') 
+            {
+                $promo = 1;
+            } 
+            else 
+            {
+                $promo = 0;
+            }
+
+            $newMoulinet->setNomProduit(htmlspecialchars($_POST['nom_produit']));
+            $newMoulinet->setDescriptionProduit(htmlspecialchars($_POST['description_produit']));
+            $newMoulinet->setPrixProduit(htmlspecialchars($_POST['prix_produit']));
+            $newMoulinet->setStockProduit(htmlspecialchars($stock));
+            $newMoulinet->setPromoProduit(htmlspecialchars($promo));
+            $newMoulinet->setMarqueProduit(htmlspecialchars($_POST['marque_produit']));
+            $newMoulinet->setCategorieProduit(htmlspecialchars($_POST['categorie_produit']));
+            $newMoulinet->setGenreProduit(htmlspecialchars($genre));
+            $newMoulinet->setPrixPromoProduit(htmlspecialchars($prixPromo));
+
+            $produitRepo = new ProduitRepository();
+            $moulinetRepo = new MoulinetRepository();
+            
+            $moulinetRepo->addMoulinet($newMoulinet);
+
+            if (isset($_FILES['images']) && $_FILES['images']['name']) 
+            {
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
+
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    $image_repo = new ImageRepository;
+                    $image_repo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                }
+
+                $image_repo = new ImageRepository;
+                $descriptionImage = htmlspecialchars($_POST['description_images']);
+
+                $imagePath = $image->addImage($_FILES['images']); 
+
+                $image = new Image();
+                $image->setNomImage($imagePath);
+                $image->setDescriptionImage($descriptionImage);
+
+                $idProduit = $produitRepo->getLastInsertId();
+                $idImage = $image_repo->getLastInsertId();
+                $image_repo->addImageToProduit($idProduit, $idImage);
+            }
+
+            header('Location: admin.php');
+            exit();
+        }
+    }
+}
+
+function updateMoulinetTraitement()
+{
+    if (isset($_POST)) 
+    {
+        if (!empty($_POST['nom_produit']) && !empty($_POST['poids_moulinet']) && !empty($_POST['ratio_moulinet']) && !empty($_POST['categorie_produit']) && !empty($_POST['type_moulinet']) && !empty($_POST['marque_produit']) && !empty($_POST['promo_produit']) && !empty($_POST['stock_produit']) && !empty($_POST['description_produit']) && !empty($_POST['prix_produit']) && !empty($_FILES['images'])) 
+        {
+            $genre = 2;
+            $prixPromo = 12;
+            $newMoulinet = new Moulinet
+            (
+                htmlspecialchars($_POST['nom_produit']),
+                htmlspecialchars($_POST['description_produit']),
+                htmlspecialchars($_POST['prix_produit']),
+                htmlspecialchars($_POST['stock_produit']),
+                htmlspecialchars($_POST['promo_produit']),
+                htmlspecialchars($prixPromo),
+                htmlspecialchars($_POST['categorie_produit']),
+                htmlspecialchars($_POST['marque_produit']),
+                htmlspecialchars($genre),
+                htmlspecialchars($_POST['ratio_moulinet']),
+                htmlspecialchars($_POST['poids_moulinet']),
+                htmlspecialchars($_POST['type_moulinet'])
+            );
+
+            if ($_POST['stock_produit'] === 'stock') 
+            {
+                $stock = 1;
+            } else {
+                $stock = 0;
+            }
+
+            
+            if ($_POST['promo_produit'] === 'promo') 
+            {
+                $promo = 1;
+            } 
+            else 
+            {
+                $promo = 0;
+            }
+
+            $newMoulinet->setIdProduit(htmlspecialchars($_POST['id_produit']));
+            $newMoulinet->setNomProduit(htmlspecialchars($_POST['nom_produit']));
+            $newMoulinet->setDescriptionProduit(htmlspecialchars($_POST['description_produit']));
+            $newMoulinet->setPrixProduit(htmlspecialchars($_POST['prix_produit']));
+            $newMoulinet->setStockProduit(htmlspecialchars($stock));
+            $newMoulinet->setPromoProduit(htmlspecialchars($promo));
+            $newMoulinet->setCategorieProduit(htmlspecialchars($_POST['categorie_produit']));
+            $newMoulinet->setMarqueProduit(htmlspecialchars($_POST['marque_produit']));
+            $newMoulinet->setCategorieProduit(htmlspecialchars($_POST['categorie_produit']));
+            $newMoulinet->setGenreProduit(htmlspecialchars($genre));
+            $newMoulinet->setPrixPromoProduit(htmlspecialchars($prixPromo));
+
+            $produitRepo = new ProduitRepository();
+            $moulinetRepo = new MoulinetRepository();
+            
+            $moulinetRepo->updateMoulinet($newMoulinet);
+
+            if (isset($_FILES['images']) && $_FILES['images']['name']) 
+            {
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
+
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    $image_repo = new ImageRepository;
+                    $image_repo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                }
+
+                $image_repo = new ImageRepository;
+                $descriptionImage = htmlspecialchars($_POST['description_images']);
+
+                $imagePath = $image->addImage($_FILES['images']); 
+
+                $image = new Image();
+                $image->setNomImage($imagePath);
+                $image->setDescriptionImage($descriptionImage);
+
+                $idProduit = $produitRepo->getLastInsertId();
+                $idImage = $image_repo->getLastInsertId();
+                $image_repo->addImageToProduit($idProduit, $idImage);
+            }
+
+            header('Location: admin.php');
+            exit();
+        }
+    }
+}
+
+function deleteMoulinet()
+{
+    if (isset($_POST['id_produit']))
+    {
+        $id_produit = $_POST['id_produit'];
+
+        $moulinetRepo = new MoulinetRepository();
+        $imageRepo = new ImageRepository();
+        $produitRepo = new ProduitRepository();
+
+        $imageRepo->deleteImagesByProduit($id_produit);
+
+        $moulinetRepo->deleteMoulinet($id_produit);
+
+        $produitRepo->deleteProduit($id_produit);
+
+        header('Location: admin.php');
+    } 
+    else 
+    {
+        echo "ID de la moulinet manquant.";
+    }
+}
+
+function addHameconTraitement()
+{
+    if (isset($_POST)) 
+    {
+        if (!empty($_POST['nom_produit']) && !empty($_POST['poids_hamecon']) && !empty($_POST['longueur_hamecon']) && !empty($_POST['categorie_produit']) && !empty($_POST['type_hamecon']) && !empty($_POST['marque_produit']) && !empty($_POST['promo_produit']) && !empty($_POST['stock_produit']) && !empty($_POST['description_produit']) && !empty($_POST['prix_produit']) && !empty($_FILES['images'])) 
+        {
+            $genre = 1;
+            $prixPromo = 12;
+            $newHamecon = new Hamecon
+            (
+                htmlspecialchars($_POST['nom_produit']),
+                htmlspecialchars($_POST['description_produit']),
+                htmlspecialchars($_POST['prix_produit']),
+                htmlspecialchars($_POST['stock_produit']),
+                htmlspecialchars($_POST['promo_produit']),
+                htmlspecialchars($prixPromo),
+                htmlspecialchars($_POST['categorie_produit']),
+                htmlspecialchars($_POST['marque_produit']),
+                htmlspecialchars($genre),
+                htmlspecialchars($_POST['longueur_hamecon']),
+                htmlspecialchars($_POST['poids_hamecon']),
+                htmlspecialchars($_POST['type_hamecon'])
+            );
+
+            if ($_POST['stock_produit'] === 'stock') 
+            {
+                $stock = 1;
+            } else {
+                $stock = 0;
+            }
+
+            if ($_POST['promo_produit'] === 'promo') 
+            {
+                $promo = 1;
+            } 
+            else 
+            {
+                $promo = 0;
+            }
+
+            $newHamecon->setNomProduit(htmlspecialchars($_POST['nom_produit']));
+            $newHamecon->setDescriptionProduit(htmlspecialchars($_POST['description_produit']));
+            $newHamecon->setPrixProduit(htmlspecialchars($_POST['prix_produit']));
+            $newHamecon->setStockProduit(htmlspecialchars($stock));
+            $newHamecon->setPromoProduit(htmlspecialchars($promo));
+            $newHamecon->setCategorieProduit(htmlspecialchars($_POST['categorie_produit']));
+            $newHamecon->setMarqueProduit(htmlspecialchars($_POST['marque_produit']));
+            $newHamecon->setCategorieProduit(htmlspecialchars($_POST['categorie_produit']));
+            $newHamecon->setGenreProduit(htmlspecialchars($genre));
+            $newHamecon->setPrixPromoProduit(htmlspecialchars($prixPromo));
+
+            $produitRepo = new ProduitRepository();
+            $hameconRepo = new HameconRepository();
+            
+            $hameconRepo->addHamecon($newHamecon);
+
+            if (isset($_FILES['images']) && $_FILES['images']['name']) 
+            {
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
+
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    $image_repo = new ImageRepository;
+                    $image_repo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                }
+
+                $image_repo = new ImageRepository;
+                $descriptionImage = htmlspecialchars($_POST['description_images']);
+
+                $imagePath = $image->addImage($_FILES['images']); 
+
+                $image = new Image();
+                $image->setNomImage($imagePath);
+                $image->setDescriptionImage($descriptionImage);
+
+                $idProduit = $produitRepo->getLastInsertId();
+                $idImage = $image_repo->getLastInsertId();
+                $image_repo->addImageToProduit($idProduit, $idImage);
+            }
+
+            header('Location: admin.php');
+            exit();
+        }
+    }
+}
+
+function updateHameconTraitement()
+{if (isset($_POST)) 
+    {
+        if (!empty($_POST['nom_produit']) && !empty($_POST['poids_hamecon']) && !empty($_POST['longueur_hamecon']) && !empty($_POST['categorie_produit']) && !empty($_POST['type_hamecon']) && !empty($_POST['marque_produit']) && !empty($_POST['promo_produit']) && !empty($_POST['stock_produit']) && !empty($_POST['description_produit']) && !empty($_POST['prix_produit']) && !empty($_FILES['images'])) 
+        {
+            $genre = 1;
+            $prixPromo = 12;
+            $newHamecon = new Hamecon
+            (
+                htmlspecialchars($_POST['nom_produit']),
+                htmlspecialchars($_POST['description_produit']),
+                htmlspecialchars($_POST['prix_produit']),
+                htmlspecialchars($_POST['stock_produit']),
+                htmlspecialchars($_POST['promo_produit']),
+                htmlspecialchars($prixPromo),
+                htmlspecialchars($_POST['categorie_produit']),
+                htmlspecialchars($_POST['marque_produit']),
+                htmlspecialchars($genre),
+                htmlspecialchars($_POST['longueur_hamecon']),
+                htmlspecialchars($_POST['poids_hamecon']),
+                htmlspecialchars($_POST['type_hamecon'])
+            );
+
+            if ($_POST['stock_produit'] === 'stock') 
+            {
+                $stock = 1;
+            } else {
+                $stock = 0;
+            }
+
+            
+            if ($_POST['promo_produit'] === 'promo') 
+            {
+                $promo = 1;
+            } 
+            else 
+            {
+                $promo = 0;
+            }
+
+            $newHamecon->setIdProduit(htmlspecialchars($_POST['id_produit']));
+            $newHamecon->setNomProduit(htmlspecialchars($_POST['nom_produit']));
+            $newHamecon->setDescriptionProduit(htmlspecialchars($_POST['description_produit']));
+            $newHamecon->setPrixProduit(htmlspecialchars($_POST['prix_produit']));
+            $newHamecon->setStockProduit(htmlspecialchars($stock));
+            $newHamecon->setPromoProduit(htmlspecialchars($promo));
+            $newHamecon->setCategorieProduit(htmlspecialchars($_POST['categorie_produit']));
+            $newHamecon->setMarqueProduit(htmlspecialchars($_POST['marque_produit']));
+            $newHamecon->setCategorieProduit(htmlspecialchars($_POST['categorie_produit']));
+            $newHamecon->setGenreProduit(htmlspecialchars($genre));
+            $newHamecon->setPrixPromoProduit(htmlspecialchars($prixPromo));
+
+            $produitRepo = new ProduitRepository();
+            $hameconRepo = new HameconRepository();
+            
+            $hameconRepo->updateHamecon($newHamecon);
+
+            if (isset($_FILES['images']) && $_FILES['images']['name']) 
+            {
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
+
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    $image_repo = new ImageRepository;
+                    $image_repo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                }
+
+                $image_repo = new ImageRepository;
+                $descriptionImage = htmlspecialchars($_POST['description_images']);
+
+                $imagePath = $image->addImage($_FILES['images']); 
+
+                $image = new Image();
+                $image->setNomImage($imagePath);
+                $image->setDescriptionImage($descriptionImage);
+
+                $idProduit = $produitRepo->getLastInsertId();
+                $idImage = $image_repo->getLastInsertId();
+                $image_repo->addImageToProduit($idProduit, $idImage);
+            }
+
+            header('Location: admin.php');
+            exit();
+        }
+    }
+}
+
+function deleteHamecon()
+{
+    if (isset($_POST['id_produit']))
+    {
+        $id_produit = $_POST['id_produit'];
+
+        $hameconRepo = new HameconRepository();
+        $imageRepo = new ImageRepository();
+        $produitRepo = new ProduitRepository();
+
+        $imageRepo->deleteImagesByProduit($id_produit);
+
+        $hameconRepo->deleteHamecon($id_produit);
+
+        $produitRepo->deleteProduit($id_produit);
+
+        header('Location: admin.php');
+    } 
+    else 
+    {
+        echo "ID de la hamecon manquant.";
+    }
+}
 
 function getAllProducts()
 {
@@ -275,132 +739,6 @@ function getAllProducts()
 
     $products = $produitRepo->getAllProduct();
     return $products;
-}
-
-
-function addMoulinetTraitement()
-{
-    if(isset($_POST))
-    
-    {
-        if(!empty($_POST['nom_moulinet']) && !empty($_POST['poids_moulinet']) && !empty($_POST['ratio_moulinet']) && !empty($_POST['categorie_moulinet']) && !empty($_POST['type_moulinet']) && !empty($_POST['marque_moulinet']) && !empty($_POST['promo_moulinet']) && !empty($_POST['stock_moulinet']) && !empty($_POST['description_moulinet'] && !empty($_FILES['image_moulinet'])))
-        {
-            $newMoulinet = [];
-            $newMoulinet['nom_moulinet'] = htmlspecialchars($_POST['nom_moulinet']);
-            $newMoulinet['poids_moulinet'] = htmlspecialchars($_POST['poids_moulinet']);
-            $newMoulinet['ratio_moulinet'] = htmlspecialchars($_POST['ratio_moulinet']);
-            $newMoulinet['categorie_moulinet'] = htmlspecialchars($_POST['categorie_moulinet']);
-            $newMoulinet['type_moulinet'] = htmlspecialchars($_POST['type_moulinet']);
-            $newMoulinet['marque_moulinet'] = htmlspecialchars($_POST['marque_moulinet']);
-            $newMoulinet['description_moulinet'] = htmlspecialchars($_POST['description_moulinet']);
-            $newMoulinet['promo_moulinet'] = htmlspecialchars($_POST['promo_moulinet']);
-            $newMoulinet['stock_moulinet'] = htmlspecialchars($_POST['stock_moulinet']);
-            $newMoulinet['image_moulinet'] = $_FILES['image_moulinet'];
-            
-            if($newMoulinet['stock_moulinet'] === 'stock') 
-            {
-                $newMoulinet['stock_moulinet'] = 1;
-                $newMoulinet['hors_stock_moulinet'] = 0;
-            }
-            else
-            {
-                $newMoulinet['stock_moulinet'] = 0;
-                $newMoulinet['hors_stock_moulinet'] = 1;
-            }
-
-            if($newMoulinet['promo_moulinet'] === 'promo')
-            {
-                $newMoulinet['promo_moulinet'] = 1;
-            }
-            else
-            {
-                $newMoulinet['promo_moulinet'] = 0;
-            }
-            
-            $imageMoulinet = new ImageMoulinet;
-            $moulinet = new Moulinet;
-            $moulinet->createToInsertMoulinet($newMoulinet);
-            
-            if($moulinet == true)
-            {
-                $imageMoulinet->addImageMoulinet($newMoulinet['image_moulinet']);
-
-                $imageMoulinetRepo = new ImageMoulinetRepository;
-                $moulinetRepo = new MoulinetRepository;
-
-                $moulinetRepo->insertMoulinet($moulinet);
-            
-                $lastInsertIdMoulinet = $moulinetRepo->getLastInsertId();
-                
-                $imageMoulinet->setIdMoulinet($lastInsertIdMoulinet);
-                $imageMoulinetRepo->insertImageMoulinet($imageMoulinet);
-
-                header('location: admin.php');
-            }
-        }
-    }
-}
-
-function addHameconTraitement()
-{
-    if(isset($_POST))
-    {
-        if(!empty($_POST['nom_hamecon']) && !empty($_POST['poids_hamecon']) && !empty($_POST['longueur_hamecon']) && !empty($_POST['categorie_hamecon']) && !empty($_POST['type_hamecon']) && !empty($_POST['marque_hamecon']) && !empty($_POST['promo_hamecon']) && !empty($_POST['stock_hamecon']) && !empty($_POST['description_hamecon'] && !empty($_FILES['image_hamecon'])))
-        {
-            $newHamecon = [];
-            $newHamecon['nom_hamecon'] = htmlspecialchars($_POST['nom_hamecon']);
-            $newHamecon['poids_hamecon'] = htmlspecialchars($_POST['poids_hamecon']);
-            $newHamecon['longueur_hamecon'] = htmlspecialchars($_POST['longueur_hamecon']);
-            $newHamecon['categorie_hamecon'] = htmlspecialchars($_POST['categorie_hamecon']);
-            $newHamecon['type_hamecon'] = htmlspecialchars($_POST['type_hamecon']);
-            $newHamecon['marque_hamecon'] = htmlspecialchars($_POST['marque_hamecon']);
-            $newHamecon['description_hamecon'] = htmlspecialchars($_POST['description_hamecon']);
-            $newHamecon['promo_hamecon'] = htmlspecialchars($_POST['promo_hamecon']);
-            $newHamecon['stock_hamecon'] = htmlspecialchars($_POST['stock_hamecon']);
-            $newHamecon['image_hamecon'] = $_FILES['image_hamecon'];
-            
-            if($newHamecon['stock_hamecon'] === 'stock') 
-            {
-                $newHamecon['stock_hamecon'] = 1;
-                $newHamecon['hors_stock_hamecon'] = 0;
-            }
-            else
-            {
-                $newHamecon['stock_hamecon'] = 0;
-                $newHamecon['hors_stock_hamecon'] = 1;
-            }
-
-            if($newHamecon['promo_hamecon'] === 'promo')
-            {
-                $newHamecon['promo_hamecon'] = 1;
-            }
-            else
-            {
-                $newHamecon['promo_hamecon'] = 0;
-            }
-            
-            $imageHamecon = new ImageHamecon;
-            $hamecon = new Hamecon;
-            $hamecon->createToInsertHamecon($newHamecon);
-            
-            if($hamecon == true)
-            {
-                $imageHamecon->addImageHamecon($newHamecon['image_hamecon']);
-
-                $imageHameconRepo = new ImageHameconRepository;
-                $hameconRepo = new HameconRepository;
-
-                $hameconRepo->insertHamecon($hamecon);
-            
-                $lastInsertIdHamecon = $hameconRepo->getLastInsertId();
-                
-                $imageHamecon->setIdHamecon($lastInsertIdHamecon);
-                $imageHameconRepo->insertImageHamecon($imageHamecon);
-
-                header('location: admin.php');
-            }
-        }
-    }
 }
 
 function addLeurreTraitement()
@@ -941,47 +1279,6 @@ function addTypeAppatTraitement()
     }
 }
 
-function deleteMoulinet()
-{
-        if(!empty($_POST['id_moulinet']) && isset($_POST['id_moulinet']))
-        {
-            $id_moulinet = isset($_POST['id_moulinet']) ? $_POST['id_moulinet'] : null;
-            $moulinetRepository = new MoulinetRepository();
-            $deleteMoulinet = $moulinetRepository->deleteMoulinet($id_moulinet);
-    
-            if ($deleteMoulinet)
-            {
-                header('location: admin.php');
-            }
-            else 
-            {
-                $_SESSION['messageError'] = 'Suppression de l\'article échoué';
-                header('location: admin.php');
-            }
-        }
-}
-
-function deleteHamecon()
-{
-        if(!empty($_POST['id_hamecon']) && isset($_POST['id_hamecon']))
-        {
-
-            $id_hamecon = isset($_POST['id_hamecon']) ? $_POST['id_hamecon'] : null;
-            $hameconRepository = new HameconRepository();
-            $deleteHamecon = $hameconRepository->deleteHamecon($id_hamecon);
-    
-            if ($deleteHamecon)
-            {
-                header('location: admin.php');
-            }
-            else 
-            {
-                $_SESSION['messageError'] = 'Suppression de l\'article échoué';
-                header('location: admin.php');
-            }
-        }
-}
-
 function deleteLeurre()
 {
         if(!empty($_POST['id_leurre']) && isset($_POST['id_leurre']))
@@ -1295,148 +1592,6 @@ function deleteTypeAppat()
                 header('location: admin.php');
             }
         }
-}
-
-function UpdateMoulinetTraitement()
-{
-    $img = new ImageMoulinetRepository;
-    $oldImg = $img->getImageByMoulinet($_POST['id_moulinet']);
-
-    $cheminFichier = $oldImg->getNomImageMoulinet();
-
-    if (file_exists($cheminFichier)) 
-    {
-        if (unlink($cheminFichier)) 
-        {
-            echo "Le fichier a été supprimé avec succès.";
-        }
-        else
-        {
-            echo "Une erreur s'est produite lors de la suppression du fichier.";
-            die;
-        }
-    }
-
-    if(isset($_POST['id_moulinet']) && isset($_POST['nom_moulinet']) && isset($_POST['poids_moulinet']) && isset($_POST['ratio_moulinet']) && isset($_POST['description_moulinet']) && isset($_POST['promo_moulinet']) && isset($_POST['stock_moulinet']) && isset($_POST['categorie_moulinet']) && isset($_POST['type_moulinet']) && isset($_POST['marque_moulinet']) && isset($_FILES['image_moulinet']))
-    {
-        $id_moulinet = isset($_POST['id_moulinet']) ? htmlspecialchars($_POST['id_moulinet']) : null;
-        $nom_moulinet = isset($_POST['nom_moulinet']) ? htmlspecialchars($_POST['nom_moulinet']) : null;
-        $poids_moulinet = isset($_POST['poids_moulinet']) ? htmlspecialchars($_POST['poids_moulinet']) : null;
-        $ratio_moulinet = isset($_POST['ratio_moulinet']) ? htmlspecialchars($_POST['ratio_moulinet']) : null;
-        $description_moulinet = isset($_POST['description_moulinet']) ? htmlspecialchars($_POST['description_moulinet']) : null;
-        $promo_moulinet = isset($_POST['promo_moulinet']) ? htmlspecialchars($_POST['promo_moulinet']) : null;
-        $stock_moulinet = isset($_POST['stock_moulinet']) ? htmlspecialchars($_POST['stock_moulinet']) : null;
-        $id_categorie = isset($_POST['categorie_moulinet']) ? htmlspecialchars($_POST['categorie_moulinet']) : null;
-        $id_type_moulinet = isset($_POST['type_moulinet']) ? htmlspecialchars($_POST['type_moulinet']) : null;
-        $id_marque = isset($_POST['marque_moulinet']) ? htmlspecialchars($_POST['marque_moulinet']) : null;
-        $image_moulinet = isset($_FILES['image_moulinet']) ? $_FILES['image_moulinet'] : null;
-
-        if($stock_moulinet === 'stock')
-        {
-            $stock_moulinet = 1;
-            $hors_stock_moulinet = 0;
-        }
-        else
-        {
-            $stock_moulinet = 0;
-            $hors_stock_moulinet = 1;
-        }
-
-        if($promo_moulinet === 'promo')
-        {
-            $promo_moulinet = 1;
-        }
-        else
-        {
-            $promo_moulinet = 0;
-        }
-
-        $moulinetRepository = new MoulinetRepository;
-        $imageMoulinetRepo = new ImageMoulinetRepository;
-        
-        $update = $moulinetRepository->updateMoulinet($id_moulinet, $nom_moulinet, $poids_moulinet, $ratio_moulinet, $description_moulinet, $promo_moulinet, $stock_moulinet, $hors_stock_moulinet, $id_categorie, $id_type_moulinet, $id_marque);
-        $updateImageMoulinet = $imageMoulinetRepo->updateImageByMoulinet($image_moulinet, $id_moulinet);
-        
-        if ($update && $updateImageMoulinet)
-        {
-            header("location:admin.php");
-        }
-        else 
-        {
-            echo 'non';
-        }
-    }
-}
-
-function UpdateHameconTraitement()
-{
-    $img = new ImageHameconRepository;
-    $oldImg = $img->getImageByHamecon($_POST['id_hamecon']);
-
-    $cheminFichier = $oldImg->getNomImageHamecon();
-
-    if (file_exists($cheminFichier)) 
-    {
-        if (unlink($cheminFichier)) 
-        {
-            echo "Le fichier a été supprimé avec succès.";
-        }
-        else 
-        {
-            echo "Une erreur s'est produite lors de la suppression du fichier.";
-            die;
-        }
-    }
-
-    if(isset($_POST['id_hamecon']) && isset($_POST['nom_hamecon']) && isset($_POST['poids_hamecon']) && isset($_POST['ratio_hamecon']) && isset($_POST['description_hamecon']) && isset($_POST['promo_hamecon']) && isset($_POST['stock_hamecon']) && isset($_POST['categorie_hamecon']) && isset($_POST['type_hamecon']) && isset($_POST['marque_hamecon']) && isset($_FILES['image_hamecon']))
-    {
-        $id_hamecon = isset($_POST['id_hamecon']) ? htmlspecialchars($_POST['id_hamecon']) : null;
-        $nom_hamecon = isset($_POST['nom_hamecon']) ? htmlspecialchars($_POST['nom_hamecon']) : null;
-        $poids_hamecon = isset($_POST['poids_hamecon']) ? htmlspecialchars($_POST['poids_hamecon']) : null;
-        $ratio_hamecon = isset($_POST['ratio_hamecon']) ? htmlspecialchars($_POST['ratio_hamecon']) : null;
-        $description_hamecon = isset($_POST['description_hamecon']) ? htmlspecialchars($_POST['description_hamecon']) : null;
-        $promo_hamecon = isset($_POST['promo_hamecon']) ? htmlspecialchars($_POST['promo_hamecon']) : null;
-        $stock_hamecon = isset($_POST['stock_hamecon']) ? htmlspecialchars($_POST['stock_hamecon']) : null;
-        $id_categorie = isset($_POST['categorie_hamecon']) ? htmlspecialchars($_POST['categorie_hamecon']) : null;
-        $id_type_hamecon = isset($_POST['type_hamecon']) ? htmlspecialchars($_POST['type_hamecon']) : null;
-        $id_marque = isset($_POST['marque_hamecon']) ? htmlspecialchars($_POST['marque_hamecon']) : null;
-        $image_hamecon = isset($_FILES['image_hamecon']) ? $_FILES['image_hamecon'] : null;
-
-        if($stock_hamecon === 'stock') 
-        {
-            $stock_hamecon = 1;
-            $hors_stock_hamecon = 0;
-        }
-        else
-        {
-            $stock_hamecon = 0;
-            $hors_stock_hamecon = 1;
-        }
-
-        if($promo_hamecon === 'promo')
-        {
-            $promo_hamecon = 1;
-        }
-        else
-        {
-            $promo_hamecon = 0;
-        }
-
-        $hameconRepository = new HameconRepository;
-        $imageHameconRepo = new ImageHameconRepository;
-        
-        $update = $hameconRepository->updateHamecon($id_hamecon, $nom_hamecon, $poids_hamecon, $ratio_hamecon, $description_hamecon, $promo_hamecon, $stock_hamecon, $hors_stock_hamecon, $id_categorie, $id_type_hamecon, $id_marque);
-        $updateImageHamecon = $imageHameconRepo->updateImageByHamecon($image_hamecon, $id_hamecon);
-        
-        if ($update && $updateImageHamecon)
-        {
-            header("location:admin.php");
-        }
-        else 
-        {
-            echo 'non';
-        }
-    }
 }
 
 function UpdateLeurreTraitement()
@@ -2035,15 +2190,33 @@ function combinedArticle($articles)
 
 function getAllType()
 {
-    $types = [];
-
-    $typeCanneRepo = new TypeCanneRepository;
-    $types['cannes'] = $typeCanneRepo->getAllTypeCanne();
+    $allTypes = [];
 
     $typeMoulinetRepo = new TypemoulinetRepository;
-    $type['moulinets'] = $typeMoulinetRepo->getAllTypemoulinet();
+    $allTypes['moulinet'] = $typeMoulinetRepo->getAllTypeMoulinet();
 
-    return $types;
+    $typeCanneRepo = new TypeCanneRepository;
+    $allTypes['canne'] = $typeCanneRepo->getAllTypeCanne();
+
+    $typeHameconRepo = new TypeHameconRepository;
+    $allTypes['hamecon'] = $typeHameconRepo->getAllTypeHamecon();
+
+    $typeLeurreRepo = new TypeLeurreRepository;
+    $allTypes['leurre'] = $typeLeurreRepo->getAllTypeLeurre();
+
+    $typeLigneRepo = new TypeLigneRepository;
+    $allTypes['ligne'] = $typeLigneRepo->getAllTypeLigne();
+
+    $typePlombRepo = new TypePlombRepository;
+    $allTypes['plomb'] = $typePlombRepo->getAllTypePlomb();
+
+    $typeEquipementRepo = new TypeEquipementRepository;
+    $allTypes['equipement'] = $typeEquipementRepo->getAllTypeEquipement();
+
+    $typeAppatRepo = new TypeAppatRepository;
+    $allTypes['appat'] = $typeAppatRepo->getAllTypeAppat();
+
+    return $allTypes;
 }
 
 function searchPage()

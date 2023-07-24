@@ -39,7 +39,7 @@
                     
                     <div class="grid grid-cols-2">
 
-                        <?php foreach ($typeCannes as $typeCanne) { ?>
+                        <?php foreach ($allTypes['canne'] as $typeCanne) { ?>
                         <div class="text-sm flex">
 
                             <p class="py-2"><?php echo $typeCanne->getNomTypeCanne(); ?></p>

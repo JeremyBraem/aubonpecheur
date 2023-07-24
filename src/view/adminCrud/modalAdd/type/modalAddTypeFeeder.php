@@ -39,10 +39,10 @@
                     
                     <div class="grid grid-cols-2">
 
-                        <?php foreach ($typeFeeders as $typeFeeder) { ?>
+                        <?php foreach ($allTypes['plomb'] as $typePlomb) { ?>
                         <div class="text-sm flex">
 
-                            <p class="py-2"><?php echo $typeFeeder->getNomTypeFeeder(); ?></p>
+                            <p class="py-2"><?php echo $typePlomb->getNomTypeFeeder(); ?></p>
                             <form class="flex" action="admin.php?action=deleteTypeFeeder" method="post">
 
                                 <input type="hidden" value="<?php echo $typeFeeder->getIdTypeFeeder(); ?>">
