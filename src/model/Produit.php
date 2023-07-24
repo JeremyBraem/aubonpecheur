@@ -214,9 +214,27 @@ class ProduitRepository extends connectBdd
         {
             $req = $this->bdd->prepare
             (
-                "SELECT produit.*, marque.nom_marque, categorie.nom_categorie as categorie, image.*, genre.nom_genre as genre
+                "SELECT produit.*, marque.nom_marque, categorie.nom_categorie as categorie, image.*, genre.nom_genre as genre, caracteristiques_canne.*,caracteristiques_moulinet.*,caracteristiques_hamecon.*,caracteristiques_leurre.*,caracteristiques_ligne.*,caracteristiques_ligne.*,caracteristiques_equipement.*,caracteristiques_plomb.*,caracteristiques_autre.*, type_canne.*,type_moulinet.*,type_hamecon.*,type_leurre.*,type_ligne.*,type_plomb.*,type_equipement.*,type_appat.*,type_autre.*
                 FROM produit
                 INNER JOIN marque ON produit.id_marque = marque.id_marque
+                INNER JOIN caracteristiques_canne ON caracteristiques_canne.id_produit = produit.id_produit
+                INNER JOIN caracteristiques_moulinet ON caracteristiques_moulinet.id_produit = produit.id_produit
+                INNER JOIN caracteristiques_appat ON caracteristiques_appat.id_produit = produit.id_produit
+                INNER JOIN caracteristiques_autre ON caracteristiques_autre.id_produit = produit.id_produit
+                INNER JOIN caracteristiques_equipement ON caracteristiques_equipement.id_produit = produit.id_produit
+                INNER JOIN caracteristiques_hamecon ON caracteristiques_hamecon.id_produit = produit.id_produit
+                INNER JOIN caracteristiques_leurre ON caracteristiques_leurre.id_produit = produit.id_produit
+                INNER JOIN caracteristiques_ligne ON caracteristiques_ligne.id_produit = produit.id_produit
+                INNER JOIN caracteristiques_plomb ON caracteristiques_plomb.id_produit = produit.id_produit
+                INNER JOIN type_canne ON type_canne.id_type_canne = caracteristiques_canne.id_type_canne
+                INNER JOIN type_moulinet ON type_moulinet.id_type_moulinet = caracteristiques_moulinet.id_type_moulinet
+                INNER JOIN type_hamecon ON type_hamecon.id_type_hamecon = caracteristiques_hamecon.id_type_hamecon
+                INNER JOIN type_appat ON type_appat.id_type_appat = caracteristiques_appat.id_type_appat
+                INNER JOIN type_equipement ON type_equipement.id_type_equipement = caracteristiques_equipement.id_type_equipement
+                INNER JOIN type_leurre ON type_leurre.id_type_leurre = caracteristiques_leurre.id_type_leurre
+                INNER JOIN type_ligne ON type_ligne.id_type_ligne = caracteristiques_ligne.id_type_ligne
+                INNER JOIN type_plomb ON type_plomb.id_type_plomb = caracteristiques_plomb.id_type_plomb
+                INNER JOIN type_autre ON type_autre.id_type_autre = caracteristiques_autre.id_type_autre
                 INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
                 INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
                 INNER JOIN image ON image.id_image = image_produit.id_image
@@ -228,6 +246,7 @@ class ProduitRepository extends connectBdd
 
             $products = $req->fetchAll(PDO::FETCH_ASSOC);
 
+            var_dump($products);
             return $products;
         } 
         catch (PDOException $e) 
@@ -235,8 +254,6 @@ class ProduitRepository extends connectBdd
             die("Erreur lors de la récupération des produits : " . $e->getMessage());
         }
     }
-
-    
 
     public function deleteProduit($id_produit)
     {

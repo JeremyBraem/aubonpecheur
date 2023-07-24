@@ -286,8 +286,14 @@
                                         </td>
 
                                     </tr>
-                                    <?php include('src/view/adminCrud/modalUpdate/modalCanneUpdate.php'); ?>
-                                    <?php include('src/view/adminCrud/modalDelete/modalDeleteCanne.php'); ?>
+                                    <?php foreach ($canneInfo as $cannes) { foreach ($cannes as $canne) { ?>
+
+                                        <?php include('src/view/adminCrud/modalUpdate/modalCanneUpdate.php'); ?>
+                                        <?php include('src/view/adminCrud/readModal/readModalCanne.php'); ?>
+                                        <?php include('src/view/adminCrud/modalDelete/modalDeleteCanne.php'); ?>
+
+                                    <?php } } ?>
+                                    
                                     <?php include('src/view/adminCrud/modalUpdate/modalMoulinetUpdate.php'); ?>
                                     <?php include('src/view/adminCrud/modalDelete/modalDeleteMoulinet.php'); ?>
                                     <?php include('src/view/adminCrud/modalUpdate/modalHameconUpdate.php'); ?>

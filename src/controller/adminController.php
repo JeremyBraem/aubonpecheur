@@ -56,9 +56,9 @@ function adminPage()
 
     foreach($idPCannes as $idPCanne)
     {
-        $canneInfo = $canneRepo->getInfoCanne($idPCanne);
+        $canneInfo[] = $canneRepo->getInfoCanne($idPCanne);
     }
-    
+  
     $moulinetRepo = new MoulinetRepository;
     $moulinets = $moulinetRepo->getAllMoulinet();
 
@@ -87,9 +87,26 @@ function adminPage()
     require('src/view/adminPage.php');
 }
 
+function pageTest()
+{
+require_once 'src/model/ProduitTest.php'; // Remplacez Chemin/Vers/VotreClasseProduit.php par le chemin vers votre classe Produit.
+
+    $produitRepo = new ProduitRepository();
+
+    $cannesData = $produitRepo->getAllCanne();
+    $cannes = [];
+
+    foreach ($cannesData as $canneData) 
+    {
+        $canne = new Produit($canneData, 'canne');
+
+        $cannes[] = $canne;
+    }
+}
+
 function addCanneTraitement()
 {
-    if (isset($_POST)) 
+    if (isset($_POST))
     {
         if (!empty($_POST['nom_produit']) && !empty($_POST['poids_canne']) && !empty($_POST['longueur_canne']) && !empty($_POST['categorie_produit']) && !empty($_POST['type_canne']) && !empty($_POST['marque_produit']) && !empty($_POST['promo_produit']) && !empty($_POST['stock_produit']) && !empty($_POST['description_produit']) && !empty($_POST['prix_produit']) && !empty($_FILES['images'])) 
         {
