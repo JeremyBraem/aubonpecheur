@@ -192,4 +192,25 @@ class CanneRepository extends connectBdd
             die("Erreur lors de la mise à jour de la canne : " . $e->getMessage());
         }
     }
+
+    public function deleteCanne($id_produit)
+    {
+        try 
+        {
+            $this->bdd->beginTransaction();
+
+            $reqCaracteristiquesCanne = $this->bdd->prepare("DELETE FROM caracteristiques_canne WHERE id_produit = ?");
+            $reqCaracteristiquesCanne->execute([$id_produit]);
+
+            $reqProduit = $this->bdd->prepare("DELETE FROM produit WHERE id_produit = ?");
+            $reqProduit->execute([$id_produit]);
+
+            $this->bdd->commit();
+        } 
+        catch (PDOException $e) 
+        {
+            $this->bdd->rollBack();
+            die("Erreur lors de la suppression de la canne : " . $e->getMessage());
+        }
+    }
 }

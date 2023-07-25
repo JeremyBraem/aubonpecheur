@@ -107,16 +107,21 @@ class ImageRepository extends ConnectBdd
 
     public function getImageByProduit($id_produit)
     {
-        $req =  $this->bdd->prepare('SELECT * FROM image WHERE id_produit = ?');
+        $req = $this->bdd->prepare('SELECT id_image FROM image_produit WHERE id_produit = ?');
         $req->execute([$id_produit]);
 
-        $dataImage = $req->fetch();
+        $IdImage = $req->fetch();
+        
+        $reqImg = $this->bdd->prepare('SELECT * FROM image WHERE id_image = ?');
+        $reqImg->execute([$IdImage['id_image']]);
+
+        $infoImg = $reqImg->fetch();
 
         $image = new Image();
 
-        $image->setIdImage($dataImage['id_image']);
-        $image->setNomImage($dataImage['nom_image']);
-        $image->setDescriptionImage($dataImage['description_image']);
+        $image->setIdImage($infoImg['id_image']);
+        $image->setNomImage($infoImg['nom_image']);
+        $image->setDescriptionImage($infoImg['description_image']);
 
         return $image;
     }
@@ -229,7 +234,7 @@ class ImageRepository extends ConnectBdd
         if (file_exists($imageNom)) 
         {
             unlink($imageNom);
-        } 
+        }
         else 
         {
             echo "Le fichier n'existe pas ou ne peut pas être supprimé.";

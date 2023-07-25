@@ -203,6 +203,7 @@ function updateCanneTraitement()
 
             $nouvelleCanne = new Canne();
 
+            $nouvelleCanne->setIdProduit($_POST['id_produit']);
             $nouvelleCanne->setNomProduit($_POST['nom_produit']);
             $nouvelleCanne->setDescriptionProduit($_POST['description_produit']);
             $nouvelleCanne->setPrixProduit($_POST['prix_produit']);
@@ -217,7 +218,7 @@ function updateCanneTraitement()
             $nouvelleCanne->setNomImage($_FILES['images']['name']);
             $nouvelleCanne->setDescriptionImage($_POST['description_images']);
             $nouvelleCanne->setIdTypeCanne($_POST['type_canne']);
-            
+          
             if ($nouvelleCanne) 
             {
                 if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
@@ -229,27 +230,14 @@ function updateCanneTraitement()
                     $fileError = $_FILES['images']['error'];
 
                     $image = new Image();
+                    
                     $image->setNomImage($fileName);
                     $image->setDescriptionImage($_POST['description_images']);
 
                     $imageRepo = new ImageRepository;
 
-                    $oldImg = $imageRepo->getImageByProduit($_POST['id_leurre']);
+                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
 
-                    $cheminFichier = $oldImg->getNomImage();
-
-                    if (file_exists($cheminFichier))
-                    {
-                        if (unlink($cheminFichier)) 
-                        {
-                            echo "Le fichier a été supprimé avec succès.";
-                        }
-                        else 
-                        {
-                            echo "Une erreur s'est produite lors de la suppression du fichier.";
-                            die;
-                        }
-                    }
                     $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
                     $image->addImage($_FILES['images']);
                 }
@@ -305,13 +293,10 @@ function deleteCanne()
 
         $canneRepo = new CanneRepository();
         $imageRepo = new ImageRepository();
-        $produitRepo = new ProduitRepository();
 
         $imageRepo->deleteImagesByProduit($id_produit);
 
         $canneRepo->deleteCanne($id_produit);
-
-        $produitRepo->deleteProduit($id_produit);
 
         header('Location: admin.php');
     } 
