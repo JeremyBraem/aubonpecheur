@@ -188,7 +188,7 @@
                                     </li>
 
                                     <li class="flex items-center">
-                                        <button type="button" id="createFeederModalButton" data-modal-target="createFeederModal" data-modal-toggle="createFeederModal" class="flex items-center justify-center font-semibold">
+                                        <button type="button" id="createPlombModalButton" data-modal-target="createPlombModal" data-modal-toggle="createPlombModal" class="flex items-center justify-center font-semibold">
                                             Plomb
                                         </button>
                                     </li>
@@ -336,7 +336,7 @@
         <?php include('src/view/adminCrud/modalAdd/modalAddEquipement.php'); ?>
 
         <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeFeeder.php'); ?>
-        <?php include('src/view/adminCrud/modalAdd/modalAddFeeder.php'); ?>
+        <?php include('src/view/adminCrud/modalAdd/modalAddPlomb.php'); ?>
 
         <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeAppat.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/modalAddAppat.php'); ?>
@@ -347,6 +347,13 @@
             include('src/view/adminCrud/modalUpdate/modalCanneUpdate.php');
             include('src/view/adminCrud/readModal/readModalCanne.php');
             include('src/view/adminCrud/modalDelete/modalDeleteCanne.php');
+        }
+
+        foreach($moulinets as $moulinet)
+        {
+            include('src/view/adminCrud/modalUpdate/modalMoulinetUpdate.php');
+            include('src/view/adminCrud/readModal/readModalMoulinet.php');
+            include('src/view/adminCrud/modalDelete/modalDeleteMoulinet.php');
         }
         ?>
 

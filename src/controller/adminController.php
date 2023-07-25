@@ -3,13 +3,13 @@ require_once('src/model/Produit.php');
 require_once('src/model/Canne.php');
 require_once('src/model/Moulinet.php');
 require_once('src/model/Hamecon.php');
+require_once('src/model/Leurre.php');
+require_once('src/model/Ligne.php');
+require_once('src/model/Equipement.php');
+// require_once('src/model/Plomb.php');
+// require_once('src/model/Autre.php');
+// require_once('src/model/Appat.php');
 require_once('src/model/Image.php');
-
-require_once('src/model/Produit/Leurre.php');
-require_once('src/model/Produit/Ligne.php');
-require_once('src/model/Produit/Equipement.php');
-require_once('src/model/Produit/Feeder.php');
-require_once('src/model/Produit/Appat.php');
 
 require_once('src/model/Marque.php');
 require_once('src/model/Categorie.php');
@@ -22,15 +22,6 @@ require_once('src/model/Type/TypeLigne.php');
 require_once('src/model/Type/TypeEquipement.php');
 require_once('src/model/Type/TypeFeeder.php');
 require_once('src/model/Type/TypeAppat.php');
-
-require_once('src/model/Image/ImageCanne.php');
-require_once('src/model/Image/ImageMoulinet.php');
-require_once('src/model/Image/ImageHamecon.php');
-require_once('src/model/Image/ImageLeurre.php');
-require_once('src/model/Image/ImageLigne.php');
-require_once('src/model/Image/ImageEquipement.php');
-require_once('src/model/Image/ImageFeeder.php');
-require_once('src/model/Image/ImageAppat.php');
 
 function adminPage()
 {
@@ -53,7 +44,6 @@ function adminPage()
     
     require('src/view/adminPage.php');
 }
-
 
 function addCanneTraitement()
 {
@@ -219,22 +209,7 @@ function updateCanneTraitement()
                 {
                     $imageRepo = new ImageRepository;
 
-                    $oldImg = $imageRepo->getImageByProduit($_POST['id_produit']);
-
-                    $cheminFichier = $oldImg->getNomImage();
-                    
-                    if (file_exists($cheminFichier))
-                    {
-                        if (unlink($cheminFichier)) 
-                        {
-                            echo "Le fichier a été supprimé avec succès.";
-                        }
-                        else 
-                        {
-                            echo "Une erreur s'est produite lors de la suppression du fichier.";
-                            die;
-                        }
-                    }
+                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
 
                     $fileName = $_FILES['images']['name'];
                     $fileTmpName = $_FILES['images']['tmp_name'];
@@ -249,11 +224,6 @@ function updateCanneTraitement()
                     
                     $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
                     $image->addImage($_FILES['images']);
-                }
-                else
-                {
-                    echo 'Aucune image trouvé';
-                    die;
                 }
                     
 
@@ -317,61 +287,53 @@ function deleteCanne()
 
 function addMoulinetTraitement()
 {
-    if (isset($_POST)) 
+    if (isset($_POST))
     {
-       
-        if (!empty($_POST['nom_produit']) && !empty($_POST['poids_moulinet']) && !empty($_POST['ratio_moulinet']) && !empty($_POST['categorie_produit']) && !empty($_POST['type_moulinet']) && !empty($_POST['marque_produit']) && !empty($_POST['promo_produit']) && !empty($_POST['stock_produit']) && !empty($_POST['description_produit']) && !empty($_POST['prix_produit']) && !empty($_FILES['images'])) 
+        if (isset($_POST['nom_produit']) &&
+            isset($_POST['description_produit']) &&
+            isset($_POST['prix_produit']) &&
+            isset($_POST['stock_produit']) &&
+            isset($_POST['promo_produit']) &&
+            isset($_POST['categorie_produit']) &&
+            isset($_POST['marque_produit']) &&
+            isset($_POST['ratio_moulinet']) &&
+            isset($_POST['poids_moulinet']) &&
+            isset($_POST['type_moulinet']) &&
+            isset($_POST['description_images']) &&
+            isset($_FILES['images'])
+        )
         {
             $genre = 2;
-            $prixPromo = 12;
-            $newMoulinet = new Moulinet
-            (
-                htmlspecialchars($_POST['nom_produit']),
-                htmlspecialchars($_POST['description_produit']),
-                htmlspecialchars($_POST['prix_produit']),
-                htmlspecialchars($_POST['stock_produit']),
-                htmlspecialchars($_POST['promo_produit']),
-                htmlspecialchars($prixPromo),
-                htmlspecialchars($_POST['categorie_produit']),
-                htmlspecialchars($_POST['marque_produit']),
-                htmlspecialchars($genre),
-                htmlspecialchars($_POST['ratio_moulinet']),
-                htmlspecialchars($_POST['poids_moulinet']),
-                htmlspecialchars($_POST['type_moulinet'])
-            );
 
-            if ($_POST['stock_produit'] === 'stock') 
+            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+
+            if($_POST['stock_produit'] === 'stock')
             {
                 $stock = 1;
-            } else {
+            }
+            else
+            {
                 $stock = 0;
             }
 
-            if ($_POST['promo_produit'] === 'promo') 
-            {
-                $promo = 1;
-            } 
-            else 
-            {
-                $promo = 0;
-            }
+            $nouvelleMoulinet = new Moulinet();
 
-            $newMoulinet->setNomProduit(htmlspecialchars($_POST['nom_produit']));
-            $newMoulinet->setDescriptionProduit(htmlspecialchars($_POST['description_produit']));
-            $newMoulinet->setPrixProduit(htmlspecialchars($_POST['prix_produit']));
-            $newMoulinet->setStockProduit(htmlspecialchars($stock));
-            $newMoulinet->setPromoProduit(htmlspecialchars($promo));
-            $newMoulinet->setMarqueProduit(htmlspecialchars($_POST['marque_produit']));
-            $newMoulinet->setCategorieProduit(htmlspecialchars($_POST['categorie_produit']));
-            $newMoulinet->setGenreProduit(htmlspecialchars($genre));
-            $newMoulinet->setPrixPromoProduit(htmlspecialchars($prixPromo));
-
-            $produitRepo = new ProduitRepository();
-            $moulinetRepo = new MoulinetRepository();
+            $nouvelleMoulinet->setNomProduit($_POST['nom_produit']);
+            $nouvelleMoulinet->setDescriptionProduit($_POST['description_produit']);
+            $nouvelleMoulinet->setPrixProduit($_POST['prix_produit']);
+            $nouvelleMoulinet->setStockProduit($stock);
+            $nouvelleMoulinet->setPromoProduit($_POST['promo_produit']);
+            $nouvelleMoulinet->setPrixPromoProduit($prix_promo_produit);
+            $nouvelleMoulinet->setIdCategorie($_POST['categorie_produit']);
+            $nouvelleMoulinet->setIdGenre($genre);
+            $nouvelleMoulinet->setIdMarque($_POST['marque_produit']);
+            $nouvelleMoulinet->setRatioMoulinet($_POST['ratio_moulinet']);
+            $nouvelleMoulinet->setPoidsMoulinet($_POST['poids_moulinet']);
+            $nouvelleMoulinet->setNomImage($_FILES['images']['name']);
+            $nouvelleMoulinet->setDescriptionImage($_POST['description_images']);
+            $nouvelleMoulinet->setIdTypeMoulinet($_POST['type_moulinet']);
             
-            $moulinetRepo->addMoulinet($newMoulinet);
-
-            if (isset($_FILES['images']) && $_FILES['images']['name']) 
+            if ($nouvelleMoulinet) 
             {
                 if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
                 {
@@ -385,12 +347,20 @@ function addMoulinetTraitement()
                     $image->setNomImage($fileName);
                     $image->setDescriptionImage($_POST['description_images']);
 
-                    $image_repo = new ImageRepository;
-                    $image_repo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $imageRepo = new ImageRepository;
+                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
                     $image->addImage($_FILES['images']);
                 }
+                else
+                {
+                    echo 'Aucune image trouvé';
+                    die;
+                }
 
-                $image_repo = new ImageRepository;
+                $moulinetRepo = new MoulinetRepository();
+                $moulinetRepo->addMoulinet($nouvelleMoulinet);
+
+                $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
                 $imagePath = $image->addImage($_FILES['images']); 
@@ -399,14 +369,28 @@ function addMoulinetTraitement()
                 $image->setNomImage($imagePath);
                 $image->setDescriptionImage($descriptionImage);
 
-                $idProduit = $produitRepo->getLastInsertId();
-                $idImage = $image_repo->getLastInsertId();
-                $image_repo->addImageToProduit($idProduit, $idImage);
-            }
+                $idProduit = $produitRepo->getLastId();
+                $idImage = $imageRepo->getLastId();
 
-            header('Location: admin.php');
-            exit();
+                $imageRepo->addImageToProduit($idProduit, $idImage);
+
+                header('Location: admin.php');
+                exit;
+            } 
+            else 
+            {
+                echo "Les données du nouveau moulinet ne sont pas valides.";
+                die;
+            }
         }
+        else 
+        {
+            echo "Certaines données sont manquantes pour ajouter un nouveau moulinet.";
+            die;
+        }
+
+        header('Location: admin.php');
+        exit();
     }
 }
 
@@ -414,64 +398,59 @@ function updateMoulinetTraitement()
 {
     if (isset($_POST)) 
     {
-        if (!empty($_POST['nom_produit']) && !empty($_POST['poids_moulinet']) && !empty($_POST['ratio_moulinet']) && !empty($_POST['categorie_produit']) && !empty($_POST['type_moulinet']) && !empty($_POST['marque_produit']) && !empty($_POST['promo_produit']) && !empty($_POST['stock_produit']) && !empty($_POST['description_produit']) && !empty($_POST['prix_produit']) && !empty($_FILES['images'])) 
+        if (isset($_POST['nom_produit']) &&
+            isset($_POST['description_produit']) &&
+            isset($_POST['prix_produit']) &&
+            isset($_POST['stock_produit']) &&
+            isset($_POST['promo_produit']) &&
+            isset($_POST['categorie_produit']) &&
+            isset($_POST['marque_produit']) &&
+            isset($_POST['ratio_moulinet']) &&
+            isset($_POST['poids_moulinet']) &&
+            isset($_POST['type_moulinet']) &&
+            isset($_POST['description_images']) &&
+            isset($_FILES['images'])
+        )
         {
-            $genre = 2;
-            $prixPromo = 12;
-            $newMoulinet = new Moulinet
-            (
-                htmlspecialchars($_POST['nom_produit']),
-                htmlspecialchars($_POST['description_produit']),
-                htmlspecialchars($_POST['prix_produit']),
-                htmlspecialchars($_POST['stock_produit']),
-                htmlspecialchars($_POST['promo_produit']),
-                htmlspecialchars($prixPromo),
-                htmlspecialchars($_POST['categorie_produit']),
-                htmlspecialchars($_POST['marque_produit']),
-                htmlspecialchars($genre),
-                htmlspecialchars($_POST['ratio_moulinet']),
-                htmlspecialchars($_POST['poids_moulinet']),
-                htmlspecialchars($_POST['type_moulinet'])
-            );
+            $genre = 1;
 
-            if ($_POST['stock_produit'] === 'stock') 
+            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+
+            if($_POST['stock_produit'] === 'stock')
             {
                 $stock = 1;
-            } else {
+            }
+            else
+            {
                 $stock = 0;
             }
 
-            
-            if ($_POST['promo_produit'] === 'promo') 
-            {
-                $promo = 1;
-            } 
-            else 
-            {
-                $promo = 0;
-            }
+            $nouvelleMoulinet = new Moulinet();
 
-            $newMoulinet->setIdProduit(htmlspecialchars($_POST['id_produit']));
-            $newMoulinet->setNomProduit(htmlspecialchars($_POST['nom_produit']));
-            $newMoulinet->setDescriptionProduit(htmlspecialchars($_POST['description_produit']));
-            $newMoulinet->setPrixProduit(htmlspecialchars($_POST['prix_produit']));
-            $newMoulinet->setStockProduit(htmlspecialchars($stock));
-            $newMoulinet->setPromoProduit(htmlspecialchars($promo));
-            $newMoulinet->setCategorieProduit(htmlspecialchars($_POST['categorie_produit']));
-            $newMoulinet->setMarqueProduit(htmlspecialchars($_POST['marque_produit']));
-            $newMoulinet->setCategorieProduit(htmlspecialchars($_POST['categorie_produit']));
-            $newMoulinet->setGenreProduit(htmlspecialchars($genre));
-            $newMoulinet->setPrixPromoProduit(htmlspecialchars($prixPromo));
-
-            $produitRepo = new ProduitRepository();
-            $moulinetRepo = new MoulinetRepository();
-            
-            $moulinetRepo->updateMoulinet($newMoulinet);
-
-            if (isset($_FILES['images']) && $_FILES['images']['name']) 
+            $nouvelleMoulinet->setIdProduit($_POST['id_produit']);
+            $nouvelleMoulinet->setNomProduit($_POST['nom_produit']);
+            $nouvelleMoulinet->setDescriptionProduit($_POST['description_produit']);
+            $nouvelleMoulinet->setPrixProduit($_POST['prix_produit']);
+            $nouvelleMoulinet->setStockProduit($stock);
+            $nouvelleMoulinet->setPromoProduit($_POST['promo_produit']);
+            $nouvelleMoulinet->setPrixPromoProduit($prix_promo_produit);
+            $nouvelleMoulinet->setIdCategorie($_POST['categorie_produit']);
+            $nouvelleMoulinet->setIdGenre($genre);
+            $nouvelleMoulinet->setIdMarque($_POST['marque_produit']);
+            $nouvelleMoulinet->setRatioMoulinet($_POST['ratio_moulinet']);
+            $nouvelleMoulinet->setPoidsMoulinet($_POST['poids_moulinet']);
+            $nouvelleMoulinet->setNomImage($_FILES['images']['name']);
+            $nouvelleMoulinet->setDescriptionImage($_POST['description_images']);
+            $nouvelleMoulinet->setIdTypeMoulinet($_POST['type_moulinet']);
+          
+            if ($nouvelleMoulinet) 
             {
                 if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
                 {
+                    $imageRepo = new ImageRepository;
+
+                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
+
                     $fileName = $_FILES['images']['name'];
                     $fileTmpName = $_FILES['images']['tmp_name'];
                     $fileType = $_FILES['images']['type'];
@@ -482,28 +461,46 @@ function updateMoulinetTraitement()
                     $image->setNomImage($fileName);
                     $image->setDescriptionImage($_POST['description_images']);
 
-                    $image_repo = new ImageRepository;
-                    $image_repo->insertImage($_FILES['images'], $_POST['description_images']);
+                    
+                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
                     $image->addImage($_FILES['images']);
                 }
+                    
 
-                $image_repo = new ImageRepository;
+                $moulinetRepo = new MoulinetRepository();
+                $moulinetRepo->updateMoulinet($nouvelleMoulinet);
+
+                $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']); 
+                $imagePath = $image->addImage($_FILES['images']);
 
                 $image = new Image();
                 $image->setNomImage($imagePath);
                 $image->setDescriptionImage($descriptionImage);
 
-                $idProduit = $produitRepo->getLastInsertId();
-                $idImage = $image_repo->getLastInsertId();
-                $image_repo->addImageToProduit($idProduit, $idImage);
-            }
+                $idProduit = $produitRepo->getLastId();
+                $idImage = $imageRepo->getLastId();
 
-            header('Location: admin.php');
-            exit();
+                $imageRepo->addImageToProduit($idProduit, $idImage);
+
+                header('Location: admin.php');
+                exit;
+            }
+            else 
+            {
+                echo "Les nouvelles données du  moulinet ne sont pas valides.";
+                die;
+            }
         }
+        else 
+        {
+            echo "Certaines nouvelle données sont manquantes pour ajouter un moulinet.";
+            die;
+        }
+
+        header('Location: admin.php');
+        exit();
     }
 }
 
@@ -515,13 +512,10 @@ function deleteMoulinet()
 
         $moulinetRepo = new MoulinetRepository();
         $imageRepo = new ImageRepository();
-        $produitRepo = new ProduitRepository();
 
         $imageRepo->deleteImagesByProduit($id_produit);
 
         $moulinetRepo->deleteMoulinet($id_produit);
-
-        $produitRepo->deleteProduit($id_produit);
 
         header('Location: admin.php');
     } 
@@ -533,61 +527,53 @@ function deleteMoulinet()
 
 function addHameconTraitement()
 {
-    if (isset($_POST)) 
+    if (isset($_POST))
     {
-        if (!empty($_POST['nom_produit']) && !empty($_POST['poids_hamecon']) && !empty($_POST['longueur_hamecon']) && !empty($_POST['categorie_produit']) && !empty($_POST['type_hamecon']) && !empty($_POST['marque_produit']) && !empty($_POST['promo_produit']) && !empty($_POST['stock_produit']) && !empty($_POST['description_produit']) && !empty($_POST['prix_produit']) && !empty($_FILES['images'])) 
+        if (isset($_POST['nom_produit']) &&
+            isset($_POST['description_produit']) &&
+            isset($_POST['prix_produit']) &&
+            isset($_POST['stock_produit']) &&
+            isset($_POST['promo_produit']) &&
+            isset($_POST['categorie_produit']) &&
+            isset($_POST['marque_produit']) &&
+            isset($_POST['longueur_hamecon']) &&
+            isset($_POST['poids_hamecon']) &&
+            isset($_POST['type_hamecon']) &&
+            isset($_POST['description_images']) &&
+            isset($_FILES['images'])
+        )
         {
-            $genre = 1;
-            $prixPromo = 12;
-            $newHamecon = new Hamecon
-            (
-                htmlspecialchars($_POST['nom_produit']),
-                htmlspecialchars($_POST['description_produit']),
-                htmlspecialchars($_POST['prix_produit']),
-                htmlspecialchars($_POST['stock_produit']),
-                htmlspecialchars($_POST['promo_produit']),
-                htmlspecialchars($prixPromo),
-                htmlspecialchars($_POST['categorie_produit']),
-                htmlspecialchars($_POST['marque_produit']),
-                htmlspecialchars($genre),
-                htmlspecialchars($_POST['longueur_hamecon']),
-                htmlspecialchars($_POST['poids_hamecon']),
-                htmlspecialchars($_POST['type_hamecon'])
-            );
+            $genre = 3;
 
-            if ($_POST['stock_produit'] === 'stock') 
+            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+
+            if($_POST['stock_produit'] === 'stock')
             {
                 $stock = 1;
-            } else {
+            }
+            else
+            {
                 $stock = 0;
             }
 
-            if ($_POST['promo_produit'] === 'promo') 
-            {
-                $promo = 1;
-            } 
-            else 
-            {
-                $promo = 0;
-            }
+            $nouvelleHamecon = new Hamecon();
 
-            $newHamecon->setNomProduit(htmlspecialchars($_POST['nom_produit']));
-            $newHamecon->setDescriptionProduit(htmlspecialchars($_POST['description_produit']));
-            $newHamecon->setPrixProduit(htmlspecialchars($_POST['prix_produit']));
-            $newHamecon->setStockProduit(htmlspecialchars($stock));
-            $newHamecon->setPromoProduit(htmlspecialchars($promo));
-            $newHamecon->setCategorieProduit(htmlspecialchars($_POST['categorie_produit']));
-            $newHamecon->setMarqueProduit(htmlspecialchars($_POST['marque_produit']));
-            $newHamecon->setCategorieProduit(htmlspecialchars($_POST['categorie_produit']));
-            $newHamecon->setGenreProduit(htmlspecialchars($genre));
-            $newHamecon->setPrixPromoProduit(htmlspecialchars($prixPromo));
-
-            $produitRepo = new ProduitRepository();
-            $hameconRepo = new HameconRepository();
+            $nouvelleHamecon->setNomProduit($_POST['nom_produit']);
+            $nouvelleHamecon->setDescriptionProduit($_POST['description_produit']);
+            $nouvelleHamecon->setPrixProduit($_POST['prix_produit']);
+            $nouvelleHamecon->setStockProduit($stock);
+            $nouvelleHamecon->setPromoProduit($_POST['promo_produit']);
+            $nouvelleHamecon->setPrixPromoProduit($prix_promo_produit);
+            $nouvelleHamecon->setIdCategorie($_POST['categorie_produit']);
+            $nouvelleHamecon->setIdGenre($genre);
+            $nouvelleHamecon->setIdMarque($_POST['marque_produit']);
+            $nouvelleHamecon->setLongueurHamecon($_POST['longueur_hamecon']);
+            $nouvelleHamecon->setPoidsHamecon($_POST['poids_hamecon']);
+            $nouvelleHamecon->setNomImage($_FILES['images']['name']);
+            $nouvelleHamecon->setDescriptionImage($_POST['description_images']);
+            $nouvelleHamecon->setIdTypeHamecon($_POST['type_hamecon']);
             
-            $hameconRepo->addHamecon($newHamecon);
-
-            if (isset($_FILES['images']) && $_FILES['images']['name']) 
+            if ($nouvelleHamecon) 
             {
                 if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
                 {
@@ -601,12 +587,20 @@ function addHameconTraitement()
                     $image->setNomImage($fileName);
                     $image->setDescriptionImage($_POST['description_images']);
 
-                    $image_repo = new ImageRepository;
-                    $image_repo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $imageRepo = new ImageRepository;
+                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
                     $image->addImage($_FILES['images']);
                 }
+                else
+                {
+                    echo 'Aucune image trouvé';
+                    die;
+                }
 
-                $image_repo = new ImageRepository;
+                $hameconRepo = new HameconRepository();
+                $hameconRepo->addHamecon($nouvelleHamecon);
+
+                $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
                 $imagePath = $image->addImage($_FILES['images']); 
@@ -615,78 +609,88 @@ function addHameconTraitement()
                 $image->setNomImage($imagePath);
                 $image->setDescriptionImage($descriptionImage);
 
-                $idProduit = $produitRepo->getLastInsertId();
-                $idImage = $image_repo->getLastInsertId();
-                $image_repo->addImageToProduit($idProduit, $idImage);
-            }
+                $idProduit = $produitRepo->getLastId();
+                $idImage = $imageRepo->getLastId();
 
-            header('Location: admin.php');
-            exit();
+                $imageRepo->addImageToProduit($idProduit, $idImage);
+
+                header('Location: admin.php');
+                exit;
+            } 
+            else 
+            {
+                echo "Les données de la nouvelle hamecon ne sont pas valides.";
+                die;
+            }
         }
+        else 
+        {
+            echo "Certaines données sont manquantes pour ajouter une nouvelle hamecon.";
+            die;
+        }
+
+        header('Location: admin.php');
+        exit();
     }
 }
 
 function updateHameconTraitement()
-{if (isset($_POST)) 
+{
+    if (isset($_POST)) 
     {
-        if (!empty($_POST['nom_produit']) && !empty($_POST['poids_hamecon']) && !empty($_POST['longueur_hamecon']) && !empty($_POST['categorie_produit']) && !empty($_POST['type_hamecon']) && !empty($_POST['marque_produit']) && !empty($_POST['promo_produit']) && !empty($_POST['stock_produit']) && !empty($_POST['description_produit']) && !empty($_POST['prix_produit']) && !empty($_FILES['images'])) 
+        if (isset($_POST['nom_produit']) &&
+            isset($_POST['description_produit']) &&
+            isset($_POST['prix_produit']) &&
+            isset($_POST['stock_produit']) &&
+            isset($_POST['promo_produit']) &&
+            isset($_POST['categorie_produit']) &&
+            isset($_POST['marque_produit']) &&
+            isset($_POST['longueur_hamecon']) &&
+            isset($_POST['poids_hamecon']) &&
+            isset($_POST['type_hamecon']) &&
+            isset($_POST['description_images']) &&
+            isset($_FILES['images'])
+        )
         {
-            $genre = 1;
-            $prixPromo = 12;
-            $newHamecon = new Hamecon
-            (
-                htmlspecialchars($_POST['nom_produit']),
-                htmlspecialchars($_POST['description_produit']),
-                htmlspecialchars($_POST['prix_produit']),
-                htmlspecialchars($_POST['stock_produit']),
-                htmlspecialchars($_POST['promo_produit']),
-                htmlspecialchars($prixPromo),
-                htmlspecialchars($_POST['categorie_produit']),
-                htmlspecialchars($_POST['marque_produit']),
-                htmlspecialchars($genre),
-                htmlspecialchars($_POST['longueur_hamecon']),
-                htmlspecialchars($_POST['poids_hamecon']),
-                htmlspecialchars($_POST['type_hamecon'])
-            );
+            $genre = 3;
 
-            if ($_POST['stock_produit'] === 'stock') 
+            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+
+            if($_POST['stock_produit'] === 'stock')
             {
                 $stock = 1;
-            } else {
+            }
+            else
+            {
                 $stock = 0;
             }
 
-            
-            if ($_POST['promo_produit'] === 'promo') 
-            {
-                $promo = 1;
-            } 
-            else 
-            {
-                $promo = 0;
-            }
+            $nouvelleHamecon = new Hamecon();
 
-            $newHamecon->setIdProduit(htmlspecialchars($_POST['id_produit']));
-            $newHamecon->setNomProduit(htmlspecialchars($_POST['nom_produit']));
-            $newHamecon->setDescriptionProduit(htmlspecialchars($_POST['description_produit']));
-            $newHamecon->setPrixProduit(htmlspecialchars($_POST['prix_produit']));
-            $newHamecon->setStockProduit(htmlspecialchars($stock));
-            $newHamecon->setPromoProduit(htmlspecialchars($promo));
-            $newHamecon->setCategorieProduit(htmlspecialchars($_POST['categorie_produit']));
-            $newHamecon->setMarqueProduit(htmlspecialchars($_POST['marque_produit']));
-            $newHamecon->setCategorieProduit(htmlspecialchars($_POST['categorie_produit']));
-            $newHamecon->setGenreProduit(htmlspecialchars($genre));
-            $newHamecon->setPrixPromoProduit(htmlspecialchars($prixPromo));
-
-            $produitRepo = new ProduitRepository();
-            $hameconRepo = new HameconRepository();
-            
-            $hameconRepo->updateHamecon($newHamecon);
-
-            if (isset($_FILES['images']) && $_FILES['images']['name']) 
+            $nouvelleHamecon->setIdProduit($_POST['id_produit']);
+            $nouvelleHamecon->setNomProduit($_POST['nom_produit']);
+            $nouvelleHamecon->setDescriptionProduit($_POST['description_produit']);
+            $nouvelleHamecon->setPrixProduit($_POST['prix_produit']);
+            $nouvelleHamecon->setStockProduit($stock);
+            $nouvelleHamecon->setPromoProduit($_POST['promo_produit']);
+            $nouvelleHamecon->setPrixPromoProduit($prix_promo_produit);
+            $nouvelleHamecon->setIdCategorie($_POST['categorie_produit']);
+            $nouvelleHamecon->setIdGenre($genre);
+            $nouvelleHamecon->setIdMarque($_POST['marque_produit']);
+            $nouvelleHamecon->setLongueurHamecon($_POST['longueur_hamecon']);
+            $nouvelleHamecon->setPoidsHamecon($_POST['poids_hamecon']);
+            $nouvelleHamecon->setNomImage($_FILES['images']['name']);
+            $nouvelleHamecon->setDescriptionImage($_POST['description_images']);
+            $nouvelleHamecon->setIdTypeHamecon($_POST['type_hamecon']);
+          
+            if ($nouvelleHamecon) 
             {
                 if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
                 {
+                    $imageRepo = new ImageRepository;
+
+                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
+
                     $fileName = $_FILES['images']['name'];
                     $fileTmpName = $_FILES['images']['tmp_name'];
                     $fileType = $_FILES['images']['type'];
@@ -697,28 +701,46 @@ function updateHameconTraitement()
                     $image->setNomImage($fileName);
                     $image->setDescriptionImage($_POST['description_images']);
 
-                    $image_repo = new ImageRepository;
-                    $image_repo->insertImage($_FILES['images'], $_POST['description_images']);
+                    
+                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
                     $image->addImage($_FILES['images']);
                 }
+                    
 
-                $image_repo = new ImageRepository;
+                $hameconRepo = new HameconRepository();
+                $hameconRepo->updateHamecon($nouvelleHamecon);
+
+                $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']); 
+                $imagePath = $image->addImage($_FILES['images']);
 
                 $image = new Image();
                 $image->setNomImage($imagePath);
                 $image->setDescriptionImage($descriptionImage);
 
-                $idProduit = $produitRepo->getLastInsertId();
-                $idImage = $image_repo->getLastInsertId();
-                $image_repo->addImageToProduit($idProduit, $idImage);
-            }
+                $idProduit = $produitRepo->getLastId();
+                $idImage = $imageRepo->getLastId();
 
-            header('Location: admin.php');
+                $imageRepo->addImageToProduit($idProduit, $idImage);
+
+                header('Location: admin.php');
+                exit();
+            }
+            else 
+            {
+                echo "Les données de la nouvelle hamecon ne sont pas valides.";
+                exit();
+            }
+        }
+        else 
+        {
+            echo "Certaines données sont manquantes pour ajouter une nouvelle hamecon.";
             exit();
         }
+
+        header('Location: admin.php');
+        exit();
     }
 }
 
@@ -730,344 +752,982 @@ function deleteHamecon()
 
         $hameconRepo = new HameconRepository();
         $imageRepo = new ImageRepository();
-        $produitRepo = new ProduitRepository();
 
         $imageRepo->deleteImagesByProduit($id_produit);
 
         $hameconRepo->deleteHamecon($id_produit);
 
-        $produitRepo->deleteProduit($id_produit);
+        header('Location: admin.php');
+    } 
+    else 
+    {
+        echo "ID de l'hamecon manquant.";
+    }
+}
+
+function addLeurreTraitement()
+{
+    if (isset($_POST))
+    {
+        if (isset($_POST['nom_produit']) &&
+            isset($_POST['description_produit']) &&
+            isset($_POST['prix_produit']) &&
+            isset($_POST['stock_produit']) &&
+            isset($_POST['promo_produit']) &&
+            isset($_POST['categorie_produit']) &&
+            isset($_POST['marque_produit']) &&
+            isset($_POST['longueur_leurre']) &&
+            isset($_POST['poids_leurre']) &&
+            isset($_POST['couleur_leurre']) &&
+            isset($_POST['type_leurre']) &&
+            isset($_POST['description_images']) &&
+            isset($_FILES['images'])
+        )
+        {
+            $genre = 4;
+
+            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+
+            if($_POST['stock_produit'] === 'stock')
+            {
+                $stock = 1;
+            }
+            else
+            {
+                $stock = 0;
+            }
+
+            $nouvelleLeurre = new Leurre();
+
+            $nouvelleLeurre->setNomProduit($_POST['nom_produit']);
+            $nouvelleLeurre->setDescriptionProduit($_POST['description_produit']);
+            $nouvelleLeurre->setPrixProduit($_POST['prix_produit']);
+            $nouvelleLeurre->setStockProduit($stock);
+            $nouvelleLeurre->setPromoProduit($_POST['promo_produit']);
+            $nouvelleLeurre->setPrixPromoProduit($prix_promo_produit);
+            $nouvelleLeurre->setIdCategorie($_POST['categorie_produit']);
+            $nouvelleLeurre->setIdGenre($genre);
+            $nouvelleLeurre->setIdMarque($_POST['marque_produit']);
+            $nouvelleLeurre->setLongueurLeurre($_POST['longueur_leurre']);
+            $nouvelleLeurre->setPoidsLeurre($_POST['poids_leurre']);
+            $nouvelleLeurre->setCouleurLeurre($_POST['couleur_leurre']);
+            $nouvelleLeurre->setNomImage($_FILES['images']['name']);
+            $nouvelleLeurre->setDescriptionImage($_POST['description_images']);
+            $nouvelleLeurre->setIdTypeLeurre($_POST['type_leurre']);
+            
+            if ($nouvelleLeurre) 
+            {
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
+
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    $imageRepo = new ImageRepository;
+                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                }
+                else
+                {
+                    echo 'Aucune image trouvé';
+                    die;
+                }
+
+                $leurreRepo = new LeurreRepository();
+                $leurreRepo->addLeurre($nouvelleLeurre);
+
+                $produitRepo = new ProduitRepository;
+                $descriptionImage = htmlspecialchars($_POST['description_images']);
+
+                $imagePath = $image->addImage($_FILES['images']); 
+
+                $image = new Image();
+                $image->setNomImage($imagePath);
+                $image->setDescriptionImage($descriptionImage);
+
+                $idProduit = $produitRepo->getLastId();
+                $idImage = $imageRepo->getLastId();
+
+                $imageRepo->addImageToProduit($idProduit, $idImage);
+
+                header('Location: admin.php');
+                exit;
+            } 
+            else 
+            {
+                echo "Les données de la nouvelle leurre ne sont pas valides.";
+                die;
+            }
+        }
+        else 
+        {
+            echo "Certaines données sont manquantes pour ajouter une nouvelle leurre.";
+            die;
+        }
+
+        header('Location: admin.php');
+        exit();
+    }
+}
+
+function updateLeurreTraitement()
+{
+    if (isset($_POST)) 
+    {
+      
+        if (isset($_POST['nom_produit']) &&
+            isset($_POST['description_produit']) &&
+            isset($_POST['prix_produit']) &&
+            isset($_POST['stock_produit']) &&
+            isset($_POST['promo_produit']) &&
+            isset($_POST['categorie_produit']) &&
+            isset($_POST['marque_produit']) &&
+            isset($_POST['longueur_leurre']) &&
+            isset($_POST['poids_leurre']) &&
+            isset($_POST['couleur_leurre']) &&
+            isset($_POST['type_leurre']) &&
+            isset($_POST['description_images']) &&
+            isset($_FILES['images'])
+        )
+        {
+            $genre = 3;
+
+            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+
+            if($_POST['stock_produit'] === 'stock')
+            {
+                $stock = 1;
+            }
+            else
+            {
+                $stock = 0;
+            }
+
+            $nouvelleLeurre = new Leurre();
+
+            $nouvelleLeurre->setIdProduit($_POST['id_produit']);
+            $nouvelleLeurre->setNomProduit($_POST['nom_produit']);
+            $nouvelleLeurre->setDescriptionProduit($_POST['description_produit']);
+            $nouvelleLeurre->setPrixProduit($_POST['prix_produit']);
+            $nouvelleLeurre->setStockProduit($stock);
+            $nouvelleLeurre->setPromoProduit($_POST['promo_produit']);
+            $nouvelleLeurre->setPrixPromoProduit($prix_promo_produit);
+            $nouvelleLeurre->setIdCategorie($_POST['categorie_produit']);
+            $nouvelleLeurre->setIdGenre($genre);
+            $nouvelleLeurre->setIdMarque($_POST['marque_produit']);
+            $nouvelleLeurre->setLongueurLeurre($_POST['longueur_leurre']);
+            $nouvelleLeurre->setPoidsLeurre($_POST['poids_leurre']);
+            $nouvelleLeurre->setCouleurLeurre($_POST['couleur_leurre']);
+            $nouvelleLeurre->setNomImage($_FILES['images']['name']);
+            $nouvelleLeurre->setDescriptionImage($_POST['description_images']);
+            $nouvelleLeurre->setIdTypeLeurre($_POST['type_leurre']);
+          
+            if ($nouvelleLeurre) 
+            {
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {
+                    $imageRepo = new ImageRepository;
+
+                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
+
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
+
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    
+                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                }
+                    
+
+                $leurreRepo = new LeurreRepository();
+                $leurreRepo->updateLeurre($nouvelleLeurre);
+
+                $produitRepo = new ProduitRepository;
+                $descriptionImage = htmlspecialchars($_POST['description_images']);
+
+                $imagePath = $image->addImage($_FILES['images']);
+
+                $image = new Image();
+                $image->setNomImage($imagePath);
+                $image->setDescriptionImage($descriptionImage);
+
+                $idProduit = $produitRepo->getLastId();
+                $idImage = $imageRepo->getLastId();
+
+                $imageRepo->addImageToProduit($idProduit, $idImage);
+
+                header('Location: admin.php');
+                exit;
+            }
+            else 
+            {
+                echo "Les données de la nouvelle leurre ne sont pas valides.";
+                die;
+            }
+        }
+        else 
+        {
+            echo "Certaines données sont manquantes pour ajouter un nouveaux leurre.";
+            die;
+        }
+
+        header('Location: admin.php');
+        exit();
+    }
+}
+
+function deleteLeurre()
+{
+    if (isset($_POST['id_produit']))
+    {
+        $id_produit = $_POST['id_produit'];
+
+        $leurreRepo = new LeurreRepository();
+        $imageRepo = new ImageRepository();
+
+        $imageRepo->deleteImagesByProduit($id_produit);
+
+        $leurreRepo->deleteLeurre($id_produit);
 
         header('Location: admin.php');
     } 
     else 
     {
-        echo "ID de la hamecon manquant.";
-    }
-}
-
-function getAllProducts()
-{
-    $produitRepo = new ProduitRepository();
-
-    $products = $produitRepo->getAllProduct();
-
-    return $products;
-}
-
-function addLeurreTraitement()
-{
-    
-    if(isset($_POST))
-    {   
-        if(!empty($_POST['nom_leurre']) && !empty($_POST['poids_leurre']) && !empty($_POST['couleur_leurre']) && !empty($_POST['categorie_leurre']) && !empty($_POST['type_leurre']) && !empty($_POST['marque_leurre']) && !empty($_POST['promo_leurre']) && !empty($_POST['stock_leurre']) && !empty($_POST['description_leurre'] && !empty($_FILES['image_leurre'])))
-        {
-            $newLeurre = [];
-            $newLeurre['nom_leurre'] = htmlspecialchars($_POST['nom_leurre']);
-            $newLeurre['couleur_leurre'] = htmlspecialchars($_POST['couleur_leurre']);
-            $newLeurre['poids_leurre'] = htmlspecialchars($_POST['poids_leurre']);
-            $newLeurre['categorie_leurre'] = htmlspecialchars($_POST['categorie_leurre']);
-            $newLeurre['type_leurre'] = htmlspecialchars($_POST['type_leurre']);
-            $newLeurre['marque_leurre'] = htmlspecialchars($_POST['marque_leurre']);
-            $newLeurre['description_leurre'] = htmlspecialchars($_POST['description_leurre']);
-            $newLeurre['promo_leurre'] = htmlspecialchars($_POST['promo_leurre']);
-            $newLeurre['stock_leurre'] = htmlspecialchars($_POST['stock_leurre']);
-            $newLeurre['image_leurre'] = $_FILES['image_leurre'];
-            
-            if($newLeurre['stock_leurre'] === 'stock') 
-            {
-                $newLeurre['stock_leurre'] = 1;
-                $newLeurre['hors_stock_leurre'] = 0;
-            }
-            else
-            {
-                $newLeurre['stock_leurre'] = 0;
-                $newLeurre['hors_stock_leurre'] = 1;
-            }
-
-            if($newLeurre['promo_leurre'] === 'promo')
-            {
-                $newLeurre['promo_leurre'] = 1;
-            }
-            else
-            {
-                $newLeurre['promo_leurre'] = 0;
-            }
-            
-            $imageLeurre = new ImageLeurre;
-            $leurre = new Leurre;
-            $leurre->createToInsertLeurre($newLeurre);
-            
-            if($leurre == true)
-            {
-                $imageLeurre->addImageLeurre($newLeurre['image_leurre']);
-
-                $imageLeurreRepo = new ImageLeurreRepository;
-                $leurreRepo = new LeurreRepository;
-
-                $leurreRepo->insertLeurre($leurre);
-            
-                $lastInsertIdLeurre = $leurreRepo->getLastInsertId();
-                
-                $imageLeurre->setIdLeurre($lastInsertIdLeurre);
-                $imageLeurreRepo->insertImageLeurre($imageLeurre);
-
-                header('location: admin.php');
-            }
-        }
+        echo "ID de la leurre manquant.";
     }
 }
 
 function addLigneTraitement()
 {
-    if(isset($_POST))
+    if (isset($_POST))
     {
-        
-        if(!empty($_POST['nom_ligne']) && !empty($_POST['poids_ligne']) && !empty($_POST['diametre_ligne']) && !empty($_POST['longueur_ligne']) && !empty($_POST['categorie_ligne']) && !empty($_POST['type_ligne']) && !empty($_POST['marque_ligne']) && !empty($_POST['promo_ligne']) && !empty($_POST['stock_ligne']) && !empty($_POST['description_ligne'] && !empty($_FILES['image_ligne'])))
+        if (isset($_POST['nom_produit']) &&
+            isset($_POST['description_produit']) &&
+            isset($_POST['prix_produit']) &&
+            isset($_POST['stock_produit']) &&
+            isset($_POST['promo_produit']) &&
+            isset($_POST['categorie_produit']) &&
+            isset($_POST['marque_produit']) &&
+            isset($_POST['longueur_ligne']) &&
+            isset($_POST['diametre_ligne']) &&
+            isset($_POST['type_ligne']) &&
+            isset($_POST['description_images']) &&
+            isset($_FILES['images'])
+        )
         {
-            
-            $newLigne = [];
-            $newLigne['nom_ligne'] = htmlspecialchars($_POST['nom_ligne']);
-            $newLigne['longueur_ligne'] = htmlspecialchars($_POST['longueur_ligne']);
-            $newLigne['diametre_ligne'] = htmlspecialchars($_POST['diametre_ligne']);
-            $newLigne['poids_ligne'] = htmlspecialchars($_POST['poids_ligne']);
-            $newLigne['categorie_ligne'] = htmlspecialchars($_POST['categorie_ligne']);
-            $newLigne['type_ligne'] = htmlspecialchars($_POST['type_ligne']);
-            $newLigne['marque_ligne'] = htmlspecialchars($_POST['marque_ligne']);
-            $newLigne['description_ligne'] = htmlspecialchars($_POST['description_ligne']);
-            $newLigne['promo_ligne'] = htmlspecialchars($_POST['promo_ligne']);
-            $newLigne['stock_ligne'] = htmlspecialchars($_POST['stock_ligne']);
-            $newLigne['image_ligne'] = $_FILES['image_ligne'];
-            
-            if($newLigne['stock_ligne'] === 'stock') 
+            $genre = 5;
+
+            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+
+            if($_POST['stock_produit'] === 'stock')
             {
-                $newLigne['stock_ligne'] = 1;
-                $newLigne['hors_stock_ligne'] = 0;
+                $stock = 1;
             }
             else
             {
-                $newLigne['stock_ligne'] = 0;
-                $newLigne['hors_stock_ligne'] = 1;
+                $stock = 0;
             }
 
-            if($newLigne['promo_ligne'] === 'promo')
-            {
-                $newLigne['promo_ligne'] = 1;
-            }
-            else
-            {
-                $newLigne['promo_ligne'] = 0;
-            }
-            
-            $imageLigne = new ImageLigne;
-            $ligne = new Ligne;
-            $ligne->createToInsertLigne($newLigne);
-            
-            if($ligne == true)
-            {
-                $imageLigne->addImageLigne($newLigne['image_ligne']);
+            $nouvelleLigne = new Ligne();
 
-                $imageLigneRepo = new ImageLigneRepository;
-                $ligneRepo = new LigneRepository;
-
-                $ligneRepo->insertLigne($ligne);
+            $nouvelleLigne->setNomProduit($_POST['nom_produit']);
+            $nouvelleLigne->setDescriptionProduit($_POST['description_produit']);
+            $nouvelleLigne->setPrixProduit($_POST['prix_produit']);
+            $nouvelleLigne->setStockProduit($stock);
+            $nouvelleLigne->setPromoProduit($_POST['promo_produit']);
+            $nouvelleLigne->setPrixPromoProduit($prix_promo_produit);
+            $nouvelleLigne->setIdCategorie($_POST['categorie_produit']);
+            $nouvelleLigne->setIdGenre($genre);
+            $nouvelleLigne->setIdMarque($_POST['marque_produit']);
+            $nouvelleLigne->setLongueurLigne($_POST['longueur_ligne']);
+            $nouvelleLigne->setDiametreLigne($_POST['diametre_ligne']);
+            $nouvelleLigne->setNomImage($_FILES['images']['name']);
+            $nouvelleLigne->setDescriptionImage($_POST['description_images']);
+            $nouvelleLigne->setIdTypeLigne($_POST['type_ligne']);
             
-                $lastInsertIdLigne = $ligneRepo->getLastInsertId();
-                
-                $imageLigne->setIdLigne($lastInsertIdLigne);
-                $imageLigneRepo->insertImageLigne($imageLigne);
+            if ($nouvelleLigne) 
+            {
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
 
-                header('location: admin.php');
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    $imageRepo = new ImageRepository;
+                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                }
+                else
+                {
+                    echo 'Aucune image trouvé';
+                    die;
+                }
+
+                $ligneRepo = new LigneRepository();
+                $ligneRepo->addLigne($nouvelleLigne);
+
+                $produitRepo = new ProduitRepository;
+                $descriptionImage = htmlspecialchars($_POST['description_images']);
+
+                $imagePath = $image->addImage($_FILES['images']); 
+
+                $image = new Image();
+                $image->setNomImage($imagePath);
+                $image->setDescriptionImage($descriptionImage);
+
+                $idProduit = $produitRepo->getLastId();
+                $idImage = $imageRepo->getLastId();
+
+                $imageRepo->addImageToProduit($idProduit, $idImage);
+
+                header('Location: admin.php');
+                exit;
+            } 
+            else 
+            {
+                echo "Les données de la nouvelle ligne ne sont pas valides.";
+                die;
             }
         }
+        else 
+        {
+            echo "Certaines données sont manquantes pour ajouter une nouvelle ligne.";
+            die;
+        }
+
+        header('Location: admin.php');
+        exit();
+    }
+}
+
+function updateLigneTraitement()
+{
+    if (isset($_POST)) 
+    {
+        if (isset($_POST['nom_produit']) &&
+            isset($_POST['description_produit']) &&
+            isset($_POST['prix_produit']) &&
+            isset($_POST['stock_produit']) &&
+            isset($_POST['promo_produit']) &&
+            isset($_POST['categorie_produit']) &&
+            isset($_POST['marque_produit']) &&
+            isset($_POST['longueur_ligne']) &&
+            isset($_POST['diametre_ligne']) &&
+            isset($_POST['type_ligne']) &&
+            isset($_POST['description_images']) &&
+            isset($_FILES['images'])
+        )
+        {
+            $genre = 5;
+
+            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+
+            if($_POST['stock_produit'] === 'stock')
+            {
+                $stock = 1;
+            }
+            else
+            {
+                $stock = 0;
+            }
+
+            $nouvelleLigne = new Ligne();
+
+            $nouvelleLigne->setIdProduit($_POST['id_produit']);
+            $nouvelleLigne->setNomProduit($_POST['nom_produit']);
+            $nouvelleLigne->setDescriptionProduit($_POST['description_produit']);
+            $nouvelleLigne->setPrixProduit($_POST['prix_produit']);
+            $nouvelleLigne->setStockProduit($stock);
+            $nouvelleLigne->setPromoProduit($_POST['promo_produit']);
+            $nouvelleLigne->setPrixPromoProduit($prix_promo_produit);
+            $nouvelleLigne->setIdCategorie($_POST['categorie_produit']);
+            $nouvelleLigne->setIdGenre($genre);
+            $nouvelleLigne->setIdMarque($_POST['marque_produit']);
+            $nouvelleLigne->setLongueurLigne($_POST['longueur_ligne']);
+            $nouvelleLigne->setDiametreLigne($_POST['diametre_ligne']);
+            $nouvelleLigne->setNomImage($_FILES['images']['name']);
+            $nouvelleLigne->setDescriptionImage($_POST['description_images']);
+            $nouvelleLigne->setIdTypeLigne($_POST['type_ligne']);
+          
+            if ($nouvelleLigne) 
+            {
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {
+                    $imageRepo = new ImageRepository;
+
+                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
+
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
+
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    
+                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                }
+                    
+
+                $ligneRepo = new LigneRepository();
+                $ligneRepo->updateLigne($nouvelleLigne);
+
+                $produitRepo = new ProduitRepository;
+                $descriptionImage = htmlspecialchars($_POST['description_images']);
+
+                $imagePath = $image->addImage($_FILES['images']);
+
+                $image = new Image();
+                $image->setNomImage($imagePath);
+                $image->setDescriptionImage($descriptionImage);
+
+                $idProduit = $produitRepo->getLastId();
+                $idImage = $imageRepo->getLastId();
+
+                $imageRepo->addImageToProduit($idProduit, $idImage);
+
+                header('Location: admin.php');
+                exit();
+            }
+            else 
+            {
+                echo "Les données de la nouvelle ligne ne sont pas valides.";
+                exit();
+            }
+        }
+        else 
+        {
+            echo "Certaines données sont manquantes pour ajouter une nouvelle ligne.";
+            exit();
+        }
+
+        header('Location: admin.php');
+        exit();
+    }
+}
+
+function deleteLigne()
+{
+    if (isset($_POST['id_produit']))
+    {
+        $id_produit = $_POST['id_produit'];
+
+        $ligneRepo = new LigneRepository();
+        $imageRepo = new ImageRepository();
+
+        $imageRepo->deleteImagesByProduit($id_produit);
+
+        $ligneRepo->deleteLigne($id_produit);
+
+        header('Location: admin.php');
+    } 
+    else 
+    {
+        echo "ID de l'ligne manquant.";
     }
 }
 
 function addEquipementTraitement()
 {
-    if(isset($_POST))
+    if (isset($_POST))
     {
-        
-        if(!empty($_POST['nom_equipement']) && !empty($_POST['detail_equipement']) && !empty($_POST['categorie_equipement']) && !empty($_POST['type_equipement']) && !empty($_POST['marque_equipement']) && !empty($_POST['promo_equipement']) && !empty($_POST['stock_equipement']) && !empty($_POST['description_equipement'] && !empty($_FILES['image_equipement'])))
+        if (isset($_POST['nom_produit']) &&
+            isset($_POST['description_produit']) &&
+            isset($_POST['prix_produit']) &&
+            isset($_POST['stock_produit']) &&
+            isset($_POST['promo_produit']) &&
+            isset($_POST['categorie_produit']) &&
+            isset($_POST['marque_produit']) &&
+            isset($_POST['detail_equipement']) &&
+            isset($_POST['type_equipement']) &&
+            isset($_POST['description_images']) &&
+            isset($_FILES['images'])
+        )
         {
-            $newEquipement = [];
-            $newEquipement['nom_equipement'] = htmlspecialchars($_POST['nom_equipement']);
-            $newEquipement['detail_equipement'] = htmlspecialchars($_POST['detail_equipement']);
-            $newEquipement['categorie_equipement'] = htmlspecialchars($_POST['categorie_equipement']);
-            $newEquipement['type_equipement'] = htmlspecialchars($_POST['type_equipement']);
-            $newEquipement['marque_equipement'] = htmlspecialchars($_POST['marque_equipement']);
-            $newEquipement['description_equipement'] = htmlspecialchars($_POST['description_equipement']);
-            $newEquipement['promo_equipement'] = htmlspecialchars($_POST['promo_equipement']);
-            $newEquipement['stock_equipement'] = htmlspecialchars($_POST['stock_equipement']);
-            $newEquipement['image_equipement'] = $_FILES['image_equipement'];
-            
-            if($newEquipement['stock_equipement'] === 'stock') 
+            $genre = 7;
+
+            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+
+            if($_POST['stock_produit'] === 'stock')
             {
-                $newEquipement['stock_equipement'] = 1;
-                $newEquipement['hors_stock_equipement'] = 0;
+                $stock = 1;
             }
             else
             {
-                $newEquipement['stock_equipement'] = 0;
-                $newEquipement['hors_stock_equipement'] = 1;
+                $stock = 0;
             }
 
-            if($newEquipement['promo_equipement'] === 'promo')
-            {
-                $newEquipement['promo_equipement'] = 1;
-            }
-            else
-            {
-                $newEquipement['promo_equipement'] = 0;
-            }
-            
-            $imageEquipement = new ImageEquipement;
-            $equipement = new Equipement;
-            $equipement->createToInsertEquipement($newEquipement);
-            
-            if($equipement == true)
-            {
-                $imageEquipement->addImageEquipement($newEquipement['image_equipement']);
+            $nouvelleEquipement = new Equipement();
 
-                $imageEquipementRepo = new ImageEquipementRepository;
-                $equipementRepo = new EquipementRepository;
-
-                $equipementRepo->insertEquipement($equipement);
+            $nouvelleEquipement->setNomProduit($_POST['nom_produit']);
+            $nouvelleEquipement->setDescriptionProduit($_POST['description_produit']);
+            $nouvelleEquipement->setPrixProduit($_POST['prix_produit']);
+            $nouvelleEquipement->setStockProduit($stock);
+            $nouvelleEquipement->setPromoProduit($_POST['promo_produit']);
+            $nouvelleEquipement->setPrixPromoProduit($prix_promo_produit);
+            $nouvelleEquipement->setIdCategorie($_POST['categorie_produit']);
+            $nouvelleEquipement->setIdGenre($genre);
+            $nouvelleEquipement->setIdMarque($_POST['marque_produit']);
+            $nouvelleEquipement->setDetailEquipement($_POST['detail_equipement']);
+            $nouvelleEquipement->setNomImage($_FILES['images']['name']);
+            $nouvelleEquipement->setDescriptionImage($_POST['description_images']);
+            $nouvelleEquipement->setIdTypeEquipement($_POST['type_equipement']);
             
-                $lastInsertIdEquipement = $equipementRepo->getLastInsertId();
-                
-                $imageEquipement->setIdEquipement($lastInsertIdEquipement);
-                $imageEquipementRepo->insertImageEquipement($imageEquipement);
+            if ($nouvelleEquipement) 
+            {
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
 
-                header('location: admin.php');
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    $imageRepo = new ImageRepository;
+                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                }
+                else
+                {
+                    echo 'Aucune image trouvé';
+                    die;
+                }
+
+                $equipementRepo = new EquipementRepository();
+                $equipementRepo->addEquipement($nouvelleEquipement);
+
+                $produitRepo = new ProduitRepository;
+                $descriptionImage = htmlspecialchars($_POST['description_images']);
+
+                $imagePath = $image->addImage($_FILES['images']); 
+
+                $image = new Image();
+                $image->setNomImage($imagePath);
+                $image->setDescriptionImage($descriptionImage);
+
+                $idProduit = $produitRepo->getLastId();
+                $idImage = $imageRepo->getLastId();
+
+                $imageRepo->addImageToProduit($idProduit, $idImage);
+
+                header('Location: admin.php');
+                exit;
+            } 
+            else 
+            {
+                echo "Les données de la nouvelle equipement ne sont pas valides.";
+                die;
             }
         }
+        else 
+        {
+            echo "Certaines données sont manquantes pour ajouter une nouvelle equipement.";
+            die;
+        }
+
+        header('Location: admin.php');
+        exit();
     }
 }
 
-function addAppatTraitement()
+function updateEquipementTraitement()
 {
-    if(isset($_POST))
+    if (isset($_POST)) 
     {
-        if(!empty($_POST['nom_appat']) && !empty($_POST['detail_appat']) && !empty($_POST['categorie_appat']) && !empty($_POST['type_appat']) && !empty($_POST['marque_appat']) && !empty($_POST['promo_appat']) && !empty($_POST['stock_appat']) && !empty($_POST['description_appat'] && !empty($_FILES['image_appat'])))
+        if (isset($_POST['nom_produit']) &&
+            isset($_POST['description_produit']) &&
+            isset($_POST['prix_produit']) &&
+            isset($_POST['stock_produit']) &&
+            isset($_POST['promo_produit']) &&
+            isset($_POST['categorie_produit']) &&
+            isset($_POST['marque_produit']) &&
+            isset($_POST['detail_equipement']) &&
+            isset($_POST['type_equipement']) &&
+            isset($_POST['description_images']) &&
+            isset($_FILES['images'])
+        )
         {
-            $newAppat = [];
-            $newAppat['nom_appat'] = htmlspecialchars($_POST['nom_appat']);
-            $newAppat['detail_appat'] = htmlspecialchars($_POST['detail_appat']);
-            $newAppat['categorie_appat'] = htmlspecialchars($_POST['categorie_appat']);
-            $newAppat['type_appat'] = htmlspecialchars($_POST['type_appat']);
-            $newAppat['marque_appat'] = htmlspecialchars($_POST['marque_appat']);
-            $newAppat['description_appat'] = htmlspecialchars($_POST['description_appat']);
-            $newAppat['promo_appat'] = htmlspecialchars($_POST['promo_appat']);
-            $newAppat['stock_appat'] = htmlspecialchars($_POST['stock_appat']);
-            $newAppat['image_appat'] = $_FILES['image_appat'];
-            
-            if($newAppat['stock_appat'] === 'stock') 
+            $genre = 7;
+
+            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+
+            if($_POST['stock_produit'] === 'stock')
             {
-                $newAppat['stock_appat'] = 1;
-                $newAppat['hors_stock_appat'] = 0;
+                $stock = 1;
             }
             else
             {
-                $newAppat['stock_appat'] = 0;
-                $newAppat['hors_stock_appat'] = 1;
+                $stock = 0;
             }
 
-            if($newAppat['promo_appat'] === 'promo')
+            $nouvelleEquipement = new Equipement();
+
+            $nouvelleEquipement->setIdProduit($_POST['id_produit']);
+            $nouvelleEquipement->setNomProduit($_POST['nom_produit']);
+            $nouvelleEquipement->setDescriptionProduit($_POST['description_produit']);
+            $nouvelleEquipement->setPrixProduit($_POST['prix_produit']);
+            $nouvelleEquipement->setStockProduit($stock);
+            $nouvelleEquipement->setPromoProduit($_POST['promo_produit']);
+            $nouvelleEquipement->setPrixPromoProduit($prix_promo_produit);
+            $nouvelleEquipement->setIdCategorie($_POST['categorie_produit']);
+            $nouvelleEquipement->setIdGenre($genre);
+            $nouvelleEquipement->setIdMarque($_POST['marque_produit']);
+            $nouvelleEquipement->setDetailEquipement($_POST['detail_equipement']);
+            $nouvelleEquipement->setNomImage($_FILES['images']['name']);
+            $nouvelleEquipement->setDescriptionImage($_POST['description_images']);
+            $nouvelleEquipement->setIdTypeEquipement($_POST['type_equipement']);
+          
+            if ($nouvelleEquipement) 
             {
-                $newAppat['promo_appat'] = 1;
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {
+                    $imageRepo = new ImageRepository;
+
+                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
+
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
+
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    
+                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                }
+                    
+
+                $equipementRepo = new EquipementRepository();
+                $equipementRepo->updateEquipement($nouvelleEquipement);
+
+                $produitRepo = new ProduitRepository;
+                $descriptionImage = htmlspecialchars($_POST['description_images']);
+
+                $imagePath = $image->addImage($_FILES['images']);
+
+                $image = new Image();
+                $image->setNomImage($imagePath);
+                $image->setDescriptionImage($descriptionImage);
+
+                $idProduit = $produitRepo->getLastId();
+                $idImage = $imageRepo->getLastId();
+
+                $imageRepo->addImageToProduit($idProduit, $idImage);
+
+                header('Location: admin.php');
+                exit();
             }
-            else
+            else 
             {
-                $newAppat['promo_appat'] = 0;
-            }
-            
-            $imageAppat = new ImageAppat;
-            $appat = new Appat;
-            $appat->createToInsertAppat($newAppat);
-            
-            if($appat == true)
-            {
-                $imageAppat->addImageAppat($newAppat['image_appat']);
-
-                $imageAppatRepo = new ImageAppatRepository;
-                $appatRepo = new AppatRepository;
-
-                $appatRepo->insertAppat($appat);
-            
-                $lastInsertIdAppat = $appatRepo->getLastInsertId();
-                
-                $imageAppat->setIdAppat($lastInsertIdAppat);
-                $imageAppatRepo->insertImageAppat($imageAppat);
-
-                header('location: admin.php');
+                echo "Les données du nouvel equipement ne sont pas valides.";
+                exit();
             }
         }
+        else 
+        {
+            echo "Certaines données sont manquantes pour ajouter une nouvelle equipement.";
+            exit();
+        }
+
+        header('Location: admin.php');
+        exit();
     }
 }
 
-function addFeederTraitement()
+function deleteEquipement()
 {
-    if(isset($_POST))
+    if (isset($_POST['id_produit']))
     {
-        
-        if(!empty($_POST['nom_feeder']) && !empty($_POST['poids_feeder']) && !empty($_POST['diametre_feeder']) && !empty($_POST['longueur_feeder']) && !empty($_POST['categorie_feeder']) && !empty($_POST['type_feeder']) && !empty($_POST['marque_feeder']) && !empty($_POST['promo_feeder']) && !empty($_POST['stock_feeder']) && !empty($_POST['description_feeder'] && !empty($_FILES['image_feeder'])))
+        $id_produit = $_POST['id_produit'];
+
+        $equipementRepo = new EquipementRepository();
+        $imageRepo = new ImageRepository();
+
+        $imageRepo->deleteImagesByProduit($id_produit);
+
+        $equipementRepo->deleteEquipement($id_produit);
+
+        header('Location: admin.php');
+    } 
+    else 
+    {
+        echo "ID de l'equipement manquant.";
+    }
+}
+
+function addPlombTraitement()
+{
+    if (isset($_POST))
+    {
+        if (isset($_POST['nom_produit']) &&
+            isset($_POST['description_produit']) &&
+            isset($_POST['prix_produit']) &&
+            isset($_POST['stock_produit']) &&
+            isset($_POST['promo_produit']) &&
+            isset($_POST['categorie_produit']) &&
+            isset($_POST['marque_produit']) &&
+            isset($_POST['longueur_plomb']) &&
+            isset($_POST['poids_plomb']) &&
+            isset($_POST['diametre_plomb']) &&
+            isset($_POST['type_plomb']) &&
+            isset($_POST['description_images']) &&
+            isset($_FILES['images'])
+        )
         {
-            
-            $newFeeder = [];
-            $newFeeder['nom_feeder'] = htmlspecialchars($_POST['nom_feeder']);
-            $newFeeder['longueur_feeder'] = htmlspecialchars($_POST['longueur_feeder']);
-            $newFeeder['diametre_feeder'] = htmlspecialchars($_POST['diametre_feeder']);
-            $newFeeder['poids_feeder'] = htmlspecialchars($_POST['poids_feeder']);
-            $newFeeder['categorie_feeder'] = htmlspecialchars($_POST['categorie_feeder']);
-            $newFeeder['type_feeder'] = htmlspecialchars($_POST['type_feeder']);
-            $newFeeder['marque_feeder'] = htmlspecialchars($_POST['marque_feeder']);
-            $newFeeder['description_feeder'] = htmlspecialchars($_POST['description_feeder']);
-            $newFeeder['promo_feeder'] = htmlspecialchars($_POST['promo_feeder']);
-            $newFeeder['stock_feeder'] = htmlspecialchars($_POST['stock_feeder']);
-            $newFeeder['image_feeder'] = $_FILES['image_feeder'];
-            
-            if($newFeeder['stock_feeder'] === 'stock') 
+            $genre = 4;
+
+            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+
+            if($_POST['stock_produit'] === 'stock')
             {
-                $newFeeder['stock_feeder'] = 1;
-                $newFeeder['hors_stock_feeder'] = 0;
+                $stock = 1;
             }
             else
             {
-                $newFeeder['stock_feeder'] = 0;
-                $newFeeder['hors_stock_feeder'] = 1;
+                $stock = 0;
             }
 
-            if($newFeeder['promo_feeder'] === 'promo')
-            {
-                $newFeeder['promo_feeder'] = 1;
-            }
-            else
-            {
-                $newFeeder['promo_feeder'] = 0;
-            }
-            
-            $imageFeeder = new ImageFeeder;
-            $feeder = new Feeder;
-            $feeder->createToInsertFeeder($newFeeder);
-            
-            if($feeder == true)
-            {
-                $imageFeeder->addImageFeeder($newFeeder['image_feeder']);
+            $nouvellePlomb = new Plomb();
 
-                $imageFeederRepo = new ImageFeederRepository;
-                $feederRepo = new FeederRepository;
-
-                $feederRepo->insertFeeder($feeder);
+            $nouvellePlomb->setNomProduit($_POST['nom_produit']);
+            $nouvellePlomb->setDescriptionProduit($_POST['description_produit']);
+            $nouvellePlomb->setPrixProduit($_POST['prix_produit']);
+            $nouvellePlomb->setStockProduit($stock);
+            $nouvellePlomb->setPromoProduit($_POST['promo_produit']);
+            $nouvellePlomb->setPrixPromoProduit($prix_promo_produit);
+            $nouvellePlomb->setIdCategorie($_POST['categorie_produit']);
+            $nouvellePlomb->setIdGenre($genre);
+            $nouvellePlomb->setIdMarque($_POST['marque_produit']);
+            $nouvellePlomb->setLongueurPlomb($_POST['longueur_plomb']);
+            $nouvellePlomb->setPoidsPlomb($_POST['poids_plomb']);
+            $nouvellePlomb->setDiametrePlomb($_POST['diametre_plomb']);
+            $nouvellePlomb->setNomImage($_FILES['images']['name']);
+            $nouvellePlomb->setDescriptionImage($_POST['description_images']);
+            $nouvellePlomb->setIdTypePlomb($_POST['type_plomb']);
             
-                $lastInsertIdFeeder = $feederRepo->getLastInsertId();
-                
-                $imageFeeder->setIdFeeder($lastInsertIdFeeder);
-                $imageFeederRepo->insertImageFeeder($imageFeeder);
+            if ($nouvellePlomb) 
+            {
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
 
-                header('location: admin.php');
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    $imageRepo = new ImageRepository;
+                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                }
+                else
+                {
+                    echo 'Aucune image trouvé';
+                    die;
+                }
+
+                $plombRepo = new PlombRepository();
+                $plombRepo->addPlomb($nouvellePlomb);
+
+                $produitRepo = new ProduitRepository;
+                $descriptionImage = htmlspecialchars($_POST['description_images']);
+
+                $imagePath = $image->addImage($_FILES['images']); 
+
+                $image = new Image();
+                $image->setNomImage($imagePath);
+                $image->setDescriptionImage($descriptionImage);
+
+                $idProduit = $produitRepo->getLastId();
+                $idImage = $imageRepo->getLastId();
+
+                $imageRepo->addImageToProduit($idProduit, $idImage);
+
+                header('Location: admin.php');
+                exit;
+            } 
+            else 
+            {
+                echo "Les données de la nouvelle plomb ne sont pas valides.";
+                die;
             }
         }
+        else 
+        {
+            echo "Certaines données sont manquantes pour ajouter une nouvelle plomb.";
+            die;
+        }
+
+        header('Location: admin.php');
+        exit();
+    }
+}
+
+function updatePlombTraitement()
+{
+    if (isset($_POST)) 
+    {
+      
+        if (isset($_POST['nom_produit']) &&
+            isset($_POST['description_produit']) &&
+            isset($_POST['prix_produit']) &&
+            isset($_POST['stock_produit']) &&
+            isset($_POST['promo_produit']) &&
+            isset($_POST['categorie_produit']) &&
+            isset($_POST['marque_produit']) &&
+            isset($_POST['longueur_plomb']) &&
+            isset($_POST['poids_plomb']) &&
+            isset($_POST['diametre_plomb']) &&
+            isset($_POST['type_plomb']) &&
+            isset($_POST['description_images']) &&
+            isset($_FILES['images'])
+        )
+        {
+            $genre = 3;
+
+            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+
+            if($_POST['stock_produit'] === 'stock')
+            {
+                $stock = 1;
+            }
+            else
+            {
+                $stock = 0;
+            }
+
+            $nouvellePlomb = new Plomb();
+
+            $nouvellePlomb->setIdProduit($_POST['id_produit']);
+            $nouvellePlomb->setNomProduit($_POST['nom_produit']);
+            $nouvellePlomb->setDescriptionProduit($_POST['description_produit']);
+            $nouvellePlomb->setPrixProduit($_POST['prix_produit']);
+            $nouvellePlomb->setStockProduit($stock);
+            $nouvellePlomb->setPromoProduit($_POST['promo_produit']);
+            $nouvellePlomb->setPrixPromoProduit($prix_promo_produit);
+            $nouvellePlomb->setIdCategorie($_POST['categorie_produit']);
+            $nouvellePlomb->setIdGenre($genre);
+            $nouvellePlomb->setIdMarque($_POST['marque_produit']);
+            $nouvellePlomb->setLongueurPlomb($_POST['longueur_plomb']);
+            $nouvellePlomb->setPoidsPlomb($_POST['poids_plomb']);
+            $nouvellePlomb->setDiametrePlomb($_POST['diametre_plomb']);
+            $nouvellePlomb->setNomImage($_FILES['images']['name']);
+            $nouvellePlomb->setDescriptionImage($_POST['description_images']);
+            $nouvellePlomb->setIdTypePlomb($_POST['type_plomb']);
+          
+            if ($nouvellePlomb) 
+            {
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {
+                    $imageRepo = new ImageRepository;
+
+                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
+
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
+
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    
+                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                }
+                    
+
+                $plombRepo = new PlombRepository();
+                $plombRepo->updatePlomb($nouvellePlomb);
+
+                $produitRepo = new ProduitRepository;
+                $descriptionImage = htmlspecialchars($_POST['description_images']);
+
+                $imagePath = $image->addImage($_FILES['images']);
+
+                $image = new Image();
+                $image->setNomImage($imagePath);
+                $image->setDescriptionImage($descriptionImage);
+
+                $idProduit = $produitRepo->getLastId();
+                $idImage = $imageRepo->getLastId();
+
+                $imageRepo->addImageToProduit($idProduit, $idImage);
+
+                header('Location: admin.php');
+                exit;
+            }
+            else 
+            {
+                echo "Les données de la nouvelle plomb ne sont pas valides.";
+                die;
+            }
+        }
+        else 
+        {
+            echo "Certaines données sont manquantes pour ajouter un nouveaux plomb.";
+            die;
+        }
+
+        header('Location: admin.php');
+        exit();
+    }
+}
+
+function deletePlomb()
+{
+    if (isset($_POST['id_produit']))
+    {
+        $id_produit = $_POST['id_produit'];
+
+        $plombRepo = new PlombRepository();
+        $imageRepo = new ImageRepository();
+
+        $imageRepo->deleteImagesByProduit($id_produit);
+
+        $plombRepo->deletePlomb($id_produit);
+
+        header('Location: admin.php');
+    } 
+    else 
+    {
+        echo "ID de la plomb manquant.";
     }
 }
 
@@ -1293,117 +1953,6 @@ function addTypeAppatTraitement()
     }
 }
 
-function deleteLeurre()
-{
-        if(!empty($_POST['id_leurre']) && isset($_POST['id_leurre']))
-        {
-            var_dump($_POST);
-            die;
-            $id_leurre = isset($_POST['id_leurre']) ? $_POST['id_leurre'] : null;
-            $leurreRepository = new LeurreRepository();
-            $deleteLeurre = $leurreRepository->deleteLeurre($id_leurre);
-    
-            if ($deleteLeurre)
-            {
-                header('location: admin.php');
-            }
-            else 
-            {
-                $_SESSION['messageError'] = 'Suppression de l\'article échoué';
-                header('location: admin.php');
-            }
-        }
-}
-
-function deleteLigne()
-{
-        if(!empty($_POST['id_ligne']) && isset($_POST['id_ligne']))
-        {
-            var_dump($_POST);
-            die;
-            $id_ligne = isset($_POST['id_ligne']) ? $_POST['id_ligne'] : null;
-            $ligneRepository = new LigneRepository();
-            $deleteLigne = $ligneRepository->deleteLigne($id_ligne);
-    
-            if ($deleteLigne)
-            {
-                header('location: admin.php');
-            }
-            else 
-            {
-                $_SESSION['messageError'] = 'Suppression de l\'article échoué';
-                header('location: admin.php');
-            }
-        }
-}
-
-function deleteFeeder()
-{
-        if(!empty($_POST['id_feeder']) && isset($_POST['id_feeder']))
-        {
-            var_dump($_POST);
-            die;
-            $id_feeder = isset($_POST['id_feeder']) ? $_POST['id_feeder'] : null;
-            $feederRepository = new FeederRepository();
-            $deleteFeeder = $feederRepository->deleteFeeder($id_feeder);
-    
-            if ($deleteFeeder)
-            {
-                header('location: admin.php');
-            }
-            else 
-            {
-                $_SESSION['messageError'] = 'Suppression de l\'article échoué';
-                header('location: admin.php');
-            }
-        }
-}
-
-function deleteEquipement()
-{
-        if(!empty($_POST['id_equipement']) && isset($_POST['id_equipement']))
-        {
-            var_dump($_POST);
-            die;
-            $id_equipement = isset($_POST['id_equipement']) ? $_POST['id_equipement'] : null;
-            $equipementRepository = new EquipementRepository();
-            $deleteEquipement = $equipementRepository->deleteEquipement($id_equipement);
-    
-            if ($deleteEquipement)
-            {
-                header('location: admin.php');
-            }
-            else 
-            {
-                $_SESSION['messageError'] = 'Suppression de l\'article échoué';
-                header('location: admin.php');
-            }
-        }
-}
-
-function deleteAppat()
-{
-        if(!empty($_POST['id_appat']) && isset($_POST['id_appat']))
-        {
-            var_dump($_POST);
-            die;
-            $id_appat = isset($_POST['id_appat']) ? $_POST['id_appat'] : null;
-            $appatRepository = new AppatRepository();
-            $deleteAppat = $appatRepository->deleteAppat($id_appat);
-    
-            if ($deleteAppat)
-            {
-                header('location: admin.php');
-            }
-            else 
-            {
-                $_SESSION['messageError'] = 'Suppression de l\'article échoué';
-                header('location: admin.php');
-            }
-        }
-}
-
-
 function deleteCategorie()
 {
         if(!empty($_POST['id_categorie']) && isset($_POST['id_categorie']))
@@ -1606,363 +2155,6 @@ function deleteTypeAppat()
                 header('location: admin.php');
             }
         }
-}
-
-function UpdateLeurreTraitement()
-{ 
-    $img = new ImageLeurreRepository;
-    $oldImg = $img->getImageByLeurre($_POST['id_leurre']);
-
-    $cheminFichier = $oldImg->getNomImageLeurre();
-
-    if (file_exists($cheminFichier)) 
-    {
-        if (unlink($cheminFichier)) 
-        {
-            echo "Le fichier a été supprimé avec succès.";
-        }
-        else 
-        {
-            echo "Une erreur s'est produite lors de la suppression du fichier.";
-            die;
-        }
-    }
-
-    if(isset($_POST['id_leurre']) && isset($_POST['nom_leurre']) && isset($_POST['poids_leurre']) && isset($_POST['couleur_leurre']) && isset($_POST['description_leurre']) && isset($_POST['promo_leurre']) && isset($_POST['stock_leurre']) && isset($_POST['categorie_leurre']) && isset($_POST['type_leurre']) && isset($_POST['marque_leurre']) && isset($_FILES['image_leurre']))
-    {
-        $id_leurre = isset($_POST['id_leurre']) ? htmlspecialchars($_POST['id_leurre']) : null;
-        $nom_leurre = isset($_POST['nom_leurre']) ? htmlspecialchars($_POST['nom_leurre']) : null;
-        $poids_leurre = isset($_POST['poids_leurre']) ? htmlspecialchars($_POST['poids_leurre']) : null;
-        $couleur_leurre = isset($_POST['couleur_leurre']) ? htmlspecialchars($_POST['couleur_leurre']) : null;
-        $description_leurre = isset($_POST['description_leurre']) ? htmlspecialchars($_POST['description_leurre']) : null;
-        $promo_leurre = isset($_POST['promo_leurre']) ? htmlspecialchars($_POST['promo_leurre']) : null;
-        $stock_leurre = isset($_POST['stock_leurre']) ? htmlspecialchars($_POST['stock_leurre']) : null;
-        $id_categorie = isset($_POST['categorie_leurre']) ? htmlspecialchars($_POST['categorie_leurre']) : null;
-        $id_type_leurre = isset($_POST['type_leurre']) ? htmlspecialchars($_POST['type_leurre']) : null;
-        $id_marque = isset($_POST['marque_leurre']) ? htmlspecialchars($_POST['marque_leurre']) : null;
-        $image_leurre = isset($_FILES['image_leurre']) ? $_FILES['image_leurre'] : null;
-
-        if($stock_leurre === 'stock') 
-        {
-            $stock_leurre = 1;
-            $hors_stock_leurre = 0;
-        }
-        else
-        {
-            $stock_leurre = 0;
-            $hors_stock_leurre = 1;
-        }
-
-        if($promo_leurre === 'promo')
-        {
-            $promo_leurre = 1;
-        }
-        else
-        {
-            $promo_leurre = 0;
-        }
-
-        $leurreRepository = new LeurreRepository;
-        $imageLeurreRepo = new ImageLeurreRepository;
-        
-        $update = $leurreRepository->updateLeurre($id_leurre, $nom_leurre, $poids_leurre, $couleur_leurre, $description_leurre, $promo_leurre, $stock_leurre, $hors_stock_leurre, $id_categorie, $id_type_leurre, $id_marque);
-        $updateImageLeurre = $imageLeurreRepo->updateImageByLeurre($image_leurre, $id_leurre);
-        
-        if ($update && $updateImageLeurre)
-        {
-            header("location:admin.php");
-        }
-        else 
-        {
-            echo 'non';
-        }
-    }
-}
-
-function UpdateLigneTraitement()
-{
-    // if($_SESSION['id_role'] === 1)
-    // { 
-    $img = new ImageLigneRepository;
-    $oldImg = $img->getImageByLigne($_POST['id_ligne']);
-
-    $cheminFichier = $oldImg->getNomImageLigne();
-
-    if (file_exists($cheminFichier)) 
-    {
-        if (unlink($cheminFichier)) 
-        {
-            echo "Le fichier a été supprimé avec succès.";
-        }
-        else 
-        {
-            echo "Une erreur s'est produite lors de la suppression du fichier.";
-            die;
-        }
-    }
-
-    if(isset($_POST['id_ligne']) && isset($_POST['nom_ligne']) && isset($_POST['poids_ligne']) && isset($_POST['longueur_ligne']) && isset($_POST['diametre_ligne']) && isset($_POST['description_ligne']) && isset($_POST['promo_ligne']) && isset($_POST['stock_ligne']) && isset($_POST['categorie_ligne']) && isset($_POST['type_ligne']) && isset($_POST['marque_ligne']) && isset($_FILES['image_ligne']))
-    {
-        $id_ligne = isset($_POST['id_ligne']) ? htmlspecialchars($_POST['id_ligne']) : null;
-        $nom_ligne = isset($_POST['nom_ligne']) ? htmlspecialchars($_POST['nom_ligne']) : null;
-        $poids_ligne = isset($_POST['poids_ligne']) ? htmlspecialchars($_POST['poids_ligne']) : null;
-        $longueur_ligne = isset($_POST['longueur_ligne']) ? htmlspecialchars($_POST['longueur_ligne']) : null;
-        $diametre_ligne = isset($_POST['diametre_ligne']) ? htmlspecialchars($_POST['diametre_ligne']) : null;
-        $description_ligne = isset($_POST['description_ligne']) ? htmlspecialchars($_POST['description_ligne']) : null;
-        $promo_ligne = isset($_POST['promo_ligne']) ? htmlspecialchars($_POST['promo_ligne']) : null;
-        $stock_ligne = isset($_POST['stock_ligne']) ? htmlspecialchars($_POST['stock_ligne']) : null;
-        $id_categorie = isset($_POST['categorie_ligne']) ? htmlspecialchars($_POST['categorie_ligne']) : null;
-        $id_type_ligne = isset($_POST['type_ligne']) ? htmlspecialchars($_POST['type_ligne']) : null;
-        $id_marque = isset($_POST['marque_ligne']) ? htmlspecialchars($_POST['marque_ligne']) : null;
-        $image_ligne = isset($_FILES['image_ligne']) ? $_FILES['image_ligne'] : null;
-
-        if($stock_ligne === 'stock') 
-        {
-            $stock_ligne = 1;
-            $hors_stock_ligne = 0;
-        }
-        else
-        {
-            $stock_ligne = 0;
-            $hors_stock_ligne = 1;
-        }
-
-        if($promo_ligne === 'promo')
-        {
-            $promo_ligne = 1;
-        }
-        else
-        {
-            $promo_ligne = 0;
-        }
-
-        $ligneRepository = new LigneRepository;
-        $imageLigneRepo = new ImageLigneRepository;
-        
-        $update = $ligneRepository->updateLigne($id_ligne, $nom_ligne, $longueur_ligne, $diametre_ligne, $poids_ligne, $description_ligne, $promo_ligne, $stock_ligne, $hors_stock_ligne, $id_categorie, $id_type_ligne, $id_marque);
-        $updateImageLigne = $imageLigneRepo->updateImageByLigne($image_ligne, $id_ligne);
-        
-        if ($update && $updateImageLigne)
-        {
-            header("location:admin.php");
-        }
-        else 
-        {
-            echo 'non';
-        }
-    }
-}
-
-function UpdateFeederTraitement()
-{
-    $img = new ImageFeederRepository;
-    $oldImg = $img->getImageByFeeder($_POST['id_feeder']);
-
-    $cheminFichier = $oldImg->getNomImageFeeder();
-
-    if (file_exists($cheminFichier)) 
-    {
-        if (unlink($cheminFichier)) 
-        {
-            echo "Le fichier a été supprimé avec succès.";
-        }
-        else 
-        {
-            echo "Une erreur s'est produite lors de la suppression du fichier.";
-            die;
-        }
-    }
-
-    if(isset($_POST['id_feeder']) && isset($_POST['nom_feeder']) && isset($_POST['poids_feeder']) && isset($_POST['longueur_feeder']) && isset($_POST['diametre_feeder']) && isset($_POST['description_feeder']) && isset($_POST['promo_feeder']) && isset($_POST['stock_feeder']) && isset($_POST['categorie_feeder']) && isset($_POST['type_feeder']) && isset($_POST['marque_feeder']) && isset($_FILES['image_feeder']))
-    {
-        $id_feeder = isset($_POST['id_feeder']) ? htmlspecialchars($_POST['id_feeder']) : null;
-        $nom_feeder = isset($_POST['nom_feeder']) ? htmlspecialchars($_POST['nom_feeder']) : null;
-        $poids_feeder = isset($_POST['poids_feeder']) ? htmlspecialchars($_POST['poids_feeder']) : null;
-        $longueur_feeder = isset($_POST['longueur_feeder']) ? htmlspecialchars($_POST['longueur_feeder']) : null;
-        $diametre_feeder = isset($_POST['diametre_feeder']) ? htmlspecialchars($_POST['diametre_feeder']) : null;
-        $description_feeder = isset($_POST['description_feeder']) ? htmlspecialchars($_POST['description_feeder']) : null;
-        $promo_feeder = isset($_POST['promo_feeder']) ? htmlspecialchars($_POST['promo_feeder']) : null;
-        $stock_feeder = isset($_POST['stock_feeder']) ? htmlspecialchars($_POST['stock_feeder']) : null;
-        $id_categorie = isset($_POST['categorie_feeder']) ? htmlspecialchars($_POST['categorie_feeder']) : null;
-        $id_type_feeder = isset($_POST['type_feeder']) ? htmlspecialchars($_POST['type_feeder']) : null;
-        $id_marque = isset($_POST['marque_feeder']) ? htmlspecialchars($_POST['marque_feeder']) : null;
-        $image_feeder = isset($_FILES['image_feeder']) ? $_FILES['image_feeder'] : null;
-
-        if($stock_feeder === 'stock') 
-        {
-            $stock_feeder = 1;
-            $hors_stock_feeder = 0;
-        }
-        else
-        {
-            $stock_feeder = 0;
-            $hors_stock_feeder = 1;
-        }
-
-        if($promo_feeder === 'promo')
-        {
-            $promo_feeder = 1;
-        }
-        else
-        {
-            $promo_feeder = 0;
-        }
-
-        $feederRepository = new FeederRepository;
-        $imageFeederRepo = new ImageFeederRepository;
-        
-        $update = $feederRepository->updateFeeder($id_feeder, $nom_feeder, $longueur_feeder, $diametre_feeder, $poids_feeder, $description_feeder, $promo_feeder, $stock_feeder, $hors_stock_feeder, $id_categorie, $id_type_feeder, $id_marque);
-        $updateImageFeeder = $imageFeederRepo->updateImageByFeeder($image_feeder, $id_feeder);
-        
-        if ($update && $updateImageFeeder)
-        {
-            header("location:admin.php");
-        }
-        else 
-        {
-            echo 'non';
-        }
-    }
-}
-
-function UpdateEquipementTraitement()
-{
-    $img = new ImageEquipementRepository;
-    $oldImg = $img->getImageByEquipement($_POST['id_equipement']);
-
-    $cheminFichier = $oldImg->getNomImageEquipement();
-
-    if (file_exists($cheminFichier)) 
-    {
-        if (unlink($cheminFichier)) 
-        {
-            echo "Le fichier a été supprimé avec succès.";
-        }
-        else
-        {
-            echo "Une erreur s'est produite lors de la suppression du fichier.";
-            die;
-        }
-    }
-
-    if(isset($_POST['id_equipement']) && isset($_POST['nom_equipement']) && isset($_POST['detail_equipement']) && isset($_POST['description_equipement']) && isset($_POST['promo_equipement']) && isset($_POST['stock_equipement']) && isset($_POST['categorie_equipement']) && isset($_POST['type_equipement']) && isset($_POST['marque_equipement']) && isset($_FILES['image_equipement']))
-    {
-        $id_equipement = isset($_POST['id_equipement']) ? htmlspecialchars($_POST['id_equipement']) : null;
-        $nom_equipement = isset($_POST['nom_equipement']) ? htmlspecialchars($_POST['nom_equipement']) : null;
-        $detail_equipement = isset($_POST['detail_equipement']) ? htmlspecialchars($_POST['detail_equipement']) : null;
-        $description_equipement = isset($_POST['description_equipement']) ? htmlspecialchars($_POST['description_equipement']) : null;
-        $promo_equipement = isset($_POST['promo_equipement']) ? htmlspecialchars($_POST['promo_equipement']) : null;
-        $stock_equipement = isset($_POST['stock_equipement']) ? htmlspecialchars($_POST['stock_equipement']) : null;
-        $id_categorie = isset($_POST['categorie_equipement']) ? htmlspecialchars($_POST['categorie_equipement']) : null;
-        $id_type_equipement = isset($_POST['type_equipement']) ? htmlspecialchars($_POST['type_equipement']) : null;
-        $id_marque = isset($_POST['marque_equipement']) ? htmlspecialchars($_POST['marque_equipement']) : null;
-        $image_equipement = isset($_FILES['image_equipement']) ? $_FILES['image_equipement'] : null;
-
-        if($stock_equipement === 'stock') 
-        {
-            $stock_equipement = 1;
-            $hors_stock_equipement = 0;
-        }
-        else
-        {
-            $stock_equipement = 0;
-            $hors_stock_equipement = 1;
-        }
-
-        if($promo_equipement === 'promo')
-        {
-            $promo_equipement = 1;
-        }
-        else
-        {
-            $promo_equipement = 0;
-        }
-
-        $equipementRepository = new EquipementRepository;
-        $imageEquipementRepo = new ImageEquipementRepository;
-        
-        $update = $equipementRepository->updateEquipement($id_equipement, $nom_equipement, $detail_equipement, $description_equipement, $promo_equipement, $stock_equipement, $hors_stock_equipement, $id_categorie, $id_type_equipement, $id_marque);
-        $updateImageEquipement = $imageEquipementRepo->updateImageByEquipement($image_equipement, $id_equipement);
-        
-        if ($update && $updateImageEquipement)
-        {
-            header("location:admin.php");
-        }
-        else 
-        {
-            echo 'non';
-        }
-    }
-}
-
-function UpdateAppatTraitement()
-{
-    $img = new ImageAppatRepository;
-    $oldImg = $img->getImageByAppat($_POST['id_appat']);
-
-    $cheminFichier = $oldImg->getNomImageAppat();
-
-    if (file_exists($cheminFichier)) 
-    {
-        if (unlink($cheminFichier)) 
-        {
-            echo "Le fichier a été supprimé avec succès.";
-        }
-        else 
-        {
-            echo "Une erreur s'est produite lors de la suppression du fichier.";
-            die;
-        }
-    }
-
-    if(isset($_POST['id_appat']) && isset($_POST['nom_appat']) && isset($_POST['detail_appat']) && isset($_POST['description_appat']) && isset($_POST['promo_appat']) && isset($_POST['stock_appat']) && isset($_POST['categorie_appat']) && isset($_POST['type_appat']) && isset($_POST['marque_appat']) && isset($_FILES['image_appat']))
-    {
-        $id_appat = isset($_POST['id_appat']) ? htmlspecialchars($_POST['id_appat']) : null;
-        $nom_appat = isset($_POST['nom_appat']) ? htmlspecialchars($_POST['nom_appat']) : null;
-        $detail_appat = isset($_POST['detail_appat']) ? htmlspecialchars($_POST['detail_appat']) : null;
-        $description_appat = isset($_POST['description_appat']) ? htmlspecialchars($_POST['description_appat']) : null;
-        $promo_appat = isset($_POST['promo_appat']) ? htmlspecialchars($_POST['promo_appat']) : null;
-        $stock_appat = isset($_POST['stock_appat']) ? htmlspecialchars($_POST['stock_appat']) : null;
-        $id_categorie = isset($_POST['categorie_appat']) ? htmlspecialchars($_POST['categorie_appat']) : null;
-        $id_type_appat = isset($_POST['type_appat']) ? htmlspecialchars($_POST['type_appat']) : null;
-        $id_marque = isset($_POST['marque_appat']) ? htmlspecialchars($_POST['marque_appat']) : null;
-        $image_appat = isset($_FILES['image_appat']) ? $_FILES['image_appat'] : null;
-
-        if($stock_appat === 'stock') 
-        {
-            $stock_appat = 1;
-            $hors_stock_appat = 0;
-        }
-        else
-        {
-            $stock_appat = 0;
-            $hors_stock_appat = 1;
-        }
-
-        if($promo_appat === 'promo')
-        {
-            $promo_appat = 1;
-        }
-        else
-        {
-            $promo_appat = 0;
-        }
-
-        $appatRepository = new AppatRepository;
-        $imageAppatRepo = new ImageAppatRepository;
-        
-        $update = $appatRepository->updateAppat($id_appat, $nom_appat, $detail_appat, $description_appat, $promo_appat, $stock_appat, $hors_stock_appat, $id_categorie, $id_type_appat, $id_marque);
-        $updateImageAppat = $imageAppatRepo->updateImageByAppat($image_appat, $id_appat);
-        
-        if ($update && $updateImageAppat)
-        {
-            header("location:admin.php");
-        }
-        else 
-        {
-            echo 'non';
-        }
-    }
 }
 
 function combinedArticle($articles)

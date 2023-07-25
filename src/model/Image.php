@@ -11,7 +11,6 @@ class Image
     {
         if (!empty($newProduit))
         {
-            
             $path = 'assets/img/article';
             $nameFile = $newProduit['name'];
             $typeFile = $newProduit['type'];
@@ -224,9 +223,10 @@ class ImageRepository extends ConnectBdd
         $reqNomImages->execute([$imageIds]);
 
         $imageNom = $reqNomImages->fetch(PDO::FETCH_COLUMN);
-        
-        $reqImageProduit = $this->bdd->prepare("DELETE FROM image_produit WHERE id_produit = ?");
-        $reqImageProduit->execute([$id_produit]);
+
+       
+        $reqImageProduit = $this->bdd->prepare("DELETE FROM image_produit WHERE id_image = ? AND id_produit = ?");
+        $reqImageProduit->execute([$imageIds, $id_produit]);
 
         $reqImage = $this->bdd->prepare("DELETE FROM image WHERE id_image = ?");
         $reqImage->execute([$imageIds]);

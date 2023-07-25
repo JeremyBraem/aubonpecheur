@@ -1,7 +1,7 @@
 <div id="createLigneModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
         <!-- Modal content -->
-        <div class="relative p-4 bg-white rounded-lg shadow sm:p-5">
+        <div class="relative p-4 bg-white rounded-lg shadow">
             <!-- Modal header -->
             <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5">
                 <h3 class="text-lg font-semibold text-gray-900 ">Ajouter une ligne</h3>
@@ -19,32 +19,37 @@
 
                     <div>
                         <label for="nom" class="block mb-2 text-sm font-medium text-gray-900">Nom de la ligne</label>
-                        <input type="text" name="nom_ligne" id="nom_ligne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Type product name" required>
+                        <input type="text" name="nom_produit" id="nom_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Nom de la ligne" required>
                     </div>
 
                     <div>
-                        <label for="image_ligne" class="block mb-2 text-sm font-medium text-gray-900">Image de la ligne</label>
-                        <input type="file" name="image_ligne" id="image_ligne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full" required>
+                        <label for="images" class="block mb-2 text-sm font-medium text-gray-900 ">Images</label>
+                        <input type="file" id="images" name="images" multiple class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full" required>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <label for="description_images" class="block mb-2 text-sm font-medium text-gray-900 ">Description des images</label>
+                        <textarea name="description_images" id="description_images" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Écrire une description de l'image"></textarea>
                     </div>
 
                     <div>
-                        <label for="poids_ligne" class="block mb-2 text-sm font-medium text-gray-900 ">Poids</label>
-                        <input type="number" name="poids_ligne" id="poids_ligne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Poids en kg" required>
+                        <label for="diametre_ligne" class="block mb-2 text-sm font-medium text-gray-900 ">Diamètre</label>
+                        <input type="number" step="0.01" name="diametre_ligne" id="diametre_ligne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Diametre" required>
                     </div>
 
                     <div>
                         <label for="longueur_ligne" class="block mb-2 text-sm font-medium text-gray-900 ">Longueur</label>
-                        <input type="number" name="longueur_ligne" id="longueur_ligne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Poids en kg" required>
+                        <input type="number" step="0.01" name="longueur_ligne" id="longueur_ligne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Longueur en m" required>
                     </div>
 
                     <div>
-                        <label for="diametre_ligne" class="block mb-2 text-sm font-medium text-gray-900 ">Diametre</label>
-                        <input type="number" name="diametre_ligne" id="diametre_ligne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Ratio" required>
+                        <label for="prix_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Prix</label>
+                        <input type="number" step="0.01" name="prix_produit" id="prix_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Prix en euro" required>
                     </div>
 
                     <div>
-                        <label for="categorie_ligne" class="block mb-2 text-sm font-medium text-gray-900 ">Categorie</label>
-                        <select id="categorie_ligne" name="categorie_ligne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 ">
+                        <label for="categorie_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Categorie</label>
+                        <select id="categorie_produit" name="categorie_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 ">
                             <?php foreach ($categories as $categorie) { ?>
                                 <option value="<?php echo $categorie->getIdCategorie(); ?>"><?php echo $categorie->getNomCategorie(); ?></option>
                             <?php } ?>
@@ -54,15 +59,15 @@
                     <div>
                         <label for="type_ligne" class="block mb-2 text-sm font-medium text-gray-900 ">Type</label>
                         <select id="type_ligne" name="type_ligne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                            <?php foreach ($typeLignes as $typeLigne) { ?>
+                            <?php foreach ($allTypes['ligne'] as $typeLigne) { ?>
                                 <option value="<?php echo $typeLigne->getIdTypeLigne(); ?>"><?php echo $typeLigne->getNomTypeLigne(); ?></option>
                             <?php } ?>
                         </select>
                     </div>
 
                     <div>
-                        <label for="marque_ligne" class="block mb-2 text-sm font-medium text-gray-900 ">Marque</label>
-                        <select id="marque_ligne" name="marque_ligne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                        <label for="marque_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Marque</label>
+                        <select id="marque_produit" name="marque_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                             <?php foreach ($marques as $marque) { ?>
                                 <option value="<?php echo $marque->getIdMarque(); ?>"><?php echo $marque->getNomMarque(); ?></option>
                             <?php } ?>
@@ -70,24 +75,21 @@
                     </div>
 
                     <div>
-                        <label for="promo_ligne" class="block mb-2 text-sm font-medium text-gray-900 ">En promotion</label>
-                        <select id="promo_ligne" name="promo_ligne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                            <option value="promo">Oui</option>
-                            <option value="noPromo">Non</option>
-                        </select>
+                        <label for="promo_produit" class="block mb-2 text-sm font-medium text-gray-900 ">En promotion</label>
+                        <input type="number" min="0" max="100" id="promo_produit" name="promo_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="En %, 0 si rien n'est écrit">
                     </div>
 
                     <div>
-                        <label for="stock_ligne" class="block mb-2 text-sm font-medium text-gray-900 ">En stock</label>
-                        <select id="stock_ligne" name="stock_ligne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                        <label for="stock_produit" class="block mb-2 text-sm font-medium text-gray-900 ">En stock</label>
+                        <select id="stock_produit" name="stock_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 ">
                             <option value="stock">Oui</option>
                             <option value="hors_stock">Non</option>
                         </select>
                     </div>
 
                     <div class="sm:col-span-2">
-                        <label for="description_ligne" class="block mb-2 text-sm font-medium text-gray-900 ">Description</label>
-                        <textarea name="description_ligne" id="description_ligne" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Write product description here"></textarea>
+                        <label for="description_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Description</label>
+                        <textarea name="description_produit" id="description_produit" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Écrire une description de la ligne"></textarea>
                     </div>
 
                 </div>

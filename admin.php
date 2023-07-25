@@ -23,8 +23,8 @@ if ($_SESSION['id_role'] == 1)
             case 'addLigneTraitement':
                 addLigneTraitement();
                 break;
-            case 'addFeederTraitement':
-                addFeederTraitement();
+            case 'addPlombTraitement':
+                addPlombTraitement();
                 break;
             case 'addAppatTraitement':
                 addAppatTraitement();
@@ -86,8 +86,8 @@ if ($_SESSION['id_role'] == 1)
             case 'deleteLigne':
                 deleteLigne();
                 break;
-            case 'deleteFeeder':
-                deleteFeeder();
+            case 'deletePlomb':
+                deletePlomb();
                 break;
             case 'deleteAppat':
                 deleteAppat();
@@ -134,8 +134,8 @@ if ($_SESSION['id_role'] == 1)
             case 'UpdateLigneTraitement':
                 UpdateLigneTraitement();
                 break;
-            case 'UpdateFeederTraitement':
-                UpdateFeederTraitement();
+            case 'UpdatePlombTraitement':
+                UpdatePlombTraitement();
                 break;
             case 'UpdateEquipementTraitement':
                 UpdateEquipementTraitement();

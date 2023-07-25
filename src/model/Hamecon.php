@@ -6,102 +6,146 @@ class Hamecon extends Produit
 {
     private $longueur_hamecon;
     private $poids_hamecon;
-    private $id_type_hamecon;
+    private $id_type_hamecon;    
 
-    public function __construct($nom_produit, $description_produit, $prix_produit, $stock_produit, $promo_produit, $prix_promo_produit, $id_categorie, $id_marque, $id_genre, $longueur_hamecon, $poids_hamecon, $id_type_hamecon)
-    {
-        parent::__construct($nom_produit, $description_produit, $prix_produit, $stock_produit, $promo_produit, $prix_promo_produit, $id_categorie, $id_marque, $id_genre);
-        $this->longueur_hamecon = $longueur_hamecon;
-        $this->poids_hamecon = $poids_hamecon;
-        $this->id_type_hamecon = $id_type_hamecon;
-    }
-
-    public function getLongueurHamecon(): float
+    public function getLongueurHamecon(): float 
     {
         return $this->longueur_hamecon;
     }
 
-    public function setLongueurHamecon($longueur_hamecon): void
+    public function setLongueurHamecon(float $longueur_hamecon): void 
     {
         $this->longueur_hamecon = $longueur_hamecon;
     }
 
-    public function getPoidsHamecon(): float
+    public function getPoidsHamecon(): float 
     {
         return $this->poids_hamecon;
     }
 
-    public function setPoidsHamecon($poids_hamecon): void
-    {
+    public function setPoidsHamecon(float $poids_hamecon): void {
         $this->poids_hamecon = $poids_hamecon;
     }
 
-    public function getTypeHamecon(): int
+    public function getIdTypeHamecon()
     {
         return $this->id_type_hamecon;
     }
 
-    public function setTypeHamecon($id_type_hamecon): void
+    public function setIdTypeHamecon($id_type_hamecon)
     {
         $this->id_type_hamecon = $id_type_hamecon;
     }
 }
 
-class HameconRepository extends ConnectBdd
+class HameconRepository extends connectBdd
 {
-    function addHamecon(Hamecon $hamecon)
+    public function getAllHamecons()
     {
-        try
+        try 
         {
-            $req = $this->bdd->prepare("INSERT INTO produit (nom_produit, description_produit, prix_produit, promo_produit, prix_promo_produit, stock_produit, id_categorie, id_marque, id_genre) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $req = $this->bdd->prepare
+            ("
+                SELECT produit.*, marque.*, categorie.*, 
+                image.*, genre.*, caracteristiques_hamecon.*, type_hamecon.nom_type_hamecon
+                FROM produit
+                INNER JOIN marque ON produit.id_marque = marque.id_marque
+                INNER JOIN caracteristiques_hamecon ON caracteristiques_hamecon.id_produit = produit.id_produit
+                INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
+                INNER JOIN image ON image.id_image = image_produit.id_image
+                INNER JOIN genre ON genre.id_genre = produit.id_genre
+                INNER JOIN type_hamecon ON type_hamecon.id_type_hamecon = caracteristiques_hamecon.id_type_hamecon
+                WHERE produit.id_genre = 1
+                GROUP BY produit.id_produit
+            ");
 
-            $req->execute
+            $req->execute();
+
+            $hameconsData = $req->fetchAll(PDO::FETCH_ASSOC);
+
+            $hamecons = [];
+            foreach ($hameconsData as $hameconData) 
+            {
+                $hamecon = new Hamecon();
+                $hamecon->setIdProduit($hameconData['id_produit']);
+                $hamecon->setNomProduit($hameconData['nom_produit']);
+                $hamecon->setDescriptionProduit($hameconData['description_produit']);
+                $hamecon->setPrixProduit($hameconData['prix_produit']);
+                $hamecon->setPromoProduit($hameconData['promo_produit']);
+                $hamecon->setPrixPromoProduit($hameconData['prix_promo_produit']);
+                $hamecon->setStockProduit($hameconData['stock_produit']);
+                $hamecon->setIdCategorie($hameconData['id_categorie']);
+                $hamecon->setNomCategorie($hameconData['nom_categorie']);
+                $hamecon->setIdMarque($hameconData['id_marque']);
+                $hamecon->setNomMarque($hameconData['nom_marque']);
+                $hamecon->setIdGenre($hameconData['id_genre']);
+                $hamecon->setNomGenre($hameconData['nom_genre']);
+                $hamecon->setIdImage($hameconData['id_image']);
+                $hamecon->setNomImage($hameconData['nom_image']);
+                $hamecon->setDescriptionImage($hameconData['description_image']);
+
+                $hamecon->setLongueurHamecon($hameconData['longueur_hamecon']);
+                $hamecon->setPoidsHamecon($hameconData['poids_hamecon']);
+                $hamecon->setIdTypeHamecon($hameconData['id_type_hamecon']);
+
+                $hamecons[] = $hamecon;
+            }
+
+            return $hamecons;
+        } 
+        catch (PDOException $e) 
+        {
+            die("Erreur lors de la récupération des hamecons : " . $e->getMessage());
+        }
+    }
+
+    public function addHamecon(Hamecon $hamecon)
+    {
+        try {
+            $this->bdd->beginTransaction();
+
+            $reqProduit = $this->bdd->prepare
+            ("
+                INSERT INTO produit (nom_produit, description_produit, prix_produit, stock_produit, promo_produit, prix_promo_produit, id_categorie, id_marque, id_genre)
+                VALUES (?,?,?,?,?,?,?,?,?)
+            ");
+
+            $reqProduit->execute
             ([
                 $hamecon->getNomProduit(),
                 $hamecon->getDescriptionProduit(),
                 $hamecon->getPrixProduit(),
+                $hamecon->getStockProduit(),
                 $hamecon->getPromoProduit(),
                 $hamecon->getPrixPromoProduit(),
-                $hamecon->getStockProduit(),
-                $hamecon->getCategorieProduit(),
-                $hamecon->getMarqueProduit(),
-                $hamecon->getGenreProduit(),
+                $hamecon->getIdCategorie(),
+                $hamecon->getIdMarque(),
+                $hamecon->getIdGenre(),
             ]);
 
-            $produitRepo = new ProduitRepository;
-            $nouvelArticleId = $produitRepo->getLastInsertId();
+            $idProduit = $this->bdd->lastInsertId();
 
-            $reqHamecon = $this->bdd->prepare("INSERT INTO caracteristiques_hamecon (longueur_hamecon, poids_hamecon, id_produit, id_type_hamecon) VALUES (?, ?, ?, ?)");
+            $reqCaracteristiquesHamecon = $this->bdd->prepare
+            ("
+                INSERT INTO caracteristiques_hamecon (id_produit, longueur_hamecon, poids_hamecon, id_type_hamecon)
+                VALUES (?,?,?,?)
+            ");
 
-            $reqHamecon->execute
+            $reqCaracteristiquesHamecon->execute
             ([
+                $idProduit,
                 $hamecon->getLongueurHamecon(),
                 $hamecon->getPoidsHamecon(),
-                $nouvelArticleId,
-                $hamecon->getTypeHamecon(),
+                $hamecon->getIdTypeHamecon(),
             ]);
 
-          
-
-            foreach ($hamecon->getImages() as $image)
-            {
-                $reqImage = $this->bdd->prepare("INSERT INTO image (nom_image, description_image) VALUES (?, ?)");
-                $reqImage->execute([
-                    $image->getNomImage(),
-                    $image->getDescriptionImage(),
-                ]);
-    
-                $nouvelleImageId = $this->getLastInsertId();
-    
-                $reqImageProduit = $this->bdd->prepare("INSERT INTO image_produit (id_image, id_produit) VALUES (?, ?)");
-                $reqImageProduit->execute([$nouvelleImageId, $nouvelArticleId]);
-            }
-
-            echo "La hamecon a été ajoutée avec succès à la base de données !";
+            $this->bdd->commit();
         } 
         catch (PDOException $e) 
         {
-            die("Erreur lors de l'ajout de la hamecon à la base de données: " . $e->getMessage());
+            $this->bdd->rollBack();
+            die("Erreur lors de l'ajout de la hamecon : " . $e->getMessage());
         }
     }
 
@@ -109,53 +153,43 @@ class HameconRepository extends ConnectBdd
     {
         try 
         {
-            $req = $this->bdd->prepare("UPDATE produit SET nom_produit=?, description_produit=?, prix_produit=?, promo_produit=?, prix_promo_produit=?, stock_produit=?, id_categorie=?, id_marque=?, id_genre=? WHERE id_produit=?");
+            $this->bdd->beginTransaction();
 
-            $req->execute
+            $reqProduit = $this->bdd->prepare("UPDATE produit 
+            SET nom_produit = ?, description_produit = ?, prix_produit = ?, stock_produit = ?, promo_produit = ?, prix_promo_produit = ?, id_categorie = ?, id_marque = ?, id_genre = ?
+            WHERE id_produit = ?");
+
+            $reqProduit->execute
             ([
                 $hamecon->getNomProduit(),
                 $hamecon->getDescriptionProduit(),
                 $hamecon->getPrixProduit(),
+                $hamecon->getStockProduit(),
                 $hamecon->getPromoProduit(),
                 $hamecon->getPrixPromoProduit(),
-                $hamecon->getStockProduit(),
-                $hamecon->getCategorieProduit(),
-                $hamecon->getMarqueProduit(),
-                $hamecon->getGenreProduit(),
+                $hamecon->getIdCategorie(),
+                $hamecon->getIdMarque(),
+                $hamecon->getIdGenre(),
                 $hamecon->getIdProduit(),
             ]);
-         
-            $reqHamecon = $this->bdd->prepare("UPDATE caracteristiques_hamecon SET longueur_hamecon=?, poids_hamecon=?, id_type_hamecon=? WHERE id_produit=?");
-            
-            $reqHamecon->execute
+
+            $reqCaracteristiquesHamecon = $this->bdd->prepare("UPDATE caracteristiques_hamecon 
+            SET longueur_hamecon = ?, poids_hamecon = ?, id_type_hamecon = ? WHERE id_produit = ?");
+
+            $reqCaracteristiquesHamecon->execute
             ([
                 $hamecon->getLongueurHamecon(),
                 $hamecon->getPoidsHamecon(),
-                $hamecon->getTypeHamecon(),
+                $hamecon->getIdTypeHamecon(),
                 $hamecon->getIdProduit(),
             ]);
 
-            
-            foreach ($hamecon->getImages() as $image) 
-            {
-                $reqImage = $this->bdd->prepare("INSERT INTO image (nom_image, description_image) VALUES (?, ?)");
-                $reqImage->execute
-                ([
-                    $image->getNomImage(),
-                    $image->getDescriptionImage(),
-                ]);
-
-                $nouvelleImageId = $this->getLastInsertId();
-
-                $reqImageProduit = $this->bdd->prepare("INSERT INTO image_produit (id_image, id_produit) VALUES (?, ?)");
-                $reqImageProduit->execute([$nouvelleImageId, $hamecon->getIdProduit()]);
-            }
-
-            echo "La hamecon a été mise à jour avec succès dans la base de données !";
-        } 
+            $this->bdd->commit();
+        }
         catch (PDOException $e) 
         {
-            die("Erreur lors de la mise à jour de la hamecon dans la base de données: " . $e->getMessage());
+            $this->bdd->rollBack();
+            die("Erreur lors de la mise à jour de la hamecon : " . $e->getMessage());
         }
     }
 
@@ -163,51 +197,20 @@ class HameconRepository extends ConnectBdd
     {
         try 
         {
-            $reqCaracteristiques = $this->bdd->prepare("DELETE FROM caracteristiques_hamecon WHERE id_produit = ?");
-            $reqCaracteristiques->execute([$id_produit]);
-           
-            echo "La hamecon a été supprimée avec succès de la base de données !";
+            $this->bdd->beginTransaction();
+
+            $reqCaracteristiquesHamecon = $this->bdd->prepare("DELETE FROM caracteristiques_hamecon WHERE id_produit = ?");
+            $reqCaracteristiquesHamecon->execute([$id_produit]);
+
+            $reqProduit = $this->bdd->prepare("DELETE FROM produit WHERE id_produit = ?");
+            $reqProduit->execute([$id_produit]);
+
+            $this->bdd->commit();
         } 
         catch (PDOException $e) 
         {
-            die("Erreur lors de la suppression de la hamecon de la base de données: " . $e->getMessage());
+            $this->bdd->rollBack();
+            die("Erreur lors de la suppression de la hamecon : " . $e->getMessage());
         }
-    }
-
-    public function getLastInsertId()
-    {
-        $query = "SELECT MAX(id_hamecon) AS last_id FROM caracteristique_hamecon";
-        $result = $this->bdd->prepare($query);
-
-        if ($result->execute()) 
-        {
-            $row = $result->fetch(PDO::FETCH_ASSOC);
-            $lastId = $row['last_id'];
-
-            return $lastId;
-        }
-    }
-
-    public function getAllHamecon()
-    {
-        $req = $this->bdd->prepare("SELECT * FROM produit WHERE id_genre = ?");
-        $req->execute([1]);
-
-        $produitHamecon = $req->fetchAll(PDO::FETCH_ASSOC);
-
-        return $produitHamecon;
-    }
-
-    public function getInfoHamecon($id_produit)
-    {
-        $req = $this->bdd->prepare("SELECT caracteristiques_hamecon.*, type_hamecon.nom_type_hamecon as type
-        FROM caracteristiques_hamecon 
-        INNER JOIN type_hamecon ON type_hamecon.id_type_hamecon = caracteristiques_hamecon.id_type_hamecon
-        WHERE id_produit = ?");
-        $req->execute([$id_produit]);
-
-        $hamecon = $req->fetchAll(PDO::FETCH_ASSOC);
-
-        return $hamecon;
     }
 }
