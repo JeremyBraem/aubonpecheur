@@ -1,252 +1,187 @@
 <?php
 require_once 'src/config/connectBdd.php';
+require_once 'src/model/Image.php';
 
-class Produit
+class Produit extends Image
 {
-    private $id_produit;
-    private $nom_produit;
-    private $description_produit;
-    private $prix_produit;
-    private $stock_produit;
-    private $promo_produit;
-    private $prix_promo_produit;
+    private $id_article;
+    private $nom_article;
+    private $description_article;
+    private $prix_article;
+    private $stock_article;
+    private $promo_article;
+    private $prix_promo_article;
     private $id_categorie;
-    private $id_marque;
+    private $nom_categorie;
     private $id_genre;
-    private $images = [];
+    private $nom_genre;
+    private $id_marque;
+    private $nom_marque;
 
-    public function __construct($produitForm)
+    public function getIdProduit(): int 
     {
-        if (!isset($produitForm['nom_produit']) or $produitForm['nom_produit'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($produitForm['description_produit']) or $produitForm['description_produit'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($produitForm['prix_produit']) or $produitForm['prix_produit'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($produitForm['promo_produit']) or $produitForm['promo_produit'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($produitForm['prix_promo_produit']) or $produitForm['prix_promo_produit'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($produitForm['stock_produit']) or $produitForm['stock_produit'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($produitForm['categorie_produit']) or $produitForm['categorie_produit'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($produitForm['genre_produit']) or $produitForm['genre_produit'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($produitForm['marque_produit']) or $produitForm['marque_produit'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($produitForm['images']) or $produitForm['images'] == '') 
-        {
-            return false;
-        }
-
-        $this->nom_produit = $produitForm['nom_produit'];
-        $this->description_produit = $produitForm['description_produit'];
-        $this->prix_produit = $produitForm['prix_produit'];
-        $this->promo_produit = $produitForm['promo_produit'];
-        $this->prix_promo_produit = $produitForm['prix_promo_produit'];
-        $this->stock_produit = $produitForm['stock_produit'];
-        $this->id_categorie = $produitForm['categorie_produit'];
-        $this->id_genre = $produitForm['genre_produit'];
-        $this->id_marque = $produitForm['marque_produit'];
-        $this->images = $produitForm['images'];
-        
-        return true;
+        return $this->id_article;
     }
 
-    public function getIdProduit(): int
-    {
-        return $this->id_produit;
+    public function setIdProduit(int $id_article): void {
+        $this->id_article = $id_article;
     }
 
-    public function setIdProduit($id_produit): void
-    {
-        $this->id_produit = $id_produit;
+    // Getter et Setter pour nom_article
+    public function getNomProduit(): string {
+        return $this->nom_article;
     }
 
-    public function getNomProduit(): string
-    {
-        return $this->nom_produit;
+    public function setNomProduit(string $nom_article): void {
+        $this->nom_article = $nom_article;
     }
 
-    public function setNomProduit($nom_produit): void
-    {
-        $this->nom_produit = $nom_produit;
+    // Getter et Setter pour description_article
+    public function getDescriptionProduit(): string {
+        return $this->description_article;
     }
 
-    public function getDescriptionProduit(): string
-    {
-        return $this->description_produit;
+    public function setDescriptionProduit(string $description_article): void {
+        $this->description_article = $description_article;
     }
 
-    public function setDescriptionProduit($description_produit): void
-    {
-        $this->description_produit = $description_produit;
+    // Getter et Setter pour prix_article
+    public function getPrixProduit(): float {
+        return $this->prix_article;
     }
 
-    public function getPrixProduit(): float
-    {
-        return $this->prix_produit;
+    public function setPrixProduit(float $prix_article): void {
+        $this->prix_article = $prix_article;
     }
 
-    public function setPrixProduit($prix_produit): void
-    {
-        $this->prix_produit = $prix_produit;
+    // Getter et Setter pour stock_article
+    public function getStockProduit(): int {
+        return $this->stock_article;
     }
 
-    public function getPromoProduit(): int
-    {
-        return $this->promo_produit;
+    public function setStockProduit(int $stock_article): void {
+        $this->stock_article = $stock_article;
     }
 
-    public function setPromoProduit($promo_produit): void
-    {
-        $this->promo_produit = $promo_produit;
+    // Getter et Setter pour promo_article
+    public function getPromoProduit(): int {
+        return $this->promo_article;
     }
 
-    public function getPrixPromoProduit(): float
-    {
-        return $this->prix_promo_produit;
+    public function setPromoProduit(int $promo_article): void {
+        $this->promo_article = $promo_article;
     }
 
-    public function setPrixPromoProduit($prix_promo_produit): void
-    {
-        $this->prix_promo_produit = $prix_promo_produit;
+    // Getter et Setter pour prix_promo_article
+    public function getPrixPromoProduit(): float {
+        return $this->prix_promo_article;
     }
 
-    public function getStockProduit(): int
-    {
-        return $this->stock_produit;
+    public function setPrixPromoProduit(float $prix_promo_article): void {
+        $this->prix_promo_article = $prix_promo_article;
     }
 
-    public function setStockProduit($stock_produit): void
-    {
-        $this->stock_produit = $stock_produit;
-    }
-
-    public function getCategorieProduit(): string
-    {
+    // Getter et Setter pour id_categorie
+    public function getIdCategorie(): int {
         return $this->id_categorie;
     }
 
-    public function setCategorieProduit($id_categorie): void
-    {
+    public function setIdCategorie(int $id_categorie): void {
         $this->id_categorie = $id_categorie;
     }
 
-    public function getMarqueProduit(): string
-    {
-        return $this->id_marque;
+    public function getNomCategorie(): string {
+        return $this->nom_categorie;
     }
 
-    public function setMarqueProduit($id_marque): void
-    {
-        $this->id_marque = $id_marque;
+    public function setNomCategorie(string $nom_categorie): void {
+        $this->nom_categorie = $nom_categorie;
     }
 
-    public function getGenreProduit(): string
-    {
+    // Getter et Setter pour id_genre
+    public function getIdGenre(): int {
         return $this->id_genre;
     }
 
-    public function setGenreProduit($id_genre): void
-    {
+    public function setIdGenre(int $id_genre): void {
         $this->id_genre = $id_genre;
     }
 
-    public function setImage($image)
+    public function getNomGenre(): string 
     {
-        $this->images[] = $image;
+        return $this->nom_genre;
     }
 
-    public function getImages()
+    public function setNomGenre(string $nom_genre): void 
     {
-        return $this->images;
+        $this->nom_genre = $nom_genre;
+    }
+
+    public function getIdMarque(): int {
+        return $this->id_marque;
+    }
+
+    public function setIdMarque(int $id_marque): void {
+        $this->id_marque = $id_marque;
+    }
+
+    public function getNomMarque(): string 
+    {
+        return $this->nom_marque;
+    }
+
+    public function setNomMarque(string $nom_marque): void 
+    {
+        $this->nom_marque = $nom_marque;
     }
 }
 
 class ProduitRepository extends connectBdd
 {
-    public function getLastInsertId()
-    {
-        $query = "SELECT MAX(id_produit) AS last_id FROM produit";
-        $result = $this->bdd->prepare($query);
-
-        if ($result->execute())
-        {
-            $row = $result->fetch(PDO::FETCH_ASSOC);
-            $lastId = $row['last_id'];
-
-            return $lastId;
-        }
-    }
-
-    public function getAllProduct()
+    public function getAllProducts()
     {
         try 
         {
-            $req = $this->bdd->prepare
-            (
-                "SELECT produit.*, marque.nom_marque, categorie.nom_categorie as categorie, image.*, genre.nom_genre as genre, caracteristiques_canne.*,caracteristiques_moulinet.*,caracteristiques_hamecon.*,caracteristiques_leurre.*,caracteristiques_ligne.*,caracteristiques_ligne.*,caracteristiques_equipement.*,caracteristiques_plomb.*,caracteristiques_autre.*, type_canne.*,type_moulinet.*,type_hamecon.*,type_leurre.*,type_ligne.*,type_plomb.*,type_equipement.*,type_appat.*,type_autre.*
+            $req = $this->bdd->prepare("
+                SELECT produit.*, marque.nom_marque, categorie.*, 
+                image.*, genre.*
                 FROM produit
-                INNER JOIN marque ON produit.id_marque = marque.id_marque
-                INNER JOIN caracteristiques_canne ON caracteristiques_canne.id_produit = produit.id_produit
-                INNER JOIN caracteristiques_moulinet ON caracteristiques_moulinet.id_produit = produit.id_produit
-                INNER JOIN caracteristiques_appat ON caracteristiques_appat.id_produit = produit.id_produit
-                INNER JOIN caracteristiques_autre ON caracteristiques_autre.id_produit = produit.id_produit
-                INNER JOIN caracteristiques_equipement ON caracteristiques_equipement.id_produit = produit.id_produit
-                INNER JOIN caracteristiques_hamecon ON caracteristiques_hamecon.id_produit = produit.id_produit
-                INNER JOIN caracteristiques_leurre ON caracteristiques_leurre.id_produit = produit.id_produit
-                INNER JOIN caracteristiques_ligne ON caracteristiques_ligne.id_produit = produit.id_produit
-                INNER JOIN caracteristiques_plomb ON caracteristiques_plomb.id_produit = produit.id_produit
-                INNER JOIN type_canne ON type_canne.id_type_canne = caracteristiques_canne.id_type_canne
-                INNER JOIN type_moulinet ON type_moulinet.id_type_moulinet = caracteristiques_moulinet.id_type_moulinet
-                INNER JOIN type_hamecon ON type_hamecon.id_type_hamecon = caracteristiques_hamecon.id_type_hamecon
-                INNER JOIN type_appat ON type_appat.id_type_appat = caracteristiques_appat.id_type_appat
-                INNER JOIN type_equipement ON type_equipement.id_type_equipement = caracteristiques_equipement.id_type_equipement
-                INNER JOIN type_leurre ON type_leurre.id_type_leurre = caracteristiques_leurre.id_type_leurre
-                INNER JOIN type_ligne ON type_ligne.id_type_ligne = caracteristiques_ligne.id_type_ligne
-                INNER JOIN type_plomb ON type_plomb.id_type_plomb = caracteristiques_plomb.id_type_plomb
-                INNER JOIN type_autre ON type_autre.id_type_autre = caracteristiques_autre.id_type_autre
-                INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
-                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
-                INNER JOIN image ON image.id_image = image_produit.id_image
-                INNER JOIN genre ON genre.id_genre = produit.id_genre
-                GROUP BY produit.id_produit"
-            );
+                LEFT JOIN marque ON produit.id_marque = marque.id_marque
+                LEFT JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                LEFT JOIN image_produit ON image_produit.id_produit = produit.id_produit
+                LEFT JOIN image ON image.id_image = image_produit.id_image
+                LEFT JOIN genre ON genre.id_genre = produit.id_genre
+                ORDER BY produit.id_produit DESC
+            ");
 
             $req->execute();
 
-            $products = $req->fetchAll(PDO::FETCH_ASSOC);
+            $productsData = $req->fetchAll(PDO::FETCH_ASSOC);
 
-            var_dump($products);
+            $products = [];
+            foreach ($productsData as $productData)
+            {
+                $product = new Produit();
+                $product->setIdProduit($productData['id_produit']);
+                $product->setNomProduit($productData['nom_produit']);
+                $product->setDescriptionProduit($productData['description_produit']);
+                $product->setPrixProduit($productData['prix_produit']);
+                $product->setPromoProduit($productData['promo_produit']);
+                $product->setPrixPromoProduit($productData['prix_promo_produit']);
+                $product->setStockProduit($productData['stock_produit']);
+                $product->setIdCategorie($productData['id_categorie']);
+                $product->setNomCategorie($productData['nom_categorie']);
+                $product->setIdMarque($productData['id_marque']);
+                $product->setNomMarque($productData['nom_marque']);
+                $product->setIdGenre($productData['id_genre']);
+                $product->setNomGenre($productData['nom_genre']);
+                $product->setNomImage($productData['nom_image']);
+                $product->setIdImage($productData['id_image']);
+                $product->setDescriptionImage($productData['description_image']);
+
+                $products[] = $product;
+            }
+
             return $products;
         } 
         catch (PDOException $e) 
@@ -255,19 +190,16 @@ class ProduitRepository extends connectBdd
         }
     }
 
-    public function deleteProduit($id_produit)
+    public function getLastId()
     {
-        try 
-        {
-            $reqProduit = $this->bdd->prepare("DELETE FROM produit WHERE id_produit = ?");
-            $reqProduit->execute([$id_produit]);
-    
-            echo "La canne a été supprimée avec succès de la base de données !";
-        } 
-        catch (PDOException $e) 
-        {
-            die("Erreur lors de la suppression de la canne de la base de données: " . $e->getMessage());
-        }
-    }
+        $req = $this->bdd->prepare("SELECT MAX(id_produit) AS last_id FROM produit");
+        
+        $req->execute();
 
+        $result = $req->fetch(PDO::FETCH_ASSOC);
+
+        $lastId = $result['last_id'];
+
+        return $lastId;
+    }
 }

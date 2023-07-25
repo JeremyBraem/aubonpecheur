@@ -6,206 +6,90 @@ class Moulinet extends Produit
 {
     private $ratio_moulinet;
     private $poids_moulinet;
-    private $id_type_moulinet;
+    private $id_type_moulinet;    
 
-    public function __construct($nom_produit, $description_produit, $prix_produit, $stock_produit, $promo_produit, $prix_promo_produit, $id_categorie, $id_marque, $id_genre, $ratio_moulinet, $poids_moulinet, $id_type_moulinet)
-    {
-        parent::__construct($nom_produit, $description_produit, $prix_produit, $stock_produit, $promo_produit, $prix_promo_produit, $id_categorie, $id_marque, $id_genre);
-        $this->ratio_moulinet = $ratio_moulinet;
-        $this->poids_moulinet = $poids_moulinet;
-        $this->id_type_moulinet = $id_type_moulinet;
-    }
-
-    public function getLongueurMoulinet(): float
-    {
+    // Getter et Setter pour ratio_moulinet
+    public function getRatioMoulinet(): float {
         return $this->ratio_moulinet;
     }
 
-    public function setLongueurMoulinet($ratio_moulinet): void
-    {
+    public function setRatioMoulinet(float $ratio_moulinet): void {
         $this->ratio_moulinet = $ratio_moulinet;
     }
 
-    public function getPoidsMoulinet(): float
-    {
+    // Getter et Setter pour poids_moulinet
+    public function getPoidsMoulinet(): float {
         return $this->poids_moulinet;
     }
 
-    public function setPoidsMoulinet($poids_moulinet): void
-    {
+    public function setPoidsMoulinet(float $poids_moulinet): void {
         $this->poids_moulinet = $poids_moulinet;
     }
 
-    public function getTypeMoulinet(): int
+    public function getIdTypeMoulinet()
     {
         return $this->id_type_moulinet;
     }
 
-    public function setTypeMoulinet($id_type_moulinet): void
+    public function setIdTypeMoulinet($id_type_moulinet)
     {
         $this->id_type_moulinet = $id_type_moulinet;
     }
 }
 
-class MoulinetRepository extends ConnectBdd
+class MoulinetRepository extends connectBdd
 {
-    function addMoulinet(Moulinet $moulinet)
-    {
-        try
-        {
-            $req = $this->bdd->prepare("INSERT INTO produit (nom_produit, description_produit, prix_produit, promo_produit, prix_promo_produit, stock_produit, id_categorie, id_marque, id_genre) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-            $req->execute
-            ([
-                $moulinet->getNomProduit(),
-                $moulinet->getDescriptionProduit(),
-                $moulinet->getPrixProduit(),
-                $moulinet->getPromoProduit(),
-                $moulinet->getPrixPromoProduit(),
-                $moulinet->getStockProduit(),
-                $moulinet->getCategorieProduit(),
-                $moulinet->getMarqueProduit(),
-                $moulinet->getGenreProduit(),
-            ]);
-
-            $produitRepo = new ProduitRepository;
-            $nouvelArticleId = $produitRepo->getLastInsertId();
-
-            $reqMoulinet = $this->bdd->prepare("INSERT INTO caracteristiques_moulinet (ratio_moulinet, poids_moulinet, id_produit, id_type_moulinet) VALUES (?, ?, ?, ?)");
-
-            $reqMoulinet->execute
-            ([
-                $moulinet->getLongueurMoulinet(),
-                $moulinet->getPoidsMoulinet(),
-                $nouvelArticleId,
-                $moulinet->getTypeMoulinet(),
-            ]);
-
-          
-
-            foreach ($moulinet->getImages() as $image)
-            {
-                $reqImage = $this->bdd->prepare("INSERT INTO image (nom_image, description_image) VALUES (?, ?)");
-                $reqImage->execute([
-                    $image->getNomImage(),
-                    $image->getDescriptionImage(),
-                ]);
-    
-                $nouvelleImageId = $this->getLastInsertId();
-    
-                $reqImageProduit = $this->bdd->prepare("INSERT INTO image_produit (id_image, id_produit) VALUES (?, ?)");
-                $reqImageProduit->execute([$nouvelleImageId, $nouvelArticleId]);
-            }
-
-            echo "La moulinet a été ajoutée avec succès à la base de données !";
-        } 
-        catch (PDOException $e) 
-        {
-            die("Erreur lors de l'ajout de la moulinet à la base de données: " . $e->getMessage());
-        }
-    }
-
-    public function updateMoulinet(Moulinet $moulinet)
+    public function getAllMoulinets()
     {
         try 
         {
-            $req = $this->bdd->prepare("UPDATE produit SET nom_produit=?, description_produit=?, prix_produit=?, promo_produit=?, prix_promo_produit=?, stock_produit=?, id_categorie=?, id_marque=?, id_genre=? WHERE id_produit=?");
+            $req = $this->bdd->prepare
+            ("
+                SELECT produit.*, marque.nom_marque, categorie.nom_categorie as categorie, 
+                image.*, genre.nom_genre as genre, caracteristiques_moulinet.*, type_moulinet.nom_type_moulinet
+                FROM produit
+                INNER JOIN marque ON produit.id_marque = marque.id_marque
+                INNER JOIN caracteristiques_moulinet ON caracteristiques_moulinet.id_produit = produit.id_produit
+                INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
+                INNER JOIN image ON image.id_image = image_produit.id_image
+                INNER JOIN genre ON genre.id_genre = produit.id_genre
+                INNER JOIN type_moulinet ON type_moulinet.id_type_moulinet = caracteristiques_moulinet.id_type_moulinet
+                WHERE produit.id_genre = 2
+                GROUP BY produit.id_produit
+            ");
 
-            $req->execute
-            ([
-                $moulinet->getNomProduit(),
-                $moulinet->getDescriptionProduit(),
-                $moulinet->getPrixProduit(),
-                $moulinet->getPromoProduit(),
-                $moulinet->getPrixPromoProduit(),
-                $moulinet->getStockProduit(),
-                $moulinet->getCategorieProduit(),
-                $moulinet->getMarqueProduit(),
-                $moulinet->getGenreProduit(),
-                $moulinet->getIdProduit(),
-            ]);
-         
-            $reqMoulinet = $this->bdd->prepare("UPDATE caracteristiques_moulinet SET ratio_moulinet=?, poids_moulinet=?, id_type_moulinet=? WHERE id_produit=?");
-            
-            $reqMoulinet->execute
-            ([
-                $moulinet->getLongueurMoulinet(),
-                $moulinet->getPoidsMoulinet(),
-                $moulinet->getTypeMoulinet(),
-                $moulinet->getIdProduit(),
-            ]);
+            $req->execute();
 
-            
-            foreach ($moulinet->getImages() as $image) 
+            $moulinetsData = $req->fetchAll(PDO::FETCH_ASSOC);
+
+            $moulinets = [];
+            foreach ($moulinetsData as $moulinetData) 
             {
-                $reqImage = $this->bdd->prepare("INSERT INTO image (nom_image, description_image) VALUES (?, ?)");
-                $reqImage->execute
-                ([
-                    $image->getNomImage(),
-                    $image->getDescriptionImage(),
-                ]);
+                $moulinet = new Moulinet();
+                $moulinet->setIdProduit($moulinetData['id_produit']);
+                $moulinet->setNomProduit($moulinetData['nom_produit']);
+                $moulinet->setDescriptionProduit($moulinetData['description_produit']);
+                $moulinet->setPrixProduit($moulinetData['prix_produit']);
+                $moulinet->setPromoProduit($moulinetData['promo_produit']);
+                $moulinet->setPrixPromoProduit($moulinetData['prix_promo_produit']);
+                $moulinet->setStockProduit($moulinetData['stock_produit']);
+                $moulinet->setIdCategorie($moulinetData['id_categorie']);
+                $moulinet->setIdMarque($moulinetData['id_marque']);
+                $moulinet->setIdGenre($moulinetData['id_genre']);
 
-                $nouvelleImageId = $this->getLastInsertId();
+                $moulinet->setRatioMoulinet($moulinetData['ratio_moulinet']);
+                $moulinet->setPoidsMoulinet($moulinetData['poids_moulinet']);
+                $moulinet->setIdTypeMoulinet($moulinetData['id_type_moulinet']);
 
-                $reqImageProduit = $this->bdd->prepare("INSERT INTO image_produit (id_image, id_produit) VALUES (?, ?)");
-                $reqImageProduit->execute([$nouvelleImageId, $moulinet->getIdProduit()]);
+                $moulinets[] = $moulinet;
             }
 
-            echo "La moulinet a été mise à jour avec succès dans la base de données !";
+            return $moulinets;
         } 
         catch (PDOException $e) 
         {
-            die("Erreur lors de la mise à jour de la moulinet dans la base de données: " . $e->getMessage());
+            die("Erreur lors de la récupération des moulinets : " . $e->getMessage());
         }
     }
-
-    public function deleteMoulinet($id_produit)
-    {
-        try 
-        {
-            $reqCaracteristiques = $this->bdd->prepare("DELETE FROM caracteristiques_moulinet WHERE id_produit = ?");
-            $reqCaracteristiques->execute([$id_produit]);
-           
-            echo "La moulinet a été supprimée avec succès de la base de données !";
-        } 
-        catch (PDOException $e) 
-        {
-            die("Erreur lors de la suppression de la moulinet de la base de données: " . $e->getMessage());
-        }
-    }
-
-    public function getLastInsertId()
-    {
-        $query = "SELECT MAX(id_moulinet) AS last_id FROM caracteristique_moulinet";
-        $result = $this->bdd->prepare($query);
-
-        if ($result->execute()) 
-        {
-            $row = $result->fetch(PDO::FETCH_ASSOC);
-            $lastId = $row['last_id'];
-
-            return $lastId;
-        }
-    }
-
-    public function getAllMoulinet()
-    {
-        $req = $this->bdd->prepare("SELECT * FROM produit WHERE id_genre = ?");
-        $req->execute([1]);
-
-        $produitMoulinet = $req->fetchAll(PDO::FETCH_ASSOC);
-
-        return $produitMoulinet;
-    }
-
-    public function getInfoMoulinet($id_produit)
-    {
-        $req = $this->bdd->prepare("SELECT * FROM caracteristiques_moulinet WHERE id_produit = ?");
-        $req->execute([$id_produit]);
-
-        $moulinet = $req->fetchAll(PDO::FETCH_ASSOC);
-
-        return $moulinet;
-    }
-    
 }

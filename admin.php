@@ -146,9 +146,6 @@ if ($_SESSION['id_role'] == 1)
             case 'search':
                 searchPage();
                 break;
-            case 'test':
-                pageTest();
-                break;
            
             default:
                 adminPage();

@@ -194,7 +194,7 @@ class ImageRepository extends ConnectBdd
         }
     }
 
-    public function getLastInsertId()
+    public function getLastId()
     {
         $query = "SELECT MAX(id_image) AS last_id FROM image";
         $result = $this->bdd->prepare($query);
