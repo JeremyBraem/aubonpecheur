@@ -50,12 +50,6 @@ function adminPage()
     $categories = $categorieRepo->getAllCategorie();
 
     $allTypes = getAllType();
-
-    if (empty($produits)) 
-    {
-        echo "Aucun produit trouvé.";
-        return;
-    }
     
     require('src/view/adminPage.php');
 }
@@ -223,6 +217,25 @@ function updateCanneTraitement()
             {
                 if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
                 {
+                    $imageRepo = new ImageRepository;
+
+                    $oldImg = $imageRepo->getImageByProduit($_POST['id_produit']);
+
+                    $cheminFichier = $oldImg->getNomImage();
+                    
+                    if (file_exists($cheminFichier))
+                    {
+                        if (unlink($cheminFichier)) 
+                        {
+                            echo "Le fichier a été supprimé avec succès.";
+                        }
+                        else 
+                        {
+                            echo "Une erreur s'est produite lors de la suppression du fichier.";
+                            die;
+                        }
+                    }
+
                     $fileName = $_FILES['images']['name'];
                     $fileTmpName = $_FILES['images']['tmp_name'];
                     $fileType = $_FILES['images']['type'];
@@ -230,14 +243,10 @@ function updateCanneTraitement()
                     $fileError = $_FILES['images']['error'];
 
                     $image = new Image();
-                    
                     $image->setNomImage($fileName);
                     $image->setDescriptionImage($_POST['description_images']);
 
-                    $imageRepo = new ImageRepository;
-
-                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
-
+                    
                     $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
                     $image->addImage($_FILES['images']);
                 }
