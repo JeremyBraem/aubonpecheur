@@ -1,499 +1,232 @@
-<?php
+<?php 
+require_once 'src/model/Produit.php';
 require_once 'src/config/connectBdd.php';
 
-class Leurre
+class Leurre extends Produit
 {
-    private $id_leurre;
-    private $nom_leurre;
+    private $longueur_leurre;
     private $poids_leurre;
     private $couleur_leurre;
-    private $description_leurre;
-    private $promo_leurre;
-    private $stock_leurre;
-    private $hors_stock_leurre;
-    private $id_categorie;
-    private $id_type_leurre;
-    private $id_marque;
+    private $id_type_leurre;    
 
-    public function createToInsertLeurre($leurreForm): bool
+    public function getLongueurLeurre(): float 
     {
-
-        if (!isset($leurreForm['nom_leurre']) or $leurreForm['nom_leurre'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($leurreForm['poids_leurre']) or $leurreForm['poids_leurre'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($leurreForm['couleur_leurre']) or $leurreForm['couleur_leurre'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($leurreForm['description_leurre']) or $leurreForm['description_leurre'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($leurreForm['promo_leurre']) or $leurreForm['promo_leurre'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($leurreForm['stock_leurre']) or $leurreForm['stock_leurre'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($leurreForm['hors_stock_leurre']) or $leurreForm['hors_stock_leurre'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($leurreForm['categorie_leurre']) or $leurreForm['categorie_leurre'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($leurreForm['type_leurre']) or $leurreForm['type_leurre'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($leurreForm['marque_leurre']) or $leurreForm['marque_leurre'] == '') 
-        {
-            return false;
-        }
-
-        $this->nom_leurre = $leurreForm['nom_leurre'];
-        $this->poids_leurre = $leurreForm['poids_leurre'];
-        $this->couleur_leurre = $leurreForm['couleur_leurre'];
-        $this->description_leurre = $leurreForm['description_leurre'];
-        $this->promo_leurre = $leurreForm['promo_leurre'];
-        $this->stock_leurre = $leurreForm['stock_leurre'];
-        $this->hors_stock_leurre = $leurreForm['hors_stock_leurre'];
-        $this->id_categorie = $leurreForm['categorie_leurre'];
-        $this->id_type_leurre = $leurreForm['type_leurre'];
-        $this->id_marque = $leurreForm['marque_leurre'];
-
-        return true;
+        return $this->longueur_leurre;
     }
 
-    public function getIdLeurre(): int
+    public function setLongueurLeurre(float $longueur_leurre): void 
     {
-        return $this->id_leurre;
+        $this->longueur_leurre = $longueur_leurre;
     }
 
-    public function setIdLeurre($id_leurre): void
-    {
-        $this->id_leurre = $id_leurre;
-    }
-
-
-    public function getNomLeurre(): string
-    {
-        return $this->nom_leurre;
-    }
-
-    public function setNomLeurre($nom_leurre): void
-    {
-        $this->nom_leurre = $nom_leurre;
-    }
-
-    public function getPoidsLeurre(): string
+    public function getPoidsLeurre(): float 
     {
         return $this->poids_leurre;
     }
 
-    public function setPoidsLeurre($poids_leurre): void
+    public function setPoidsLeurre(float $poids_leurre): void 
     {
         $this->poids_leurre = $poids_leurre;
     }
 
-    public function getCouleurLeurre(): string
+    public function getCouleurLeurre(): string 
     {
         return $this->couleur_leurre;
     }
 
-    public function setCouleurLeurre($couleur_leurre): void
+    public function setCouleurLeurre(string $couleur_leurre): void 
     {
         $this->couleur_leurre = $couleur_leurre;
     }
 
-    public function getDescriptionLeurre(): string
-    {
-        return $this->description_leurre;
-    }
-
-    public function setDescriptionLeurre($description_leurre): void
-    {
-        $this->description_leurre = $description_leurre;
-    }
-
-    public function getPromoLeurre(): int
-    {
-        return $this->promo_leurre;
-    }
-
-    public function setPromoLeurre($promo_leurre): void
-    {
-        $this->promo_leurre = $promo_leurre;
-    }
-
-    public function getStockLeurre(): int
-    {
-        return $this->stock_leurre;
-    }
-
-    public function setStockLeurre($stock_leurre): void
-    {
-        $this->stock_leurre = $stock_leurre;
-    }
-
-    public function getHorsStockLeurre(): int
-    {
-        return $this->hors_stock_leurre;
-    }
-
-    public function setHorsStockLeurre($hors_stock_leurre): void
-    {
-        $this->hors_stock_leurre = $hors_stock_leurre;
-    }
-
-    public function getCategorieLeurre(): string
-    {
-        return $this->id_categorie;
-    }
-
-    public function setCategorieLeurre($id_categorie): void
-    {
-        $this->id_categorie = $id_categorie;
-    }
-
-    public function getTypeLeurre(): string
+    public function getIdTypeLeurre()
     {
         return $this->id_type_leurre;
     }
 
-    public function setTypeLeurre($id_type_leurre): void
+    public function setIdTypeLeurre($id_type_leurre)
     {
         $this->id_type_leurre = $id_type_leurre;
-    }
-
-    public function getMarqueLeurre(): string
-    {
-        return $this->id_marque;
-    }
-
-    public function setMarqueLeurre($id_marque): void
-    {
-        $this->id_marque = $id_marque;
     }
 }
 
 class LeurreRepository extends connectBdd
 {
-    public function __construct()
+    public function getAllLeurres()
     {
-        parent::__construct();
-    }
-
-    public function insertLeurre(Leurre $leurre)
-    {
-        $req = $this->bdd->prepare("INSERT INTO leurre (nom_leurre, poids_leurre, couleur_leurre, description_leurre, promo_leurre, stock_leurre, hors_stock_leurre, id_categorie, id_type_leurre, id_marque)
-        VALUES (?,?,?,?,?,?,?,?,?,?)");
-
-        $req->execute([
-            $leurre->getNomLeurre(),
-            $leurre->getPoidsLeurre(),
-            $leurre->getCouleurLeurre(),
-            $leurre->getDescriptionLeurre(),
-            $leurre->getPromoLeurre(),
-            $leurre->getStockLeurre(),
-            $leurre->getHorsStockLeurre(),
-            $leurre->getCategorieLeurre(),
-            $leurre->getTypeLeurre(),
-            $leurre->getMarqueLeurre()
-        ]);
-        
-        return $leurre;
-    }
-
-    public function getAllLeurre()
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_leurre.*, marque.*
-        FROM leurre
-        INNER JOIN categorie ON leurre.id_categorie = categorie.id_categorie
-        INNER JOIN type_leurre ON leurre.id_type_leurre = type_leurre.id_type_leurre
-        INNER JOIN marque ON leurre.id_marque = marque.id_marque");
-
-        $req->execute();
-        $datas = $req->fetchAll();
-        $leurres = [];
-
-        foreach ($datas as $data)
+        try 
         {
-            $leurre = new Leurre();
-            $leurre->setIdLeurre($data['id_leurre']);
-            $leurre->setNomLeurre($data['nom_leurre']);
-            $leurre->setPoidsLeurre($data['poids_leurre']);
-            $leurre->setCouleurLeurre($data['couleur_leurre']);
-            $leurre->setDescriptionLeurre($data['description_leurre']);
-            $leurre->setPromoLeurre($data['promo_leurre']);
-            $leurre->setStockLeurre($data['stock_leurre']);
-            $leurre->setHorsStockLeurre($data['hors_stock_leurre']);
-            $leurre->setCategorieLeurre($data['nom_categorie']);
-            $leurre->setTypeLeurre($data['nom_type_leurre']);
-            $leurre->setMarqueLeurre($data['nom_marque']);
+            $req = $this->bdd->prepare
+            ("
+                SELECT produit.*, marque.*, categorie.*, 
+                image.*, genre.*, caracteristiques_leurre.*, type_leurre.nom_type_leurre
+                FROM produit
+                INNER JOIN marque ON produit.id_marque = marque.id_marque
+                INNER JOIN caracteristiques_leurre ON caracteristiques_leurre.id_produit = produit.id_produit
+                INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
+                INNER JOIN image ON image.id_image = image_produit.id_image
+                INNER JOIN genre ON genre.id_genre = produit.id_genre
+                INNER JOIN type_leurre ON type_leurre.id_type_leurre = caracteristiques_leurre.id_type_leurre
+                WHERE produit.id_genre = 1
+                GROUP BY produit.id_produit
+            ");
 
-            $leurres[] = $leurre;
-        }
-        return $leurres;
-    }
+            $req->execute();
 
-    public function getLastLeurre()
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_leurre.*, marque.*
-        FROM leurre
-        INNER JOIN categorie ON leurre.id_categorie = categorie.id_categorie
-        INNER JOIN type_leurre ON leurre.id_type_leurre = type_leurre.id_type_leurre
-        INNER JOIN marque ON leurre.id_marque = marque.id_marque");
+            $leurresData = $req->fetchAll(PDO::FETCH_ASSOC);
 
-        $req->execute();
-        $datas = $req->fetchAll();
+            $leurres = [];
 
-        $leurres = [];
-
-        foreach ($datas as $data)
-        {
-            $leurre = new Leurre();
-            $leurre->setIdLeurre($data['id_leurre']);
-            $leurre->setNomLeurre($data['nom_leurre']);
-            $leurre->setPoidsLeurre($data['poids_leurre']);
-            $leurre->setCouleurLeurre($data['couleur_leurre']);
-            $leurre->setDescriptionLeurre($data['description_leurre']);
-            $leurre->setPromoLeurre($data['promo_leurre']);
-            $leurre->setStockLeurre($data['stock_leurre']);
-            $leurre->setHorsStockLeurre($data['hors_stock_leurre']);
-            $leurre->setCategorieLeurre($data['nom_categorie']);
-            $leurre->setTypeLeurre($data['nom_type_leurre']);
-            $leurre->setMarqueLeurre($data['nom_marque']);
-
-            $leurres[] = $leurre;
-        }
-        return $leurres;
-    }
-
-    public function getPromoLeurre()
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_leurre.*, marque.*
-        FROM leurre
-        INNER JOIN categorie ON leurre.id_categorie = categorie.id_categorie
-        INNER JOIN type_leurre ON leurre.id_type_leurre = type_leurre.id_type_leurre
-        INNER JOIN marque ON leurre.id_marque = marque.id_marque");
-
-        $req->execute();
-        $datas = $req->fetchAll();
-
-        $leurres = [];
-
-        foreach ($datas as $data)
-        {
-            if($data['promo_leurre'] == 1)
+            foreach ($leurresData as $leurreData) 
             {
                 $leurre = new Leurre();
-                $leurre->setIdLeurre($data['id_leurre']);
-                $leurre->setNomLeurre($data['nom_leurre']);
-                $leurre->setPoidsLeurre($data['poids_leurre']);
-                $leurre->setCouleurLeurre($data['couleur_leurre']);
-                $leurre->setDescriptionLeurre($data['description_leurre']);
-                $leurre->setPromoLeurre($data['promo_leurre']);
-                $leurre->setStockLeurre($data['stock_leurre']);
-                $leurre->setHorsStockLeurre($data['hors_stock_leurre']);
-                $leurre->setCategorieLeurre($data['nom_categorie']);
-                $leurre->setTypeLeurre($data['nom_type_leurre']);
-                $leurre->setMarqueLeurre($data['nom_marque']);
+                $leurre->setIdProduit($leurreData['id_produit']);
+                $leurre->setNomProduit($leurreData['nom_produit']);
+                $leurre->setDescriptionProduit($leurreData['description_produit']);
+                $leurre->setPrixProduit($leurreData['prix_produit']);
+                $leurre->setPromoProduit($leurreData['promo_produit']);
+                $leurre->setPrixPromoProduit($leurreData['prix_promo_produit']);
+                $leurre->setStockProduit($leurreData['stock_produit']);
+                $leurre->setIdCategorie($leurreData['id_categorie']);
+                $leurre->setNomCategorie($leurreData['nom_categorie']);
+                $leurre->setIdMarque($leurreData['id_marque']);
+                $leurre->setNomMarque($leurreData['nom_marque']);
+                $leurre->setIdGenre($leurreData['id_genre']);
+                $leurre->setNomGenre($leurreData['nom_genre']);
+                $leurre->setIdImage($leurreData['id_image']);
+                $leurre->setNomImage($leurreData['nom_image']);
+                $leurre->setDescriptionImage($leurreData['description_image']);
+
+                $leurre->setCouleurLeurre($leurreData['couleur_leurre']);
+                $leurre->setPoidsLeurre($leurreData['poids_leurre']);
+                $leurre->setLongueurLeurre($leurreData['longueur_leurre']);
+                $leurre->setIdTypeLeurre($leurreData['id_type_leurre']);
 
                 $leurres[] = $leurre;
             }
-        }
-        return $leurres;
-    }
 
-    public function getLeurreById($id_leurre)
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_leurre.*, marque.*
-        FROM leurre
-        INNER JOIN categorie ON leurre.id_categorie = categorie.id_categorie
-        INNER JOIN type_leurre ON leurre.id_type_leurre = type_leurre.id_type_leurre
-        INNER JOIN marque ON leurre.id_marque = marque.id_marque
-        WHERE id_leurre = ?
-        ");
-
-        $req->execute([$id_leurre]);
-        $datas = $req->fetchAll();
-
-        foreach ($datas as $data)
+            return $leurres;
+        } 
+        catch (PDOException $e) 
         {
-            $leurre = new Leurre();
-            $leurre->setIdLeurre($data['id_leurre']);
-            $leurre->setNomLeurre($data['nom_leurre']);
-            $leurre->setPoidsLeurre($data['poids_leurre']);
-            $leurre->setCouleurLeurre($data['couleur_leurre']);
-            $leurre->setDescriptionLeurre($data['description_leurre']);
-            $leurre->setPromoLeurre($data['promo_leurre']);
-            $leurre->setStockLeurre($data['stock_leurre']);
-            $leurre->setHorsStockLeurre($data['hors_stock_leurre']);
-            $leurre->setCategorieLeurre($data['nom_categorie']);
-            $leurre->setTypeLeurre($data['nom_type_leurre']);
-            $leurre->setMarqueLeurre($data['nom_marque']);
+            die("Erreur lors de la récupération des leurres : " . $e->getMessage());
         }
-        return $leurre;
     }
 
-    public function deleteLeurre($id_leurre):bool
+    public function addLeurre(Leurre $leurre)
+    {
+        try {
+            $this->bdd->beginTransaction();
+
+            $reqProduit = $this->bdd->prepare
+            ("
+                INSERT INTO produit (nom_produit, description_produit, prix_produit, stock_produit, promo_produit, prix_promo_produit, id_categorie, id_marque, id_genre)
+                VALUES (?,?,?,?,?,?,?,?,?)
+            ");
+
+            $reqProduit->execute
+            ([
+                $leurre->getNomProduit(),
+                $leurre->getDescriptionProduit(),
+                $leurre->getPrixProduit(),
+                $leurre->getStockProduit(),
+                $leurre->getPromoProduit(),
+                $leurre->getPrixPromoProduit(),
+                $leurre->getIdCategorie(),
+                $leurre->getIdMarque(),
+                $leurre->getIdGenre(),
+            ]);
+
+            $idProduit = $this->bdd->lastInsertId();
+
+            $reqCaracteristiquesLeurre = $this->bdd->prepare
+            ("
+                INSERT INTO caracteristiques_leurre (id_produit, couleur_leurre, poids_leurre, longueur_leurre, id_type_leurre)
+                VALUES (?,?,?,?,?)
+            ");
+
+            $reqCaracteristiquesLeurre->execute
+            ([
+                $idProduit,
+                $leurre->getCouleurLeurre(),
+                $leurre->getPoidsLeurre(),
+                $leurre->getLongueurLeurre(),
+                $leurre->getIdTypeLeurre(),
+            ]);
+
+            $this->bdd->commit();
+        } 
+        catch (PDOException $e) 
+        {
+            $this->bdd->rollBack();
+            die("Erreur lors de l'ajout de la leurre : " . $e->getMessage());
+        }
+    }
+
+    public function updateLeurre(Leurre $leurre)
     {
         try 
         {
-            var_dump($_POST);
-            die;
-            $imageLeurreRepo = new ImageLeurreRepository;
-            $oldImg = $imageLeurreRepo->getImageByLeurre($_POST['id_leurre']);
-           
-            $cheminFichier = $oldImg->getNomImageLeurre();
+            $this->bdd->beginTransaction();
 
-            if (file_exists($cheminFichier)) 
-            {
-                if (unlink($cheminFichier)) 
-                {
-                    echo "Le fichier a été supprimé avec succès.";
-                } 
-                else 
-                {
-                    echo "Une erreur s'est produite lors de la suppression du fichier.";
-                }
-            } 
-            else 
-            {
-                echo "Le fichier spécifié n'existe pas.";
-            }
-            $imageLeurreRepo->deleteImageByLeurre($id_leurre);
+            $reqProduit = $this->bdd->prepare("UPDATE produit 
+            SET nom_produit = ?, description_produit = ?, prix_produit = ?, stock_produit = ?, promo_produit = ?, prix_promo_produit = ?, id_categorie = ?, id_marque = ?, id_genre = ?
+            WHERE id_produit = ?");
 
-            $req = $this->bdd->prepare('DELETE FROM leurre WHERE id_leurre = ?');
-            $req->execute([$id_leurre]);
+            $reqProduit->execute
+            ([
+                $leurre->getNomProduit(),
+                $leurre->getDescriptionProduit(),
+                $leurre->getPrixProduit(),
+                $leurre->getStockProduit(),
+                $leurre->getPromoProduit(),
+                $leurre->getPrixPromoProduit(),
+                $leurre->getIdCategorie(),
+                $leurre->getIdMarque(),
+                $leurre->getIdGenre(),
+                $leurre->getIdProduit(),
+            ]);
 
-            return true;
-        } 
-        catch (Exception $e) 
+            $reqCaracteristiquesLeurre = $this->bdd->prepare("UPDATE caracteristiques_leurre 
+            SET  couleur_leurre = ?, poids_leurre = ?, longueur_leurre = ?, id_type_leurre = ? WHERE id_produit = ?");
+
+            $reqCaracteristiquesLeurre->execute
+            ([              
+                $leurre->getCouleurLeurre(),  
+                $leurre->getPoidsLeurre(),
+                $leurre->getLongueurLeurre(),
+                $leurre->getIdTypeLeurre(),
+                $leurre->getIdProduit(),
+            ]);
+
+            $this->bdd->commit();
+        }
+        catch (PDOException $e) 
         {
-            return false;
+            $this->bdd->rollBack();
+            die("Erreur lors de la mise à jour de la leurre : " . $e->getMessage());
         }
     }
 
-    public function updateLeurre($id_leurre, $nom_leurre, $poids_leurre, $couleur_leurre, $description_leurre, $promo_leurre, $stock_leurre, $hors_stock_leurre, $id_categorie, $id_type_leurre, $id_marque)
+    public function deleteLeurre($id_produit)
     {
         try 
         {
-            
-            $req = $this->bdd->prepare("UPDATE leurre SET nom_leurre = ?, poids_leurre = ?, couleur_leurre = ?, description_leurre = ?, promo_leurre = ?, stock_leurre = ?, hors_stock_leurre = ?, id_categorie = ?, id_type_leurre = ?, id_marque = ? WHERE id_leurre = ?");
-            $req->execute([$nom_leurre, $poids_leurre, $couleur_leurre, $description_leurre, $promo_leurre, $stock_leurre, $hors_stock_leurre, $id_categorie, $id_type_leurre, $id_marque, $id_leurre]);
-            
-            return true;
+            $this->bdd->beginTransaction();
+
+            $reqCaracteristiquesLeurre = $this->bdd->prepare("DELETE FROM caracteristiques_leurre WHERE id_produit = ?");
+            $reqCaracteristiquesLeurre->execute([$id_produit]);
+
+            $reqProduit = $this->bdd->prepare("DELETE FROM produit WHERE id_produit = ?");
+            $reqProduit->execute([$id_produit]);
+
+            $this->bdd->commit();
         } 
-        catch (Exception $e) 
+        catch (PDOException $e) 
         {
-            return false;
+            $this->bdd->rollBack();
+            die("Erreur lors de la suppression de la leurre : " . $e->getMessage());
         }
-    }
-
-    public function getLastInsertId()
-    {
-        $query = "SELECT MAX(id_leurre) AS last_id FROM leurre";
-        $result = $this->bdd->prepare($query);
-
-        if ($result->execute()) { // Exécutez la requête ici
-            $row = $result->fetch(PDO::FETCH_ASSOC);
-            $lastId = $row['last_id'];
-
-            return $lastId;
-        } else {
-            // Gérez l'erreur de la requête
-            // Retournez une valeur par défaut ou lancez une exception, selon vos besoins
-        } 
-    }
-
-    public function getLeurreByCategorie($id_categorie)
-    {
-    
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_leurre.*, marque.*
-        FROM leurre
-        INNER JOIN categorie ON leurre.id_categorie = categorie.id_categorie
-        INNER JOIN type_leurre ON leurre.id_type_leurre = type_leurre.id_type_leurre
-        INNER JOIN marque ON leurre.id_marque = marque.id_marque
-        WHERE leurre.id_categorie = ?");
-
-        $req->execute([$id_categorie]);
-        $datas = $req->fetchAll();
-
-        $leurres = [];
-
-        foreach ($datas as $data)
-        {
-            $leurre = new Leurre();
-            $leurre->setIdLeurre($data['id_leurre']);
-            $leurre->setNomLeurre($data['nom_leurre']);
-            $leurre->setPoidsLeurre($data['poids_leurre']);
-            $leurre->setCouleurLeurre($data['couleur_leurre']);
-            $leurre->setDescriptionLeurre($data['description_leurre']);
-            $leurre->setPromoLeurre($data['promo_leurre']);
-            $leurre->setStockLeurre($data['stock_leurre']);
-            $leurre->setHorsStockLeurre($data['hors_stock_leurre']);
-            $leurre->setCategorieLeurre($data['nom_categorie']);
-            $leurre->setTypeLeurre($data['nom_type_leurre']);
-            $leurre->setMarqueLeurre($data['nom_marque']);
-
-            $leurres[] = $leurre;
-        }
-        return $leurres;
-    }
-
-    public function getLeurreByMarque($id_marque)
-    {
-    
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_leurre.*, marque.*
-        FROM leurre
-        INNER JOIN categorie ON leurre.id_categorie = categorie.id_categorie
-        INNER JOIN type_leurre ON leurre.id_type_leurre = type_leurre.id_type_leurre
-        INNER JOIN marque ON leurre.id_marque = marque.id_marque
-        WHERE leurre.id_marque = ?");
-
-        $req->execute([$id_marque]);
-        $datas = $req->fetchAll();
-
-        $leurres = [];
-
-        foreach ($datas as $data)
-        {
-            $leurre = new Leurre();
-            $leurre->setIdLeurre($data['id_leurre']);
-            $leurre->setNomLeurre($data['nom_leurre']);
-            $leurre->setPoidsLeurre($data['poids_leurre']);
-            $leurre->setCouleurLeurre($data['couleur_leurre']);
-            $leurre->setDescriptionLeurre($data['description_leurre']);
-            $leurre->setPromoLeurre($data['promo_leurre']);
-            $leurre->setStockLeurre($data['stock_leurre']);
-            $leurre->setHorsStockLeurre($data['hors_stock_leurre']);
-            $leurre->setCategorieLeurre($data['nom_categorie']);
-            $leurre->setTypeLeurre($data['nom_type_leurre']);
-            $leurre->setMarqueLeurre($data['nom_marque']);
-
-            $leurres[] = $leurre;
-        }
-        return $leurres;
     }
 }
-
-

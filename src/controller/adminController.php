@@ -1,14 +1,14 @@
 <?php
 require_once('src/model/Produit.php');
-require_once('src/model/Canne.php');
-require_once('src/model/Moulinet.php');
-require_once('src/model/Hamecon.php');
-require_once('src/model/Leurre.php');
-require_once('src/model/Ligne.php');
-require_once('src/model/Equipement.php');
-require_once('src/model/Plomb.php');
-require_once('src/model/Autre.php');
-require_once('src/model/Appat.php');
+require_once('src/model/Produit/Canne.php');
+require_once('src/model/Produit/Moulinet.php');
+require_once('src/model/Produit/Hamecon.php');
+require_once('src/model/Produit/Leurre.php');
+require_once('src/model/Produit/Ligne.php');
+require_once('src/model/Produit/Equipement.php');
+require_once('src/model/Produit/Plomb.php');
+require_once('src/model/Produit/Autre.php');
+require_once('src/model/Produit/Appat.php');
 require_once('src/model/Image.php');
 
 require_once('src/model/Marque.php');

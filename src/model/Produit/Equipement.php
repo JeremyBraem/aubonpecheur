@@ -1,470 +1,203 @@
-<?php
+<?php 
+require_once 'src/model/Produit.php';
 require_once 'src/config/connectBdd.php';
 
-class Equipement
+class Equipement extends Produit
 {
-    private $id_equipement;
-    private $nom_equipement;
     private $detail_equipement;
-    private $description_equipement;
-    private $promo_equipement;
-    private $stock_equipement;
-    private $hors_stock_equipement;
-    private $id_categorie;
-    private $id_type_equipement;
-    private $id_marque;
+    private $id_type_equipement;    
 
-    public function createToInsertEquipement($equipementForm): bool
-    {
-
-        if (!isset($equipementForm['nom_equipement']) or $equipementForm['nom_equipement'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($equipementForm['detail_equipement']) or $equipementForm['detail_equipement'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($equipementForm['description_equipement']) or $equipementForm['description_equipement'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($equipementForm['promo_equipement']) or $equipementForm['promo_equipement'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($equipementForm['stock_equipement']) or $equipementForm['stock_equipement'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($equipementForm['hors_stock_equipement']) or $equipementForm['hors_stock_equipement'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($equipementForm['categorie_equipement']) or $equipementForm['categorie_equipement'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($equipementForm['type_equipement']) or $equipementForm['type_equipement'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($equipementForm['marque_equipement']) or $equipementForm['marque_equipement'] == '') 
-        {
-            return false;
-        }
-
-        $this->nom_equipement = $equipementForm['nom_equipement'];
-        $this->detail_equipement = $equipementForm['detail_equipement'];
-        $this->description_equipement = $equipementForm['description_equipement'];
-        $this->promo_equipement = $equipementForm['promo_equipement'];
-        $this->stock_equipement = $equipementForm['stock_equipement'];
-        $this->hors_stock_equipement = $equipementForm['hors_stock_equipement'];
-        $this->id_categorie = $equipementForm['categorie_equipement'];
-        $this->id_type_equipement = $equipementForm['type_equipement'];
-        $this->id_marque = $equipementForm['marque_equipement'];
-
-        return true;
-    }
-
-    public function getIdEquipement(): int
-    {
-        return $this->id_equipement;
-    }
-
-    public function setIdEquipement($id_equipement): void
-    {
-        $this->id_equipement = $id_equipement;
-    }
-
-
-    public function getNomEquipement(): string
-    {
-        return $this->nom_equipement;
-    }
-
-    public function setNomEquipement($nom_equipement): void
-    {
-        $this->nom_equipement = $nom_equipement;
-    }
-
-    public function getDetailEquipement(): string
+    public function getDetailEquipement(): string 
     {
         return $this->detail_equipement;
     }
 
-    public function setDetailEquipement($detail_equipement): void
+    public function setDetailEquipement(string $detail_equipement): void 
     {
         $this->detail_equipement = $detail_equipement;
     }
 
-    public function getDescriptionEquipement(): string
-    {
-        return $this->description_equipement;
-    }
-
-    public function setDescriptionEquipement($description_equipement): void
-    {
-        $this->description_equipement = $description_equipement;
-    }
-
-    public function getPromoEquipement(): int
-    {
-        return $this->promo_equipement;
-    }
-
-    public function setPromoEquipement($promo_equipement): void
-    {
-        $this->promo_equipement = $promo_equipement;
-    }
-
-    public function getStockEquipement(): int
-    {
-        return $this->stock_equipement;
-    }
-
-    public function setStockEquipement($stock_equipement): void
-    {
-        $this->stock_equipement = $stock_equipement;
-    }
-
-    public function getHorsStockEquipement(): int
-    {
-        return $this->hors_stock_equipement;
-    }
-
-    public function setHorsStockEquipement($hors_stock_equipement): void
-    {
-        $this->hors_stock_equipement = $hors_stock_equipement;
-    }
-
-    public function getCategorieEquipement(): string
-    {
-        return $this->id_categorie;
-    }
-
-    public function setCategorieEquipement($id_categorie): void
-    {
-        $this->id_categorie = $id_categorie;
-    }
-
-    public function getTypeEquipement(): string
+    public function getIdTypeEquipement()
     {
         return $this->id_type_equipement;
     }
 
-    public function setTypeEquipement($id_type_equipement): void
+    public function setIdTypeEquipement($id_type_equipement)
     {
         $this->id_type_equipement = $id_type_equipement;
-    }
-
-    public function getMarqueEquipement(): string
-    {
-        return $this->id_marque;
-    }
-
-    public function setMarqueEquipement($id_marque): void
-    {
-        $this->id_marque = $id_marque;
     }
 }
 
 class EquipementRepository extends connectBdd
 {
-    public function __construct()
+    public function getAllEquipements()
     {
-        parent::__construct();
-    }
-
-    public function insertEquipement(Equipement $equipement)
-    {
-        $req = $this->bdd->prepare("INSERT INTO equipement (nom_equipement, detail_equipement, description_equipement, promo_equipement, stock_equipement, hors_stock_equipement, id_categorie, id_type_equipement, id_marque)
-        VALUES (?,?,?,?,?,?,?,?,?)");
-
-        $req->execute
-        ([
-            $equipement->getNomEquipement(),
-            $equipement->getDetailEquipement(),
-            $equipement->getDescriptionEquipement(),
-            $equipement->getPromoEquipement(),
-            $equipement->getStockEquipement(),
-            $equipement->getHorsStockEquipement(),
-            $equipement->getCategorieEquipement(),
-            $equipement->getTypeEquipement(),
-            $equipement->getMarqueEquipement()
-        ]);
-        
-        return $equipement;
-    }
-
-    public function getAllEquipement()
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_equipement.*, marque.*
-        FROM equipement
-        INNER JOIN categorie ON equipement.id_categorie = categorie.id_categorie
-        INNER JOIN type_equipement ON equipement.id_type_equipement = type_equipement.id_type_equipement
-        INNER JOIN marque ON equipement.id_marque = marque.id_marque");
-
-        $req->execute();
-        $datas = $req->fetchAll();
-        $equipements = [];
-
-        foreach ($datas as $data) 
+        try 
         {
-            $equipement = new Equipement();
-            $equipement->setIdEquipement($data['id_equipement']);
-            $equipement->setNomEquipement($data['nom_equipement']);
-            $equipement->setDetailEquipement($data['detail_equipement']);
-            $equipement->setDescriptionEquipement($data['description_equipement']);
-            $equipement->setPromoEquipement($data['promo_equipement']);
-            $equipement->setStockEquipement($data['stock_equipement']);
-            $equipement->setHorsStockEquipement($data['hors_stock_equipement']);
-            $equipement->setCategorieEquipement($data['nom_categorie']);
-            $equipement->setTypeEquipement($data['nom_type_equipement']);
-            $equipement->setMarqueEquipement($data['nom_marque']);
+            $req = $this->bdd->prepare
+            ("
+                SELECT produit.*, marque.*, categorie.*, 
+                image.*, genre.*, caracteristiques_equipement.*, type_equipement.nom_type_equipement
+                FROM produit
+                INNER JOIN marque ON produit.id_marque = marque.id_marque
+                INNER JOIN caracteristiques_equipement ON caracteristiques_equipement.id_produit = produit.id_produit
+                INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
+                INNER JOIN image ON image.id_image = image_produit.id_image
+                INNER JOIN genre ON genre.id_genre = produit.id_genre
+                INNER JOIN type_equipement ON type_equipement.id_type_equipement = caracteristiques_equipement.id_type_equipement
+                WHERE produit.id_genre = 1
+                GROUP BY produit.id_produit
+            ");
 
-            $equipements[] = $equipement;
-        }
-        return $equipements;
-    }
+            $req->execute();
 
-    public function getLastEquipement()
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_equipement.*, marque.*
-        FROM equipement
-        INNER JOIN categorie ON equipement.id_categorie = categorie.id_categorie
-        INNER JOIN type_equipement ON equipement.id_type_equipement = type_equipement.id_type_equipement
-        INNER JOIN marque ON equipement.id_marque = marque.id_marque");
+            $equipementsData = $req->fetchAll(PDO::FETCH_ASSOC);
 
-        $req->execute();
-        $datas = $req->fetchAll();
-        $equipements = [];
-
-        foreach ($datas as $data) 
-        {
-            $equipement = new Equipement();
-            $equipement->setIdEquipement($data['id_equipement']);
-            $equipement->setNomEquipement($data['nom_equipement']);
-            $equipement->setDetailEquipement($data['detail_equipement']);
-            $equipement->setDescriptionEquipement($data['description_equipement']);
-            $equipement->setPromoEquipement($data['promo_equipement']);
-            $equipement->setStockEquipement($data['stock_equipement']);
-            $equipement->setHorsStockEquipement($data['hors_stock_equipement']);
-            $equipement->setCategorieEquipement($data['nom_categorie']);
-            $equipement->setTypeEquipement($data['nom_type_equipement']);
-            $equipement->setMarqueEquipement($data['nom_marque']);
-
-            $equipements[] = $equipement;
-        }
-        return $equipements;
-    }
-
-    public function getPromoEquipement()
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_equipement.*, marque.*
-        FROM equipement
-        INNER JOIN categorie ON equipement.id_categorie = categorie.id_categorie
-        INNER JOIN type_equipement ON equipement.id_type_equipement = type_equipement.id_type_equipement
-        INNER JOIN marque ON equipement.id_marque = marque.id_marque");
-
-        $req->execute();
-        $datas = $req->fetchAll();
-        $equipements = [];
-
-        foreach ($datas as $data) 
-        {
-            if($data['promo_equipement'] == 1)
+            $equipements = [];
+            foreach ($equipementsData as $equipementData) 
             {
                 $equipement = new Equipement();
-                $equipement->setIdEquipement($data['id_equipement']);
-                $equipement->setNomEquipement($data['nom_equipement']);
-                $equipement->setDetailEquipement($data['detail_equipement']);
-                $equipement->setDescriptionEquipement($data['description_equipement']);
-                $equipement->setPromoEquipement($data['promo_equipement']);
-                $equipement->setStockEquipement($data['stock_equipement']);
-                $equipement->setHorsStockEquipement($data['hors_stock_equipement']);
-                $equipement->setCategorieEquipement($data['nom_categorie']);
-                $equipement->setTypeEquipement($data['nom_type_equipement']);
-                $equipement->setMarqueEquipement($data['nom_marque']);
+                $equipement->setIdProduit($equipementData['id_produit']);
+                $equipement->setNomProduit($equipementData['nom_produit']);
+                $equipement->setDescriptionProduit($equipementData['description_produit']);
+                $equipement->setPrixProduit($equipementData['prix_produit']);
+                $equipement->setPromoProduit($equipementData['promo_produit']);
+                $equipement->setPrixPromoProduit($equipementData['prix_promo_produit']);
+                $equipement->setStockProduit($equipementData['stock_produit']);
+                $equipement->setIdCategorie($equipementData['id_categorie']);
+                $equipement->setNomCategorie($equipementData['nom_categorie']);
+                $equipement->setIdMarque($equipementData['id_marque']);
+                $equipement->setNomMarque($equipementData['nom_marque']);
+                $equipement->setIdGenre($equipementData['id_genre']);
+                $equipement->setNomGenre($equipementData['nom_genre']);
+                $equipement->setIdImage($equipementData['id_image']);
+                $equipement->setNomImage($equipementData['nom_image']);
+                $equipement->setDescriptionImage($equipementData['description_image']);
+
+                $equipement->setDetailEquipement($equipementData['detail_equipement']);
+                $equipement->setIdTypeEquipement($equipementData['id_type_equipement']);
 
                 $equipements[] = $equipement;
             }
-        }
-        return $equipements;
-    }
 
-    public function getEquipementById($id_equipement)
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_equipement.*, marque.*
-        FROM equipement
-        INNER JOIN categorie ON equipement.id_categorie = categorie.id_categorie
-        INNER JOIN type_equipement ON equipement.id_type_equipement = type_equipement.id_type_equipement
-        INNER JOIN marque ON equipement.id_marque = marque.id_marque
-        WHERE id_equipement = ?
-        ");
-
-        $req->execute([$id_equipement]);
-        $datas = $req->fetchAll();
-
-        foreach ($datas as $data)
+            return $equipements;
+        } 
+        catch (PDOException $e) 
         {
-            $equipement = new Equipement();
-            $equipement->setIdEquipement($data['id_equipement']);
-            $equipement->setNomEquipement($data['nom_equipement']);
-            $equipement->setDetailEquipement($data['detail_equipement']);
-            $equipement->setDescriptionEquipement($data['description_equipement']);
-            $equipement->setPromoEquipement($data['promo_equipement']);
-            $equipement->setStockEquipement($data['stock_equipement']);
-            $equipement->setHorsStockEquipement($data['hors_stock_equipement']);
-            $equipement->setCategorieEquipement($data['nom_categorie']);
-            $equipement->setTypeEquipement($data['nom_type_equipement']);
-            $equipement->setMarqueEquipement($data['nom_marque']);
+            die("Erreur lors de la récupération des equipements : " . $e->getMessage());
         }
-        return $equipement;
     }
 
-    public function deleteEquipement($id_equipement):bool
+    public function addEquipement(Equipement $equipement)
+    {
+        try {
+            $this->bdd->beginTransaction();
+
+            $reqProduit = $this->bdd->prepare
+            ("
+                INSERT INTO produit (nom_produit, description_produit, prix_produit, stock_produit, promo_produit, prix_promo_produit, id_categorie, id_marque, id_genre)
+                VALUES (?,?,?,?,?,?,?,?,?)
+            ");
+
+            $reqProduit->execute
+            ([
+                $equipement->getNomProduit(),
+                $equipement->getDescriptionProduit(),
+                $equipement->getPrixProduit(),
+                $equipement->getStockProduit(),
+                $equipement->getPromoProduit(),
+                $equipement->getPrixPromoProduit(),
+                $equipement->getIdCategorie(),
+                $equipement->getIdMarque(),
+                $equipement->getIdGenre(),
+            ]);
+
+            $idProduit = $this->bdd->lastInsertId();
+
+            $reqCaracteristiquesEquipement = $this->bdd->prepare
+            ("
+                INSERT INTO caracteristiques_equipement (id_produit, detail_equipement, id_type_equipement)
+                VALUES (?,?,?)
+            ");
+
+            $reqCaracteristiquesEquipement->execute
+            ([
+                $idProduit,
+                $equipement->getDetailEquipement(),
+                $equipement->getIdTypeEquipement(),
+            ]);
+
+            $this->bdd->commit();
+        } 
+        catch (PDOException $e) 
+        {
+            $this->bdd->rollBack();
+            die("Erreur lors de l'ajout de la equipement : " . $e->getMessage());
+        }
+    }
+
+    public function updateEquipement(Equipement $equipement)
     {
         try 
         {
-            
-            $imageEquipementRepo = new ImageEquipementRepository;
-            $oldImg = $imageEquipementRepo->getImageByEquipement($_POST['id_equipement']);
-           
-            $cheminFichier = $oldImg->getNomImageEquipement();
+            $this->bdd->beginTransaction();
 
-            if (file_exists($cheminFichier)) 
-            {
-                if (unlink($cheminFichier)) 
-                {
-                    echo "Le fichier a été supprimé avec succès.";
-                } 
-                else 
-                {
-                    echo "Une erreur s'est produite lors de la suppression du fichier.";
-                }
-            } 
-            else 
-            {
-                echo "Le fichier spécifié n'existe pas.";
-            }
-            $imageEquipementRepo->deleteImageByEquipement($id_equipement);
+            $reqProduit = $this->bdd->prepare("UPDATE produit 
+            SET nom_produit = ?, description_produit = ?, prix_produit = ?, stock_produit = ?, promo_produit = ?, prix_promo_produit = ?, id_categorie = ?, id_marque = ?, id_genre = ?
+            WHERE id_produit = ?");
 
-            $req = $this->bdd->prepare('DELETE FROM equipement WHERE id_equipement = ?');
-            $req->execute([$id_equipement]);
+            $reqProduit->execute
+            ([
+                $equipement->getNomProduit(),
+                $equipement->getDescriptionProduit(),
+                $equipement->getPrixProduit(),
+                $equipement->getStockProduit(),
+                $equipement->getPromoProduit(),
+                $equipement->getPrixPromoProduit(),
+                $equipement->getIdCategorie(),
+                $equipement->getIdMarque(),
+                $equipement->getIdGenre(),
+                $equipement->getIdProduit(),
+            ]);
 
-            return true;
-        } 
-        catch (Exception $e) 
+            $reqCaracteristiquesEquipement = $this->bdd->prepare("UPDATE caracteristiques_equipement 
+            SET detail_equipement = ?, id_type_equipement = ? WHERE id_produit = ?");
+
+            $reqCaracteristiquesEquipement->execute
+            ([
+                $equipement->getDetailEquipement(),
+                $equipement->getIdTypeEquipement(),
+                $equipement->getIdProduit(),
+            ]);
+
+            $this->bdd->commit();
+        }
+        catch (PDOException $e) 
         {
-            return false;
+            $this->bdd->rollBack();
+            die("Erreur lors de la mise à jour de la equipement : " . $e->getMessage());
         }
     }
 
-    public function updateEquipement($id_equipement, $nom_equipement, $detail_equipement, $description_equipement, $promo_equipement, $stock_equipement, $hors_stock_equipement, $id_categorie, $id_type_equipement, $id_marque)
+    public function deleteEquipement($id_produit)
     {
         try 
         {
-            
-            $req = $this->bdd->prepare("UPDATE equipement SET nom_equipement = ?, detail_equipement = ?, description_equipement = ?, promo_equipement = ?, stock_equipement = ?, hors_stock_equipement = ?, id_categorie = ?, id_type_equipement = ?, id_marque = ? WHERE id_equipement = ?");
-            $req->execute([$nom_equipement, $detail_equipement, $description_equipement, $promo_equipement, $stock_equipement, $hors_stock_equipement, $id_categorie, $id_type_equipement, $id_marque, $id_equipement]);
-            
-            return true;
+            $this->bdd->beginTransaction();
+
+            $reqCaracteristiquesEquipement = $this->bdd->prepare("DELETE FROM caracteristiques_equipement WHERE id_produit = ?");
+            $reqCaracteristiquesEquipement->execute([$id_produit]);
+
+            $reqProduit = $this->bdd->prepare("DELETE FROM produit WHERE id_produit = ?");
+            $reqProduit->execute([$id_produit]);
+
+            $this->bdd->commit();
         } 
-        catch (Exception $e) 
+        catch (PDOException $e) 
         {
-            return false;
+            $this->bdd->rollBack();
+            die("Erreur lors de la suppression de la equipement : " . $e->getMessage());
         }
-    }
-
-    public function getLastInsertId()
-    {
-        $query = "SELECT MAX(id_equipement) AS last_id FROM equipement";
-        $result = $this->bdd->prepare($query);
-
-        if ($result->execute()) { // Exécutez la requête ici
-            $row = $result->fetch(PDO::FETCH_ASSOC);
-            $lastId = $row['last_id'];
-
-            return $lastId;
-        } else {
-            // Gérez l'erreur de la requête
-            // Retournez une valeur par défaut ou lancez une exception, selon vos besoins
-        }
-        
-    }
-
-    public function getEquipementByCategorie($id_categorie)
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_equipement.*, marque.*
-        FROM equipement
-        INNER JOIN categorie ON equipement.id_categorie = categorie.id_categorie
-        INNER JOIN type_equipement ON equipement.id_type_equipement = type_equipement.id_type_equipement
-        INNER JOIN marque ON equipement.id_marque = marque.id_marque
-        WHERE equipement.id_categorie = ?");
-
-        $req->execute([$id_categorie]);
-        $datas = $req->fetchAll();
-        $equipements = [];
-
-        foreach ($datas as $data) 
-        {
-            $equipement = new Equipement();
-            $equipement->setIdEquipement($data['id_equipement']);
-            $equipement->setNomEquipement($data['nom_equipement']);
-            $equipement->setDetailEquipement($data['detail_equipement']);
-            $equipement->setDescriptionEquipement($data['description_equipement']);
-            $equipement->setPromoEquipement($data['promo_equipement']);
-            $equipement->setStockEquipement($data['stock_equipement']);
-            $equipement->setHorsStockEquipement($data['hors_stock_equipement']);
-            $equipement->setCategorieEquipement($data['nom_categorie']);
-            $equipement->setTypeEquipement($data['nom_type_equipement']);
-            $equipement->setMarqueEquipement($data['nom_marque']);
-
-            $equipements[] = $equipement;
-        }
-        return $equipements;
-    }
-
-    public function getEquipementByMarque($id_marque)
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_equipement.*, marque.*
-        FROM equipement
-        INNER JOIN categorie ON equipement.id_categorie = categorie.id_categorie
-        INNER JOIN type_equipement ON equipement.id_type_equipement = type_equipement.id_type_equipement
-        INNER JOIN marque ON equipement.id_marque = marque.id_marque
-        WHERE equipement.id_marque = ?");
-
-        $req->execute([$id_marque]);
-        $datas = $req->fetchAll();
-        $equipements = [];
-
-        foreach ($datas as $data) 
-        {
-            $equipement = new Equipement();
-            $equipement->setIdEquipement($data['id_equipement']);
-            $equipement->setNomEquipement($data['nom_equipement']);
-            $equipement->setDetailEquipement($data['detail_equipement']);
-            $equipement->setDescriptionEquipement($data['description_equipement']);
-            $equipement->setPromoEquipement($data['promo_equipement']);
-            $equipement->setStockEquipement($data['stock_equipement']);
-            $equipement->setHorsStockEquipement($data['hors_stock_equipement']);
-            $equipement->setCategorieEquipement($data['nom_categorie']);
-            $equipement->setTypeEquipement($data['nom_type_equipement']);
-            $equipement->setMarqueEquipement($data['nom_marque']);
-
-            $equipements[] = $equipement;
-        }
-        return $equipements;
     }
 }
-
-

@@ -1,496 +1,216 @@
-<?php
+<?php 
+require_once 'src/model/Produit.php';
 require_once 'src/config/connectBdd.php';
 
-class Hamecon
+class Hamecon extends Produit
 {
-    private $id_hamecon;
-    private $nom_hamecon;
-    private $poids_hamecon;
     private $longueur_hamecon;
-    private $description_hamecon;
-    private $promo_hamecon;
-    private $stock_hamecon;
-    private $hors_stock_hamecon;
-    private $id_categorie;
-    private $id_type_hamecon;
-    private $id_marque;
+    private $poids_hamecon;
+    private $id_type_hamecon;    
 
-    public function createToInsertHamecon($hameconForm): bool
-    {
-
-        if (!isset($hameconForm['nom_hamecon']) or $hameconForm['nom_hamecon'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($hameconForm['poids_hamecon']) or $hameconForm['poids_hamecon'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($hameconForm['longueur_hamecon']) or $hameconForm['longueur_hamecon'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($hameconForm['description_hamecon']) or $hameconForm['description_hamecon'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($hameconForm['promo_hamecon']) or $hameconForm['promo_hamecon'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($hameconForm['stock_hamecon']) or $hameconForm['stock_hamecon'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($hameconForm['hors_stock_hamecon']) or $hameconForm['hors_stock_hamecon'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($hameconForm['categorie_hamecon']) or $hameconForm['categorie_hamecon'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($hameconForm['type_hamecon']) or $hameconForm['type_hamecon'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($hameconForm['marque_hamecon']) or $hameconForm['marque_hamecon'] == '') 
-        {
-            return false;
-        }
-
-        $this->nom_hamecon = $hameconForm['nom_hamecon'];
-        $this->poids_hamecon = $hameconForm['poids_hamecon'];
-        $this->longueur_hamecon = $hameconForm['longueur_hamecon'];
-        $this->description_hamecon = $hameconForm['description_hamecon'];
-        $this->promo_hamecon = $hameconForm['promo_hamecon'];
-        $this->stock_hamecon = $hameconForm['stock_hamecon'];
-        $this->hors_stock_hamecon = $hameconForm['hors_stock_hamecon'];
-        $this->id_categorie = $hameconForm['categorie_hamecon'];
-        $this->id_type_hamecon = $hameconForm['type_hamecon'];
-        $this->id_marque = $hameconForm['marque_hamecon'];
-
-        return true;
-    }
-
-    public function getIdHamecon(): int
-    {
-        return $this->id_hamecon;
-    }
-
-    public function setIdHamecon($id_hamecon): void
-    {
-        $this->id_hamecon = $id_hamecon;
-    }
-
-
-    public function getNomHamecon(): string
-    {
-        return $this->nom_hamecon;
-    }
-
-    public function setNomHamecon($nom_hamecon): void
-    {
-        $this->nom_hamecon = $nom_hamecon;
-    }
-
-    public function getPoidsHamecon(): string
-    {
-        return $this->poids_hamecon;
-    }
-
-    public function setPoidsHamecon($poids_hamecon): void
-    {
-        $this->poids_hamecon = $poids_hamecon;
-    }
-
-    public function getLongueurHamecon(): string
+    public function getLongueurHamecon(): float 
     {
         return $this->longueur_hamecon;
     }
 
-    public function setLongueurHamecon($longueur_hamecon): void
+    public function setLongueurHamecon(float $longueur_hamecon): void 
     {
         $this->longueur_hamecon = $longueur_hamecon;
     }
 
-    public function getDescriptionHamecon(): string
+    public function getPoidsHamecon(): float 
     {
-        return $this->description_hamecon;
+        return $this->poids_hamecon;
     }
 
-    public function setDescriptionHamecon($description_hamecon): void
-    {
-        $this->description_hamecon = $description_hamecon;
+    public function setPoidsHamecon(float $poids_hamecon): void {
+        $this->poids_hamecon = $poids_hamecon;
     }
 
-    public function getPromoHamecon(): int
-    {
-        return $this->promo_hamecon;
-    }
-
-    public function setPromoHamecon($promo_hamecon): void
-    {
-        $this->promo_hamecon = $promo_hamecon;
-    }
-
-    public function getStockHamecon(): int
-    {
-        return $this->stock_hamecon;
-    }
-
-    public function setStockHamecon($stock_hamecon): void
-    {
-        $this->stock_hamecon = $stock_hamecon;
-    }
-
-    public function getHorsStockHamecon(): int
-    {
-        return $this->hors_stock_hamecon;
-    }
-
-    public function setHorsStockHamecon($hors_stock_hamecon): void
-    {
-        $this->hors_stock_hamecon = $hors_stock_hamecon;
-    }
-
-    public function getCategorieHamecon(): string
-    {
-        return $this->id_categorie;
-    }
-
-    public function setCategorieHamecon($id_categorie): void
-    {
-        $this->id_categorie = $id_categorie;
-    }
-
-    public function getTypeHamecon(): string
+    public function getIdTypeHamecon()
     {
         return $this->id_type_hamecon;
     }
 
-    public function setTypeHamecon($id_type_hamecon): void
+    public function setIdTypeHamecon($id_type_hamecon)
     {
         $this->id_type_hamecon = $id_type_hamecon;
-    }
-
-    public function getMarqueHamecon(): string
-    {
-        return $this->id_marque;
-    }
-
-    public function setMarqueHamecon($id_marque): void
-    {
-        $this->id_marque = $id_marque;
     }
 }
 
 class HameconRepository extends connectBdd
 {
-    public function __construct()
+    public function getAllHamecons()
     {
-        parent::__construct();
-    }
-
-    public function insertHamecon(Hamecon $hamecon)
-    {
-        $req = $this->bdd->prepare("INSERT INTO hamecon (nom_hamecon, poids_hamecon, longueur_hamecon, description_hamecon, promo_hamecon, stock_hamecon, hors_stock_hamecon, id_categorie, id_type_hamecon, id_marque)
-        VALUES (?,?,?,?,?,?,?,?,?,?)");
-
-        $req->execute([
-            $hamecon->getNomHamecon(),
-            $hamecon->getPoidsHamecon(),
-            $hamecon->getLongueurHamecon(),
-            $hamecon->getDescriptionHamecon(),
-            $hamecon->getPromoHamecon(),
-            $hamecon->getStockHamecon(),
-            $hamecon->getHorsStockHamecon(),
-            $hamecon->getCategorieHamecon(),
-            $hamecon->getTypeHamecon(),
-            $hamecon->getMarqueHamecon()
-        ]);
-        
-        return $hamecon;
-    }
-
-    public function getAllHamecon()
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_hamecon.*, marque.*
-        FROM hamecon
-        INNER JOIN categorie ON hamecon.id_categorie = categorie.id_categorie
-        INNER JOIN type_hamecon ON hamecon.id_type_hamecon = type_hamecon.id_type_hamecon
-        INNER JOIN marque ON hamecon.id_marque = marque.id_marque");
-
-        $req->execute();
-        $datas = $req->fetchAll();
-        $hamecons = [];
-
-        foreach ($datas as $data) 
+        try 
         {
-            $hamecon = new Hamecon();
-            $hamecon->setIdHamecon($data['id_hamecon']);
-            $hamecon->setNomHamecon($data['nom_hamecon']);
-            $hamecon->setPoidsHamecon($data['poids_hamecon']);
-            $hamecon->setLongueurHamecon($data['longueur_hamecon']);
-            $hamecon->setDescriptionHamecon($data['description_hamecon']);
-            $hamecon->setPromoHamecon($data['promo_hamecon']);
-            $hamecon->setStockHamecon($data['stock_hamecon']);
-            $hamecon->setHorsStockHamecon($data['hors_stock_hamecon']);
-            $hamecon->setCategorieHamecon($data['nom_categorie']);
-            $hamecon->setTypeHamecon($data['nom_type_hamecon']);
-            $hamecon->setMarqueHamecon($data['nom_marque']);
+            $req = $this->bdd->prepare
+            ("
+                SELECT produit.*, marque.*, categorie.*, 
+                image.*, genre.*, caracteristiques_hamecon.*, type_hamecon.nom_type_hamecon
+                FROM produit
+                INNER JOIN marque ON produit.id_marque = marque.id_marque
+                INNER JOIN caracteristiques_hamecon ON caracteristiques_hamecon.id_produit = produit.id_produit
+                INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
+                INNER JOIN image ON image.id_image = image_produit.id_image
+                INNER JOIN genre ON genre.id_genre = produit.id_genre
+                INNER JOIN type_hamecon ON type_hamecon.id_type_hamecon = caracteristiques_hamecon.id_type_hamecon
+                WHERE produit.id_genre = 1
+                GROUP BY produit.id_produit
+            ");
 
-            $hamecons[] = $hamecon;
-        }
-        return $hamecons;
-    }
+            $req->execute();
 
-    public function getLastHamecon()
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_hamecon.*, marque.*
-        FROM hamecon
-        INNER JOIN categorie ON hamecon.id_categorie = categorie.id_categorie
-        INNER JOIN type_hamecon ON hamecon.id_type_hamecon = type_hamecon.id_type_hamecon
-        INNER JOIN marque ON hamecon.id_marque = marque.id_marque");
+            $hameconsData = $req->fetchAll(PDO::FETCH_ASSOC);
 
-        $req->execute();
-        $datas = $req->fetchAll();
-        $hamecons = [];
-
-        foreach ($datas as $data) 
-        {
-            $hamecon = new Hamecon();
-            $hamecon->setIdHamecon($data['id_hamecon']);
-            $hamecon->setNomHamecon($data['nom_hamecon']);
-            $hamecon->setPoidsHamecon($data['poids_hamecon']);
-            $hamecon->setLongueurHamecon($data['longueur_hamecon']);
-            $hamecon->setDescriptionHamecon($data['description_hamecon']);
-            $hamecon->setPromoHamecon($data['promo_hamecon']);
-            $hamecon->setStockHamecon($data['stock_hamecon']);
-            $hamecon->setHorsStockHamecon($data['hors_stock_hamecon']);
-            $hamecon->setCategorieHamecon($data['nom_categorie']);
-            $hamecon->setTypeHamecon($data['nom_type_hamecon']);
-            $hamecon->setMarqueHamecon($data['nom_marque']);
-
-            $hamecons[] = $hamecon;
-        }
-        return $hamecons;
-    }
-
-    public function getPromoHamecon()
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_hamecon.*, marque.*
-        FROM hamecon
-        INNER JOIN categorie ON hamecon.id_categorie = categorie.id_categorie
-        INNER JOIN type_hamecon ON hamecon.id_type_hamecon = type_hamecon.id_type_hamecon
-        INNER JOIN marque ON hamecon.id_marque = marque.id_marque");
-
-        $req->execute();
-        $datas = $req->fetchAll();
-        $hamecons = [];
-
-        foreach ($datas as $data) 
-        {
-            if($data['promo_hamecon'] == 1)
+            $hamecons = [];
+            foreach ($hameconsData as $hameconData) 
             {
                 $hamecon = new Hamecon();
-                $hamecon->setIdHamecon($data['id_hamecon']);
-                $hamecon->setNomHamecon($data['nom_hamecon']);
-                $hamecon->setPoidsHamecon($data['poids_hamecon']);
-                $hamecon->setLongueurHamecon($data['longueur_hamecon']);
-                $hamecon->setDescriptionHamecon($data['description_hamecon']);
-                $hamecon->setPromoHamecon($data['promo_hamecon']);
-                $hamecon->setStockHamecon($data['stock_hamecon']);
-                $hamecon->setHorsStockHamecon($data['hors_stock_hamecon']);
-                $hamecon->setCategorieHamecon($data['nom_categorie']);
-                $hamecon->setTypeHamecon($data['nom_type_hamecon']);
-                $hamecon->setMarqueHamecon($data['nom_marque']);
+                $hamecon->setIdProduit($hameconData['id_produit']);
+                $hamecon->setNomProduit($hameconData['nom_produit']);
+                $hamecon->setDescriptionProduit($hameconData['description_produit']);
+                $hamecon->setPrixProduit($hameconData['prix_produit']);
+                $hamecon->setPromoProduit($hameconData['promo_produit']);
+                $hamecon->setPrixPromoProduit($hameconData['prix_promo_produit']);
+                $hamecon->setStockProduit($hameconData['stock_produit']);
+                $hamecon->setIdCategorie($hameconData['id_categorie']);
+                $hamecon->setNomCategorie($hameconData['nom_categorie']);
+                $hamecon->setIdMarque($hameconData['id_marque']);
+                $hamecon->setNomMarque($hameconData['nom_marque']);
+                $hamecon->setIdGenre($hameconData['id_genre']);
+                $hamecon->setNomGenre($hameconData['nom_genre']);
+                $hamecon->setIdImage($hameconData['id_image']);
+                $hamecon->setNomImage($hameconData['nom_image']);
+                $hamecon->setDescriptionImage($hameconData['description_image']);
+
+                $hamecon->setLongueurHamecon($hameconData['longueur_hamecon']);
+                $hamecon->setPoidsHamecon($hameconData['poids_hamecon']);
+                $hamecon->setIdTypeHamecon($hameconData['id_type_hamecon']);
 
                 $hamecons[] = $hamecon;
             }
-        }
-        return $hamecons;
-    }
 
-    public function getHameconById($id_hamecon)
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_hamecon.*, marque.*
-        FROM hamecon
-        INNER JOIN categorie ON hamecon.id_categorie = categorie.id_categorie
-        INNER JOIN type_hamecon ON hamecon.id_type_hamecon = type_hamecon.id_type_hamecon
-        INNER JOIN marque ON hamecon.id_marque = marque.id_marque
-        WHERE id_hamecon = ?
-        ");
-
-        $req->execute([$id_hamecon]);
-        $datas = $req->fetchAll();
-
-        foreach ($datas as $data)
+            return $hamecons;
+        } 
+        catch (PDOException $e) 
         {
-            $hamecon = new Hamecon();
-            $hamecon->setIdHamecon($data['id_hamecon']);
-            $hamecon->setNomHamecon($data['nom_hamecon']);
-            $hamecon->setPoidsHamecon($data['poids_hamecon']);
-            $hamecon->setLongueurHamecon($data['longueur_hamecon']);
-            $hamecon->setDescriptionHamecon($data['description_hamecon']);
-            $hamecon->setPromoHamecon($data['promo_hamecon']);
-            $hamecon->setStockHamecon($data['stock_hamecon']);
-            $hamecon->setHorsStockHamecon($data['hors_stock_hamecon']);
-            $hamecon->setCategorieHamecon($data['nom_categorie']);
-            $hamecon->setTypeHamecon($data['nom_type_hamecon']);
-            $hamecon->setMarqueHamecon($data['nom_marque']);
+            die("Erreur lors de la récupération des hamecons : " . $e->getMessage());
         }
-        return $hamecon;
     }
 
-    public function deleteHamecon($id_hamecon):bool
+    public function addHamecon(Hamecon $hamecon)
+    {
+        try {
+            $this->bdd->beginTransaction();
+
+            $reqProduit = $this->bdd->prepare
+            ("
+                INSERT INTO produit (nom_produit, description_produit, prix_produit, stock_produit, promo_produit, prix_promo_produit, id_categorie, id_marque, id_genre)
+                VALUES (?,?,?,?,?,?,?,?,?)
+            ");
+
+            $reqProduit->execute
+            ([
+                $hamecon->getNomProduit(),
+                $hamecon->getDescriptionProduit(),
+                $hamecon->getPrixProduit(),
+                $hamecon->getStockProduit(),
+                $hamecon->getPromoProduit(),
+                $hamecon->getPrixPromoProduit(),
+                $hamecon->getIdCategorie(),
+                $hamecon->getIdMarque(),
+                $hamecon->getIdGenre(),
+            ]);
+
+            $idProduit = $this->bdd->lastInsertId();
+
+            $reqCaracteristiquesHamecon = $this->bdd->prepare
+            ("
+                INSERT INTO caracteristiques_hamecon (id_produit, longueur_hamecon, poids_hamecon, id_type_hamecon)
+                VALUES (?,?,?,?)
+            ");
+
+            $reqCaracteristiquesHamecon->execute
+            ([
+                $idProduit,
+                $hamecon->getLongueurHamecon(),
+                $hamecon->getPoidsHamecon(),
+                $hamecon->getIdTypeHamecon(),
+            ]);
+
+            $this->bdd->commit();
+        } 
+        catch (PDOException $e) 
+        {
+            $this->bdd->rollBack();
+            die("Erreur lors de l'ajout de la hamecon : " . $e->getMessage());
+        }
+    }
+
+    public function updateHamecon(Hamecon $hamecon)
     {
         try 
         {
-            
-            $imageHameconRepo = new ImageHameconRepository;
-            $oldImg = $imageHameconRepo->getImageByHamecon($_POST['id_hamecon']);
-           
-            $cheminFichier = $oldImg->getNomImageHamecon();
+            $this->bdd->beginTransaction();
 
-            if (file_exists($cheminFichier)) 
-            {
-                if (unlink($cheminFichier)) 
-                {
-                    echo "Le fichier a été supprimé avec succès.";
-                } 
-                else 
-                {
-                    echo "Une erreur s'est produite lors de la suppression du fichier.";
-                }
-            } 
-            else 
-            {
-                echo "Le fichier spécifié n'existe pas.";
-            }
-            $imageHameconRepo->deleteImageByHamecon($id_hamecon);
+            $reqProduit = $this->bdd->prepare("UPDATE produit 
+            SET nom_produit = ?, description_produit = ?, prix_produit = ?, stock_produit = ?, promo_produit = ?, prix_promo_produit = ?, id_categorie = ?, id_marque = ?, id_genre = ?
+            WHERE id_produit = ?");
 
-            $req = $this->bdd->prepare('DELETE FROM hamecon WHERE id_hamecon = ?');
-            $req->execute([$id_hamecon]);
+            $reqProduit->execute
+            ([
+                $hamecon->getNomProduit(),
+                $hamecon->getDescriptionProduit(),
+                $hamecon->getPrixProduit(),
+                $hamecon->getStockProduit(),
+                $hamecon->getPromoProduit(),
+                $hamecon->getPrixPromoProduit(),
+                $hamecon->getIdCategorie(),
+                $hamecon->getIdMarque(),
+                $hamecon->getIdGenre(),
+                $hamecon->getIdProduit(),
+            ]);
 
-            return true;
-        } 
-        catch (Exception $e) 
+            $reqCaracteristiquesHamecon = $this->bdd->prepare("UPDATE caracteristiques_hamecon 
+            SET longueur_hamecon = ?, poids_hamecon = ?, id_type_hamecon = ? WHERE id_produit = ?");
+
+            $reqCaracteristiquesHamecon->execute
+            ([
+                $hamecon->getLongueurHamecon(),
+                $hamecon->getPoidsHamecon(),
+                $hamecon->getIdTypeHamecon(),
+                $hamecon->getIdProduit(),
+            ]);
+
+            $this->bdd->commit();
+        }
+        catch (PDOException $e) 
         {
-            return false;
+            $this->bdd->rollBack();
+            die("Erreur lors de la mise à jour de la hamecon : " . $e->getMessage());
         }
     }
 
-    public function updateHamecon($id_hamecon, $nom_hamecon, $poids_hamecon, $longueur_hamecon, $description_hamecon, $promo_hamecon, $stock_hamecon, $hors_stock_hamecon, $id_categorie, $id_type_hamecon, $id_marque)
+    public function deleteHamecon($id_produit)
     {
         try 
         {
-            
-            $req = $this->bdd->prepare("UPDATE hamecon SET nom_hamecon = ?, poids_hamecon = ?, longueur_hamecon = ?, description_hamecon = ?, promo_hamecon = ?, stock_hamecon = ?, hors_stock_hamecon = ?, id_categorie = ?, id_type_hamecon = ?, id_marque = ? WHERE id_hamecon = ?");
-            $req->execute([$nom_hamecon, $poids_hamecon, $longueur_hamecon, $description_hamecon, $promo_hamecon, $stock_hamecon, $hors_stock_hamecon, $id_categorie, $id_type_hamecon, $id_marque, $id_hamecon]);
-            
-            return true;
+            $this->bdd->beginTransaction();
+
+            $reqCaracteristiquesHamecon = $this->bdd->prepare("DELETE FROM caracteristiques_hamecon WHERE id_produit = ?");
+            $reqCaracteristiquesHamecon->execute([$id_produit]);
+
+            $reqProduit = $this->bdd->prepare("DELETE FROM produit WHERE id_produit = ?");
+            $reqProduit->execute([$id_produit]);
+
+            $this->bdd->commit();
         } 
-        catch (Exception $e) 
+        catch (PDOException $e) 
         {
-            return false;
+            $this->bdd->rollBack();
+            die("Erreur lors de la suppression de la hamecon : " . $e->getMessage());
         }
-    }
-
-    public function getLastInsertId()
-    {
-        $query = "SELECT MAX(id_hamecon) AS last_id FROM hamecon";
-        $result = $this->bdd->prepare($query);
-
-        if ($result->execute()) { // Exécutez la requête ici
-            $row = $result->fetch(PDO::FETCH_ASSOC);
-            $lastId = $row['last_id'];
-
-            return $lastId;
-        } else {
-            // Gérez l'erreur de la requête
-            // Retournez une valeur par défaut ou lancez une exception, selon vos besoins
-        }
-    }
-
-    public function getHameconByCategorie($id_categorie)
-    {
-    
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_hamecon.*, marque.*
-        FROM hamecon
-        INNER JOIN categorie ON hamecon.id_categorie = categorie.id_categorie
-        INNER JOIN type_hamecon ON hamecon.id_type_hamecon = type_hamecon.id_type_hamecon
-        INNER JOIN marque ON hamecon.id_marque = marque.id_marque
-        WHERE hamecon.id_categorie = ?");
-
-        $req->execute([$id_categorie]);
-        $datas = $req->fetchAll();
-
-        $hamecons = [];
-
-        foreach ($datas as $data)
-        {
-            $hamecon = new Hamecon();
-            $hamecon->setIdHamecon($data['id_hamecon']);
-            $hamecon->setNomHamecon($data['nom_hamecon']);
-            $hamecon->setPoidsHamecon($data['poids_hamecon']);
-            $hamecon->setLongueurHamecon($data['longueur_hamecon']);
-            $hamecon->setDescriptionHamecon($data['description_hamecon']);
-            $hamecon->setPromoHamecon($data['promo_hamecon']);
-            $hamecon->setStockHamecon($data['stock_hamecon']);
-            $hamecon->setHorsStockHamecon($data['hors_stock_hamecon']);
-            $hamecon->setCategorieHamecon($data['nom_categorie']);
-            $hamecon->setTypeHamecon($data['nom_type_hamecon']);
-            $hamecon->setMarqueHamecon($data['nom_marque']);
-
-            $hamecons[] = $hamecon;
-        }
-        return $hamecons;
-    }
-
-    public function getHameconByMarque($id_marque)
-    {
-    
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_hamecon.*, marque.*
-        FROM hamecon
-        INNER JOIN categorie ON hamecon.id_categorie = categorie.id_categorie
-        INNER JOIN type_hamecon ON hamecon.id_type_hamecon = type_hamecon.id_type_hamecon
-        INNER JOIN marque ON hamecon.id_marque = marque.id_marque
-        WHERE hamecon.id_marque = ?");
-
-        $req->execute([$id_marque]);
-        $datas = $req->fetchAll();
-
-        $hamecons = [];
-
-        foreach ($datas as $data)
-        {
-            $hamecon = new Hamecon();
-            $hamecon->setIdHamecon($data['id_hamecon']);
-            $hamecon->setNomHamecon($data['nom_hamecon']);
-            $hamecon->setPoidsHamecon($data['poids_hamecon']);
-            $hamecon->setLongueurHamecon($data['longueur_hamecon']);
-            $hamecon->setDescriptionHamecon($data['description_hamecon']);
-            $hamecon->setPromoHamecon($data['promo_hamecon']);
-            $hamecon->setStockHamecon($data['stock_hamecon']);
-            $hamecon->setHorsStockHamecon($data['hors_stock_hamecon']);
-            $hamecon->setCategorieHamecon($data['nom_categorie']);
-            $hamecon->setTypeHamecon($data['nom_type_hamecon']);
-            $hamecon->setMarqueHamecon($data['nom_marque']);
-
-            $hamecons[] = $hamecon;
-        }
-        return $hamecons;
     }
 }
-
-

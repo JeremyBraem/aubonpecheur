@@ -1,469 +1,203 @@
-<?php
+<?php 
+require_once 'src/model/Produit.php';
 require_once 'src/config/connectBdd.php';
 
-class Appat
+class Appat extends Produit
 {
-    private $id_appat;
-    private $nom_appat;
     private $detail_appat;
-    private $description_appat;
-    private $promo_appat;
-    private $stock_appat;
-    private $hors_stock_appat;
-    private $id_categorie;
-    private $id_type_appat;
-    private $id_marque;
+    private $id_type_appat;    
 
-    public function createToInsertAppat($appatForm): bool
-    {
-
-        if (!isset($appatForm['nom_appat']) or $appatForm['nom_appat'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($appatForm['detail_appat']) or $appatForm['detail_appat'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($appatForm['description_appat']) or $appatForm['description_appat'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($appatForm['promo_appat']) or $appatForm['promo_appat'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($appatForm['stock_appat']) or $appatForm['stock_appat'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($appatForm['hors_stock_appat']) or $appatForm['hors_stock_appat'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($appatForm['categorie_appat']) or $appatForm['categorie_appat'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($appatForm['type_appat']) or $appatForm['type_appat'] == '') 
-        {
-            return false;
-        }
-
-        if (!isset($appatForm['marque_appat']) or $appatForm['marque_appat'] == '') 
-        {
-            return false;
-        }
-
-        $this->nom_appat = $appatForm['nom_appat'];
-        $this->detail_appat = $appatForm['detail_appat'];
-        $this->description_appat = $appatForm['description_appat'];
-        $this->promo_appat = $appatForm['promo_appat'];
-        $this->stock_appat = $appatForm['stock_appat'];
-        $this->hors_stock_appat = $appatForm['hors_stock_appat'];
-        $this->id_categorie = $appatForm['categorie_appat'];
-        $this->id_type_appat = $appatForm['type_appat'];
-        $this->id_marque = $appatForm['marque_appat'];
-
-        return true;
-    }
-
-    public function getIdAppat(): int
-    {
-        return $this->id_appat;
-    }
-
-    public function setIdAppat($id_appat): void
-    {
-        $this->id_appat = $id_appat;
-    }
-
-
-    public function getNomAppat(): string
-    {
-        return $this->nom_appat;
-    }
-
-    public function setNomAppat($nom_appat): void
-    {
-        $this->nom_appat = $nom_appat;
-    }
-
-    public function getDetailAppat(): string
+    public function getDetailAppat(): string 
     {
         return $this->detail_appat;
     }
 
-    public function setDetailAppat($detail_appat): void
+    public function setDetailAppat(string $detail_appat): void 
     {
         $this->detail_appat = $detail_appat;
     }
 
-    public function getDescriptionAppat(): string
-    {
-        return $this->description_appat;
-    }
-
-    public function setDescriptionAppat($description_appat): void
-    {
-        $this->description_appat = $description_appat;
-    }
-
-    public function getPromoAppat(): int
-    {
-        return $this->promo_appat;
-    }
-
-    public function setPromoAppat($promo_appat): void
-    {
-        $this->promo_appat = $promo_appat;
-    }
-
-    public function getStockAppat(): int
-    {
-        return $this->stock_appat;
-    }
-
-    public function setStockAppat($stock_appat): void
-    {
-        $this->stock_appat = $stock_appat;
-    }
-
-    public function getHorsStockAppat(): int
-    {
-        return $this->hors_stock_appat;
-    }
-
-    public function setHorsStockAppat($hors_stock_appat): void
-    {
-        $this->hors_stock_appat = $hors_stock_appat;
-    }
-
-    public function getCategorieAppat(): string
-    {
-        return $this->id_categorie;
-    }
-
-    public function setCategorieAppat($id_categorie): void
-    {
-        $this->id_categorie = $id_categorie;
-    }
-
-    public function getTypeAppat(): string
+    public function getIdTypeAppat()
     {
         return $this->id_type_appat;
     }
 
-    public function setTypeAppat($id_type_appat): void
+    public function setIdTypeAppat($id_type_appat)
     {
         $this->id_type_appat = $id_type_appat;
-    }
-
-    public function getMarqueAppat(): string
-    {
-        return $this->id_marque;
-    }
-
-    public function setMarqueAppat($id_marque): void
-    {
-        $this->id_marque = $id_marque;
     }
 }
 
 class AppatRepository extends connectBdd
 {
-    public function __construct()
+    public function getAllAppats()
     {
-        parent::__construct();
-    }
-
-    public function insertAppat(Appat $appat)
-    {
-        $req = $this->bdd->prepare("INSERT INTO appat (nom_appat, detail_appat, description_appat, promo_appat, stock_appat, hors_stock_appat, id_categorie, id_type_appat, id_marque)
-        VALUES (?,?,?,?,?,?,?,?,?)");
-
-        $req->execute
-        ([
-            $appat->getNomAppat(),
-            $appat->getDetailAppat(),
-            $appat->getDescriptionAppat(),
-            $appat->getPromoAppat(),
-            $appat->getStockAppat(),
-            $appat->getHorsStockAppat(),
-            $appat->getCategorieAppat(),
-            $appat->getTypeAppat(),
-            $appat->getMarqueAppat()
-        ]);
-        
-        return $appat;
-    }
-
-    public function getAllAppat()
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_appat.*, marque.*
-        FROM appat
-        INNER JOIN categorie ON appat.id_categorie = categorie.id_categorie
-        INNER JOIN type_appat ON appat.id_type_appat = type_appat.id_type_appat
-        INNER JOIN marque ON appat.id_marque = marque.id_marque");
-
-        $req->execute();
-        $datas = $req->fetchAll();
-        $appats = [];
-
-        foreach ($datas as $data) 
+        try 
         {
-            $appat = new Appat();
-            $appat->setIdAppat($data['id_appat']);
-            $appat->setNomAppat($data['nom_appat']);
-            $appat->setDetailAppat($data['detail_appat']);
-            $appat->setDescriptionAppat($data['description_appat']);
-            $appat->setPromoAppat($data['promo_appat']);
-            $appat->setStockAppat($data['stock_appat']);
-            $appat->setHorsStockAppat($data['hors_stock_appat']);
-            $appat->setCategorieAppat($data['nom_categorie']);
-            $appat->setTypeAppat($data['nom_type_appat']);
-            $appat->setMarqueAppat($data['nom_marque']);
+            $req = $this->bdd->prepare
+            ("
+                SELECT produit.*, marque.*, categorie.*, 
+                image.*, genre.*, caracteristiques_appat.*, type_appat.nom_type_appat
+                FROM produit
+                INNER JOIN marque ON produit.id_marque = marque.id_marque
+                INNER JOIN caracteristiques_appat ON caracteristiques_appat.id_produit = produit.id_produit
+                INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
+                INNER JOIN image ON image.id_image = image_produit.id_image
+                INNER JOIN genre ON genre.id_genre = produit.id_genre
+                INNER JOIN type_appat ON type_appat.id_type_appat = caracteristiques_appat.id_type_appat
+                WHERE produit.id_genre = 1
+                GROUP BY produit.id_produit
+            ");
 
-            $appats[] = $appat;
-        }
-        return $appats;
-    }
+            $req->execute();
 
-    public function getLastAppat()
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_appat.*, marque.*
-        FROM appat
-        INNER JOIN categorie ON appat.id_categorie = categorie.id_categorie
-        INNER JOIN type_appat ON appat.id_type_appat = type_appat.id_type_appat
-        INNER JOIN marque ON appat.id_marque = marque.id_marque");
+            $appatsData = $req->fetchAll(PDO::FETCH_ASSOC);
 
-        $req->execute();
-        $datas = $req->fetchAll();
-        $appats = [];
-
-        foreach ($datas as $data) 
-        {
-            $appat = new Appat();
-            $appat->setIdAppat($data['id_appat']);
-            $appat->setNomAppat($data['nom_appat']);
-            $appat->setDetailAppat($data['detail_appat']);
-            $appat->setDescriptionAppat($data['description_appat']);
-            $appat->setPromoAppat($data['promo_appat']);
-            $appat->setStockAppat($data['stock_appat']);
-            $appat->setHorsStockAppat($data['hors_stock_appat']);
-            $appat->setCategorieAppat($data['nom_categorie']);
-            $appat->setTypeAppat($data['nom_type_appat']);
-            $appat->setMarqueAppat($data['nom_marque']);
-
-            $appats[] = $appat;
-        }
-        return $appats;
-    }
-
-    public function getPromoAppat()
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_appat.*, marque.*
-        FROM appat
-        INNER JOIN categorie ON appat.id_categorie = categorie.id_categorie
-        INNER JOIN type_appat ON appat.id_type_appat = type_appat.id_type_appat
-        INNER JOIN marque ON appat.id_marque = marque.id_marque");
-
-        $req->execute();
-        $datas = $req->fetchAll();
-        $appats = [];
-
-        foreach ($datas as $data) 
-        {
-            if($data['promo_appat'] == 1)
+            $appats = [];
+            foreach ($appatsData as $appatData) 
             {
                 $appat = new Appat();
-                $appat->setIdAppat($data['id_appat']);
-                $appat->setNomAppat($data['nom_appat']);
-                $appat->setDetailAppat($data['detail_appat']);
-                $appat->setDescriptionAppat($data['description_appat']);
-                $appat->setPromoAppat($data['promo_appat']);
-                $appat->setStockAppat($data['stock_appat']);
-                $appat->setHorsStockAppat($data['hors_stock_appat']);
-                $appat->setCategorieAppat($data['nom_categorie']);
-                $appat->setTypeAppat($data['nom_type_appat']);
-                $appat->setMarqueAppat($data['nom_marque']);
+                $appat->setIdProduit($appatData['id_produit']);
+                $appat->setNomProduit($appatData['nom_produit']);
+                $appat->setDescriptionProduit($appatData['description_produit']);
+                $appat->setPrixProduit($appatData['prix_produit']);
+                $appat->setPromoProduit($appatData['promo_produit']);
+                $appat->setPrixPromoProduit($appatData['prix_promo_produit']);
+                $appat->setStockProduit($appatData['stock_produit']);
+                $appat->setIdCategorie($appatData['id_categorie']);
+                $appat->setNomCategorie($appatData['nom_categorie']);
+                $appat->setIdMarque($appatData['id_marque']);
+                $appat->setNomMarque($appatData['nom_marque']);
+                $appat->setIdGenre($appatData['id_genre']);
+                $appat->setNomGenre($appatData['nom_genre']);
+                $appat->setIdImage($appatData['id_image']);
+                $appat->setNomImage($appatData['nom_image']);
+                $appat->setDescriptionImage($appatData['description_image']);
+
+                $appat->setDetailAppat($appatData['detail_appat']);
+                $appat->setIdTypeAppat($appatData['id_type_appat']);
 
                 $appats[] = $appat;
             }
-        }
-        return $appats;
-    }
 
-    public function getAppatById($id_appat)
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_appat.*, marque.*
-        FROM appat
-        INNER JOIN categorie ON appat.id_categorie = categorie.id_categorie
-        INNER JOIN type_appat ON appat.id_type_appat = type_appat.id_type_appat
-        INNER JOIN marque ON appat.id_marque = marque.id_marque
-        WHERE id_appat = ?
-        ");
-
-        $req->execute([$id_appat]);
-        $datas = $req->fetchAll();
-
-        foreach ($datas as $data)
+            return $appats;
+        } 
+        catch (PDOException $e) 
         {
-            $appat = new Appat();
-            $appat->setIdAppat($data['id_appat']);
-            $appat->setNomAppat($data['nom_appat']);
-            $appat->setDetailAppat($data['detail_appat']);
-            $appat->setDescriptionAppat($data['description_appat']);
-            $appat->setPromoAppat($data['promo_appat']);
-            $appat->setStockAppat($data['stock_appat']);
-            $appat->setHorsStockAppat($data['hors_stock_appat']);
-            $appat->setCategorieAppat($data['nom_categorie']);
-            $appat->setTypeAppat($data['nom_type_appat']);
-            $appat->setMarqueAppat($data['nom_marque']);
+            die("Erreur lors de la récupération des appats : " . $e->getMessage());
         }
-        return $appat;
     }
 
-    public function deleteAppat($id_appat):bool
+    public function addAppat(Appat $appat)
+    {
+        try {
+            $this->bdd->beginTransaction();
+
+            $reqProduit = $this->bdd->prepare
+            ("
+                INSERT INTO produit (nom_produit, description_produit, prix_produit, stock_produit, promo_produit, prix_promo_produit, id_categorie, id_marque, id_genre)
+                VALUES (?,?,?,?,?,?,?,?,?)
+            ");
+
+            $reqProduit->execute
+            ([
+                $appat->getNomProduit(),
+                $appat->getDescriptionProduit(),
+                $appat->getPrixProduit(),
+                $appat->getStockProduit(),
+                $appat->getPromoProduit(),
+                $appat->getPrixPromoProduit(),
+                $appat->getIdCategorie(),
+                $appat->getIdMarque(),
+                $appat->getIdGenre(),
+            ]);
+
+            $idProduit = $this->bdd->lastInsertId();
+
+            $reqCaracteristiquesAppat = $this->bdd->prepare
+            ("
+                INSERT INTO caracteristiques_appat (id_produit, detail_appat, id_type_appat)
+                VALUES (?,?,?)
+            ");
+
+            $reqCaracteristiquesAppat->execute
+            ([
+                $idProduit,
+                $appat->getDetailAppat(),
+                $appat->getIdTypeAppat(),
+            ]);
+
+            $this->bdd->commit();
+        } 
+        catch (PDOException $e) 
+        {
+            $this->bdd->rollBack();
+            die("Erreur lors de l'ajout de la appat : " . $e->getMessage());
+        }
+    }
+
+    public function updateAppat(Appat $appat)
     {
         try 
         {
-            
-            $imageAppatRepo = new ImageAppatRepository;
-            $oldImg = $imageAppatRepo->getImageByAppat($_POST['id_appat']);
-           
-            $cheminFichier = $oldImg->getNomImageAppat();
+            $this->bdd->beginTransaction();
 
-            if (file_exists($cheminFichier)) 
-            {
-                if (unlink($cheminFichier)) 
-                {
-                    echo "Le fichier a été supprimé avec succès.";
-                } 
-                else 
-                {
-                    echo "Une erreur s'est produite lors de la suppression du fichier.";
-                }
-            } 
-            else 
-            {
-                echo "Le fichier spécifié n'existe pas.";
-            }
-            $imageAppatRepo->deleteImageByAppat($id_appat);
+            $reqProduit = $this->bdd->prepare("UPDATE produit 
+            SET nom_produit = ?, description_produit = ?, prix_produit = ?, stock_produit = ?, promo_produit = ?, prix_promo_produit = ?, id_categorie = ?, id_marque = ?, id_genre = ?
+            WHERE id_produit = ?");
 
-            $req = $this->bdd->prepare('DELETE FROM appat WHERE id_appat = ?');
-            $req->execute([$id_appat]);
+            $reqProduit->execute
+            ([
+                $appat->getNomProduit(),
+                $appat->getDescriptionProduit(),
+                $appat->getPrixProduit(),
+                $appat->getStockProduit(),
+                $appat->getPromoProduit(),
+                $appat->getPrixPromoProduit(),
+                $appat->getIdCategorie(),
+                $appat->getIdMarque(),
+                $appat->getIdGenre(),
+                $appat->getIdProduit(),
+            ]);
 
-            return true;
-        } 
-        catch (Exception $e) 
+            $reqCaracteristiquesAppat = $this->bdd->prepare("UPDATE caracteristiques_appat 
+            SET detail_appat = ?, id_type_appat = ? WHERE id_produit = ?");
+
+            $reqCaracteristiquesAppat->execute
+            ([
+                $appat->getDetailAppat(),
+                $appat->getIdTypeAppat(),
+                $appat->getIdProduit(),
+            ]);
+
+            $this->bdd->commit();
+        }
+        catch (PDOException $e)
         {
-            return false;
+            $this->bdd->rollBack();
+            die("Erreur lors de la mise à jour de la appat : " . $e->getMessage());
         }
     }
 
-    public function updateAppat($id_appat, $nom_appat, $detail_appat, $description_appat, $promo_appat, $stock_appat, $hors_stock_appat, $id_categorie, $id_type_appat, $id_marque)
+    public function deleteAppat($id_produit)
     {
         try 
         {
-            
-            $req = $this->bdd->prepare("UPDATE appat SET nom_appat = ?, detail_appat = ?, description_appat = ?, promo_appat = ?, stock_appat = ?, hors_stock_appat = ?, id_categorie = ?, id_type_appat = ?, id_marque = ? WHERE id_appat = ?");
-            $req->execute([$nom_appat, $detail_appat, $description_appat, $promo_appat, $stock_appat, $hors_stock_appat, $id_categorie, $id_type_appat, $id_marque, $id_appat]);
-            
-            return true;
+            $this->bdd->beginTransaction();
+
+            $reqCaracteristiquesAppat = $this->bdd->prepare("DELETE FROM caracteristiques_appat WHERE id_produit = ?");
+            $reqCaracteristiquesAppat->execute([$id_produit]);
+
+            $reqProduit = $this->bdd->prepare("DELETE FROM produit WHERE id_produit = ?");
+            $reqProduit->execute([$id_produit]);
+
+            $this->bdd->commit();
         } 
-        catch (Exception $e) 
+        catch (PDOException $e) 
         {
-            return false;
+            $this->bdd->rollBack();
+            die("Erreur lors de la suppression de la appat : " . $e->getMessage());
         }
-    }
-
-    public function getLastInsertId()
-    {
-        $query = "SELECT MAX(id_appat) AS last_id FROM appat";
-        $result = $this->bdd->prepare($query);
-
-        if ($result->execute()) { // Exécutez la requête ici
-            $row = $result->fetch(PDO::FETCH_ASSOC);
-            $lastId = $row['last_id'];
-
-            return $lastId;
-        } else {
-            // Gérez l'erreur de la requête
-            // Retournez une valeur par défaut ou lancez une exception, selon vos besoins
-        }
-    }
-
-    public function getAppatByCategorie($id_categorie)
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_appat.*, marque.*
-        FROM appat
-        INNER JOIN categorie ON appat.id_categorie = categorie.id_categorie
-        INNER JOIN type_appat ON appat.id_type_appat = type_appat.id_type_appat
-        INNER JOIN marque ON appat.id_marque = marque.id_marque
-        WHERE appat.id_categorie = ?");
-
-        $req->execute([$id_categorie]);
-        $datas = $req->fetchAll();
-        $appats = [];
-
-        foreach ($datas as $data) 
-        {
-            $appat = new Appat();
-            $appat->setIdAppat($data['id_appat']);
-            $appat->setNomAppat($data['nom_appat']);
-            $appat->setDetailAppat($data['detail_appat']);
-            $appat->setDescriptionAppat($data['description_appat']);
-            $appat->setPromoAppat($data['promo_appat']);
-            $appat->setStockAppat($data['stock_appat']);
-            $appat->setHorsStockAppat($data['hors_stock_appat']);
-            $appat->setCategorieAppat($data['nom_categorie']);
-            $appat->setTypeAppat($data['nom_type_appat']);
-            $appat->setMarqueAppat($data['nom_marque']);
-
-            $appats[] = $appat;
-        }
-        return $appats;
-    }
-
-    public function getAppatByMarque($id_marque)
-    {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_appat.*, marque.*
-        FROM appat
-        INNER JOIN categorie ON appat.id_categorie = categorie.id_categorie
-        INNER JOIN type_appat ON appat.id_type_appat = type_appat.id_type_appat
-        INNER JOIN marque ON appat.id_marque = marque.id_marque
-        WHERE appat.id_marque = ?");
-
-        $req->execute([$id_marque]);
-        $datas = $req->fetchAll();
-        $appats = [];
-
-        foreach ($datas as $data) 
-        {
-            $appat = new Appat();
-            $appat->setIdAppat($data['id_appat']);
-            $appat->setNomAppat($data['nom_appat']);
-            $appat->setDetailAppat($data['detail_appat']);
-            $appat->setDescriptionAppat($data['description_appat']);
-            $appat->setPromoAppat($data['promo_appat']);
-            $appat->setStockAppat($data['stock_appat']);
-            $appat->setHorsStockAppat($data['hors_stock_appat']);
-            $appat->setCategorieAppat($data['nom_categorie']);
-            $appat->setTypeAppat($data['nom_type_appat']);
-            $appat->setMarqueAppat($data['nom_marque']);
-
-            $appats[] = $appat;
-        }
-        return $appats;
     }
 }
-
-
