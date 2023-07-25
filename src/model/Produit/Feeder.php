@@ -1,388 +1,388 @@
 <?php
 require_once 'src/config/connectBdd.php';
 
-class Feeder
+class Plomb
 {
-    private $id_feeder;
-    private $nom_feeder;
-    private $poids_feeder;
-    private $longueur_feeder;
-    private $diametre_feeder;
-    private $description_feeder;
-    private $promo_feeder;
-    private $stock_feeder;
-    private $hors_stock_feeder;
+    private $id_plomb;
+    private $nom_plomb;
+    private $poids_plomb;
+    private $longueur_plomb;
+    private $diametre_plomb;
+    private $description_plomb;
+    private $promo_plomb;
+    private $stock_plomb;
+    private $hors_stock_plomb;
     private $id_categorie;
-    private $id_type_feeder;
+    private $id_type_plomb;
     private $id_marque;
 
-    public function createToInsertFeeder($feederForm): bool
+    public function createToInsertPlomb($plombForm): bool
     {
 
-        if (!isset($feederForm['nom_feeder']) or $feederForm['nom_feeder'] == '') 
+        if (!isset($plombForm['nom_plomb']) or $plombForm['nom_plomb'] == '') 
         {
             return false;
         }
 
-        if (!isset($feederForm['poids_feeder']) or $feederForm['poids_feeder'] == '') 
+        if (!isset($plombForm['poids_plomb']) or $plombForm['poids_plomb'] == '') 
         {
             return false;
         }
 
-        if (!isset($feederForm['longueur_feeder']) or $feederForm['longueur_feeder'] == '') 
+        if (!isset($plombForm['longueur_plomb']) or $plombForm['longueur_plomb'] == '') 
         {
             return false;
         }
 
-        if (!isset($feederForm['diametre_feeder']) or $feederForm['diametre_feeder'] == '') 
+        if (!isset($plombForm['diametre_plomb']) or $plombForm['diametre_plomb'] == '') 
         {
             return false;
         }
 
-        if (!isset($feederForm['description_feeder']) or $feederForm['description_feeder'] == '') 
+        if (!isset($plombForm['description_plomb']) or $plombForm['description_plomb'] == '') 
         {
             return false;
         }
 
-        if (!isset($feederForm['promo_feeder']) or $feederForm['promo_feeder'] == '') 
+        if (!isset($plombForm['promo_plomb']) or $plombForm['promo_plomb'] == '') 
         {
             return false;
         }
 
-        if (!isset($feederForm['stock_feeder']) or $feederForm['stock_feeder'] == '') 
+        if (!isset($plombForm['stock_plomb']) or $plombForm['stock_plomb'] == '') 
         {
             return false;
         }
 
-        if (!isset($feederForm['hors_stock_feeder']) or $feederForm['hors_stock_feeder'] == '') 
+        if (!isset($plombForm['hors_stock_plomb']) or $plombForm['hors_stock_plomb'] == '') 
         {
             return false;
         }
 
-        if (!isset($feederForm['categorie_feeder']) or $feederForm['categorie_feeder'] == '') 
+        if (!isset($plombForm['categorie_plomb']) or $plombForm['categorie_plomb'] == '') 
         {
             return false;
         }
 
-        if (!isset($feederForm['type_feeder']) or $feederForm['type_feeder'] == '') 
+        if (!isset($plombForm['type_plomb']) or $plombForm['type_plomb'] == '') 
         {
             return false;
         }
 
-        if (!isset($feederForm['marque_feeder']) or $feederForm['marque_feeder'] == '') 
+        if (!isset($plombForm['marque_plomb']) or $plombForm['marque_plomb'] == '') 
         {
             return false;
         }
 
-        $this->nom_feeder = $feederForm['nom_feeder'];
-        $this->poids_feeder = $feederForm['poids_feeder'];
-        $this->longueur_feeder = $feederForm['longueur_feeder'];
-        $this->diametre_feeder = $feederForm['diametre_feeder'];
-        $this->description_feeder = $feederForm['description_feeder'];
-        $this->promo_feeder = $feederForm['promo_feeder'];
-        $this->stock_feeder = $feederForm['stock_feeder'];
-        $this->hors_stock_feeder = $feederForm['hors_stock_feeder'];
-        $this->id_categorie = $feederForm['categorie_feeder'];
-        $this->id_type_feeder = $feederForm['type_feeder'];
-        $this->id_marque = $feederForm['marque_feeder'];
+        $this->nom_plomb = $plombForm['nom_plomb'];
+        $this->poids_plomb = $plombForm['poids_plomb'];
+        $this->longueur_plomb = $plombForm['longueur_plomb'];
+        $this->diametre_plomb = $plombForm['diametre_plomb'];
+        $this->description_plomb = $plombForm['description_plomb'];
+        $this->promo_plomb = $plombForm['promo_plomb'];
+        $this->stock_plomb = $plombForm['stock_plomb'];
+        $this->hors_stock_plomb = $plombForm['hors_stock_plomb'];
+        $this->id_categorie = $plombForm['categorie_plomb'];
+        $this->id_type_plomb = $plombForm['type_plomb'];
+        $this->id_marque = $plombForm['marque_plomb'];
 
         return true;
     }
 
-    public function getIdFeeder(): int
+    public function getIdPlomb(): int
     {
-        return $this->id_feeder;
+        return $this->id_plomb;
     }
 
-    public function setIdFeeder($id_feeder): void
+    public function setIdPlomb($id_plomb): void
     {
-        $this->id_feeder = $id_feeder;
+        $this->id_plomb = $id_plomb;
     }
 
 
-    public function getNomFeeder(): string
+    public function getNomPlomb(): string
     {
-        return $this->nom_feeder;
+        return $this->nom_plomb;
     }
 
-    public function setNomFeeder($nom_feeder): void
+    public function setNomPlomb($nom_plomb): void
     {
-        $this->nom_feeder = $nom_feeder;
+        $this->nom_plomb = $nom_plomb;
     }
 
-    public function getPoidsFeeder(): string
+    public function getPoidsPlomb(): string
     {
-        return $this->poids_feeder;
+        return $this->poids_plomb;
     }
 
-    public function setPoidsFeeder($poids_feeder): void
+    public function setPoidsPlomb($poids_plomb): void
     {
-        $this->poids_feeder = $poids_feeder;
+        $this->poids_plomb = $poids_plomb;
     }
 
-    public function getLongueurFeeder(): string
+    public function getLongueurPlomb(): string
     {
-        return $this->longueur_feeder;
+        return $this->longueur_plomb;
     }
 
-    public function setLongueurFeeder($longueur_feeder): void
+    public function setLongueurPlomb($longueur_plomb): void
     {
-        $this->longueur_feeder = $longueur_feeder;
+        $this->longueur_plomb = $longueur_plomb;
     }
 
-    public function getDiametreFeeder(): string
+    public function getDiametrePlomb(): string
     {
-        return $this->diametre_feeder;
+        return $this->diametre_plomb;
     }
 
-    public function setDiametreFeeder($diametre_feeder): void
+    public function setDiametrePlomb($diametre_plomb): void
     {
-        $this->diametre_feeder = $diametre_feeder;
+        $this->diametre_plomb = $diametre_plomb;
     }
 
-    public function getDescriptionFeeder(): string
+    public function getDescriptionPlomb(): string
     {
-        return $this->description_feeder;
+        return $this->description_plomb;
     }
 
-    public function setDescriptionFeeder($description_feeder): void
+    public function setDescriptionPlomb($description_plomb): void
     {
-        $this->description_feeder = $description_feeder;
+        $this->description_plomb = $description_plomb;
     }
 
-    public function getPromoFeeder(): int
+    public function getPromoPlomb(): int
     {
-        return $this->promo_feeder;
+        return $this->promo_plomb;
     }
 
-    public function setPromoFeeder($promo_feeder): void
+    public function setPromoPlomb($promo_plomb): void
     {
-        $this->promo_feeder = $promo_feeder;
+        $this->promo_plomb = $promo_plomb;
     }
 
-    public function getStockFeeder(): int
+    public function getStockPlomb(): int
     {
-        return $this->stock_feeder;
+        return $this->stock_plomb;
     }
 
-    public function setStockFeeder($stock_feeder): void
+    public function setStockPlomb($stock_plomb): void
     {
-        $this->stock_feeder = $stock_feeder;
+        $this->stock_plomb = $stock_plomb;
     }
 
-    public function getHorsStockFeeder(): int
+    public function getHorsStockPlomb(): int
     {
-        return $this->hors_stock_feeder;
+        return $this->hors_stock_plomb;
     }
 
-    public function setHorsStockFeeder($hors_stock_feeder): void
+    public function setHorsStockPlomb($hors_stock_plomb): void
     {
-        $this->hors_stock_feeder = $hors_stock_feeder;
+        $this->hors_stock_plomb = $hors_stock_plomb;
     }
 
-    public function getCategorieFeeder(): string
+    public function getCategoriePlomb(): string
     {
         return $this->id_categorie;
     }
 
-    public function setCategorieFeeder($id_categorie): void
+    public function setCategoriePlomb($id_categorie): void
     {
         $this->id_categorie = $id_categorie;
     }
 
-    public function getTypeFeeder(): string
+    public function getTypePlomb(): string
     {
-        return $this->id_type_feeder;
+        return $this->id_type_plomb;
     }
 
-    public function setTypeFeeder($id_type_feeder): void
+    public function setTypePlomb($id_type_plomb): void
     {
-        $this->id_type_feeder = $id_type_feeder;
+        $this->id_type_plomb = $id_type_plomb;
     }
 
-    public function getMarqueFeeder(): string
+    public function getMarquePlomb(): string
     {
         return $this->id_marque;
     }
 
-    public function setMarqueFeeder($id_marque): void
+    public function setMarquePlomb($id_marque): void
     {
         $this->id_marque = $id_marque;
     }
 }
 
-class FeederRepository extends connectBdd
+class PlombRepository extends connectBdd
 {
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function insertFeeder(Feeder $feeder)
+    public function insertPlomb(Plomb $plomb)
     {
-        $req = $this->bdd->prepare("INSERT INTO feeder (nom_feeder, longueur_feeder, diametre_feeder, poids_feeder, description_feeder, promo_feeder, stock_feeder, hors_stock_feeder, id_categorie, id_type_feeder, id_marque)
+        $req = $this->bdd->prepare("INSERT INTO plomb (nom_plomb, longueur_plomb, diametre_plomb, poids_plomb, description_plomb, promo_plomb, stock_plomb, hors_stock_plomb, id_categorie, id_type_plomb, id_marque)
         VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 
         $req->execute
         ([
-            $feeder->getNomFeeder(),
-            $feeder->getLongueurFeeder(),
-            $feeder->getDiametreFeeder(),
-            $feeder->getPoidsFeeder(),
-            $feeder->getDescriptionFeeder(),
-            $feeder->getPromoFeeder(),
-            $feeder->getStockFeeder(),
-            $feeder->getHorsStockFeeder(),
-            $feeder->getCategorieFeeder(),
-            $feeder->getTypeFeeder(),
-            $feeder->getMarqueFeeder()
+            $plomb->getNomPlomb(),
+            $plomb->getLongueurPlomb(),
+            $plomb->getDiametrePlomb(),
+            $plomb->getPoidsPlomb(),
+            $plomb->getDescriptionPlomb(),
+            $plomb->getPromoPlomb(),
+            $plomb->getStockPlomb(),
+            $plomb->getHorsStockPlomb(),
+            $plomb->getCategoriePlomb(),
+            $plomb->getTypePlomb(),
+            $plomb->getMarquePlomb()
         ]);
         
-        return $feeder;
+        return $plomb;
     }
 
-    public function getAllFeeder()
+    public function getAllPlomb()
     {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_feeder.*, marque.*
-        FROM feeder
-        INNER JOIN categorie ON feeder.id_categorie = categorie.id_categorie
-        INNER JOIN type_feeder ON feeder.id_type_feeder = type_feeder.id_type_feeder
-        INNER JOIN marque ON feeder.id_marque = marque.id_marque");
+        $req = $this->bdd->prepare("SELECT *, categorie.*, type_plomb.*, marque.*
+        FROM plomb
+        INNER JOIN categorie ON plomb.id_categorie = categorie.id_categorie
+        INNER JOIN type_plomb ON plomb.id_type_plomb = type_plomb.id_type_plomb
+        INNER JOIN marque ON plomb.id_marque = marque.id_marque");
 
         $req->execute();
         $datas = $req->fetchAll();
-        $feeders = [];
+        $plombs = [];
 
         foreach ($datas as $data) 
         {
-            $feeder = new Feeder();
-            $feeder->setIdFeeder($data['id_feeder']);
-            $feeder->setNomFeeder($data['nom_feeder']);
-            $feeder->setLongueurFeeder($data['longueur_feeder']);
-            $feeder->setDiametreFeeder($data['diametre_feeder']);
-            $feeder->setPoidsFeeder($data['poids_feeder']);
-            $feeder->setDescriptionFeeder($data['description_feeder']);
-            $feeder->setPromoFeeder($data['promo_feeder']);
-            $feeder->setStockFeeder($data['stock_feeder']);
-            $feeder->setHorsStockFeeder($data['hors_stock_feeder']);
-            $feeder->setCategorieFeeder($data['nom_categorie']);
-            $feeder->setTypeFeeder($data['nom_type_feeder']);
-            $feeder->setMarqueFeeder($data['nom_marque']);
+            $plomb = new Plomb();
+            $plomb->setIdPlomb($data['id_plomb']);
+            $plomb->setNomPlomb($data['nom_plomb']);
+            $plomb->setLongueurPlomb($data['longueur_plomb']);
+            $plomb->setDiametrePlomb($data['diametre_plomb']);
+            $plomb->setPoidsPlomb($data['poids_plomb']);
+            $plomb->setDescriptionPlomb($data['description_plomb']);
+            $plomb->setPromoPlomb($data['promo_plomb']);
+            $plomb->setStockPlomb($data['stock_plomb']);
+            $plomb->setHorsStockPlomb($data['hors_stock_plomb']);
+            $plomb->setCategoriePlomb($data['nom_categorie']);
+            $plomb->setTypePlomb($data['nom_type_plomb']);
+            $plomb->setMarquePlomb($data['nom_marque']);
 
-            $feeders[] = $feeder;
+            $plombs[] = $plomb;
         }
-        return $feeders;
+        return $plombs;
     }
 
-    public function getLastFeeder()
+    public function getLastPlomb()
     {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_feeder.*, marque.*
-        FROM feeder
-        INNER JOIN categorie ON feeder.id_categorie = categorie.id_categorie
-        INNER JOIN type_feeder ON feeder.id_type_feeder = type_feeder.id_type_feeder
-        INNER JOIN marque ON feeder.id_marque = marque.id_marque");
+        $req = $this->bdd->prepare("SELECT *, categorie.*, type_plomb.*, marque.*
+        FROM plomb
+        INNER JOIN categorie ON plomb.id_categorie = categorie.id_categorie
+        INNER JOIN type_plomb ON plomb.id_type_plomb = type_plomb.id_type_plomb
+        INNER JOIN marque ON plomb.id_marque = marque.id_marque");
 
         $req->execute();
         $datas = $req->fetchAll();
-        $feeders = [];
+        $plombs = [];
 
         foreach ($datas as $data) 
         {
-            $feeder = new Feeder();
-            $feeder->setIdFeeder($data['id_feeder']);
-            $feeder->setNomFeeder($data['nom_feeder']);
-            $feeder->setLongueurFeeder($data['longueur_feeder']);
-            $feeder->setDiametreFeeder($data['diametre_feeder']);
-            $feeder->setPoidsFeeder($data['poids_feeder']);
-            $feeder->setDescriptionFeeder($data['description_feeder']);
-            $feeder->setPromoFeeder($data['promo_feeder']);
-            $feeder->setStockFeeder($data['stock_feeder']);
-            $feeder->setHorsStockFeeder($data['hors_stock_feeder']);
-            $feeder->setCategorieFeeder($data['nom_categorie']);
-            $feeder->setTypeFeeder($data['nom_type_feeder']);
-            $feeder->setMarqueFeeder($data['nom_marque']);
+            $plomb = new Plomb();
+            $plomb->setIdPlomb($data['id_plomb']);
+            $plomb->setNomPlomb($data['nom_plomb']);
+            $plomb->setLongueurPlomb($data['longueur_plomb']);
+            $plomb->setDiametrePlomb($data['diametre_plomb']);
+            $plomb->setPoidsPlomb($data['poids_plomb']);
+            $plomb->setDescriptionPlomb($data['description_plomb']);
+            $plomb->setPromoPlomb($data['promo_plomb']);
+            $plomb->setStockPlomb($data['stock_plomb']);
+            $plomb->setHorsStockPlomb($data['hors_stock_plomb']);
+            $plomb->setCategoriePlomb($data['nom_categorie']);
+            $plomb->setTypePlomb($data['nom_type_plomb']);
+            $plomb->setMarquePlomb($data['nom_marque']);
 
-            $feeders[] = $feeder;
+            $plombs[] = $plomb;
         }
-        return $feeders;
+        return $plombs;
     }
 
-    public function getPromoFeeder()
+    public function getPromoPlomb()
     {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_feeder.*, marque.*
-        FROM feeder
-        INNER JOIN categorie ON feeder.id_categorie = categorie.id_categorie
-        INNER JOIN type_feeder ON feeder.id_type_feeder = type_feeder.id_type_feeder
-        INNER JOIN marque ON feeder.id_marque = marque.id_marque");
+        $req = $this->bdd->prepare("SELECT *, categorie.*, type_plomb.*, marque.*
+        FROM plomb
+        INNER JOIN categorie ON plomb.id_categorie = categorie.id_categorie
+        INNER JOIN type_plomb ON plomb.id_type_plomb = type_plomb.id_type_plomb
+        INNER JOIN marque ON plomb.id_marque = marque.id_marque");
 
         $req->execute();
         $datas = $req->fetchAll();
-        $feeders = [];
+        $plombs = [];
 
         foreach ($datas as $data) 
         {
-            if($data['promo_feeder'] == 1)
+            if($data['promo_plomb'] == 1)
             {
-                $feeder = new Feeder();
-                $feeder->setIdFeeder($data['id_feeder']);
-                $feeder->setNomFeeder($data['nom_feeder']);
-                $feeder->setLongueurFeeder($data['longueur_feeder']);
-                $feeder->setDiametreFeeder($data['diametre_feeder']);
-                $feeder->setPoidsFeeder($data['poids_feeder']);
-                $feeder->setDescriptionFeeder($data['description_feeder']);
-                $feeder->setPromoFeeder($data['promo_feeder']);
-                $feeder->setStockFeeder($data['stock_feeder']);
-                $feeder->setHorsStockFeeder($data['hors_stock_feeder']);
-                $feeder->setCategorieFeeder($data['nom_categorie']);
-                $feeder->setTypeFeeder($data['nom_type_feeder']);
-                $feeder->setMarqueFeeder($data['nom_marque']);
+                $plomb = new Plomb();
+                $plomb->setIdPlomb($data['id_plomb']);
+                $plomb->setNomPlomb($data['nom_plomb']);
+                $plomb->setLongueurPlomb($data['longueur_plomb']);
+                $plomb->setDiametrePlomb($data['diametre_plomb']);
+                $plomb->setPoidsPlomb($data['poids_plomb']);
+                $plomb->setDescriptionPlomb($data['description_plomb']);
+                $plomb->setPromoPlomb($data['promo_plomb']);
+                $plomb->setStockPlomb($data['stock_plomb']);
+                $plomb->setHorsStockPlomb($data['hors_stock_plomb']);
+                $plomb->setCategoriePlomb($data['nom_categorie']);
+                $plomb->setTypePlomb($data['nom_type_plomb']);
+                $plomb->setMarquePlomb($data['nom_marque']);
 
-                $feeders[] = $feeder;
+                $plombs[] = $plomb;
             }
         }
-        return $feeders;
+        return $plombs;
     }
 
-    public function getFeederById($id_feeder)
+    public function getPlombById($id_plomb)
     {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_feeder.*, marque.*
-        FROM feeder
-        INNER JOIN categorie ON feeder.id_categorie = categorie.id_categorie
-        INNER JOIN type_feeder ON feeder.id_type_feeder = type_feeder.id_type_feeder
-        INNER JOIN marque ON feeder.id_marque = marque.id_marque
-        WHERE id_feeder = ?
+        $req = $this->bdd->prepare("SELECT *, categorie.*, type_plomb.*, marque.*
+        FROM plomb
+        INNER JOIN categorie ON plomb.id_categorie = categorie.id_categorie
+        INNER JOIN type_plomb ON plomb.id_type_plomb = type_plomb.id_type_plomb
+        INNER JOIN marque ON plomb.id_marque = marque.id_marque
+        WHERE id_plomb = ?
         ");
 
-        $req->execute([$id_feeder]);
+        $req->execute([$id_plomb]);
         $datas = $req->fetchAll();
 
         foreach ($datas as $data)
         {
-            $feeder = new Feeder();
-            $feeder->setIdFeeder($data['id_feeder']);
-            $feeder->setNomFeeder($data['nom_feeder']);
-            $feeder->setPoidsFeeder($data['poids_feeder']);
-            $feeder->setLongueurFeeder($data['longueur_feeder']);
-            $feeder->setDiametreFeeder($data['diametre_feeder']);
-            $feeder->setDescriptionFeeder($data['description_feeder']);
-            $feeder->setPromoFeeder($data['promo_feeder']);
-            $feeder->setStockFeeder($data['stock_feeder']);
-            $feeder->setHorsStockFeeder($data['hors_stock_feeder']);
-            $feeder->setCategorieFeeder($data['nom_categorie']);
-            $feeder->setTypeFeeder($data['nom_type_feeder']);
-            $feeder->setMarqueFeeder($data['nom_marque']);
+            $plomb = new Plomb();
+            $plomb->setIdPlomb($data['id_plomb']);
+            $plomb->setNomPlomb($data['nom_plomb']);
+            $plomb->setPoidsPlomb($data['poids_plomb']);
+            $plomb->setLongueurPlomb($data['longueur_plomb']);
+            $plomb->setDiametrePlomb($data['diametre_plomb']);
+            $plomb->setDescriptionPlomb($data['description_plomb']);
+            $plomb->setPromoPlomb($data['promo_plomb']);
+            $plomb->setStockPlomb($data['stock_plomb']);
+            $plomb->setHorsStockPlomb($data['hors_stock_plomb']);
+            $plomb->setCategoriePlomb($data['nom_categorie']);
+            $plomb->setTypePlomb($data['nom_type_plomb']);
+            $plomb->setMarquePlomb($data['nom_marque']);
         }
-        return $feeder;
+        return $plomb;
     }
 
-    public function deleteFeeder($id_feeder):bool
+    public function deletePlomb($id_plomb):bool
     {
         try 
         {
-            $imageFeederRepo = new ImageFeederRepository;
-            $oldImg = $imageFeederRepo->getImageByFeeder($_POST['id_feeder']);
+            $imagePlombRepo = new ImagePlombRepository;
+            $oldImg = $imagePlombRepo->getImageByPlomb($_POST['id_plomb']);
            
-            $cheminFichier = $oldImg->getNomImageFeeder();
+            $cheminFichier = $oldImg->getNomImagePlomb();
 
             if (file_exists($cheminFichier)) 
             {
@@ -399,10 +399,10 @@ class FeederRepository extends connectBdd
             {
                 echo "Le fichier spécifié n'existe pas.";
             }
-            $imageFeederRepo->deleteImageByFeeder($id_feeder);
+            $imagePlombRepo->deleteImageByPlomb($id_plomb);
 
-            $req = $this->bdd->prepare('DELETE FROM feeder WHERE id_feeder = ?');
-            $req->execute([$id_feeder]);
+            $req = $this->bdd->prepare('DELETE FROM plomb WHERE id_plomb = ?');
+            $req->execute([$id_plomb]);
 
             return true;
         } 
@@ -412,12 +412,12 @@ class FeederRepository extends connectBdd
         }
     }
 
-    public function updateFeeder($id_feeder, $nom_feeder, $longueur_feeder, $diametre_feeder, $poids_feeder, $description_feeder, $promo_feeder, $stock_feeder, $hors_stock_feeder, $id_categorie, $id_type_feeder, $id_marque)
+    public function updatePlomb($id_plomb, $nom_plomb, $longueur_plomb, $diametre_plomb, $poids_plomb, $description_plomb, $promo_plomb, $stock_plomb, $hors_stock_plomb, $id_categorie, $id_type_plomb, $id_marque)
     {
         try 
         {
-            $req = $this->bdd->prepare("UPDATE feeder SET nom_feeder = ?, longueur_feeder = ?, diametre_feeder = ?, poids_feeder = ?, description_feeder = ?, promo_feeder = ?, stock_feeder = ?, hors_stock_feeder = ?, id_categorie = ?, id_type_feeder = ?, id_marque = ? WHERE id_feeder = ?");
-            $req->execute([$nom_feeder,  $longueur_feeder, $diametre_feeder, $poids_feeder, $description_feeder, $promo_feeder, $stock_feeder, $hors_stock_feeder, $id_categorie, $id_type_feeder, $id_marque, $id_feeder]);
+            $req = $this->bdd->prepare("UPDATE plomb SET nom_plomb = ?, longueur_plomb = ?, diametre_plomb = ?, poids_plomb = ?, description_plomb = ?, promo_plomb = ?, stock_plomb = ?, hors_stock_plomb = ?, id_categorie = ?, id_type_plomb = ?, id_marque = ? WHERE id_plomb = ?");
+            $req->execute([$nom_plomb,  $longueur_plomb, $diametre_plomb, $poids_plomb, $description_plomb, $promo_plomb, $stock_plomb, $hors_stock_plomb, $id_categorie, $id_type_plomb, $id_marque, $id_plomb]);
             
             return true;
         } 
@@ -429,7 +429,7 @@ class FeederRepository extends connectBdd
 
     public function getLastInsertId()
     {
-        $query = "SELECT MAX(id_feeder) AS last_id FROM feeder";
+        $query = "SELECT MAX(id_plomb) AS last_id FROM plomb";
         $result = $this->bdd->prepare($query);
 
         if ($result->execute())
@@ -445,74 +445,74 @@ class FeederRepository extends connectBdd
         }
     }
 
-    public function getFeederByCategorie($id_categorie)
+    public function getPlombByCategorie($id_categorie)
     {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_feeder.*, marque.*
-        FROM feeder
-        INNER JOIN categorie ON feeder.id_categorie = categorie.id_categorie
-        INNER JOIN type_feeder ON feeder.id_type_feeder = type_feeder.id_type_feeder
-        INNER JOIN marque ON feeder.id_marque = marque.id_marque
-        WHERE feeder.id_categorie = ?");
+        $req = $this->bdd->prepare("SELECT *, categorie.*, type_plomb.*, marque.*
+        FROM plomb
+        INNER JOIN categorie ON plomb.id_categorie = categorie.id_categorie
+        INNER JOIN type_plomb ON plomb.id_type_plomb = type_plomb.id_type_plomb
+        INNER JOIN marque ON plomb.id_marque = marque.id_marque
+        WHERE plomb.id_categorie = ?");
 
         $req->execute([$id_categorie]);
         $datas = $req->fetchAll();
 
-        $feeders = [];
+        $plombs = [];
 
         foreach ($datas as $data)
         {
-            $feeder = new Feeder();
-            $feeder->setIdFeeder($data['id_feeder']);
-            $feeder->setNomFeeder($data['nom_feeder']);
-            $feeder->setPoidsFeeder($data['poids_feeder']);
-            $feeder->setLongueurFeeder($data['longueur_feeder']);
-            $feeder->setDiametreFeeder($data['diametre_feeder']);
-            $feeder->setDescriptionFeeder($data['description_feeder']);
-            $feeder->setPromoFeeder($data['promo_feeder']);
-            $feeder->setStockFeeder($data['stock_feeder']);
-            $feeder->setHorsStockFeeder($data['hors_stock_feeder']);
-            $feeder->setCategorieFeeder($data['nom_categorie']);
-            $feeder->setTypeFeeder($data['nom_type_feeder']);
-            $feeder->setMarqueFeeder($data['nom_marque']);
+            $plomb = new Plomb();
+            $plomb->setIdPlomb($data['id_plomb']);
+            $plomb->setNomPlomb($data['nom_plomb']);
+            $plomb->setPoidsPlomb($data['poids_plomb']);
+            $plomb->setLongueurPlomb($data['longueur_plomb']);
+            $plomb->setDiametrePlomb($data['diametre_plomb']);
+            $plomb->setDescriptionPlomb($data['description_plomb']);
+            $plomb->setPromoPlomb($data['promo_plomb']);
+            $plomb->setStockPlomb($data['stock_plomb']);
+            $plomb->setHorsStockPlomb($data['hors_stock_plomb']);
+            $plomb->setCategoriePlomb($data['nom_categorie']);
+            $plomb->setTypePlomb($data['nom_type_plomb']);
+            $plomb->setMarquePlomb($data['nom_marque']);
 
-            $feeders[] = $feeder;
+            $plombs[] = $plomb;
         }
-        return $feeders;
+        return $plombs;
     }
 
-    public function getFeederByMarque($id_marque)
+    public function getPlombByMarque($id_marque)
     {
-        $req = $this->bdd->prepare("SELECT *, categorie.*, type_feeder.*, marque.*
-        FROM feeder
-        INNER JOIN categorie ON feeder.id_categorie = categorie.id_categorie
-        INNER JOIN type_feeder ON feeder.id_type_feeder = type_feeder.id_type_feeder
-        INNER JOIN marque ON feeder.id_marque = marque.id_marque
-        WHERE feeder.id_marque = ?");
+        $req = $this->bdd->prepare("SELECT *, categorie.*, type_plomb.*, marque.*
+        FROM plomb
+        INNER JOIN categorie ON plomb.id_categorie = categorie.id_categorie
+        INNER JOIN type_plomb ON plomb.id_type_plomb = type_plomb.id_type_plomb
+        INNER JOIN marque ON plomb.id_marque = marque.id_marque
+        WHERE plomb.id_marque = ?");
 
         $req->execute([$id_marque]);
         $datas = $req->fetchAll();
 
-        $feeders = [];
+        $plombs = [];
 
         foreach ($datas as $data)
         {
-            $feeder = new Feeder();
-            $feeder->setIdFeeder($data['id_feeder']);
-            $feeder->setNomFeeder($data['nom_feeder']);
-            $feeder->setPoidsFeeder($data['poids_feeder']);
-            $feeder->setLongueurFeeder($data['longueur_feeder']);
-            $feeder->setDiametreFeeder($data['diametre_feeder']);
-            $feeder->setDescriptionFeeder($data['description_feeder']);
-            $feeder->setPromoFeeder($data['promo_feeder']);
-            $feeder->setStockFeeder($data['stock_feeder']);
-            $feeder->setHorsStockFeeder($data['hors_stock_feeder']);
-            $feeder->setCategorieFeeder($data['nom_categorie']);
-            $feeder->setTypeFeeder($data['nom_type_feeder']);
-            $feeder->setMarqueFeeder($data['nom_marque']);
+            $plomb = new Plomb();
+            $plomb->setIdPlomb($data['id_plomb']);
+            $plomb->setNomPlomb($data['nom_plomb']);
+            $plomb->setPoidsPlomb($data['poids_plomb']);
+            $plomb->setLongueurPlomb($data['longueur_plomb']);
+            $plomb->setDiametrePlomb($data['diametre_plomb']);
+            $plomb->setDescriptionPlomb($data['description_plomb']);
+            $plomb->setPromoPlomb($data['promo_plomb']);
+            $plomb->setStockPlomb($data['stock_plomb']);
+            $plomb->setHorsStockPlomb($data['hors_stock_plomb']);
+            $plomb->setCategoriePlomb($data['nom_categorie']);
+            $plomb->setTypePlomb($data['nom_type_plomb']);
+            $plomb->setMarquePlomb($data['nom_marque']);
 
-            $feeders[] = $feeder;
+            $plombs[] = $plomb;
         }
-        return $feeders;
+        return $plombs;
     }
 }
 

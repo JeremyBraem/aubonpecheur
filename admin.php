@@ -50,11 +50,14 @@ if ($_SESSION['id_role'] == 1)
             case 'addTypeLigneTraitement':
                 addTypeLigneTraitement();
                 break;
-            case 'addTypeFeederTraitement':
-                addTypeFeederTraitement();
+            case 'addTypePlombTraitement':
+                addTypePlombTraitement();
                 break;
             case 'addTypeAppatTraitement':
                 addTypeAppatTraitement();
+                break;
+            case 'addTypeAutreTraitement':
+                addTypeAutreTraitement();
                 break;
             case 'addMarqueTraitement':
                 addMarqueTraitement();
@@ -64,6 +67,9 @@ if ($_SESSION['id_role'] == 1)
                 break;
             case 'addEquipementTraitement':
                 addEquipementTraitement();
+                break;
+            case 'addAutreTraitement':
+                addAutreTraitement();
                 break;
             case 'deleteCanne':
                 deleteCanne();
@@ -92,6 +98,9 @@ if ($_SESSION['id_role'] == 1)
             case 'deleteAppat':
                 deleteAppat();
                 break;
+            case 'deleteAutre':
+                deleteAutre();
+                break;
             case 'deleteEquipement':
                 deleteEquipement();
                 break;
@@ -113,35 +122,41 @@ if ($_SESSION['id_role'] == 1)
             case 'deleteTypeLigne':
                 deleteTypeLigne();
                 break;
-            case 'deleteTypeFeeder':
-                deleteTypeFeeder();
+            case 'deleteTypePlomb':
+                deleteTypePlomb();
                 break;
             case 'deleteTypeAppat':
                 deleteTypeAppat();
                 break;
+            case 'deleteTypeAutre':
+                deleteTypeAutre();
+                break;
             case 'deleteTypeEquipement':
                 deleteTypeEquipement();
                 break;
-            case 'UpdateMoulinetTraitement':
-                UpdateMoulinetTraitement();
+            case 'updateMoulinetTraitement':
+                updateMoulinetTraitement();
                 break;
             case 'UpdateHameconTraitement':
                 UpdateHameconTraitement();
                 break;
-            case 'UpdateLeurreTraitement':
-                UpdateLeurreTraitement();
+            case 'updateLeurreTraitement':
+                updateLeurreTraitement();
                 break;
             case 'UpdateLigneTraitement':
-                UpdateLigneTraitement();
+                updateLigneTraitement();
                 break;
             case 'UpdatePlombTraitement':
                 UpdatePlombTraitement();
                 break;
-            case 'UpdateEquipementTraitement':
-                UpdateEquipementTraitement();
+            case 'updateEquipementTraitement':
+                updateEquipementTraitement();
                 break;
-            case 'UpdateAppatTraitement':
-                UpdateAppatTraitement();
+            case 'updateAppatTraitement':
+                updateAppatTraitement();
+                break;
+            case 'updateAutreTraitement':
+                updateAutreTraitement();
                 break;
             case 'search':
                 searchPage();

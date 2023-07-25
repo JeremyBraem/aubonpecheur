@@ -1,22 +1,22 @@
 <?php
 require_once 'src/config/connectBdd.php';
 
-class ImageFeeder
+class ImagePlomb
 {
-    private $id_image_feeder;
-    private $nom_image_feeder;
-    private $id_feeder;
+    private $id_image_plomb;
+    private $nom_image_plomb;
+    private $id_plomb;
 
-    public function addImageFeeder($newFeeder):bool
+    public function addImagePlomb($newPlomb):bool
     {
-        if (!empty($newFeeder))
+        if (!empty($newPlomb))
         {
-            $path = 'assets/img/article/feeder';
-            $nameFile = $newFeeder['name'];
-            $typeFile = $newFeeder['type'];
-            $tmpFile = $newFeeder['tmp_name'];
-            $errorFile = $newFeeder['error'];
-            $sizeFile = $newFeeder['size'];
+            $path = 'assets/img/article/plomb';
+            $nameFile = $newPlomb['name'];
+            $typeFile = $newPlomb['type'];
+            $tmpFile = $newPlomb['tmp_name'];
+            $errorFile = $newPlomb['error'];
+            $sizeFile = $newPlomb['size'];
 
             $extensions = ['png', 'jpg', 'jpeg', 'webp'];
             $type = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'];
@@ -31,7 +31,7 @@ class ImageFeeder
                 {
                     if ($sizeFile <= $max_size && $errorFile == 0) 
                     {
-                        if (move_uploaded_file($tmpFile, $image_feeder = 'assets/img/article/feeder/' . uniqid() . '.' . end($extension))) 
+                        if (move_uploaded_file($tmpFile, $image_plomb = 'assets/img/article/plomb/' . uniqid() . '.' . end($extension))) 
                         {
                             echo "upload  effectué !";
                         }
@@ -60,43 +60,43 @@ class ImageFeeder
             }
         }
 
-        $this->nom_image_feeder = $image_feeder;
+        $this->nom_image_plomb = $image_plomb;
         return true;
     }
 
-    public function getIdImageFeeder(): int
+    public function getIdImagePlomb(): int
     {
-        return $this->id_image_feeder;
+        return $this->id_image_plomb;
     }
 
-    public function setIdImageFeeder($id_image_feeder): void
+    public function setIdImagePlomb($id_image_plomb): void
     {
-        $this->id_image_feeder = $id_image_feeder;
+        $this->id_image_plomb = $id_image_plomb;
     }
 
 
-    public function getNomImageFeeder(): string
+    public function getNomImagePlomb(): string
     {
-        return $this->nom_image_feeder;
+        return $this->nom_image_plomb;
     }
 
-    public function setNomImageFeeder($nom_image_feeder): void
+    public function setNomImagePlomb($nom_image_plomb): void
     {
-        $this->nom_image_feeder = $nom_image_feeder;
+        $this->nom_image_plomb = $nom_image_plomb;
     }
 
-    public function getIdFeeder(): string
+    public function getIdPlomb(): string
     {
-        return $this->id_feeder;
+        return $this->id_plomb;
     }
 
-    public function setIdFeeder($id_feeder): void
+    public function setIdPlomb($id_plomb): void
     {
-        $this->id_feeder = $id_feeder;
+        $this->id_plomb = $id_plomb;
     }
 }
 
-class ImageFeederRepository extends ConnectBdd
+class ImagePlombRepository extends ConnectBdd
 {
 
     public function __construct()
@@ -104,50 +104,50 @@ class ImageFeederRepository extends ConnectBdd
         parent::__construct();
     }
 
-    public function getImageByFeeder($id_feeder)
+    public function getImageByPlomb($id_plomb)
     {
-        $req =  $this->bdd->prepare('SELECT * FROM image_feeder WHERE id_feeder = ?');
-        $req->execute([$id_feeder]);
+        $req =  $this->bdd->prepare('SELECT * FROM image_plomb WHERE id_plomb = ?');
+        $req->execute([$id_plomb]);
 
         $dataImage = $req->fetch();
 
-        $imageFeeder = new ImageFeeder();
+        $imagePlomb = new ImagePlomb();
 
-        $imageFeeder->setIdImageFeeder($dataImage['id_image_feeder']);
-        $imageFeeder->setNomImageFeeder($dataImage['nom_image_feeder']);
-        $imageFeeder->setIdFeeder($dataImage['id_feeder']);
+        $imagePlomb->setIdImagePlomb($dataImage['id_image_plomb']);
+        $imagePlomb->setNomImagePlomb($dataImage['nom_image_plomb']);
+        $imagePlomb->setIdPlomb($dataImage['id_plomb']);
 
-        return $imageFeeder;
+        return $imagePlomb;
     }
 
-    public function insertImageFeeder($image_feeder)
+    public function insertImagePlomb($image_plomb)
     {
-        $req = $this->bdd->prepare("INSERT INTO image_feeder (nom_image_feeder, id_feeder)
+        $req = $this->bdd->prepare("INSERT INTO image_plomb (nom_image_plomb, id_plomb)
         VALUES (?,?)");
 
         $req->execute
         ([
-            $image_feeder->getNomImageFeeder(),
-            $image_feeder->getIdFeeder()
+            $image_plomb->getNomImagePlomb(),
+            $image_plomb->getIdPlomb()
         ]);
     }
 
-    public function deleteImageByFeeder($id_feeder)
+    public function deleteImageByPlomb($id_plomb)
     {
-        $req = $this->bdd->prepare('DELETE FROM image_feeder WHERE id_feeder = ?');
-        $req->execute([$id_feeder]);
+        $req = $this->bdd->prepare('DELETE FROM image_plomb WHERE id_plomb = ?');
+        $req->execute([$id_plomb]);
     }
 
-    public function updateImageByFeeder($newImageFeeder, $id_feeder)
+    public function updateImageByPlomb($newImagePlomb, $id_plomb)
     {
-        if (!empty($newImageFeeder))
+        if (!empty($newImagePlomb))
         {
-            $path = 'assets/img/article/feeder';
-            $nameFile = $newImageFeeder['name'];
-            $typeFile = $newImageFeeder['type'];
-            $tmpFile = $newImageFeeder['tmp_name'];
-            $errorFile = $newImageFeeder['error'];
-            $sizeFile = $newImageFeeder['size'];
+            $path = 'assets/img/article/plomb';
+            $nameFile = $newImagePlomb['name'];
+            $typeFile = $newImagePlomb['type'];
+            $tmpFile = $newImagePlomb['tmp_name'];
+            $errorFile = $newImagePlomb['error'];
+            $sizeFile = $newImagePlomb['size'];
 
             $extensions = ['png', 'jpg', 'jpeg', 'webp'];
             $type = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'];
@@ -162,7 +162,7 @@ class ImageFeederRepository extends ConnectBdd
                 {
                     if ($sizeFile <= $max_size && $errorFile == 0) 
                     {
-                        if (move_uploaded_file($tmpFile, $image_feeder = 'assets/img/article/feeder/' . uniqid() . '.' . end($extension))) 
+                        if (move_uploaded_file($tmpFile, $image_plomb = 'assets/img/article/plomb/' . uniqid() . '.' . end($extension))) 
                         {
                             echo "upload  effectué !";
                         }
@@ -193,8 +193,8 @@ class ImageFeederRepository extends ConnectBdd
 
         try
         {
-            $reqImage = $this->bdd->prepare("UPDATE image_feeder SET nom_image_feeder = ? WHERE id_feeder = ?");
-            $reqImage->execute([$image_feeder, $id_feeder]);
+            $reqImage = $this->bdd->prepare("UPDATE image_plomb SET nom_image_plomb = ? WHERE id_plomb = ?");
+            $reqImage->execute([$image_plomb, $id_plomb]);
             return true;
         }
         catch (Exception $e)

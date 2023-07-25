@@ -547,16 +547,16 @@ class FavorisRepository extends connectBdd
         $deleteFav->execute([$id_favoris]);
     }
 
-    public function insertFavFeederAndUser($id_favoris, $id_feeder)
+    public function insertFavPlombAndUser($id_favoris, $id_plomb)
     {
-        $checkQuery = $this->bdd->prepare("SELECT COUNT(*) FROM feeder WHERE id_feeder = ?");
-        $checkQuery->execute([$id_feeder]);
+        $checkQuery = $this->bdd->prepare("SELECT COUNT(*) FROM plomb WHERE id_plomb = ?");
+        $checkQuery->execute([$id_plomb]);
         $rowCount = $checkQuery->fetchColumn();
 
         if ($rowCount > 0)
         {
-            $insertQuery = $this->bdd->prepare("INSERT INTO favoris_feeder (id_feeder, id_favoris) VALUES (?,?)");
-            $insertQuery->execute([$id_feeder, $id_favoris]);
+            $insertQuery = $this->bdd->prepare("INSERT INTO favoris_plomb (id_plomb, id_favoris) VALUES (?,?)");
+            $insertQuery->execute([$id_plomb, $id_favoris]);
         }
         else
         {
@@ -564,9 +564,9 @@ class FavorisRepository extends connectBdd
         }
     }
 
-    public function getFeederByIdFav($id_favoris)
+    public function getPlombByIdFav($id_favoris)
     {
-        $req = $this->bdd->prepare("SELECT * FROM favoris_feeder WHERE id_favoris = ?");
+        $req = $this->bdd->prepare("SELECT * FROM favoris_plomb WHERE id_favoris = ?");
 
         $req->execute([$id_favoris]);
 
@@ -576,20 +576,20 @@ class FavorisRepository extends connectBdd
         
         foreach($datas as $data)
         {
-            $info = $data['id_feeder'];
+            $info = $data['id_plomb'];
         }
         
         return $info;
     }
 
-    public function getFavorisByIdFeeder($id_feeder)
+    public function getFavorisByIdPlomb($id_plomb)
     {
         $req = $this->bdd->prepare("SELECT favoris.id_favoris, favoris.date_ajout_favoris, favoris.id_user
-            FROM favoris_feeder
-            INNER JOIN favoris ON favoris_feeder.id_favoris = favoris.id_favoris
-            WHERE favoris_feeder.id_feeder = ?");
+            FROM favoris_plomb
+            INNER JOIN favoris ON favoris_plomb.id_favoris = favoris.id_favoris
+            WHERE favoris_plomb.id_plomb = ?");
 
-        $req->execute([$id_feeder]);
+        $req->execute([$id_plomb]);
 
         $datas = $req->fetchAll(PDO::FETCH_ASSOC);
 
@@ -608,10 +608,10 @@ class FavorisRepository extends connectBdd
         return $favoris;
     }
 
-    public function deleteFavFeederAndUser($id_favoris, $id_feeder)
+    public function deleteFavPlombAndUser($id_favoris, $id_plomb)
     {
-        $deleteQuery = $this->bdd->prepare("DELETE FROM favoris_feeder WHERE id_feeder = ? AND id_favoris = ?");
-        $deleteQuery->execute([$id_feeder, $id_favoris]);
+        $deleteQuery = $this->bdd->prepare("DELETE FROM favoris_plomb WHERE id_plomb = ? AND id_favoris = ?");
+        $deleteQuery->execute([$id_plomb, $id_favoris]);
 
         $deleteFav = $this->bdd->prepare("DELETE FROM favoris WHERE id_favoris = ?");
         $deleteFav->execute([$id_favoris]);

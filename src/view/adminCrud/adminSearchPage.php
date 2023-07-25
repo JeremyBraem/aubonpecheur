@@ -125,7 +125,7 @@
                                     </li>
 
                                     <li class="flex items-center">
-                                        <button type="button" id="createTypeFeederModalButton" data-modal-target="createTypeFeederModal" data-modal-toggle="createTypeFeederModal" class="flex items-center justify-center font-semibold">
+                                        <button type="button" id="createTypePlombModalButton" data-modal-target="createTypePlombModal" data-modal-toggle="createTypePlombModal" class="flex items-center justify-center font-semibold">
                                             Type de plomb
                                         </button>
                                     </li>
@@ -188,7 +188,7 @@
                                     </li>
 
                                     <li class="flex items-center">
-                                        <button type="button" id="createFeederModalButton" data-modal-target="createFeederModal" data-modal-toggle="createFeederModal" class="flex items-center justify-center font-semibold">
+                                        <button type="button" id="createPlombModalButton" data-modal-target="createPlombModal" data-modal-toggle="createPlombModal" class="flex items-center justify-center font-semibold">
                                             Plomb
                                         </button>
                                     </li>
@@ -267,8 +267,8 @@
         <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeEquipement.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/modalAddEquipement.php'); ?>
 
-        <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeFeeder.php'); ?>
-        <?php include('src/view/adminCrud/modalAdd/modalAddFeeder.php'); ?>
+        <?php include('src/view/adminCrud/modalAdd/type/modalAddTypePlomb.php'); ?>
+        <?php include('src/view/adminCrud/modalAdd/modalAddPlomb.php'); ?>
 
         <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeAppat.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/modalAddAppat.php'); ?>

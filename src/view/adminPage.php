@@ -125,7 +125,7 @@
                                     </li>
 
                                     <li class="flex items-center">
-                                        <button type="button" id="createTypeFeederModalButton" data-modal-target="createTypeFeederModal" data-modal-toggle="createTypeFeederModal" class="flex items-center justify-center font-semibold">
+                                        <button type="button" id="createTypePlombModalButton" data-modal-target="createTypePlombModal" data-modal-toggle="createTypePlombModal" class="flex items-center justify-center font-semibold">
                                             Type de plomb
                                         </button>
                                     </li>
@@ -133,6 +133,12 @@
                                     <li class="flex items-center">
                                         <button type="button" id="createTypeAppatModalButton" data-modal-target="createTypeAppatModal" data-modal-toggle="createTypeAppatModal" class="flex items-center justify-center font-semibold">
                                             Type d'appat
+                                        </button>
+                                    </li>
+
+                                    <li class="flex items-center">
+                                        <button type="button" id="createTypeAutreModalButton" data-modal-target="createTypeAutreModal" data-modal-toggle="createTypeAutreModal" class="flex items-center justify-center font-semibold">
+                                            Type d'autre
                                         </button>
                                     </li>
 
@@ -196,6 +202,12 @@
                                     <li class="flex items-center">
                                         <button type="button" id="createAppatModalButton" data-modal-target="createAppatModal" data-modal-toggle="createAppatModal" class="flex items-center justify-center font-semibold">
                                             Appat
+                                        </button>
+                                    </li>
+
+                                    <li class="flex items-center">
+                                        <button type="button" id="createAutreModalButton" data-modal-target="createAutreModal" data-modal-toggle="createAutreModal" class="flex items-center justify-center font-semibold">
+                                            Autre
                                         </button>
                                     </li>
 
@@ -335,11 +347,14 @@
         <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeEquipement.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/modalAddEquipement.php'); ?>
 
-        <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeFeeder.php'); ?>
+        <?php include('src/view/adminCrud/modalAdd/type/modalAddTypePlomb.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/modalAddPlomb.php'); ?>
 
         <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeAppat.php'); ?>
         <?php include('src/view/adminCrud/modalAdd/modalAddAppat.php'); ?>
+
+        <?php include('src/view/adminCrud/modalAdd/type/modalAddTypeAutre.php'); ?>
+        <?php include('src/view/adminCrud/modalAdd/modalAddAutre.php'); ?>
 
         <?php 
         foreach($cannes as $canne)

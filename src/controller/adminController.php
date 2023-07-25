@@ -6,9 +6,9 @@ require_once('src/model/Hamecon.php');
 require_once('src/model/Leurre.php');
 require_once('src/model/Ligne.php');
 require_once('src/model/Equipement.php');
-// require_once('src/model/Plomb.php');
-// require_once('src/model/Autre.php');
-// require_once('src/model/Appat.php');
+require_once('src/model/Plomb.php');
+require_once('src/model/Autre.php');
+require_once('src/model/Appat.php');
 require_once('src/model/Image.php');
 
 require_once('src/model/Marque.php');
@@ -20,8 +20,9 @@ require_once('src/model/Type/TypeHamecon.php');
 require_once('src/model/Type/TypeLeurre.php');
 require_once('src/model/Type/TypeLigne.php');
 require_once('src/model/Type/TypeEquipement.php');
-require_once('src/model/Type/TypeFeeder.php');
+require_once('src/model/Type/TypePlomb.php');
 require_once('src/model/Type/TypeAppat.php');
+require_once('src/model/Type/TypeAutre.php');
 
 function adminPage()
 {
@@ -1505,7 +1506,7 @@ function addPlombTraitement()
             isset($_FILES['images'])
         )
         {
-            $genre = 4;
+            $genre = 6;
 
             $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
 
@@ -1617,7 +1618,7 @@ function updatePlombTraitement()
             isset($_FILES['images'])
         )
         {
-            $genre = 3;
+            $genre = 6;
 
             $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
 
@@ -1750,6 +1751,478 @@ function addCategorieTraitement()
                 header('location: admin.php');
             }
         }
+    }
+}
+
+function addAppatTraitement()
+{
+    if (isset($_POST))
+    {
+        if (isset($_POST['nom_produit']) &&
+            isset($_POST['description_produit']) &&
+            isset($_POST['prix_produit']) &&
+            isset($_POST['stock_produit']) &&
+            isset($_POST['promo_produit']) &&
+            isset($_POST['categorie_produit']) &&
+            isset($_POST['marque_produit']) &&
+            isset($_POST['detail_appat']) &&
+            isset($_POST['type_appat']) &&
+            isset($_POST['description_images']) &&
+            isset($_FILES['images'])
+        )
+        {
+            $genre = 8;
+
+            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+
+            if($_POST['stock_produit'] === 'stock')
+            {
+                $stock = 1;
+            }
+            else
+            {
+                $stock = 0;
+            }
+
+            $nouvelleAppat = new Appat();
+
+            $nouvelleAppat->setNomProduit($_POST['nom_produit']);
+            $nouvelleAppat->setDescriptionProduit($_POST['description_produit']);
+            $nouvelleAppat->setPrixProduit($_POST['prix_produit']);
+            $nouvelleAppat->setStockProduit($stock);
+            $nouvelleAppat->setPromoProduit($_POST['promo_produit']);
+            $nouvelleAppat->setPrixPromoProduit($prix_promo_produit);
+            $nouvelleAppat->setIdCategorie($_POST['categorie_produit']);
+            $nouvelleAppat->setIdGenre($genre);
+            $nouvelleAppat->setIdMarque($_POST['marque_produit']);
+            $nouvelleAppat->setDetailAppat($_POST['detail_appat']);
+            $nouvelleAppat->setNomImage($_FILES['images']['name']);
+            $nouvelleAppat->setDescriptionImage($_POST['description_images']);
+            $nouvelleAppat->setIdTypeAppat($_POST['type_appat']);
+            
+            if ($nouvelleAppat) 
+            {
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
+
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    $imageRepo = new ImageRepository;
+                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                }
+                else
+                {
+                    echo 'Aucune image trouvé';
+                    die;
+                }
+
+                $appatRepo = new AppatRepository();
+                $appatRepo->addAppat($nouvelleAppat);
+
+                $produitRepo = new ProduitRepository;
+                $descriptionImage = htmlspecialchars($_POST['description_images']);
+
+                $imagePath = $image->addImage($_FILES['images']); 
+
+                $image = new Image();
+                $image->setNomImage($imagePath);
+                $image->setDescriptionImage($descriptionImage);
+
+                $idProduit = $produitRepo->getLastId();
+                $idImage = $imageRepo->getLastId();
+
+                $imageRepo->addImageToProduit($idProduit, $idImage);
+
+                header('Location: admin.php');
+                exit;
+            } 
+            else 
+            {
+                echo "Les données de la nouvelle appat ne sont pas valides.";
+                die;
+            }
+        }
+        else 
+        {
+            echo "Certaines données sont manquantes pour ajouter une nouvelle appat.";
+            die;
+        }
+
+        header('Location: admin.php');
+        exit();
+    }
+}
+
+function updateAppatTraitement()
+{
+    if (isset($_POST)) 
+    {
+        if (isset($_POST['nom_produit']) &&
+            isset($_POST['description_produit']) &&
+            isset($_POST['prix_produit']) &&
+            isset($_POST['stock_produit']) &&
+            isset($_POST['promo_produit']) &&
+            isset($_POST['categorie_produit']) &&
+            isset($_POST['marque_produit']) &&
+            isset($_POST['detail_appat']) &&
+            isset($_POST['type_appat']) &&
+            isset($_POST['description_images']) &&
+            isset($_FILES['images'])
+        )
+        {
+            $genre = 8;
+
+            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+
+            if($_POST['stock_produit'] === 'stock')
+            {
+                $stock = 1;
+            }
+            else
+            {
+                $stock = 0;
+            }
+
+            $nouvelleAppat = new Appat();
+
+            $nouvelleAppat->setIdProduit($_POST['id_produit']);
+            $nouvelleAppat->setNomProduit($_POST['nom_produit']);
+            $nouvelleAppat->setDescriptionProduit($_POST['description_produit']);
+            $nouvelleAppat->setPrixProduit($_POST['prix_produit']);
+            $nouvelleAppat->setStockProduit($stock);
+            $nouvelleAppat->setPromoProduit($_POST['promo_produit']);
+            $nouvelleAppat->setPrixPromoProduit($prix_promo_produit);
+            $nouvelleAppat->setIdCategorie($_POST['categorie_produit']);
+            $nouvelleAppat->setIdGenre($genre);
+            $nouvelleAppat->setIdMarque($_POST['marque_produit']);
+            $nouvelleAppat->setDetailAppat($_POST['detail_appat']);
+            $nouvelleAppat->setNomImage($_FILES['images']['name']);
+            $nouvelleAppat->setDescriptionImage($_POST['description_images']);
+            $nouvelleAppat->setIdTypeAppat($_POST['type_appat']);
+          
+            if ($nouvelleAppat) 
+            {
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {
+                    $imageRepo = new ImageRepository;
+
+                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
+
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
+
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    
+                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                }
+                    
+
+                $appatRepo = new AppatRepository();
+                $appatRepo->updateAppat($nouvelleAppat);
+
+                $produitRepo = new ProduitRepository;
+                $descriptionImage = htmlspecialchars($_POST['description_images']);
+
+                $imagePath = $image->addImage($_FILES['images']);
+
+                $image = new Image();
+                $image->setNomImage($imagePath);
+                $image->setDescriptionImage($descriptionImage);
+
+                $idProduit = $produitRepo->getLastId();
+                $idImage = $imageRepo->getLastId();
+
+                $imageRepo->addImageToProduit($idProduit, $idImage);
+
+                header('Location: admin.php');
+                exit();
+            }
+            else 
+            {
+                echo "Les données du nouvel appat ne sont pas valides.";
+                exit();
+            }
+        }
+        else 
+        {
+            echo "Certaines données sont manquantes pour ajouter un nouvel appat.";
+            exit();
+        }
+
+        header('Location: admin.php');
+        exit();
+    }
+}
+
+function deleteAppat()
+{
+    if (isset($_POST['id_produit']))
+    {
+        $id_produit = $_POST['id_produit'];
+
+        $appatRepo = new AppatRepository();
+        $imageRepo = new ImageRepository();
+
+        $imageRepo->deleteImagesByProduit($id_produit);
+
+        $appatRepo->deleteAppat($id_produit);
+
+        header('Location: admin.php');
+    } 
+    else 
+    {
+        echo "ID de l'appat manquant.";
+    }
+}
+
+function addAutreTraitement()
+{
+    if (isset($_POST))
+    {
+        if (isset($_POST['nom_produit']) &&
+            isset($_POST['description_produit']) &&
+            isset($_POST['prix_produit']) &&
+            isset($_POST['stock_produit']) &&
+            isset($_POST['promo_produit']) &&
+            isset($_POST['categorie_produit']) &&
+            isset($_POST['marque_produit']) &&
+            isset($_POST['detail_autre']) &&
+            isset($_POST['type_autre']) &&
+            isset($_POST['description_images']) &&
+            isset($_FILES['images'])
+        )
+        {
+            $genre = 9;
+
+            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+
+            if($_POST['stock_produit'] === 'stock')
+            {
+                $stock = 1;
+            }
+            else
+            {
+                $stock = 0;
+            }
+
+            $nouvelleAutre = new Autre();
+
+            $nouvelleAutre->setNomProduit($_POST['nom_produit']);
+            $nouvelleAutre->setDescriptionProduit($_POST['description_produit']);
+            $nouvelleAutre->setPrixProduit($_POST['prix_produit']);
+            $nouvelleAutre->setStockProduit($stock);
+            $nouvelleAutre->setPromoProduit($_POST['promo_produit']);
+            $nouvelleAutre->setPrixPromoProduit($prix_promo_produit);
+            $nouvelleAutre->setIdCategorie($_POST['categorie_produit']);
+            $nouvelleAutre->setIdGenre($genre);
+            $nouvelleAutre->setIdMarque($_POST['marque_produit']);
+            $nouvelleAutre->setDetailAutre($_POST['detail_autre']);
+            $nouvelleAutre->setNomImage($_FILES['images']['name']);
+            $nouvelleAutre->setDescriptionImage($_POST['description_images']);
+            $nouvelleAutre->setIdTypeAutre($_POST['type_autre']);
+            
+            if ($nouvelleAutre) 
+            {
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
+
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    $imageRepo = new ImageRepository;
+                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                }
+                else
+                {
+                    echo 'Aucune image trouvé';
+                    die;
+                }
+
+                $autreRepo = new AutreRepository();
+                $autreRepo->addAutre($nouvelleAutre);
+
+                $produitRepo = new ProduitRepository;
+                $descriptionImage = htmlspecialchars($_POST['description_images']);
+
+                $imagePath = $image->addImage($_FILES['images']); 
+
+                $image = new Image();
+                $image->setNomImage($imagePath);
+                $image->setDescriptionImage($descriptionImage);
+
+                $idProduit = $produitRepo->getLastId();
+                $idImage = $imageRepo->getLastId();
+
+                $imageRepo->addImageToProduit($idProduit, $idImage);
+
+                header('Location: admin.php');
+                exit;
+            } 
+            else 
+            {
+                echo "Les données de la nouvelle autre ne sont pas valides.";
+                die;
+            }
+        }
+        else 
+        {
+            echo "Certaines données sont manquantes pour ajouter une nouvelle autre.";
+            die;
+        }
+
+        header('Location: admin.php');
+        exit();
+    }
+}
+
+function updateAutreTraitement()
+{
+    if (isset($_POST)) 
+    {
+        if (isset($_POST['nom_produit']) &&
+            isset($_POST['description_produit']) &&
+            isset($_POST['prix_produit']) &&
+            isset($_POST['stock_produit']) &&
+            isset($_POST['promo_produit']) &&
+            isset($_POST['categorie_produit']) &&
+            isset($_POST['marque_produit']) &&
+            isset($_POST['detail_autre']) &&
+            isset($_POST['type_autre']) &&
+            isset($_POST['description_images']) &&
+            isset($_FILES['images'])
+        )
+        {
+            $genre = 9;
+
+            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+
+            if($_POST['stock_produit'] === 'stock')
+            {
+                $stock = 1;
+            }
+            else
+            {
+                $stock = 0;
+            }
+
+            $nouvelleAutre = new Autre();
+
+            $nouvelleAutre->setIdProduit($_POST['id_produit']);
+            $nouvelleAutre->setNomProduit($_POST['nom_produit']);
+            $nouvelleAutre->setDescriptionProduit($_POST['description_produit']);
+            $nouvelleAutre->setPrixProduit($_POST['prix_produit']);
+            $nouvelleAutre->setStockProduit($stock);
+            $nouvelleAutre->setPromoProduit($_POST['promo_produit']);
+            $nouvelleAutre->setPrixPromoProduit($prix_promo_produit);
+            $nouvelleAutre->setIdCategorie($_POST['categorie_produit']);
+            $nouvelleAutre->setIdGenre($genre);
+            $nouvelleAutre->setIdMarque($_POST['marque_produit']);
+            $nouvelleAutre->setDetailAutre($_POST['detail_autre']);
+            $nouvelleAutre->setNomImage($_FILES['images']['name']);
+            $nouvelleAutre->setDescriptionImage($_POST['description_images']);
+            $nouvelleAutre->setIdTypeAutre($_POST['type_autre']);
+          
+            if ($nouvelleAutre) 
+            {
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {
+                    $imageRepo = new ImageRepository;
+
+                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
+
+                    $fileName = $_FILES['images']['name'];
+                    $fileTmpName = $_FILES['images']['tmp_name'];
+                    $fileType = $_FILES['images']['type'];
+                    $fileSize = $_FILES['images']['size'];
+                    $fileError = $_FILES['images']['error'];
+
+                    $image = new Image();
+                    $image->setNomImage($fileName);
+                    $image->setDescriptionImage($_POST['description_images']);
+
+                    
+                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
+                    $image->addImage($_FILES['images']);
+                }
+                    
+
+                $autreRepo = new AutreRepository();
+                $autreRepo->updateAutre($nouvelleAutre);
+
+                $produitRepo = new ProduitRepository;
+                $descriptionImage = htmlspecialchars($_POST['description_images']);
+
+                $imagePath = $image->addImage($_FILES['images']);
+
+                $image = new Image();
+                $image->setNomImage($imagePath);
+                $image->setDescriptionImage($descriptionImage);
+
+                $idProduit = $produitRepo->getLastId();
+                $idImage = $imageRepo->getLastId();
+
+                $imageRepo->addImageToProduit($idProduit, $idImage);
+
+                header('Location: admin.php');
+                exit();
+            }
+            else 
+            {
+                echo "Les données du nouvel autre ne sont pas valides.";
+                exit();
+            }
+        }
+        else 
+        {
+            echo "Certaines données sont manquantes pour ajouter un nouvel autre.";
+            exit();
+        }
+
+        header('Location: admin.php');
+        exit();
+    }
+}
+
+function deleteAutre()
+{
+    if (isset($_POST['id_produit']))
+    {
+        $id_produit = $_POST['id_produit'];
+
+        $autreRepo = new AutreRepository();
+        $imageRepo = new ImageRepository();
+
+        $imageRepo->deleteImagesByProduit($id_produit);
+
+        $autreRepo->deleteAutre($id_produit);
+
+        header('Location: admin.php');
+    } 
+    else 
+    {
+        echo "ID de l'autre manquant.";
     }
 }
 
@@ -1887,22 +2360,22 @@ function addTypeLigneTraitement()
     }
 }
 
-function addTypeFeederTraitement()
+function addTypePlombTraitement()
 {
     if(isset($_POST))
     {
-        if(!empty($_POST['nom_type_feeder']))
+        if(!empty($_POST['nom_type_plomb']))
         {
-            $newTypeFeeder = [];
-            $newTypeFeeder['nom_type_feeder'] = htmlspecialchars($_POST['nom_type_feeder']);
+            $newTypePlomb = [];
+            $newTypePlomb['nom_type_plomb'] = htmlspecialchars($_POST['nom_type_plomb']);
 
-            $typeFeeder = new TypeFeeder;
-            $typeFeeder->createToInserTypeFeeder($newTypeFeeder);
+            $typePlomb = new TypePlomb;
+            $typePlomb->createToInserTypePlomb($newTypePlomb);
 
-            if($typeFeeder == true)
+            if($typePlomb == true)
             {
-                $typeFeederRepo = new TypeFeederRepository;
-                $typeFeederRepo->insertTypeFeeder($typeFeeder);
+                $typePlombRepo = new TypePlombRepository;
+                $typePlombRepo->insertTypePlomb($typePlomb);
                 header('location: admin.php');
             }
         }
@@ -1947,6 +2420,28 @@ function addTypeAppatTraitement()
             {
                 $typeAppatRepo = new TypeAppatRepository;
                 $typeAppatRepo->insertTypeAppat($typeAppat);
+                header('location: admin.php');
+            }
+        }
+    }
+}
+
+function addTypeAutreTraitement()
+{
+    if(isset($_POST))
+    {
+        if(!empty($_POST['nom_type_autre']))
+        {
+            $newTypeAutre = [];
+            $newTypeAutre['nom_type_autre'] = htmlspecialchars($_POST['nom_type_autre']);
+
+            $typeAutre = new TypeAutre;
+            $typeAutre->createToInserTypeAutre($newTypeAutre);
+
+            if($typeAutre == true)
+            {
+                $typeAutreRepo = new TypeAutreRepository;
+                $typeAutreRepo->insertTypeAutre($typeAutre);
                 header('location: admin.php');
             }
         }
@@ -2096,22 +2591,22 @@ function deleteTypeLigne()
         }
 }
 
-function deleteTypeFeeder()
+function deleteTypePlomb()
 {
 
-        if(!empty($_POST['id_type_feeder']) && isset($_POST['id_type_feeder']))
+        if(!empty($_POST['id_type_plomb']) && isset($_POST['id_type_plomb']))
         {
-            $id_type_feeder = isset($_POST['id_type_feeder']) ? $_POST['id_type_feeder'] : null;
-            $typeFeederRepository = new TypeFeederRepository();
-            $deleteTypeFeeder = $typeFeederRepository->deleteTypeFeeder($id_type_feeder);
+            $id_type_plomb = isset($_POST['id_type_plomb']) ? $_POST['id_type_plomb'] : null;
+            $typePlombRepository = new TypePlombRepository();
+            $deleteTypePlomb = $typePlombRepository->deleteTypePlomb($id_type_plomb);
     
-            if ($deleteTypeFeeder)
+            if ($deleteTypePlomb)
             {
                 header('location: admin.php');
             }
             else 
             {
-                $_SESSION['messageError'] = 'Suppression du type de feeder échoué';
+                $_SESSION['messageError'] = 'Suppression du type de plomb échoué';
                 header('location: admin.php');
             }
         }
@@ -2152,6 +2647,26 @@ function deleteTypeAppat()
             else 
             {
                 $_SESSION['messageError'] = 'Suppression du type de appat échoué';
+                header('location: admin.php');
+            }
+        }
+}
+
+function deleteTypeAutre()
+{
+        if(!empty($_POST['id_type_autre']) && isset($_POST['id_type_autre']))
+        {
+            $id_type_autre = isset($_POST['id_type_autre']) ? $_POST['id_type_autre'] : null;
+            $typeAutreRepository = new TypeAutreRepository();
+            $deleteTypeAutre = $typeAutreRepository->deleteTypeAutre($id_type_autre);
+    
+            if ($deleteTypeAutre)
+            {
+                header('location: admin.php');
+            }
+            else 
+            {
+                $_SESSION['messageError'] = 'Suppression du type de autre échoué';
                 header('location: admin.php');
             }
         }
@@ -2334,28 +2849,28 @@ function combinedArticle($articles)
         }
     }
 
-    foreach ($articles['feeders'] as $feeder) 
+    foreach ($articles['plombs'] as $plomb) 
     {
-        if ($feeder) 
+        if ($plomb) 
         {
-            $imgFeederRepo = new ImageFeederRepository;
-            $imgFeeder = $imgFeederRepo->getImageByFeeder($feeder->getIdFeeder());
+            $imgPlombRepo = new ImagePlombRepository;
+            $imgPlomb = $imgPlombRepo->getImageByPlomb($plomb->getIdPlomb());
 
             $combinedArticles[] =
             [
                 'genre' => 'plomb',
-                'id' => $feeder->getIdFeeder(),
-                'nom' => $feeder->getNomFeeder(),
-                'image' => $imgFeeder->getNomImageFeeder(),
-                'marque' => $feeder->getMarqueFeeder(),
-                'type' => $feeder->getTypeFeeder(),
-                'categorie' => $feeder->getCategorieFeeder(),
-                'promo' => $feeder->getPromoFeeder(),
-                'stock' => $feeder->getStockFeeder(),
-                'description' => $feeder->getDescriptionFeeder(),
-                'poids' => $feeder->getPoidsFeeder(),
-                'longueur' => $feeder->getLongueurFeeder(),
-                'diametre' => $feeder->getDiametreFeeder(),
+                'id' => $plomb->getIdPlomb(),
+                'nom' => $plomb->getNomPlomb(),
+                'image' => $imgPlomb->getNomImagePlomb(),
+                'marque' => $plomb->getMarquePlomb(),
+                'type' => $plomb->getTypePlomb(),
+                'categorie' => $plomb->getCategoriePlomb(),
+                'promo' => $plomb->getPromoPlomb(),
+                'stock' => $plomb->getStockPlomb(),
+                'description' => $plomb->getDescriptionPlomb(),
+                'poids' => $plomb->getPoidsPlomb(),
+                'longueur' => $plomb->getLongueurPlomb(),
+                'diametre' => $plomb->getDiametrePlomb(),
             ];
         } 
         else 
@@ -2422,101 +2937,8 @@ function getAllType()
     $typeAppatRepo = new TypeAppatRepository;
     $allTypes['appat'] = $typeAppatRepo->getAllTypeAppat();
 
+    $typeAutreRepo = new TypeAutreRepository;
+    $allTypes['autre'] = $typeAutreRepo->getAllTypeAutre();
+
     return $allTypes;
-}
-
-function searchPage()
-{
-    $article = [];
-
-    $canneRepo = new CanneRepository;
-    $article['cannes'] = $canneRepo->getAllCanne();
-
-    $typeCanneRepo = new TypeCanneRepository;
-    $typeCannes = $typeCanneRepo->getAllTypeCanne();
-
-    $moulinetRepo = new MoulinetRepository;
-    $article['moulinets'] = $moulinetRepo->getAllmoulinet();
-
-    $typeMoulinetRepo = new TypemoulinetRepository;
-    $typeMoulinets = $typeMoulinetRepo->getAllTypemoulinet();
-
-    $hameconRepo = new HameconRepository;
-    $article['hamecons'] = $hameconRepo->getAllHamecon();
-
-    $typeHameconRepo = new TypeHameconRepository;
-    $typeHamecons = $typeHameconRepo->getAllTypeHamecon();
-
-    $leurreRepo = new LeurreRepository;
-    $article['leurres'] = $leurreRepo->getAllleurre();
-
-    $typeLeurreRepo = new TypeLeurreRepository;
-    $typeLeurres = $typeLeurreRepo->getAllTypeLeurre();
-
-    $ligneRepo = new LigneRepository;
-    $article['lignes'] = $ligneRepo->getAllLigne();
-
-    $typeLigneRepo = new TypeLigneRepository;
-    $typeLignes = $typeLigneRepo->getAllTypeLigne();
-
-    $feederRepo = new FeederRepository;
-    $article['feeders'] = $feederRepo->getAllFeeder();
-
-    $typeFeederRepo = new TypeFeederRepository;
-    $typeFeeders = $typeFeederRepo->getAllTypeFeeder();
-
-    $equipementRepo = new EquipementRepository;
-    $article['equipements'] = $equipementRepo->getAllEquipement();
-
-    $typeEquipementRepo = new TypeEquipementRepository;
-    $typeEquipements = $typeEquipementRepo->getAllTypeEquipement();
-
-    $appatRepo = new AppatRepository;
-    $article['appats'] = $appatRepo->getAllAppat();
-
-    $typeAppatRepo = new TypeAppatRepository;
-    $typeAppats = $typeAppatRepo->getAllTypeAppat();
-
-    $marqueRepo = new MarqueRepository;
-    $marques = $marqueRepo->getAllMarque();
-
-    $categorieRepo = new CategorieRepository;
-    $categories = $categorieRepo->getAllCategorie();
-
-    $articles = combinedArticle($article);
-
-    $searchResults = [];
-    if(!empty($_POST['keywords']))
-    {
-        $keywords[] = $_POST['keywords']; 
-
-        if ($keywords != null)
-        {
-            $keywords = array_map('strtolower', $keywords);
-        }
-
-        foreach ($articles as $article)
-        {
-            $nom = strtolower($article['nom']);
-            $description = strtolower($article['description']);
-            $type = strtolower($article['type']);
-            $marque = strtolower($article['marque']);
-            $categorie = strtolower($article['categorie']);
-            $genre = strtolower($article['genre']);
-    
-            foreach ($keywords as $keyword) 
-            {
-                if (strpos($nom, $keyword) !== false || strpos($description, $keyword) !== false || strpos($type, $keyword) !== false || strpos($marque, $keyword) !== false || strpos($categorie, $keyword) !== false || strpos($genre, $keyword) !== false ) 
-                {
-                    $articlesSelectionnes[] = $article;
-                }
-            }
-        }
-    }
-    else
-    {
-        header('location:admin.php');
-    }
-    
-    require('src/view/adminCrud/adminSearchPage.php');
 }

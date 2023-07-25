@@ -10,7 +10,7 @@ require_once('src/model/Produit/Hamecon.php');
 require_once('src/model/Produit/Leurre.php');
 require_once('src/model/Produit/Ligne.php');
 require_once('src/model/Produit/Equipement.php');
-require_once('src/model/Produit/Feeder.php');
+require_once('src/model/Produit/Plomb.php');
 require_once('src/model/Produit/Appat.php');
 
 require_once('src/model/Marque.php');
@@ -22,7 +22,7 @@ require_once('src/model/Type/TypeHamecon.php');
 require_once('src/model/Type/TypeLeurre.php');
 require_once('src/model/Type/TypeLigne.php');
 require_once('src/model/Type/TypeEquipement.php');
-require_once('src/model/Type/TypeFeeder.php');
+require_once('src/model/Type/TypePlomb.php');
 require_once('src/model/Type/TypeAppat.php');
 
 require_once('src/model/Image/ImageCanne.php');
@@ -31,7 +31,7 @@ require_once('src/model/Image/ImageHamecon.php');
 require_once('src/model/Image/ImageLeurre.php');
 require_once('src/model/Image/ImageLigne.php');
 require_once('src/model/Image/ImageEquipement.php');
-require_once('src/model/Image/ImageFeeder.php');
+require_once('src/model/Image/ImagePlomb.php');
 require_once('src/model/Image/ImageAppat.php');
 
 // PAGE D'ACCUEIL
@@ -826,23 +826,23 @@ function addFavorisTraitement()
             {
                 if (in_array($id_plomb, $plomb))
                 {
-                    $favByIdFeeder = $favorisRepo->getFavorisByIdFeeder($id_plomb);
+                    $favByIdPlomb = $favorisRepo->getFavorisByIdPlomb($id_plomb);
                     
                     $idFavByIdUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
 
-                    foreach ($favByIdFeeder as $favFeeders)
+                    foreach ($favByIdPlomb as $favPlombs)
                     {
-                        $favIdFeeder = $favFeeders->getIdFavoris();
+                        $favIdPlomb = $favPlombs->getIdFavoris();
                     }
                     
-                    foreach ($idFavByIdUser as $favFeedersUser)
+                    foreach ($idFavByIdUser as $favPlombsUser)
                     {
-                        $favIdFeederUser[] = $favFeedersUser->getIdFavoris();
+                        $favIdPlombUser[] = $favPlombsUser->getIdFavoris();
                     }
     
-                    if (in_array($favIdFeeder, $favIdFeederUser))
+                    if (in_array($favIdPlomb, $favIdPlombUser))
                     {
-                        $deleteFavAndFeeder = $favorisRepo->deleteFavFeederAndUser($favIdFeeder, $id_plomb);
+                        $deleteFavAndPlomb = $favorisRepo->deleteFavPlombAndUser($favIdPlomb, $id_plomb);
                     }
                     
                     foreach ($_SESSION['plomb'] as $key => $subArray)
@@ -871,7 +871,7 @@ function addFavorisTraitement()
                     $favoris->createToInsertFavoris($_POST);
                     $favorisRepo->insertFavoris($favoris);
                     $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
-                    $favorisRepo->insertFavFeederAndUser($lastIdFav, $id_plomb);
+                    $favorisRepo->insertFavPlombAndUser($lastIdFav, $id_plomb);
                     $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
     
                     foreach ($favUser as $idFavo)
@@ -881,10 +881,10 @@ function addFavorisTraitement()
     
                     foreach ($allIdFav as $idFavoris)
                     {
-                        $idFeederFav[] = $favorisRepo->getFeederByIdFav($idFavoris);
+                        $idPlombFav[] = $favorisRepo->getPlombByIdFav($idFavoris);
                     }
 
-                    $_SESSION['plomb'] = [$idFeederFav];
+                    $_SESSION['plomb'] = [$idPlombFav];
                     session_write_close();
                 }
             }
@@ -894,7 +894,7 @@ function addFavorisTraitement()
             $favoris->createToInsertFavoris($_POST);
             $favorisRepo->insertFavoris($favoris);
             $lastIdFav = $favorisRepo->getLastInsertIdFavoris();
-            $favorisRepo->insertFavFeederAndUser($lastIdFav, $id_plomb);
+            $favorisRepo->insertFavPlombAndUser($lastIdFav, $id_plomb);
             $favUser = $favorisRepo->getFavorisByIdUser($_SESSION['id_user']);
 
             foreach ($favUser as $idFavo)
@@ -904,10 +904,10 @@ function addFavorisTraitement()
 
             foreach ($allIdFav as $idFavoris)
             {
-                $idFeederFav[] = $favorisRepo->getFeederByIdFav($idFavoris);
+                $idPlombFav[] = $favorisRepo->getPlombByIdFav($idFavoris);
             }
             
-            $_SESSION['plomb'] = [$idFeederFav];
+            $_SESSION['plomb'] = [$idPlombFav];
             session_write_close();
         }
     }
@@ -1215,23 +1215,23 @@ function profilPage()
             {
                 if($plomb != null)
                 {
-                    $plombRepo = new FeederRepository;
-                    $plombFav = $plombRepo->getFeederById($plomb);
+                    $plombRepo = new PlombRepository;
+                    $plombFav = $plombRepo->getPlombById($plomb);
                 
-                    $imgFeederRepo = new ImageFeederRepository;
-                    $imgFeeders = $imgFeederRepo->getImageByFeeder($plomb);
+                    $imgPlombRepo = new ImagePlombRepository;
+                    $imgPlombs = $imgPlombRepo->getImageByPlomb($plomb);
                     $combinedArticles[] = 
                     [
                         'genre' => 'plomb',
-                        'id' => $plombFav->getIdFeeder(),
-                        'nom' => $plombFav->getNomFeeder(),
-                        'image' => $imgFeeders->getNomImageFeeder(),
-                        'marque' => $plombFav->getMarqueFeeder(),
-                        'type' => $plombFav->getTypeFeeder(),
-                        'categorie' => $plombFav->getCategorieFeeder(),
-                        'longueur' => $plombFav->getLongueurFeeder(),
-                        'poids' => $plombFav->getPoidsFeeder(),
-                        'diametre' => $plombFav->getDiametreFeeder(),
+                        'id' => $plombFav->getIdPlomb(),
+                        'nom' => $plombFav->getNomPlomb(),
+                        'image' => $imgPlombs->getNomImagePlomb(),
+                        'marque' => $plombFav->getMarquePlomb(),
+                        'type' => $plombFav->getTypePlomb(),
+                        'categorie' => $plombFav->getCategoriePlomb(),
+                        'longueur' => $plombFav->getLongueurPlomb(),
+                        'poids' => $plombFav->getPoidsPlomb(),
+                        'diametre' => $plombFav->getDiametrePlomb(),
                     ];
                 }
             }
@@ -1508,11 +1508,11 @@ function searchResult()
     $typeLigneRepo = new TypeLigneRepository;
     $typeLignes = $typeLigneRepo->getAllTypeLigne();
 
-    $feederRepo = new FeederRepository;
-    $article['feeders'] = $feederRepo->getAllFeeder();
+    $plombRepo = new PlombRepository;
+    $article['plombs'] = $plombRepo->getAllPlomb();
 
-    $typeFeederRepo = new TypeFeederRepository;
-    $typeFeeders = $typeFeederRepo->getAllTypeFeeder();
+    $typePlombRepo = new TypePlombRepository;
+    $typePlombs = $typePlombRepo->getAllTypePlomb();
 
     $equipementRepo = new EquipementRepository;
     $article['equipements'] = $equipementRepo->getAllEquipement();
@@ -1614,7 +1614,7 @@ function viewPageCategorie()
     $allLeurreRepo = new LeurreRepository;
     $allLigneRepo = new LigneRepository;
     $allEquipementRepo = new EquipementRepository;
-    $allFeederRepo = new FeederRepository;
+    $allPlombRepo = new PlombRepository;
     $allAppatRepo = new AppatRepository;
 
     $marques = getAllMarque();
@@ -1633,7 +1633,7 @@ function viewPageCategorie()
     $articles['equipements'] = $allEquipementRepo->getEquipementByCategorie($idCategorie);
     $articles['lignes'] = $allLigneRepo->getLigneByCategorie($idCategorie);
     $articles['appats'] = $allAppatRepo->getAppatByCategorie($idCategorie);
-    $articles['feeders'] = $allFeederRepo->getFeederByCategorie($idCategorie);
+    $articles['plombs'] = $allPlombRepo->getPlombByCategorie($idCategorie);
 
     $combinedArticles = combinedArticle($articles);
 
@@ -1660,7 +1660,7 @@ function viewPageMarque()
     $allLeurreRepo = new LeurreRepository;
     $allLigneRepo = new LigneRepository;
     $allEquipementRepo = new EquipementRepository;
-    $allFeederRepo = new FeederRepository;
+    $allPlombRepo = new PlombRepository;
     $allAppatRepo = new AppatRepository;
 
     $categories = getAllCategorie();
@@ -1679,7 +1679,7 @@ function viewPageMarque()
     $articles['equipements'] = $allEquipementRepo->getEquipementByMarque($idMarque);
     $articles['lignes'] = $allLigneRepo->getLigneByMarque($idMarque);
     $articles['appats'] = $allAppatRepo->getAppatByMarque($idMarque);
-    $articles['feeders'] = $allFeederRepo->getFeederByMarque($idMarque);
+    $articles['plombs'] = $allPlombRepo->getPlombByMarque($idMarque);
 
     $combinedArticles = combinedArticle($articles);
 
@@ -1832,13 +1832,13 @@ function leurrePage()
 //PAGE D'AFFICHAGE DES INFOS D'UN PLOMB EN FONCTION DE L'ID EN GET
 function plombPage()
 {
-    $feederRepo = new FeederRepository;
-    $imageFeederRepo = new ImageFeederRepository;
+    $plombRepo = new PlombRepository;
+    $imagePlombRepo = new ImagePlombRepository;
 
-    $imageFeeder = $imageFeederRepo->getImageByFeeder($_GET['id']);
-    $feeder = $feederRepo->getFeederById($_GET['id']);
+    $imagePlomb = $imagePlombRepo->getImageByPlomb($_GET['id']);
+    $plomb = $plombRepo->getPlombById($_GET['id']);
 
-    require_once('src/view/articlePage/feederPage.php');
+    require_once('src/view/articlePage/plombPage.php');
 }
 
 //PAGE D'AFFICHAGE DES INFOS D'UN APPAT EN FONCTION DE L'ID EN GET
@@ -1886,7 +1886,7 @@ function getLastArticles()
     $lastLeurreRepo = new LeurreRepository;
     $lastLigneRepo = new LigneRepository;
     $lastEquipementRepo = new EquipementRepository;
-    $lastFeederRepo = new FeederRepository;
+    $lastPlombRepo = new PlombRepository;
     $lastAppatRepo = new AppatRepository;
 
     $articles = [];
@@ -1897,7 +1897,7 @@ function getLastArticles()
     $articles['leurres'] = $lastLeurreRepo->getLastLeurre();
     $articles['lignes'] = $lastLigneRepo->getLastLigne();
     $articles['equipements'] = $lastEquipementRepo->getLastEquipement();
-    $articles['feeders'] = $lastFeederRepo->getLastFeeder();
+    $articles['plombs'] = $lastPlombRepo->getLastPlomb();
     $articles['appats'] = $lastAppatRepo->getLastAppat();
 
     $combinedArticles = [];
@@ -1918,7 +1918,7 @@ function getAllArticles()
     $allLeurreRepo = new LeurreRepository;
     $allLigneRepo = new LigneRepository;
     $allEquipementRepo = new EquipementRepository;
-    $allFeederRepo = new FeederRepository;
+    $allPlombRepo = new PlombRepository;
     $allAppatRepo = new AppatRepository;
 
     $articles = [];
@@ -1929,7 +1929,7 @@ function getAllArticles()
     $articles['leurres'] = $allLeurreRepo->getAllLeurre();
     $articles['lignes'] = $allLigneRepo->getAllLigne();
     $articles['equipements'] = $allEquipementRepo->getAllEquipement();
-    $articles['feeders'] = $allFeederRepo->getAllFeeder();
+    $articles['plombs'] = $allPlombRepo->getAllPlomb();
     $articles['appats'] = $allAppatRepo->getAllAppat();
 
     $combinedArticles = [];
@@ -1950,7 +1950,7 @@ function getPromoArticles()
     $promoLeurreRepo = new LeurreRepository;
     $promoLigneRepo = new LigneRepository;
     $promoEquipementRepo = new EquipementRepository;
-    $promoFeederRepo = new FeederRepository;
+    $promoPlombRepo = new PlombRepository;
     $promoAppatRepo = new AppatRepository;
 
     $articles = [];
@@ -1961,7 +1961,7 @@ function getPromoArticles()
     $articles['leurres'] = $promoLeurreRepo->getPromoLeurre();
     $articles['lignes'] = $promoLigneRepo->getPromoLigne();
     $articles['equipements'] = $promoEquipementRepo->getPromoEquipement();
-    $articles['feeders'] = $promoFeederRepo->getPromoFeeder();
+    $articles['plombs'] = $promoPlombRepo->getPromoPlomb();
     $articles['appats'] = $promoAppatRepo->getPromoAppat();
 
     $promoArticles = combinedArticle($articles);
@@ -2030,8 +2030,8 @@ function getAllType()
     $typeLigneRepo = new TypeLigneRepository;
     $allTypes[] = $typeLigneRepo->getAllTypeLigne();
 
-    $typeFeederRepo = new TypeFeederRepository;
-    $allTypes[] = $typeFeederRepo->getAllTypeFeeder();
+    $typePlombRepo = new TypePlombRepository;
+    $allTypes[] = $typePlombRepo->getAllTypePlomb();
 
     $typeEquipementRepo = new TypeEquipementRepository;
     $allTypes[] = $typeEquipementRepo->getAllTypeEquipement();
@@ -2229,28 +2229,28 @@ function combinedArticle($articles)
         }
     }
 
-    foreach ($articles['feeders'] as $feeder) 
+    foreach ($articles['plombs'] as $plomb) 
     {
-        if ($feeder) 
+        if ($plomb) 
         {
-            $imgFeederRepo = new ImageFeederRepository;
-            $imgFeeder = $imgFeederRepo->getImageByFeeder($feeder->getIdFeeder());
+            $imgPlombRepo = new ImagePlombRepository;
+            $imgPlomb = $imgPlombRepo->getImageByPlomb($plomb->getIdPlomb());
 
             $combinedArticles[] =
             [
                 'genre' => 'plomb',
-                'id' => $feeder->getIdFeeder(),
-                'nom' => $feeder->getNomFeeder(),
-                'image' => $imgFeeder->getNomImageFeeder(),
-                'marque' => $feeder->getMarqueFeeder(),
-                'type' => $feeder->getTypeFeeder(),
-                'categorie' => $feeder->getCategorieFeeder(),
-                'promo' => $feeder->getPromoFeeder(),
-                'stock' => $feeder->getStockFeeder(),
-                'description' => $feeder->getDescriptionFeeder(),
-                'poids' => $feeder->getPoidsFeeder(),
-                'longueur' => $feeder->getLongueurFeeder(),
-                'diametre' => $feeder->getDiametreFeeder(),
+                'id' => $plomb->getIdPlomb(),
+                'nom' => $plomb->getNomPlomb(),
+                'image' => $imgPlomb->getNomImagePlomb(),
+                'marque' => $plomb->getMarquePlomb(),
+                'type' => $plomb->getTypePlomb(),
+                'categorie' => $plomb->getCategoriePlomb(),
+                'promo' => $plomb->getPromoPlomb(),
+                'stock' => $plomb->getStockPlomb(),
+                'description' => $plomb->getDescriptionPlomb(),
+                'poids' => $plomb->getPoidsPlomb(),
+                'longueur' => $plomb->getLongueurPlomb(),
+                'diametre' => $plomb->getDiametrePlomb(),
             ];
         } 
         else 
@@ -2505,7 +2505,7 @@ function filtrePageCate()
     $allLeurreRepo = new LeurreRepository;
     $allLigneRepo = new LigneRepository;
     $allEquipementRepo = new EquipementRepository;
-    $allFeederRepo = new FeederRepository;
+    $allPlombRepo = new PlombRepository;
     $allAppatRepo = new AppatRepository;
 
     $idCategorie = getIdCategorie();
@@ -2519,7 +2519,7 @@ function filtrePageCate()
     $articles['equipements'] = $allEquipementRepo->getEquipementByCategorie($idCategorie);
     $articles['lignes'] = $allLigneRepo->getLigneByCategorie($idCategorie);
     $articles['appats'] = $allAppatRepo->getAppatByCategorie($idCategorie);
-    $articles['feeders'] = $allFeederRepo->getFeederByCategorie($idCategorie);
+    $articles['plombs'] = $allPlombRepo->getPlombByCategorie($idCategorie);
 
     $combinedArticles = combinedArticle($articles);
 
@@ -2637,7 +2637,7 @@ function filtrePageMarque()
     $allLeurreRepo = new LeurreRepository;
     $allLigneRepo = new LigneRepository;
     $allEquipementRepo = new EquipementRepository;
-    $allFeederRepo = new FeederRepository;
+    $allPlombRepo = new PlombRepository;
     $allAppatRepo = new AppatRepository;
 
     $idMarque = getIdMarque();
@@ -2651,7 +2651,7 @@ function filtrePageMarque()
     $articles['equipements'] = $allEquipementRepo->getEquipementByMarque($idMarque);
     $articles['lignes'] = $allLigneRepo->getLigneByMarque($idMarque);
     $articles['appats'] = $allAppatRepo->getAppatByMarque($idMarque);
-    $articles['feeders'] = $allFeederRepo->getFeederByMarque($idMarque);
+    $articles['plombs'] = $allPlombRepo->getPlombByMarque($idMarque);
 
     $combinedArticles = combinedArticle($articles);
 

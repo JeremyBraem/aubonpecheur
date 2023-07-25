@@ -41,7 +41,7 @@ if ($articlesSelectionnes)
 
         if ($article['genre'] === 'plomb') 
         {
-            include('src/view/adminCrud/viewArticle/viewFeeder.php');
+            include('src/view/adminCrud/viewArticle/viewPlomb.php');
         }
     }
 }
