@@ -143,11 +143,11 @@ require('src/controller/adminController.php');
             case 'updateLeurreTraitement':
                 updateLeurreTraitement();
                 break;
-            case 'UpdateLigneTraitement':
+            case 'updateLigneTraitement':
                 updateLigneTraitement();
                 break;
-            case 'UpdatePlombTraitement':
-                UpdatePlombTraitement();
+            case 'updatePlombTraitement':
+                updatePlombTraitement();
                 break;
             case 'updateEquipementTraitement':
                 updateEquipementTraitement();

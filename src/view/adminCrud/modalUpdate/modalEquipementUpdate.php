@@ -18,22 +18,22 @@
                 <div class="grid gap-4 mb-4 sm:grid-cols-2">
 
                     <div>
-                        <label for="nom" class="block mb-2 text-sm font-medium text-gray-900">Nom de l'équipement</label>
+                        <label for="nom" class="block mb-2 text-sm font-medium text-gray-900">Nom de l'équipement :</label>
                         <input type="text" value="<?php echo $equipement->getNomProduit(); ?>" name="nom_produit" id="nom_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Nom du produit" required>
                     </div>
 
                     <div>
-                        <label for="images" class="block mb-2 text-sm font-medium text-gray-900 ">Image</label>
-                        <input type="file" id="images" name="images" required>
+                        <label for="images" class="block mb-2 text-sm font-medium text-gray-900 ">Image :</label>
+                        <input type="file" id="images" name="images" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full" required>
                     </div>
 
                     <div class="sm:col-span-2">
-                        <label for="description_images" class="block mb-2 text-sm font-medium text-gray-900 ">Description de l'image</label>
-                        <textarea name="description_images" value="<?php echo $equipement->getDescriptionImage(); ?>" id="description_images" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Écrire une description de l'image"><?php echo $equipement->getDescriptionProduit(); ?></textarea>
+                        <label for="description_images" class="block mb-2 text-sm font-medium text-gray-900 ">Description de l'image :</label>
+                        <textarea name="description_images" value="<?php echo $equipement->getDescriptionImage(); ?>" id="description_images" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Écrire une description de l'image"><?php echo $equipement->getDescriptionImage(); ?></textarea>
                     </div>
 
                     <div>
-                        <label for="prix_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Prix</label>
+                        <label for="prix_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Prix :</label>
                         <input type="number" name="prix_produit" id="prix_produit" value="<?php echo $equipement->getPrixProduit(); ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Prix en euro" required>
                     </div>
 
@@ -47,7 +47,7 @@
                     </div>
 
                     <div>
-                        <label for="type_equipement" class="block mb-2 text-sm font-medium text-gray-900 ">Type</label>
+                        <label for="type_equipement" class="block mb-2 text-sm font-medium text-gray-900 ">Type :</label>
                         <select id="type_equipement" name="type_equipement" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                             <?php foreach ($allTypes['equipement'] as $typeEquipement) { ?>
                                 <option value="<?php echo $typeEquipement->getIdTypeEquipement(); ?>"><?php echo $typeEquipement->getNomTypeEquipement(); ?></option>
@@ -56,7 +56,7 @@
                     </div>
 
                     <div>
-                        <label for="marque_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Marque</label>
+                        <label for="marque_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Marque :</label>
                         <select id="marque_produit" name="marque_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                             <?php foreach ($marques as $marque) { ?>
                                 <option value="<?php echo $marque->getIdMarque(); ?>"><?php echo $marque->getNomMarque(); ?></option>
@@ -65,7 +65,7 @@
                     </div>
 
                     <div>
-                        <label for="promo_produit" class="block mb-2 text-sm font-medium text-gray-900 ">En promotion</label>
+                        <label for="promo_produit" class="block mb-2 text-sm font-medium text-gray-900 ">En promotion :</label>
                         <input type="number" id="promo_produit" value="<?php echo $produit->getPrixPromoProduit() ?>" name="promo_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                     </div>
 
@@ -79,11 +79,11 @@
 
                     <div class="sm:col-span-2">
                         <label for="detail_equipement" class="block mb-2 text-sm font-medium text-gray-900 ">Détails de l'équipement :</label>
-                        <textarea name="detail_equipement" id="detail_equipement" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Écrire le détails de l'équipement"><?php echo $equipement->getDescriptionProduit(); ?></textarea>
+                        <textarea name="detail_equipement" id="detail_equipement" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Écrire le détails de l'équipement"><?php echo $equipement->getDetailEquipement(); ?></textarea>
                     </div>
 
                     <div class="sm:col-span-2">
-                        <label for="description_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Description</label>
+                        <label for="description_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Description :</label>
                         <textarea name="description_produit" id="description_produit" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Écrire une description"><?php echo $equipement->getDescriptionProduit(); ?></textarea>
                     </div>
 

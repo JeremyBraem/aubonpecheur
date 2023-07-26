@@ -18,37 +18,37 @@
                 <div class="grid gap-4 mb-4 sm:grid-cols-2">
 
                     <div>
-                        <label for="nom" class="block mb-2 text-sm font-medium text-gray-900">Nom de la canne</label>
-                        <input type="text" value="<?php echo $canne->getNomProduit(); ?>" name="nom_produit" id="nom_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Type product name" required>
+                        <label for="nom" class="block mb-2 text-sm font-medium text-gray-900">Nom de la canne :</label>
+                        <input type="text" value="<?php echo $canne->getNomProduit(); ?>" name="nom_produit" id="nom_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Nom de la canne" required>
                     </div>
 
                     <div>
-                        <label for="images" class="block mb-2 text-sm font-medium text-gray-900 ">Images</label>
-                        <input type="file" id="images" name="images" multiple required>
+                        <label for="images" class="block mb-2 text-sm font-medium text-gray-900 ">Image :</label>
+                        <input type="file" id="images" name="images" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full" required>
                     </div>
 
                     <div class="sm:col-span-2">
-                        <label for="description_images" class="block mb-2 text-sm font-medium text-gray-900 ">Description des images</label>
-                        <textarea name="description_images" value="<?php echo $canne->getDescriptionImage(); ?>" id="description_images" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Write product description here"><?php echo $canne->getDescriptionProduit(); ?></textarea>
+                        <label for="description_images" class="block mb-2 text-sm font-medium text-gray-900 ">Description de l'image :</label>
+                        <textarea name="description_images" value="<?php echo $canne->getDescriptionImage(); ?>" id="description_images" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Écrire une description de l'image"><?php echo $canne->getDescriptionImage(); ?></textarea>
                     </div>
 
                     <div>
-                        <label for="poids_canne" class="block mb-2 text-sm font-medium text-gray-900 ">Longeur</label>
-                        <input type="number" name="poids_canne" value="<?php echo $canne->getLongueurCanne(); ?>" id="poids_canne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Poids en kg" required>
+                        <label for="poids_canne" class="block mb-2 text-sm font-medium text-gray-900 ">Poids :</label>
+                        <input type="number" name="poids_canne" value="<?php echo $canne->getPoidsCanne(); ?>" id="poids_canne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Poids en kg" required>
                     </div>
 
                     <div>
-                        <label for="longueur_canne" class="block mb-2 text-sm font-medium text-gray-900 ">Poid</label>
-                        <input type="number" name="longueur_canne" value="<?php echo $canne->getPoidsCanne(); ?>" id="longueur_canne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Longueur en m" required>
+                        <label for="longueur_canne" class="block mb-2 text-sm font-medium text-gray-900 ">Longueur :</label>
+                        <input type="number" name="longueur_canne" value="<?php echo $canne->getLongueurCanne(); ?>" id="longueur_canne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Longueur en m" required>
                     </div>
 
                     <div>
-                        <label for="prix_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Prix</label>
+                        <label for="prix_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Prix :</label>
                         <input type="number" name="prix_produit" id="prix_produit" value="<?php echo $canne->getPrixProduit(); ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Prix en euro" required>
                     </div>
 
                     <div>
-                        <label for="categorie_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Categorie</label>
+                        <label for="categorie_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Catégorie :</label>
                         <select id="categorie_produit" name="categorie_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 ">
                             <?php foreach ($categories as $categorie) { ?>
                                 <option value="<?php echo $categorie->getIdCategorie(); ?>"><?php echo $categorie->getNomCategorie(); ?></option>
@@ -57,7 +57,7 @@
                     </div>
 
                     <div>
-                        <label for="type_canne" class="block mb-2 text-sm font-medium text-gray-900 ">Type</label>
+                        <label for="type_canne" class="block mb-2 text-sm font-medium text-gray-900 ">Type :</label>
                         <select id="type_canne" name="type_canne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                             <?php foreach ($allTypes['canne'] as $typeCanne) { ?>
                                 <option value="<?php echo $typeCanne->getIdTypeCanne(); ?>"><?php echo $typeCanne->getNomTypeCanne(); ?></option>
@@ -66,7 +66,7 @@
                     </div>
 
                     <div>
-                        <label for="marque_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Marque</label>
+                        <label for="marque_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Marque :</label>
                         <select id="marque_produit" name="marque_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                             <?php foreach ($marques as $marque) { ?>
                                 <option value="<?php echo $marque->getIdMarque(); ?>"><?php echo $marque->getNomMarque(); ?></option>
@@ -75,12 +75,12 @@
                     </div>
 
                     <div>
-                        <label for="promo_produit" class="block mb-2 text-sm font-medium text-gray-900 ">En promotion</label>
+                        <label for="promo_produit" class="block mb-2 text-sm font-medium text-gray-900 ">En promotion :</label>
                         <input type="number" id="promo_produit" value="<?php echo $produit->getPrixPromoProduit() ?>" name="promo_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                     </div>
 
                     <div>
-                        <label for="stock_produit" class="block mb-2 text-sm font-medium text-gray-900 ">En stock</label>
+                        <label for="stock_produit" class="block mb-2 text-sm font-medium text-gray-900 ">En stock :</label>
                         <select id="stock_produit" name="stock_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 ">
                             <option value="stock">Oui</option>
                             <option value="hors_stock">Non</option>
@@ -88,7 +88,7 @@
                     </div>
 
                     <div class="sm:col-span-2">
-                        <label for="description_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Description</label>
+                        <label for="description_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Description :</label>
                         <textarea name="description_produit" id="description_produit" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Write product description here"><?php echo $canne->getDescriptionProduit(); ?></textarea>
                     </div>
 

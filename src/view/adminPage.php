@@ -382,41 +382,41 @@
         {
             include('src/view/adminCrud/modalUpdate/modalEquipementUpdate.php');
             include('src/view/adminCrud/readModal/readModalEquipement.php');
-            // include('src/view/adminCrud/modalDelete/modalDeleteEquipement.php');
+            include('src/view/adminCrud/modalDelete/modalDeleteEquipement.php');
         }
 
         foreach($autres as $autre)
         {
             include('src/view/adminCrud/modalUpdate/modalAutreUpdate.php');
             include('src/view/adminCrud/readModal/readModalAutre.php');
-            // include('src/view/adminCrud/modalDelete/modalDeleteAutre.php');
+            include('src/view/adminCrud/modalDelete/modalDeleteAutre.php');
         }
 
         foreach($hamecons as $hamecon)
         {
-            // include('src/view/adminCrud/modalUpdate/modalHameconUpdate.php');
+            include('src/view/adminCrud/modalUpdate/modalHameconUpdate.php');
             include('src/view/adminCrud/readModal/readModalHamecon.php');
-            // include('src/view/adminCrud/modalDelete/modalDeleteHamecon.php');
+            include('src/view/adminCrud/modalDelete/modalDeleteHamecon.php');
         }
 
         foreach($leurres as $leurre)
         {
-            // include('src/view/adminCrud/modalUpdate/modalLeurreUpdate.php');
+            include('src/view/adminCrud/modalUpdate/modalLeurreUpdate.php');
             include('src/view/adminCrud/readModal/readModalLeurre.php');
-            // include('src/view/adminCrud/modalDelete/modalDeleteLeurre.php');
+            include('src/view/adminCrud/modalDelete/modalDeleteLeurre.php');
         }
         foreach($lignes as $ligne)
         {
-            // include('src/view/adminCrud/modalUpdate/modalLigneUpdate.php');
+            include('src/view/adminCrud/modalUpdate/modalLigneUpdate.php');
             include('src/view/adminCrud/readModal/readModalLigne.php');
-            // include('src/view/adminCrud/modalDelete/modalDeleteLigne.php');
+            include('src/view/adminCrud/modalDelete/modalDeleteLigne.php');
         }
 
         foreach($plombs as $plomb)
         {
-            // include('src/view/adminCrud/modalUpdate/modalPlombUpdate.php');
+            include('src/view/adminCrud/modalUpdate/modalPlombUpdate.php');
             include('src/view/adminCrud/readModal/readModalPlomb.php');
-            // include('src/view/adminCrud/modalDelete/modalDeletePlomb.php');
+            include('src/view/adminCrud/modalDelete/modalDeletePlomb.php');
         }
 
         ?>

@@ -23,13 +23,13 @@
                     </div>
 
                     <div>
-                        <label for="images" class="block mb-2 text-sm font-medium text-gray-900 ">Image</label>
-                        <input type="file" id="images" name="images" required>
+                        <label for="images" class="block mb-2 text-sm font-medium text-gray-900 ">Images</label>
+                        <input type="file" id="images" name="images" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full" required>
                     </div>
 
                     <div class="sm:col-span-2">
                         <label for="description_images" class="block mb-2 text-sm font-medium text-gray-900 ">Description de l'image</label>
-                        <textarea name="description_images" value="<?php echo $appat->getDescriptionImage(); ?>" id="description_images" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Écrire une description de l'image"><?php echo $appat->getDescriptionProduit(); ?></textarea>
+                        <textarea name="description_images" value="<?php echo $appat->getDescriptionImage(); ?>" id="description_images" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Écrire une description de l'image"><?php echo $appat->getDescriptionImage(); ?></textarea>
                     </div>
 
                     <div>
@@ -79,12 +79,12 @@
 
                     <div class="sm:col-span-2">
                         <label for="detail_appat" class="block mb-2 text-sm font-medium text-gray-900 ">Détails de l'appat :</label>
-                        <textarea name="detail_appat" id="detail_appat" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Écrire une description de l'appât"><?php echo $appat->getDescriptionProduit(); ?></textarea>
+                        <textarea name="detail_appat" id="detail_appat" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Écrire les détails de l'appât"><?php echo $appat->getDetailAppat(); ?></textarea>
                     </div>
 
                     <div class="sm:col-span-2">
-                        <label for="description_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Description</label>
-                        <textarea name="description_produit" id="description_produit" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Write product description here"><?php echo $appat->getDescriptionProduit(); ?></textarea>
+                        <label for="description_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Description :</label>
+                        <textarea name="description_produit" id="description_produit" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Écrire une description"><?php echo $appat->getDescriptionProduit(); ?></textarea>
                     </div>
 
                 </div>
