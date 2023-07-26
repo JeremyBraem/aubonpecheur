@@ -7,7 +7,7 @@ class Image
     private $nom_image;
     private $description_image;
 
-    public function addImage($newProduit):bool
+    public function addImage($newProduit, $description_image):bool
     {
         if (!empty($newProduit))
         {
@@ -31,7 +31,7 @@ class Image
                 {
                     if ($sizeFile <= $max_size && $errorFile == 0) 
                     {
-                        if (move_uploaded_file($tmpFile, $image = 'assets/img/article/' . uniqid() . '.' . end($extension))) 
+                        if (move_uploaded_file($tmpFile, $nom_image = 'assets/img/article/' . uniqid() . '.' . end($extension))) 
                         {
                             echo "upload  effectué !";
                         }
@@ -60,7 +60,8 @@ class Image
             }
         }
 
-        $this->nom_image = $image;
+        $this->nom_image = $nom_image;
+        $this->description_image = $description_image;
         return true;
     }
 
@@ -241,74 +242,36 @@ class ImageRepository extends ConnectBdd
 
     public function updateImage($newImage, $id_produit)
     {
-        if (!empty($newImage))
+        try
         {
-            $path = 'assets/img/article';
-            $nameFile = $newImage['name'];
-            $typeFile = $newImage['type'];
-            $tmpFile = $newImage['tmp_name'];
-            $errorFile = $newImage['error'];
-            $sizeFile = $newImage['size'];
+            $reqImage = $this->bdd->prepare("SELECT id_image FROM image_produit WHERE id_produit = ?");
+            $reqImage->execute([$id_produit]);
 
-            $extensions = ['png', 'jpg', 'jpeg', 'webp'];
-            $type = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'];
+            $imageId = $reqImage->fetch(PDO::FETCH_COLUMN);
 
-            $extension = explode('.', $nameFile);
+            $reqNomImages = $this->bdd->prepare("SELECT nom_image FROM image WHERE id_image = ?");
+            $reqNomImages->execute([$imageId]);
 
-            $max_size = 500000;
-
-            if (in_array($typeFile, $type))
+            $imageNom = $reqNomImages->fetch(PDO::FETCH_COLUMN);
+            
+            if (file_exists($imageNom)) 
             {
-                if (count($extension) <= 2 && in_array(strtolower(end($extension)), $extensions))
-                {
-                    if ($sizeFile <= $max_size && $errorFile == 0) 
-                    {
-                        if (move_uploaded_file($tmpFile, $nom_image = 'assets/img/article/' . uniqid() . '.' . end($extension))) 
-                        {
-                            echo "upload  effectué !";
-                        }
-                        else 
-                        {
-                            echo "Echec de l'upload de l'image !";
-                            return false;
-                        }
-                    } 
-                    else 
-                    {
-                        echo "Erreur le poids de l'image est trop élevé !";
-                        return false;
-                    }
-                }
-                else 
-                {
-                    echo "Merci d'upload une image !";
-                    return false;
-                }
+                unlink($imageNom);
             }
             else 
             {
-                echo "Type non autorisé !";
-                return false;
+                echo "Le fichier n'existe pas ou ne peut pas être supprimé.";
             }
 
-            try
-            {
-                $reqImages = $this->bdd->prepare("SELECT id_image FROM image WHERE id_produit = ?");
-                $reqImages->execute([$id_produit]);
+            $reqImage = $this->bdd->prepare("UPDATE image SET nom_image = ?, description_image = ? WHERE id_image = ?");
+            $reqImage->execute([$newImage->getNomImage(), $newImage->getDescriptionImage(), $imageId]);
 
-                $imageId = $reqImages->fetch(PDO::FETCH_COLUMN);
-
-                var_dump($imageId);
-                die;
-                $reqImage = $this->bdd->prepare("UPDATE image SET nom_image = ?, description_image = ? WHERE id_image = ?");
-                $reqImage->execute([$nom_image, $newImage->getDescriptionImage(), $imageId]);
-
-                return true;
-            }
-            catch (Exception $e)
-            {
-                return false;
-            }
+            return true;
         }
+        catch (Exception $e)
+        {
+            return false;
+        }
+        
     }
 }

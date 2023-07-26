@@ -131,7 +131,6 @@ function addCanneTraitement()
 
                     $imageRepo = new ImageRepository;
                     $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
                 }
                 else
                 {
@@ -145,11 +144,9 @@ function addCanneTraitement()
                 $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']); 
+                $newImage = new Image();
 
-                $image = new Image();
-                $image->setNomImage($imagePath);
-                $image->setDescriptionImage($descriptionImage);
+                $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
                 $idImage = $imageRepo->getLastId();
@@ -227,47 +224,18 @@ function updateCanneTraitement()
           
             if ($nouvelleCanne) 
             {
-                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-                {
-                    $imageRepo = new ImageRepository;
-
-                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
-
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    
-                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
-                }
-                    
-
-                $canneRepo = new CanneRepository();
-                $canneRepo->updateCanne($nouvelleCanne);
-
-                $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']);
+                $newImage = new Image();
+                
+                $newImage->addImage($_FILES['images'], $descriptionImage);
 
-                $image = new Image();
-                $image->setNomImage($imagePath);
-                $image->setDescriptionImage($descriptionImage);
+                $imageRepo = new ImageRepository();
 
-                $idProduit = $produitRepo->getLastId();
-                $idImage = $imageRepo->getLastId();
-
-                $imageRepo->addImageToProduit($idProduit, $idImage);
+                $imageRepo->updateImage($newImage, $_POST['id_produit']);
 
                 header('Location: admin.php');
-                exit;
+                exit();
             }
             else 
             {
@@ -371,7 +339,6 @@ function addMoulinetTraitement()
 
                     $imageRepo = new ImageRepository;
                     $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
                 }
                 else
                 {
@@ -385,11 +352,9 @@ function addMoulinetTraitement()
                 $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']); 
+                $newImage = new Image();
 
-                $image = new Image();
-                $image->setNomImage($imagePath);
-                $image->setDescriptionImage($descriptionImage);
+                $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
                 $idImage = $imageRepo->getLastId();
@@ -467,47 +432,21 @@ function updateMoulinetTraitement()
           
             if ($nouvelleMoulinet) 
             {
-                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-                {
-                    $imageRepo = new ImageRepository;
-
-                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
-
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    
-                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
-                }
-                    
-
                 $moulinetRepo = new MoulinetRepository();
                 $moulinetRepo->updateMoulinet($nouvelleMoulinet);
 
-                $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']);
+                $newImage = new Image();
+                
+                $newImage->addImage($_FILES['images'], $descriptionImage);
 
-                $image = new Image();
-                $image->setNomImage($imagePath);
-                $image->setDescriptionImage($descriptionImage);
+                $imageRepo = new ImageRepository();
 
-                $idProduit = $produitRepo->getLastId();
-                $idImage = $imageRepo->getLastId();
-
-                $imageRepo->addImageToProduit($idProduit, $idImage);
+                $imageRepo->updateImage($newImage, $_POST['id_produit']);
 
                 header('Location: admin.php');
-                exit;
+                exit();
             }
             else 
             {
@@ -611,7 +550,6 @@ function addHameconTraitement()
 
                     $imageRepo = new ImageRepository;
                     $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
                 }
                 else
                 {
@@ -625,11 +563,9 @@ function addHameconTraitement()
                 $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']); 
+                $newImage = new Image();
 
-                $image = new Image();
-                $image->setNomImage($imagePath);
-                $image->setDescriptionImage($descriptionImage);
+                $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
                 $idImage = $imageRepo->getLastId();
@@ -707,44 +643,18 @@ function updateHameconTraitement()
           
             if ($nouvelleHamecon) 
             {
-                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-                {
-                    $imageRepo = new ImageRepository;
-
-                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
-
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    
-                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
-                }
-                    
-
                 $hameconRepo = new HameconRepository();
                 $hameconRepo->updateHamecon($nouvelleHamecon);
 
-                $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']);
+                $newImage = new Image();
+                
+                $newImage->addImage($_FILES['images'], $descriptionImage);
 
-                $image = new Image();
-                $image->setNomImage($imagePath);
-                $image->setDescriptionImage($descriptionImage);
+                $imageRepo = new ImageRepository();
 
-                $idProduit = $produitRepo->getLastId();
-                $idImage = $imageRepo->getLastId();
-
-                $imageRepo->addImageToProduit($idProduit, $idImage);
+                $imageRepo->updateImage($newImage, $_POST['id_produit']);
 
                 header('Location: admin.php');
                 exit();
@@ -853,7 +763,6 @@ function addLeurreTraitement()
 
                     $imageRepo = new ImageRepository;
                     $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
                 }
                 else
                 {
@@ -867,11 +776,9 @@ function addLeurreTraitement()
                 $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']); 
+                $newImage = new Image();
 
-                $image = new Image();
-                $image->setNomImage($imagePath);
-                $image->setDescriptionImage($descriptionImage);
+                $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
                 $idImage = $imageRepo->getLastId();
@@ -952,47 +859,18 @@ function updateLeurreTraitement()
           
             if ($nouvelleLeurre) 
             {
-                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-                {
-                    $imageRepo = new ImageRepository;
-
-                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
-
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    
-                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
-                }
-                    
-
-                $leurreRepo = new LeurreRepository();
-                $leurreRepo->updateLeurre($nouvelleLeurre);
-
-                $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']);
+                $newImage = new Image();
+                
+                $newImage->addImage($_FILES['images'], $descriptionImage);
 
-                $image = new Image();
-                $image->setNomImage($imagePath);
-                $image->setDescriptionImage($descriptionImage);
+                $imageRepo = new ImageRepository();
 
-                $idProduit = $produitRepo->getLastId();
-                $idImage = $imageRepo->getLastId();
-
-                $imageRepo->addImageToProduit($idProduit, $idImage);
+                $imageRepo->updateImage($newImage, $_POST['id_produit']);
 
                 header('Location: admin.php');
-                exit;
+                exit();
             }
             else 
             {
@@ -1096,7 +974,6 @@ function addLigneTraitement()
 
                     $imageRepo = new ImageRepository;
                     $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
                 }
                 else
                 {
@@ -1110,11 +987,9 @@ function addLigneTraitement()
                 $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']); 
+                $newImage = new Image();
 
-                $image = new Image();
-                $image->setNomImage($imagePath);
-                $image->setDescriptionImage($descriptionImage);
+                $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
                 $idImage = $imageRepo->getLastId();
@@ -1192,44 +1067,18 @@ function updateLigneTraitement()
           
             if ($nouvelleLigne) 
             {
-                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-                {
-                    $imageRepo = new ImageRepository;
-
-                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
-
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    
-                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
-                }
-                    
-
                 $ligneRepo = new LigneRepository();
                 $ligneRepo->updateLigne($nouvelleLigne);
 
-                $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']);
+                $newImage = new Image();
+                
+                $newImage->addImage($_FILES['images'], $descriptionImage);
 
-                $image = new Image();
-                $image->setNomImage($imagePath);
-                $image->setDescriptionImage($descriptionImage);
+                $imageRepo = new ImageRepository();
 
-                $idProduit = $produitRepo->getLastId();
-                $idImage = $imageRepo->getLastId();
-
-                $imageRepo->addImageToProduit($idProduit, $idImage);
+                $imageRepo->updateImage($newImage, $_POST['id_produit']);
 
                 header('Location: admin.php');
                 exit();
@@ -1334,7 +1183,6 @@ function addEquipementTraitement()
 
                     $imageRepo = new ImageRepository;
                     $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
                 }
                 else
                 {
@@ -1348,11 +1196,9 @@ function addEquipementTraitement()
                 $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']); 
+                $newImage = new Image();
 
-                $image = new Image();
-                $image->setNomImage($imagePath);
-                $image->setDescriptionImage($descriptionImage);
+                $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
                 $idImage = $imageRepo->getLastId();
@@ -1428,44 +1274,18 @@ function updateEquipementTraitement()
           
             if ($nouvelleEquipement) 
             {
-                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-                {
-                    $imageRepo = new ImageRepository;
-
-                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
-
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    
-                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
-                }
-                    
-
                 $equipementRepo = new EquipementRepository();
                 $equipementRepo->updateEquipement($nouvelleEquipement);
 
-                $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']);
+                $newImage = new Image();
+                
+                $newImage->addImage($_FILES['images'], $descriptionImage);
 
-                $image = new Image();
-                $image->setNomImage($imagePath);
-                $image->setDescriptionImage($descriptionImage);
+                $imageRepo = new ImageRepository();
 
-                $idProduit = $produitRepo->getLastId();
-                $idImage = $imageRepo->getLastId();
-
-                $imageRepo->addImageToProduit($idProduit, $idImage);
+                $imageRepo->updateImage($newImage, $_POST['id_produit']);
 
                 header('Location: admin.php');
                 exit();
@@ -1574,7 +1394,6 @@ function addPlombTraitement()
 
                     $imageRepo = new ImageRepository;
                     $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
                 }
                 else
                 {
@@ -1588,11 +1407,9 @@ function addPlombTraitement()
                 $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']); 
+                $newImage = new Image();
 
-                $image = new Image();
-                $image->setNomImage($imagePath);
-                $image->setDescriptionImage($descriptionImage);
+                $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
                 $idImage = $imageRepo->getLastId();
@@ -1672,48 +1489,22 @@ function updatePlombTraitement()
             $nouvellePlomb->setIdTypePlomb($_POST['type_plomb']);
           
             if ($nouvellePlomb) 
-            {
-                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-                {
-                    $imageRepo = new ImageRepository;
-
-                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
-
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    
-                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
-                }
-                    
-
+            {        
                 $plombRepo = new PlombRepository();
                 $plombRepo->updatePlomb($nouvellePlomb);
 
-                $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']);
+                $newImage = new Image();
+                
+                $newImage->addImage($_FILES['images'], $descriptionImage);
 
-                $image = new Image();
-                $image->setNomImage($imagePath);
-                $image->setDescriptionImage($descriptionImage);
+                $imageRepo = new ImageRepository();
 
-                $idProduit = $produitRepo->getLastId();
-                $idImage = $imageRepo->getLastId();
-
-                $imageRepo->addImageToProduit($idProduit, $idImage);
+                $imageRepo->updateImage($newImage, $_POST['id_produit']);
 
                 header('Location: admin.php');
-                exit;
+                exit();
             }
             else 
             {
@@ -1837,7 +1628,6 @@ function addAppatTraitement()
 
                     $imageRepo = new ImageRepository;
                     $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
                 }
                 else
                 {
@@ -1851,11 +1641,9 @@ function addAppatTraitement()
                 $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']); 
+                $newImage = new Image();
 
-                $image = new Image();
-                $image->setNomImage($imagePath);
-                $image->setDescriptionImage($descriptionImage);
+                $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
                 $idImage = $imageRepo->getLastId();
@@ -1938,14 +1726,11 @@ function updateAppatTraitement()
 
                 $newImage = new Image();
                 
-                $imagePath = $newImage->addImage($_FILES['images']);
-
-                $newImage->setNomImage($imagePath);
-                $newImage->setDescriptionImage($descriptionImage);
+                $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $imageRepo = new ImageRepository();
 
-                $imageRepo->updateImage($_FILES['images'], $_POST['id_produit']);
+                $imageRepo->updateImage($newImage, $_POST['id_produit']);
 
                 header('Location: admin.php');
                 exit();
@@ -2050,7 +1835,6 @@ function addAutreTraitement()
 
                     $imageRepo = new ImageRepository;
                     $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
                 }
                 else
                 {
@@ -2064,11 +1848,9 @@ function addAutreTraitement()
                 $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']); 
+                $newImage = new Image();
 
-                $image = new Image();
-                $image->setNomImage($imagePath);
-                $image->setDescriptionImage($descriptionImage);
+                $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
                 $idImage = $imageRepo->getLastId();
@@ -2144,44 +1926,18 @@ function updateAutreTraitement()
           
             if ($nouvelleAutre) 
             {
-                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-                {
-                    $imageRepo = new ImageRepository;
-
-                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
-
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    
-                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
-                }
-                    
-
                 $autreRepo = new AutreRepository();
                 $autreRepo->updateAutre($nouvelleAutre);
 
-                $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']);
+                $newImage = new Image();
+                
+                $newImage->addImage($_FILES['images'], $descriptionImage);
 
-                $image = new Image();
-                $image->setNomImage($imagePath);
-                $image->setDescriptionImage($descriptionImage);
+                $imageRepo = new ImageRepository();
 
-                $idProduit = $produitRepo->getLastId();
-                $idImage = $imageRepo->getLastId();
-
-                $imageRepo->addImageToProduit($idProduit, $idImage);
+                $imageRepo->updateImage($newImage, $_POST['id_produit']);
 
                 header('Location: admin.php');
                 exit();
