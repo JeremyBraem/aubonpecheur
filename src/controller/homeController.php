@@ -1,6 +1,5 @@
 <?php
 
-require_once('autoload/autoloader.php');
 require_once('src/model/User.php');
 require_once('src/model/Favoris.php');
 
@@ -25,19 +24,20 @@ require_once('src/model/Type/TypeEquipement.php');
 require_once('src/model/Type/TypePlomb.php');
 require_once('src/model/Type/TypeAppat.php');
 
-require_once('src/model/Image/ImageCanne.php');
-require_once('src/model/Image/ImageMoulinet.php');
-require_once('src/model/Image/ImageHamecon.php');
-require_once('src/model/Image/ImageLeurre.php');
-require_once('src/model/Image/ImageLigne.php');
-require_once('src/model/Image/ImageEquipement.php');
-require_once('src/model/Image/ImagePlomb.php');
-require_once('src/model/Image/ImageAppat.php');
-
 // PAGE D'ACCUEIL
 function home()
 {
-    
+    $produitRepo = new ProduitRepository();
+    $produits = $produitRepo->getAllProducts();
+    $promoProduits = $produitRepo->getAllPromoProducts();
+
+    $marqueRepo = new MarqueRepository;
+    $marques = $marqueRepo->getAllMarque();
+
+    $categorieRepo = new CategorieRepository;
+    $categories = $categorieRepo->getAllCategorie();
+
+    $allTypes = getAllType();
 
     include('src/view/homePage.php');
 }
