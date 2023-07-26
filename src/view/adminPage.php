@@ -375,19 +375,19 @@
         {
             include('src/view/adminCrud/modalUpdate/modalAppatUpdate.php');
             include('src/view/adminCrud/readModal/readModalAppat.php');
-            // include('src/view/adminCrud/modalDelete/modalDeleteAppat.php');
+            include('src/view/adminCrud/modalDelete/modalDeleteAppat.php');
         }
 
         foreach($equipements as $equipement)
         {
-            // include('src/view/adminCrud/modalUpdate/modalEquipementUpdate.php');
+            include('src/view/adminCrud/modalUpdate/modalEquipementUpdate.php');
             include('src/view/adminCrud/readModal/readModalEquipement.php');
             // include('src/view/adminCrud/modalDelete/modalDeleteEquipement.php');
         }
 
         foreach($autres as $autre)
         {
-            // include('src/view/adminCrud/modalUpdate/modalAutreUpdate.php');
+            include('src/view/adminCrud/modalUpdate/modalAutreUpdate.php');
             include('src/view/adminCrud/readModal/readModalAutre.php');
             // include('src/view/adminCrud/modalDelete/modalDeleteAutre.php');
         }

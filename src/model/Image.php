@@ -178,10 +178,8 @@ class ImageRepository extends ConnectBdd
             }
         }
         
-        // Utilisation de marqueurs de paramètres dans la requête
         $req = $this->bdd->prepare("INSERT INTO image (nom_image, description_image) VALUES (?, ?)");
 
-        // Passage des valeurs dans un tableau lors de l'exécution de la requête
         $req->execute([$image, $description_image]);
     }
 
@@ -241,16 +239,16 @@ class ImageRepository extends ConnectBdd
         }
     }
 
-    public function updateImageByProduit($newImageCanne, $id_produit)
+    public function updateImage($newImage, $id_produit)
     {
-        if (!empty($newImageCanne))
+        if (!empty($newImage))
         {
             $path = 'assets/img/article';
-            $nameFile = $newImageCanne['name'];
-            $typeFile = $newImageCanne['type'];
-            $tmpFile = $newImageCanne['tmp_name'];
-            $errorFile = $newImageCanne['error'];
-            $sizeFile = $newImageCanne['size'];
+            $nameFile = $newImage['name'];
+            $typeFile = $newImage['type'];
+            $tmpFile = $newImage['tmp_name'];
+            $errorFile = $newImage['error'];
+            $sizeFile = $newImage['size'];
 
             $extensions = ['png', 'jpg', 'jpeg', 'webp'];
             $type = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'];
@@ -265,7 +263,7 @@ class ImageRepository extends ConnectBdd
                 {
                     if ($sizeFile <= $max_size && $errorFile == 0) 
                     {
-                        if (move_uploaded_file($tmpFile, $image_produit = 'assets/img/article/' . uniqid() . '.' . end($extension))) 
+                        if (move_uploaded_file($tmpFile, $nom_image = 'assets/img/article/' . uniqid() . '.' . end($extension))) 
                         {
                             echo "upload  effectué !";
                         }
@@ -292,20 +290,25 @@ class ImageRepository extends ConnectBdd
                 echo "Type non autorisé !";
                 return false;
             }
-        }
 
-        try
-        {
-            $reqImages = $this->bdd->prepare("SELECT id_image FROM image_produit WHERE id_produit = ?");
-            $reqImages->execute([$id_produit]);
+            try
+            {
+                $reqImages = $this->bdd->prepare("SELECT id_image FROM image WHERE id_produit = ?");
+                $reqImages->execute([$id_produit]);
 
-            $reqImage = $this->bdd->prepare("UPDATE image SET nom_image = ? WHERE id_produit = ?");
-            $reqImage->execute([$image_produit, $id_produit]);
-            return true;
-        }
-        catch (Exception $e)
-        {
-            return false;
+                $imageId = $reqImages->fetch(PDO::FETCH_COLUMN);
+
+                var_dump($imageId);
+                die;
+                $reqImage = $this->bdd->prepare("UPDATE image SET nom_image = ?, description_image = ? WHERE id_image = ?");
+                $reqImage->execute([$nom_image, $newImage->getDescriptionImage(), $imageId]);
+
+                return true;
+            }
+            catch (Exception $e)
+            {
+                return false;
+            }
         }
     }
 }

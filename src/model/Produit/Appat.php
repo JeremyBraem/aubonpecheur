@@ -103,7 +103,8 @@ class AppatRepository extends connectBdd
 
     public function addAppat(Appat $appat)
     {
-        try {
+        try 
+        {
             $this->bdd->beginTransaction();
 
             $reqProduit = $this->bdd->prepare

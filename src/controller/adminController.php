@@ -63,7 +63,7 @@ function adminPage()
     $categories = $categorieRepo->getAllCategorie();
 
     $allTypes = getAllType();
-    
+
     require('src/view/adminPage.php');
 }
 
@@ -1931,44 +1931,21 @@ function updateAppatTraitement()
           
             if ($nouvelleAppat) 
             {
-                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-                {
-                    $imageRepo = new ImageRepository;
-
-                    $imageRepo->deleteImagesByProduit($_POST['id_produit']);
-
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    
-                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                    $image->addImage($_FILES['images']);
-                }
-                    
-
                 $appatRepo = new AppatRepository();
                 $appatRepo->updateAppat($nouvelleAppat);
-
-                $produitRepo = new ProduitRepository;
+                
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
-                $imagePath = $image->addImage($_FILES['images']);
+                $newImage = new Image();
+                
+                $imagePath = $newImage->addImage($_FILES['images']);
 
-                $image = new Image();
-                $image->setNomImage($imagePath);
-                $image->setDescriptionImage($descriptionImage);
+                $newImage->setNomImage($imagePath);
+                $newImage->setDescriptionImage($descriptionImage);
 
-                $idProduit = $produitRepo->getLastId();
-                $idImage = $imageRepo->getLastId();
+                $imageRepo = new ImageRepository();
 
-                $imageRepo->addImageToProduit($idProduit, $idImage);
+                $imageRepo->updateImage($_FILES['images'], $_POST['id_produit']);
 
                 header('Location: admin.php');
                 exit();
@@ -2691,243 +2668,6 @@ function deleteTypeAutre()
                 header('location: admin.php');
             }
         }
-}
-
-function combinedArticle($articles)
-{
-    $combinedArticles = [];
-
-    foreach ($articles['cannes'] as $canne) 
-    {
-        if ($canne) 
-        {
-            $imgCanneRepo = new ImageCanneRepository;
-            $imgCannes = $imgCanneRepo->getImageByCanne($canne->getIdCanne());
-            $combinedArticles[] =
-            [
-                'genre' => 'canne',
-                'id' => $canne->getIdCanne(),
-                'nom' => $canne->getNomCanne(),
-                'image' => $imgCannes->getNomImageCanne(),
-                'marque' => $canne->getMarqueCanne(),
-                'type' => $canne->getTypeCanne(),
-                'categorie' => $canne->getCategorieCanne(),
-                'description' => $canne->getDescriptionCanne(),
-                'prix' => $canne->getPrixCanne(),
-                'poids' => $canne->getPoidsCanne(),
-                'longueur' => $canne->getLongueurCanne(),
-                'stock' => $canne->getStockCanne(),
-                'promo' => $canne->getPromoCanne(),
-            ];
-        }
-        else
-        {
-            $combinedArticles[] = [''];
-        }
-    }
-
-    foreach ($articles['moulinets'] as $moulinet) 
-    {
-        if ($moulinet) 
-        {
-            $imgMoulinetRepo = new ImageMoulinetRepository;
-            $imgMoulinet = $imgMoulinetRepo->getImageByMoulinet($moulinet->getIdMoulinet());
-            $combinedArticles[] =
-            [
-                'genre' => 'moulinet',
-                'id' => $moulinet->getIdMoulinet(),
-                'nom' => $moulinet->getNomMoulinet(),
-                'image' => $imgMoulinet->getNomImageMoulinet(),
-                'marque' => $moulinet->getMarqueMoulinet(),
-                'type' => $moulinet->getTypeMoulinet(),
-                'categorie' => $moulinet->getCategorieMoulinet(),
-                'promo' => $moulinet->getPromoMoulinet(),
-                'stock' => $moulinet->getStockMoulinet(),
-                'description' => $moulinet->getDescriptionMoulinet(),                
-                'poids' => $moulinet->getPoidsMoulinet(),                
-                'ratio' => $moulinet->getRatioMoulinet(),                
-            ];
-        }
-        else 
-        {
-            $combinedArticles[] = [''];
-        }
-    }
-
-    foreach ($articles['hamecons'] as $hamecon) 
-    {
-        if ($hamecon) 
-        {
-            $imgHameconRepo = new ImageHameconRepository;
-            $imgHamecon = $imgHameconRepo->getImageByHamecon($hamecon->getIdHamecon());
-
-            $combinedArticles[] =
-            [
-                'genre' => 'hamecon',
-                'id' => $hamecon->getIdHamecon(),
-                'nom' => $hamecon->getNomHamecon(),
-                'image' => $imgHamecon->getNomImageHamecon(),
-                'marque' => $hamecon->getMarqueHamecon(),
-                'type' => $hamecon->getTypeHamecon(),
-                'categorie' => $hamecon->getCategorieHamecon(),
-                'description' => $hamecon->getDescriptionHamecon(),
-                'poids' => $hamecon->getPoidsHamecon(),
-                'longueur' => $hamecon->getLongueurHamecon(),
-                'stock' => $hamecon->getStockHamecon(),
-                'promo' => $hamecon->getPromoHamecon(),
-            ];
-        } 
-        else 
-        {
-            $combinedArticles[] = [''];
-        }
-    }
-
-    foreach ($articles['leurres'] as $leurre) 
-    {
-        if ($leurre) 
-        {
-            $imgLeurreRepo = new ImageLeurreRepository;
-            $imgLeurre = $imgLeurreRepo->getImageByLeurre($leurre->getIdLeurre());
-
-            $combinedArticles[] =
-            [
-                'genre' => 'leurre',
-                'id' => $leurre->getIdLeurre(),
-                'nom' => $leurre->getNomLeurre(),
-                'image' => $imgLeurre->getNomImageLeurre(),
-                'marque' => $leurre->getMarqueLeurre(),
-                'type' => $leurre->getTypeLeurre(),
-                'categorie' => $leurre->getCategorieLeurre(),
-                'description' => $leurre->getDescriptionLeurre(),
-                'couleur' => $leurre->getCouleurLeurre(),
-                'poids' => $leurre->getPoidsLeurre(),
-                'promo' => $leurre->getPromoLeurre(),
-                'stock' => $leurre->getStockLeurre(),
-            ];
-        }
-        else 
-        {
-            $combinedArticles[] = [''];
-        }
-    }
-
-    foreach ($articles['lignes'] as $ligne) 
-    {
-        if ($ligne) 
-        {
-            $imgLigneRepo = new ImageLigneRepository;
-            $imgLigne = $imgLigneRepo->getImageByLigne($ligne->getIdLigne());
-
-            $combinedArticles[] =
-            [
-                'genre' => 'ligne',
-                'id' => $ligne->getIdLigne(),
-                'nom' => $ligne->getNomLigne(),
-                'image' => $imgLigne->getNomImageLigne(),
-                'marque' => $ligne->getMarqueLigne(),
-                'type' => $ligne->getTypeLigne(),
-                'categorie' => $ligne->getCategorieLigne(),
-                'description' => $ligne->getDescriptionLigne(),
-                'stock' => $ligne->getStockLigne(),
-                'promo' => $ligne->getPromoLigne(),
-                'longueur' => $ligne->getLongueurLigne(),
-                'diametre' => $ligne->getDiametreLigne(),
-                'poids' => $ligne->getPoidsLigne(),
-            ];
-        } 
-        else 
-        {
-            $combinedArticles[] = [''];
-        }
-    }
-
-    foreach ($articles['equipements'] as $equipement) 
-    {
-        if ($equipement) 
-        {
-            $imgEquipementRepo = new ImageEquipementRepository;
-            $imgEquipement = $imgEquipementRepo->getImageByEquipement($equipement->getIdEquipement());
-
-            $combinedArticles[] =
-            [
-                'genre' => 'equipement',
-                'id' => $equipement->getIdEquipement(),
-                'nom' => $equipement->getNomEquipement(),
-                'image' => $imgEquipement->getNomImageEquipement(),
-                'marque' => $equipement->getMarqueEquipement(),
-                'type' => $equipement->getTypeEquipement(),
-                'categorie' => $equipement->getCategorieEquipement(),
-                'promo' => $equipement->getPromoEquipement(),
-                'stock' => $equipement->getStockEquipement(),
-                'description' => $equipement->getDescriptionEquipement(),
-                'detail' => $equipement->getDetailEquipement(),
-            ];
-        }
-        else 
-        {
-            $combinedArticles[] = [''];
-        }
-    }
-
-    foreach ($articles['plombs'] as $plomb) 
-    {
-        if ($plomb) 
-        {
-            $imgPlombRepo = new ImagePlombRepository;
-            $imgPlomb = $imgPlombRepo->getImageByPlomb($plomb->getIdPlomb());
-
-            $combinedArticles[] =
-            [
-                'genre' => 'plomb',
-                'id' => $plomb->getIdPlomb(),
-                'nom' => $plomb->getNomPlomb(),
-                'image' => $imgPlomb->getNomImagePlomb(),
-                'marque' => $plomb->getMarquePlomb(),
-                'type' => $plomb->getTypePlomb(),
-                'categorie' => $plomb->getCategoriePlomb(),
-                'promo' => $plomb->getPromoPlomb(),
-                'stock' => $plomb->getStockPlomb(),
-                'description' => $plomb->getDescriptionPlomb(),
-                'poids' => $plomb->getPoidsPlomb(),
-                'longueur' => $plomb->getLongueurPlomb(),
-                'diametre' => $plomb->getDiametrePlomb(),
-            ];
-        } 
-        else 
-        {
-            $combinedArticles[] = [''];
-        }
-    }
-
-    foreach ($articles['appats'] as $appat)
-    {
-        if ($appat) 
-        {
-            $imgAppatRepo = new ImageAppatRepository;
-            $imgAppat = $imgAppatRepo->getImageByAppat($appat->getIdAppat());
-
-            $combinedArticles[] =
-            [
-                'genre' => 'appat',
-                'id' => $appat->getIdAppat(),
-                'nom' => $appat->getNomAppat(),
-                'image' => $imgAppat->getNomImageAppat(),
-                'marque' => $appat->getMarqueAppat(),
-                'type' => $appat->getTypeAppat(),
-                'categorie' => $appat->getCategorieAppat(),
-                'description' => $appat->getDescriptionAppat(),
-                'promo' => $appat->getPromoAppat(),
-                'stock' => $appat->getStockAppat(),
-                'detail' => $appat->getDetailAppat(),
-            ];
-        }
-        else 
-        {
-            $combinedArticles[] = [''];
-        }
-    }
-    return $combinedArticles;
 }
 
 function getAllType()

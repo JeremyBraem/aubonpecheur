@@ -2,8 +2,8 @@
 session_start();
 require('src/controller/adminController.php');
 
-if ($_SESSION['id_role'] == 1) 
-{
+// if ($_SESSION['id_role'] == 1) 
+// {
     if (isset($_GET['action']) && $_GET['action'] !== '') 
     {
         switch ($_GET['action']) 
@@ -170,9 +170,9 @@ if ($_SESSION['id_role'] == 1)
     {
         adminPage();
     }
-}
-else
-{
-    header('location: /home');
-}
+// }
+// else
+// {
+//     header('location: /home');
+// }
 ?>
