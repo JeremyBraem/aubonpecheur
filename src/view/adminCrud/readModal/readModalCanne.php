@@ -29,7 +29,7 @@
                     <dt class="mb-2 font-semibold leading-none text-gray-900">Categorie :</dt>
                     <dd class="mb-4 sm:mb-5"><?php echo $canne->getNomCategorie() ?></dd>
                     <dt class="mb-2 font-semibold leading-none text-gray-900">Type :</dt>
-                    <dd class="mb-4 sm:mb-5"><?php echo $canne->getNomGenre() ?></dd>
+                    <dd class="mb-4 sm:mb-5"><?php echo $canne->getNomTypeCanne() ?></dd>
                     <dt class="mb-2 font-semibold leading-none text-gray-900">Promotion :</dt>
                     <dd class="mb-4 sm:mb-5"><?php echo $canne->getPromoProduit() ?>%</dd>
                 </dl>

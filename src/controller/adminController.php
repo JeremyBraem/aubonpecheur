@@ -32,6 +32,27 @@ function adminPage()
     $moulinetRepo = new MoulinetRepository;
     $moulinets = $moulinetRepo->getAllMoulinets();
 
+    $appatRepo = new AppatRepository;
+    $appats = $appatRepo->getAllAppats();
+
+    $equipementRepo = new EquipementRepository;
+    $equipements = $equipementRepo->getAllEquipements();
+
+    $hameconRepo = new HameconRepository;
+    $hamecons = $hameconRepo->getAllHamecons();
+
+    $ligneRepo = new LigneRepository;
+    $lignes = $ligneRepo->getAllLignes();
+
+    $leurreRepo = new LeurreRepository;
+    $leurres = $leurreRepo->getAllLeurres();
+
+    $plombRepo = new PlombRepository;
+    $plombs = $plombRepo->getAllPlombs();
+
+    $autreRepo = new AutreRepository;
+    $autres = $autreRepo->getAllAutres();
+
     $produitRepo = new ProduitRepository();
     $produits = $produitRepo->getAllProducts();
 

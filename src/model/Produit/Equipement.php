@@ -6,6 +6,7 @@ class Equipement extends Produit
 {
     private $detail_equipement;
     private $id_type_equipement;    
+    private $nom_type_equipement;    
 
     public function getDetailEquipement(): string 
     {
@@ -25,6 +26,16 @@ class Equipement extends Produit
     public function setIdTypeEquipement($id_type_equipement)
     {
         $this->id_type_equipement = $id_type_equipement;
+    }
+
+    public function getNomTypeEquipement()
+    {
+        return $this->nom_type_equipement;
+    }
+
+    public function setNomTypeEquipement($nom_type_equipement)
+    {
+        $this->nom_type_equipement = $nom_type_equipement;
     }
 }
 
@@ -46,7 +57,7 @@ class EquipementRepository extends connectBdd
                 INNER JOIN image ON image.id_image = image_produit.id_image
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_equipement ON type_equipement.id_type_equipement = caracteristiques_equipement.id_type_equipement
-                WHERE produit.id_genre = 1
+                WHERE produit.id_genre = 7
                 GROUP BY produit.id_produit
             ");
 
@@ -77,6 +88,7 @@ class EquipementRepository extends connectBdd
 
                 $equipement->setDetailEquipement($equipementData['detail_equipement']);
                 $equipement->setIdTypeEquipement($equipementData['id_type_equipement']);
+                $equipement->setNomTypeEquipement($equipementData['nom_type_equipement']);
 
                 $equipements[] = $equipement;
             }

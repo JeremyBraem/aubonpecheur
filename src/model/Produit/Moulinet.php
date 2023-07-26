@@ -7,6 +7,7 @@ class Moulinet extends Produit
     private $ratio_moulinet;
     private $poids_moulinet;
     private $id_type_moulinet;    
+    private $nom_type_moulinet;    
 
     public function getRatioMoulinet(): float 
     {
@@ -35,6 +36,16 @@ class Moulinet extends Produit
     public function setIdTypeMoulinet($id_type_moulinet)
     {
         $this->id_type_moulinet = $id_type_moulinet;
+    }
+
+    public function getNomTypeMoulinet()
+    {
+        return $this->nom_type_moulinet;
+    }
+
+    public function setNomTypeMoulinet($nom_type_moulinet)
+    {
+        $this->nom_type_moulinet = $nom_type_moulinet;
     }
 }
 
@@ -89,6 +100,7 @@ class MoulinetRepository extends connectBdd
                 $moulinet->setRatioMoulinet($moulinetData['ratio_moulinet']);
                 $moulinet->setPoidsMoulinet($moulinetData['poids_moulinet']);
                 $moulinet->setIdTypeMoulinet($moulinetData['id_type_moulinet']);
+                $moulinet->setNomTypeMoulinet($moulinetData['nom_type_moulinet']);
 
                 $moulinets[] = $moulinet;
             }

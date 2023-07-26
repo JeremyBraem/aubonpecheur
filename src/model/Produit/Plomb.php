@@ -8,6 +8,7 @@ class Plomb extends Produit
     private $poids_plomb;
     private $diametre_plomb;
     private $id_type_plomb;    
+    private $nom_type_plomb;    
 
     public function getLongueurPlomb(): float 
     {
@@ -48,6 +49,16 @@ class Plomb extends Produit
     {
         $this->id_type_plomb = $id_type_plomb;
     }
+
+    public function getNomTypePlomb()
+    {
+        return $this->nom_type_plomb;
+    }
+
+    public function setNomTypePlomb($nom_type_plomb)
+    {
+        $this->nom_type_plomb = $nom_type_plomb;
+    }
 }
 
 class PlombRepository extends connectBdd
@@ -59,7 +70,7 @@ class PlombRepository extends connectBdd
             $req = $this->bdd->prepare
             ("
                 SELECT produit.*, marque.*, categorie.*, 
-                image.*, genre.*, caracteristiques_plomb.*, type_plomb.nom_type_plomb
+                image.*, genre.*, caracteristiques_plomb.*, type_plomb.*
                 FROM produit
                 INNER JOIN marque ON produit.id_marque = marque.id_marque
                 INNER JOIN caracteristiques_plomb ON caracteristiques_plomb.id_produit = produit.id_produit
@@ -68,7 +79,7 @@ class PlombRepository extends connectBdd
                 INNER JOIN image ON image.id_image = image_produit.id_image
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_plomb ON type_plomb.id_type_plomb = caracteristiques_plomb.id_type_plomb
-                WHERE produit.id_genre = 1
+                WHERE produit.id_genre = 6
                 GROUP BY produit.id_produit
             ");
 
@@ -102,6 +113,7 @@ class PlombRepository extends connectBdd
                 $plomb->setPoidsPlomb($plombData['poids_plomb']);
                 $plomb->setLongueurPlomb($plombData['longueur_plomb']);
                 $plomb->setIdTypePlomb($plombData['id_type_plomb']);
+                $plomb->setNomTypePlomb($plombData['nom_type_plomb']);
 
                 $plombs[] = $plomb;
             }

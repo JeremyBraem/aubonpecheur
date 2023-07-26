@@ -29,7 +29,7 @@
                     <dt class="mb-2 font-semibold leading-none text-gray-900">Categorie :</dt>
                     <dd class="mb-4 sm:mb-5"><?php echo $moulinet->getNomCategorie() ?></dd>
                     <dt class="mb-2 font-semibold leading-none text-gray-900">Type :</dt>
-                    <dd class="mb-4 sm:mb-5"><?php echo $moulinet->getNomGenre() ?></dd>
+                    <dd class="mb-4 sm:mb-5"><?php echo $moulinet->getNomTypeMoulinet() ?></dd>
                     <dt class="mb-2 font-semibold leading-none text-gray-900">Promotion :</dt>
                     <dd class="mb-4 sm:mb-5"><?php echo $moulinet->getPromoProduit() ?>%</dd>
                 </dl>

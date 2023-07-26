@@ -6,6 +6,7 @@ class Appat extends Produit
 {
     private $detail_appat;
     private $id_type_appat;    
+    private $nom_type_appat;    
 
     public function getDetailAppat(): string 
     {
@@ -25,6 +26,16 @@ class Appat extends Produit
     public function setIdTypeAppat($id_type_appat)
     {
         $this->id_type_appat = $id_type_appat;
+    }
+
+    public function getNomTypeAppat()
+    {
+        return $this->nom_type_appat;
+    }
+
+    public function setNomTypeAppat($nom_type_appat)
+    {
+        $this->nom_type_appat = $nom_type_appat;
     }
 }
 
@@ -46,7 +57,7 @@ class AppatRepository extends connectBdd
                 INNER JOIN image ON image.id_image = image_produit.id_image
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_appat ON type_appat.id_type_appat = caracteristiques_appat.id_type_appat
-                WHERE produit.id_genre = 1
+                WHERE produit.id_genre = 8
                 GROUP BY produit.id_produit
             ");
 
@@ -77,6 +88,7 @@ class AppatRepository extends connectBdd
 
                 $appat->setDetailAppat($appatData['detail_appat']);
                 $appat->setIdTypeAppat($appatData['id_type_appat']);
+                $appat->setNomTypeAppat($appatData['nom_type_appat']);
 
                 $appats[] = $appat;
             }

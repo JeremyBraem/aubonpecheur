@@ -7,6 +7,7 @@ class Canne extends Produit
     private $longueur_canne;
     private $poids_canne;
     private $id_type_canne;    
+    private $nom_type_canne;    
 
     public function getLongueurCanne(): float 
     {
@@ -36,6 +37,16 @@ class Canne extends Produit
     {
         $this->id_type_canne = $id_type_canne;
     }
+
+    public function getNomTypeCanne()
+    {
+        return $this->nom_type_canne;
+    }
+
+    public function setNomTypeCanne($nom_type_canne)
+    {
+        $this->nom_type_canne = $nom_type_canne;
+    }
 }
 
 class CanneRepository extends connectBdd
@@ -47,7 +58,7 @@ class CanneRepository extends connectBdd
             $req = $this->bdd->prepare
             ("
                 SELECT produit.*, marque.*, categorie.*, 
-                image.*, genre.*, caracteristiques_canne.*, type_canne.nom_type_canne
+                image.*, genre.*, caracteristiques_canne.*, type_canne.*
                 FROM produit
                 INNER JOIN marque ON produit.id_marque = marque.id_marque
                 INNER JOIN caracteristiques_canne ON caracteristiques_canne.id_produit = produit.id_produit
@@ -88,6 +99,7 @@ class CanneRepository extends connectBdd
                 $canne->setLongueurCanne($canneData['longueur_canne']);
                 $canne->setPoidsCanne($canneData['poids_canne']);
                 $canne->setIdTypeCanne($canneData['id_type_canne']);
+                $canne->setNomTypeCanne($canneData['nom_type_canne']);
 
                 $cannes[] = $canne;
             }

@@ -6,6 +6,7 @@ class Autre extends Produit
 {
     private $detail_autre;
     private $id_type_autre;    
+    private $nom_type_autre;    
 
     public function getDetailAutre(): string 
     {
@@ -25,6 +26,16 @@ class Autre extends Produit
     public function setIdTypeAutre($id_type_autre)
     {
         $this->id_type_autre = $id_type_autre;
+    }
+
+    public function getNomTypeAutre()
+    {
+        return $this->nom_type_autre;
+    }
+
+    public function setNomTypeAutre($nom_type_autre)
+    {
+        $this->nom_type_autre = $nom_type_autre;
     }
 }
 
@@ -46,7 +57,7 @@ class AutreRepository extends connectBdd
                 INNER JOIN image ON image.id_image = image_produit.id_image
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_autre ON type_autre.id_type_autre = caracteristiques_autre.id_type_autre
-                WHERE produit.id_genre = 1
+                WHERE produit.id_genre = 9
                 GROUP BY produit.id_produit
             ");
 
@@ -77,6 +88,7 @@ class AutreRepository extends connectBdd
 
                 $autre->setDetailAutre($autreData['detail_autre']);
                 $autre->setIdTypeAutre($autreData['id_type_autre']);
+                $autre->setNomTypeAutre($autreData['nom_type_autre']);
 
                 $autres[] = $autre;
             }

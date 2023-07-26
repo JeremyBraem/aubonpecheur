@@ -8,6 +8,7 @@ class Leurre extends Produit
     private $poids_leurre;
     private $couleur_leurre;
     private $id_type_leurre;    
+    private $nom_type_leurre;    
 
     public function getLongueurLeurre(): float 
     {
@@ -48,6 +49,16 @@ class Leurre extends Produit
     {
         $this->id_type_leurre = $id_type_leurre;
     }
+
+    public function getNomTypeLeurre()
+    {
+        return $this->nom_type_leurre;
+    }
+
+    public function setNomTypeLeurre($nom_type_leurre)
+    {
+        $this->nom_type_leurre = $nom_type_leurre;
+    }
 }
 
 class LeurreRepository extends connectBdd
@@ -68,7 +79,7 @@ class LeurreRepository extends connectBdd
                 INNER JOIN image ON image.id_image = image_produit.id_image
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_leurre ON type_leurre.id_type_leurre = caracteristiques_leurre.id_type_leurre
-                WHERE produit.id_genre = 1
+                WHERE produit.id_genre = 4
                 GROUP BY produit.id_produit
             ");
 
@@ -102,6 +113,7 @@ class LeurreRepository extends connectBdd
                 $leurre->setPoidsLeurre($leurreData['poids_leurre']);
                 $leurre->setLongueurLeurre($leurreData['longueur_leurre']);
                 $leurre->setIdTypeLeurre($leurreData['id_type_leurre']);
+                $leurre->setNomTypeLeurre($leurreData['nom_type_leurre']);
 
                 $leurres[] = $leurre;
             }

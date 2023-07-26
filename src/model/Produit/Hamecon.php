@@ -7,6 +7,7 @@ class Hamecon extends Produit
     private $longueur_hamecon;
     private $poids_hamecon;
     private $id_type_hamecon;    
+    private $nom_type_hamecon;    
 
     public function getLongueurHamecon(): float 
     {
@@ -36,6 +37,16 @@ class Hamecon extends Produit
     {
         $this->id_type_hamecon = $id_type_hamecon;
     }
+
+    public function getNomTypeHamecon()
+    {
+        return $this->nom_type_hamecon;
+    }
+
+    public function setNomTypeHamecon($nom_type_hamecon)
+    {
+        $this->nom_type_hamecon = $nom_type_hamecon;
+    }
 }
 
 class HameconRepository extends connectBdd
@@ -56,7 +67,7 @@ class HameconRepository extends connectBdd
                 INNER JOIN image ON image.id_image = image_produit.id_image
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_hamecon ON type_hamecon.id_type_hamecon = caracteristiques_hamecon.id_type_hamecon
-                WHERE produit.id_genre = 1
+                WHERE produit.id_genre = 3
                 GROUP BY produit.id_produit
             ");
 
@@ -88,6 +99,7 @@ class HameconRepository extends connectBdd
                 $hamecon->setLongueurHamecon($hameconData['longueur_hamecon']);
                 $hamecon->setPoidsHamecon($hameconData['poids_hamecon']);
                 $hamecon->setIdTypeHamecon($hameconData['id_type_hamecon']);
+                $hamecon->setNomTypeHamecon($hameconData['nom_type_hamecon']);
 
                 $hamecons[] = $hamecon;
             }

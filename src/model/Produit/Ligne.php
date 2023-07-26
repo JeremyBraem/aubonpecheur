@@ -7,6 +7,7 @@ class Ligne extends Produit
     private $longueur_ligne;
     private $diametre_ligne;
     private $id_type_ligne;    
+    private $nom_type_ligne;    
 
     public function getLongueurLigne(): float 
     {
@@ -36,6 +37,16 @@ class Ligne extends Produit
     {
         $this->id_type_ligne = $id_type_ligne;
     }
+
+    public function getNomTypeLigne()
+    {
+        return $this->nom_type_ligne;
+    }
+
+    public function setNomTypeLigne($nom_type_ligne)
+    {
+        $this->nom_type_ligne = $nom_type_ligne;
+    }
 }
 
 class LigneRepository extends connectBdd
@@ -47,7 +58,7 @@ class LigneRepository extends connectBdd
             $req = $this->bdd->prepare
             ("
                 SELECT produit.*, marque.*, categorie.*, 
-                image.*, genre.*, caracteristiques_ligne.*, type_ligne.nom_type_ligne
+                image.*, genre.*, caracteristiques_ligne.*, type_ligne.*
                 FROM produit
                 INNER JOIN marque ON produit.id_marque = marque.id_marque
                 INNER JOIN caracteristiques_ligne ON caracteristiques_ligne.id_produit = produit.id_produit
@@ -56,7 +67,7 @@ class LigneRepository extends connectBdd
                 INNER JOIN image ON image.id_image = image_produit.id_image
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_ligne ON type_ligne.id_type_ligne = caracteristiques_ligne.id_type_ligne
-                WHERE produit.id_genre = 1
+                WHERE produit.id_genre = 5
                 GROUP BY produit.id_produit
             ");
 
@@ -88,6 +99,7 @@ class LigneRepository extends connectBdd
                 $ligne->setLongueurLigne($ligneData['longueur_ligne']);
                 $ligne->setDiametreLigne($ligneData['diametre_ligne']);
                 $ligne->setIdTypeLigne($ligneData['id_type_ligne']);
+                $ligne->setNomTypeLigne($ligneData['nom_type_ligne']);
 
                 $lignes[] = $ligne;
             }
