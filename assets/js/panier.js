@@ -24,7 +24,7 @@ function addToCart(name, price, image, genre, id) {
   }
 
   sessionStorage.setItem("cart", JSON.stringify(cart));
-  updateCartUI(); // Mettre à jour l'interface utilisateur après l'ajout au panier
+  updateCartUI();
 }
 
 function generateItemId() {
@@ -55,9 +55,8 @@ function updateCartUI() {
 
   cartCountElement.textContent = cartItems.reduce((total, item) => total + item.quantity, 0);
 
-
   cartItems.forEach((item) => {
-    // Créer le conteneur de l'élément du panier
+
     const cartItem = document.createElement("li");
     cartItem.className = "flex py-6";
 
@@ -162,12 +161,11 @@ document.addEventListener("DOMContentLoaded", () => {
       cartCountElementMobile.textContent = totalQuantity;
   }
 
-  updateCartCountMobile();
+  updateCartCountMobile(); // Initial update
 
   document.getElementById('cart-button-mobile').addEventListener('click', () => {
-      updateCartCountMobile();
+      updateCartCountMobile(); // Update the cart count when the cart is opened
   });
-
   addToCartButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const name = button.getAttribute("data-name");

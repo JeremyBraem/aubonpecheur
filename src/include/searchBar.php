@@ -60,7 +60,7 @@
                                                     <p id="cart-total">Total : 0€</p>
                                                 </div>
                                                 <div class="mt-6">
-                                                    <a href="#" class="flex items-center justify-center rounded-md border border-transparent bg-[#426EC2] px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-[#425EC2]">Voir mon panier</a>
+                                                    <a href="/panier" class="flex items-center justify-center rounded-md border border-transparent bg-[#426EC2] px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-[#425EC2]">Voir mon panier</a>
                                                 </div>
                                                 <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
 
@@ -109,10 +109,10 @@
 
     <div class="flex gap-5">
 
-        <button class="bg-[#426EC2] rounded-full p-2 relative" id="cart-button-mobile">
+        <a href="/panier" class="bg-[#426EC2] rounded-full p-2 relative" id="cart-button-mobile">
             <span id="cart-count-mobile" class="absolute text-[#fcfcfc] text-xs -right-1 -top-1 z-40 p-[1px] px-[6px] w-auto text-center font-semibold rounded-full bg-[#e8330d]">0</span>
             <img src="/assets/img/site/3106773.png" class="w-[25px] h-[25px]">
-        </button>
+        </a>
 
         <button id="profil-button-mobile" class="bg-[#426EC2] rounded-full p-2">
             <img src="/assets/img/site/profil.png" class="w-[25px] h-[25px]">
@@ -138,32 +138,6 @@
         </div>
     </div>
 </div>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const cartButton = document.querySelector('#cart-button');
-        const cartSlide = document.getElementById('cart');
-        const closeButton = document.getElementById('close-button');
-        const overlay = document.querySelectorAll('cart-backdrop');
 
-        cartButton.addEventListener('click', (event) => {
-            cartSlide.classList.toggle('hidden');
-            overlay.style.display = 'block';
-            event.stopPropagation();
-        });
-
-        closeButton.addEventListener('click', () => {
-            cartSlide.classList.add('hidden');
-            overlay.style.display = 'none'; 
-        });
-
-        document.addEventListener('click', (event) => {
-
-            if (!cartSlide.contains(event.target) && !cartButton.contains(event.target)) {
-
-                cartSlide.classList.add('hidden');
-                overlay.style.display = 'none';
-            }
-        });
-    });
-</script>
 <script src="assets/js/panier.js"></script>
+<script src="assets/js/panierBurger.js"></script>

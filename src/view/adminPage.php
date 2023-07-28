@@ -225,7 +225,6 @@
 
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                 <tr>
-                                    <th scope="col" class="px-4 py-4">ID du produit</th>
                                     <th scope="col" class="px-4 py-4">Nom du produit</th>
                                     <th scope="col" class="px-4 py-3">Genre</th>
                                     <th scope="col" class="px-4 py-3">Categorie</th>
@@ -239,7 +238,6 @@
                                 <?php foreach ($produits as $produit) { ?>
                                     <tr>
 
-                                        <td scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap"><?php echo $produit->getIdProduit() ?></td>
                                         <td scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap"><?php echo $produit->getNomProduit() ?></td>
 
                                         <td class="px-4 py-3"><?php echo $produit->getNomGenre() ?></td>

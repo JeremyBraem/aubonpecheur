@@ -90,11 +90,11 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'profil':
             profilPage();
             break;
-        case 'addFavorisTraitement':
-            addFavorisTraitement();
-            break;
         case 'search':
             searchPage();
+            break;
+        case 'panier':
+            pagePanier();
             break;
         default:
         home();
