@@ -1,16 +1,16 @@
-<nav class="p-1 flex items-center bg-[#426EC2]">
+<nav class="p-1 bg-[#426EC2] hidden md:flex">
 
     <div class="left-0">
-        <a href="/home"><img class="h-[90px]" src="/assets/img/site/icon.png"></a>
+        <a href="/home"><img class="h-[90px] w-[130px]" src="/assets/img/site/icon.png"></a>
     </div>
 
-    <div class="flex items-center mx-auto">
+    <div class="flex items-center mx-auto md:w-2/3 lg:w-1/3">
         <div class="flex flex-col items-center -m-[3px]">
             <span class=" hover:bg-gray-200 bg-white p-2 w-10 px-4 rounded-full">1</span>
             <span class="text-[#fcfcfc]">Panier</span>
         </div>
 
-        <div class="bg-white p-[2px] w-52 mb-5"></div>
+        <div class="bg-white p-[2px] w-2/3 mb-5"></div>
 
         <div class="flex flex-col items-center -m-14">
             <span class="hover:bg-gray-200 bg-white p-2 px-4 w-10 rounded-full">2</span>
@@ -20,7 +20,25 @@
 
 </nav>
 
+<nav class="p-1 flex bg-[#426EC2] md:hidden">
+    
+    <div class="left-0">
+        <a href="/home"><img class="h-[60px] w-[90px]" src="/assets/img/site/icon.png"></a>
+    </div>
 
-<nav class="navbar-menu relative z-30 hidden">
+    <div class="flex items-center mx-auto ml-10 w-3/4">
 
+        <div class="flex flex-col items-center -m-[1px]">
+            <span class=" hover:bg-gray-200 bg-white p-2 w-10 px-4 rounded-full">1</span>
+            <span class="text-[#fcfcfc] text-xs">Panier</span>
+        </div>
+
+        <div class="bg-white p-[2px] w-1/2 mb-5"></div>
+
+        <div class="flex flex-col items-center -m-14">
+            <span class="hover:bg-gray-200 bg-white p-2 px-4 w-10 rounded-full">2</span>
+            <span class="text-[#fcfcfc] text-xs">Livraison et Paiement</span>
+        </div>
+        
+    </div>
 </nav>

@@ -3,15 +3,17 @@ const cartItems = cartItemsJSON ? JSON.parse(cartItemsJSON) : [];
 
 function generateCartItemElement(item) {
   const cartItem = document.createElement("div");
-  cartItem.className =
-    "justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start";
+  cartItem.className = "justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex";
 
+  const divImage = document.createElement("div");
+  divImage.className = "w-36 h-36 md:w-52 md:h-40 m-auto";
   const cartImage = document.createElement("img");
   cartImage.src = item.image;
   cartImage.alt = item.name;
-  cartImage.className = "w-full rounded-lg sm:w-40";
-  cartItem.appendChild(cartImage);
-
+  cartImage.className = "h-full w-full rounded-lg object-cover";
+  cartItem.appendChild(divImage);
+  divImage.appendChild(cartImage);
+  
   const cartItemInfo = document.createElement("div");
   cartItemInfo.className = "sm:ml-4 sm:flex sm:w-full sm:justify-between";
 
@@ -24,7 +26,7 @@ function generateCartItemElement(item) {
   itemInfo.appendChild(itemName);
 
   const itemDetails = document.createElement("p");
-  itemDetails.className = "mt-1 text-xs text-gray-700";
+  itemDetails.className = "mt-1 text-sm text-gray-700";
   itemDetails.textContent = item.genre;
   itemInfo.appendChild(itemDetails);
 
