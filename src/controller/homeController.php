@@ -165,7 +165,7 @@ function signUpTraitement()
                                 // $token =  $userRepository['token'];
                                 // $email_user = $user->email;
                                 header('Location: /login');
-                            } 
+                            }
                             else 
                             {
                                 $_SESSION['messageError'] = "Erreur lors de l'inscription.";

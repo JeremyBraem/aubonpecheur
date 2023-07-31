@@ -31,7 +31,7 @@
 
 <body class="bg-[#fcfcfc]">
   <header class="sticky top-0 bg-white shadow z-50">
-      <?php require_once('src/include/headerPanier.php'); ?>
+    <?php require_once('src/include/headerPanier.php'); ?>
   </header>
   <h1 class="p-10 text-center text-2xl font-bold">Panier</h1>
   <div class="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0 mb-20">
@@ -49,7 +49,7 @@
           <p class="text-sm text-gray-700"></p>
         </div>
       </div>
-      <button class="mt-6 w-full rounded-md bg-[#426EC2] py-1.5 font-medium text-white hover:bg-blue-800">Continuer</button>
+      <div id="paypal-button-container"></div>
     </div>
   </div>
   <footer class="bg-[#fcfcfc]">
@@ -57,5 +57,6 @@
   </footer>
 
   <script src="assets/js/panierPage.js"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=AUYMI_h7bSTPPu_Go8Paa31wzzpJ6pVAMmcl3vNVZBWWiLpMqQZ0x8KytNiQtYp6EtSqvu_6T2-juv7B&currency=EUR"></script>
 
 </body>

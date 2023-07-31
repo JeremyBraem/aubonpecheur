@@ -136,6 +136,118 @@ function updateCartUI() {
   totalElement.textContent = `${total.toFixed(2)} €`;
 }
 
+function calculateTotal(cartItems) {
+  let total = 0;
+  cartItems.forEach((item) => {
+    total += item.price * item.quantity;
+  });
+
+  return total.toFixed(2);
+}
+
+function generatePaypalItems(cartItems) {
+  const paypalItems = cartItems.map((item) => ({
+    name: item.name,
+    unit_amount: {
+      currency_code: 'EUR',
+      value: item.price.toFixed(2),
+    },
+    quantity: item.quantity.toString(),
+  }));
+
+  return paypalItems;
+}
+
+function updatePaypalButton(cartItems) {
+  const paypalItems = generatePaypalItems(cartItems);
+  const total = calculateTotal(cartItems);
+
+  paypal.Buttons({
+    createOrder: function (data, actions) {
+      return actions.order.create({
+        purchase_units: [
+          {
+            amount: {
+              currency_code: currency,
+              value: total,
+              breakdown: {
+                item_total: {
+                  currency_code: currency,
+                  value: total,
+                },
+              },
+            },
+            items: paypalItems,
+          },
+        ],
+      });
+    },
+    onApprove: function (data, actions) {
+      return actions.order.capture().then(function (details) {
+        console.log('Paiement réussi :', details);
+      });
+    },
+    onError: function (err) {
+      console.error('Une erreur est survenue :', err);
+    },
+
+    style: {
+      layout: 'vertical',
+      color: 'blue',
+      shape: 'rect',
+      tagline: false,
+      label: 'checkout',
+    },
+    clientId: clientId,
+  }).render('#paypal-button-container');
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+
+  const clientId = "AUYMI_h7bSTPPu_Go8Paa31wzzpJ6pVAMmcl3vNVZBWWiLpMqQZ0x8KytNiQtYp6EtSqvu_6T2-juv7B";
+  const paypalItems = generatePaypalItems(cartItems);
+  const currency = "EUR";
+  
+  paypal.Buttons({
+    createOrder: function (data, actions) {
+      return actions.order.create({
+        purchase_units: [
+          {
+            amount: {
+              currency_code: currency,
+              value: calculateTotal(cartItems),
+              breakdown: {
+                item_total: {
+                  currency_code: currency,
+                  value: calculateTotal(cartItems),
+                },
+              },
+            },
+            items: paypalItems,
+          },
+        ],
+      });
+    },
+    onApprove: function (data, actions) {
+      return actions.order.capture().then(function (details) {
+        console.log('Paiement réussi :', details);
+      });
+    },
+    onError: function (err) {
+      console.error('Une erreur est survenue :', err);
+    },
+
+    style: {
+      layout: 'vertical',
+      color: 'blue',
+      shape: 'rect',
+      tagline: false,
+      label: 'checkout',
+    },
+    clientId: clientId,
+  }).render('#paypal-button-container');
+
   updateCartUI();
+  updatePaypalButton(cartItems);
+
 });
