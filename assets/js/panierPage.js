@@ -98,6 +98,13 @@ function updateCartUI() {
         item.quantity = newQuantity;
         updateCartUI();
         sessionStorage.setItem("cart", JSON.stringify(cartItems));
+      } else if (newQuantity < 1) {
+        const index = cartItems.indexOf(item);
+        if (index !== -1) {
+          cartItems.splice(index, 1);
+          updateCartUI();
+          sessionStorage.setItem("cart", JSON.stringify(cartItems));
+        }
       }
     });
 
@@ -105,9 +112,15 @@ function updateCartUI() {
     decreaseButton.addEventListener("click", () => {
       if (item.quantity > 1) {
         item.quantity--;
-        updateCartUI();
-        sessionStorage.setItem("cart", JSON.stringify(cartItems));
+      } else {
+        // Supprimer le produit du panier si la quantité est inférieure ou égale à 1
+        const index = cartItems.indexOf(item);
+        if (index !== -1) {
+          cartItems.splice(index, 1);
+        }
       }
+      updateCartUI();
+      sessionStorage.setItem("cart", JSON.stringify(cartItems));
     });
 
     const increaseButton = cartItemElement.querySelector("#increaseButton");
@@ -223,7 +236,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
               },
             },
-            items: paypalItems,
           },
         ],
       });

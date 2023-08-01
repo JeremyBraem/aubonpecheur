@@ -4,11 +4,11 @@
 
         <div class="overflow-hidden">
 
-            <button aria-label="slide backward" class="absolute z-30 left-1 top-1/2 transform -translate-y-1/2 cursor-pointer" id="prev">
+            <button aria-label="slide backward" class="absolute z-30 left-1 top-1/2 transform -translate-y-1/2 cursor-pointer" id="prevPromo">
                 <img class="w-5" src="/assets/img/site/fleche.png">
             </button>
 
-            <div id="slider" class="h-full ml-2 flex lg:gap-8 md:gap-6 gap-10 items-center justify-start transition ease-out duration-700">
+            <div id="sliderPromo" class="h-full ml-2 flex lg:gap-8 md:gap-6 gap-10 items-center justify-start transition ease-out duration-700">
 
                 <?php foreach ($promoProduits as $produit) { ?>
 
@@ -72,7 +72,7 @@
 
             </div>
 
-            <button aria-label="slide forward" class="absolute z-30 right-1 top-1/2 transform -translate-y-1/2 cursor-pointer" id="next">
+            <button aria-label="slide forward" class="absolute z-30 right-1 top-1/2 transform -translate-y-1/2 cursor-pointer" id="nextPromo">
                 <img class="w-5" src="/assets/img/site/159606.png">
             </button>
 

@@ -30,7 +30,7 @@
 </head>
 
 <body class="bg-[#fcfcfc]">
-  <header class="sticky top-0 bg-white shadow z-50">
+  <header class="sticky top-0 bg-white shadow z-[999]">
     <?php require_once('src/include/headerPanier.php'); ?>
   </header>
   <h1 class="p-10 text-center text-2xl font-bold">Panier</h1>
@@ -56,7 +56,7 @@
     <?php require_once('src/include/footer.php') ?>
   </footer>
 
-  <script src="assets/js/panierPage.js"></script>
+  <script src="/assets/js/panierPage.js"></script>
   <script src="https://www.paypal.com/sdk/js?client-id=AUYMI_h7bSTPPu_Go8Paa31wzzpJ6pVAMmcl3vNVZBWWiLpMqQZ0x8KytNiQtYp6EtSqvu_6T2-juv7B&currency=EUR"></script>
 
 </body>

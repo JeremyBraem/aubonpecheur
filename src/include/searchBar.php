@@ -139,5 +139,5 @@
     </div>
 </div>
 
-<script src="assets/js/panier.js"></script>
-<script src="assets/js/panierBurger.js"></script>
+<script src="/assets/js/panier.js"></script>
+<script src="/assets/js/panierBurger.js"></script>

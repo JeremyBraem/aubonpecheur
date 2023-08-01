@@ -22,6 +22,8 @@ RewriteRule ^marque/([a-zA-Z]+)$ /index.php?action=marque&marque=$1 [L]
 # Réécriture d'URL pour le lien avec "article"
 RewriteRule ^article/([a-zA-Z]+)$ /index.php?action=article&categorie=$1 [L]
 
+RewriteRule ^commande/numero=([a-zA-Z0-9]+)$ /index.php?action=commande&numero=$1 [L]
+
 # Réécriture d'URL pour le lien avec "search"
 RewriteRule ^search/$ /index.php?action=search [L,QSA]
 

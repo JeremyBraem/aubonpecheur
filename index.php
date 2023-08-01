@@ -96,6 +96,12 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'panier':
             pagePanier();
             break;
+        case 'commande':
+            pageCommande();
+            break;
+        case 'addCommande':
+            addCommande();
+            break;
         default:
         home();
     }
