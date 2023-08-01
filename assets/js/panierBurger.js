@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cartButton = document.querySelector('#cart-button');
     const cartSlide = document.getElementById('cart');
     const closeButton = document.getElementById('close-button');
+    const overlay = document.querySelectorAll('cart-backdrop');
 
     cartButton.addEventListener('click', (event) => {
         cartSlide.classList.toggle('hidden');
@@ -13,8 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
         cartSlide.classList.add('hidden');
     });
 
-    document.addEventListener('click', (event) => {
-        if (!cartSlide.contains(event.target) || !cartButton.contains(event.target)) {
+    overlay.addEventListener('click', (event) => {
+        if (!cartSlide.contains(event.target)) {
             cartSlide.classList.add('hidden');
         }
     });

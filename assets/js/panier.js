@@ -64,7 +64,7 @@ function updateCartUI() {
     cartItemImage.className =
       "h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200";
     const image = document.createElement("img");
-    image.src = item.image;
+    image.src = '/'+item.image;
     image.alt = item.name;
     image.className = "h-full w-full object-cover object-center";
     cartItemImage.appendChild(image);

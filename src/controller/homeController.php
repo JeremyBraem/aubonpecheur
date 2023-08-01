@@ -222,20 +222,42 @@ function pagePanier()
     require_once('src/view/pagePanier.php');
 }
 
-//AFFICHAGE DE LA PAGE PANIER
+//AFFICHAGE DE LA PAGE COMMANDE
 function pageCommande()
 {
-    $commandeRepo = new CommandeRepository;
+    if(!empty($_GET['numero']))
+    {
+        if($_SESSION['id_user'])
+        {
+            $numero = htmlspecialchars($_GET['numero']);
+            $id_user = $_SESSION['id_user'];
 
-    $commande = $commandeRepo->getUserCommande($_SESSION['id_user'], $_GET['numero']);
+            $commandeRepo = new CommandeRepository;
 
-    require_once('src/view/pageCommande.php');
+            $verif = $commandeRepo->verifNumero($id_user, $numero);
+
+            if($verif = true)
+            {
+                $commande = $commandeRepo->getUserCommande($_SESSION['id_user'], $_GET['numero']);
+            }
+
+            require_once('src/view/pageCommande.php');
+        }
+        else
+        {
+            header('location: /login');
+        }
+    }
+    else
+    {
+        header('location: /home');
+    }
 }
 
 function addCommande()
 {
     $commande = new Commande;
-    
+
     $commandeRepo = new CommandeRepository;
 
     $commandeRepo->addCommande($commande);

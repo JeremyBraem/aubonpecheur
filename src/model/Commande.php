@@ -123,6 +123,38 @@ class CommandeRepository extends connectBdd
             die("Erreur: " . $e->getMessage());
         }
     }
+
+    public function verifNumero($id_user, $numero)
+    {
+        try
+        {
+            $req = $this->bdd->prepare
+            ("SELECT id_user FROM commande WHERE numero_commande = ?");
+
+            $req->execute
+            ([
+                $numero
+            ]);
+
+            $commandeData = $req->fetch(PDO::FETCH_ASSOC);
+
+            if(!empty($commandeData) || $commandeData === !null)
+            {
+                if($id_user == $commandeData['id_user'])
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (PDOException $e) 
+        {
+            die("Erreur lors de la récupération des cannes : " . $e->getMessage());
+        }
+    }
     
 }
 

@@ -1,4 +1,3 @@
-<div id="overlay" class="hidden fixed top-0 left-0 w-full h-full bg-black opacity-50 z-50 pointer-events-none"></div>
 <div class="hidden lg:flex w-full flex-row justify-between items-center px-6">
     <div>
         <a href="/home"><img class="w-[90px] h-[90px]" src="/assets/img/site/logo_au_bon_pecheur.svg"></a>
@@ -15,14 +14,14 @@
         </form>
     </div>
 
-    <div class="flex items-center gap-5 mr-10">
+    <div class="flex items-center gap-5 mr-12">
 
         <div class="relative">
             <button id="cart-button" class="bg-[#426EC2] rounded-full p-2 relative">
                 <img src="/assets/img/site/3106773.png" class="w-[25px] h-[25px]">
             </button>
             <span id="cart-count" class="absolute text-[#fcfcfc] text-xs -right-2 -top-2 z-40 p-1 px-[9px] w-auto text-center font-semibold rounded-full bg-[#e8330d]"></span>
-            <div id="cart" class="hidden overflow-hidden absolute z-50 right-0 mt-2 w-64 bg-white rounded-lg shadow-lg">
+            <div id="cart" class="hidden overflow-hidden absolute z-[999] right-0 mt-2 w-64 bg-white rounded-lg shadow-lg">
                 <div id="cart-backdrop" class="fixed inset-0 bg-[#FCFCFC] opacity-30"></div>
                 <div class="p-4 overflow-hidden">
                     <div class="relative z-10 overflow-hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
@@ -53,7 +52,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
                                                 <div class="flex justify-between text-base font-medium text-gray-900">
                                                     <p>Total :</p>
@@ -75,24 +73,25 @@
                 </div>
             </div>
         </div>
-        <div>
-            <button id="profil-button" class="bg-[#426EC2] rounded-full p-2">
+        <div class="relative flex justify-center">
+            <button id="profil-button" class="bg-[#426EC2] rounded-full p-2 ">
                 <img src="/assets/img/site/profil.png" class="w-[25px] h-[25px]">
             </button>
-            <div class="hidden" id="profil-button">
+            <div id="profil-tab" class="hidden bg-white flex z-50 mt-12 rounded shadow">
                 <?php
                 if (empty($_SESSION['id_role'])) {
                 ?>
-                    <div class="flex flex-col pl-3 pr-8">
-                        <a class="px-3 py-1 text-l text-black" href="/login">Connexion</a>
-                        <a class="px-3 py-1 text-l text-black" href="/signUp">Inscription</a>
+                    <div class="flex flex-col">
+                        <a class="px-3 py-1 text-l text-black rounded-t hover:bg-gray-300" href="/login">Connexion</a>
+                        <a class="px-3 py-1 text-l text-black rounded-b hover:bg-gray-300" href="/signUp">Inscription</a>
                     </div>
                 <?php
                 } else {
                 ?>
-                    <div class="flex flex-col pl-3 pr-8">
-                        <a class="px-3 py-1 text-l text-black" href="/profil">Compte</a>
-                        <a class="px-3 py-1 text-l text-black" href="/deconnexion">Déconnexion</a>
+                    <div class="flex flex-col">
+                        <!-- <img src="assets/img/site/icons8-close.svg" class="w-5 h-5 pt-[5px] pr-[5px] self-end text-l"></img> -->
+                        <a class="px-3 py-[6px] text-l text-black rounded-t hover:bg-gray-300" href="/profil">Compte</a>
+                        <a class="px-3 py-[6px] text-l text-black rounded-b hover:bg-gray-300" href="/deconnexion">Déconnexion</a>
                     </div>
                 <?php
                 }
@@ -114,10 +113,11 @@
             <img src="/assets/img/site/3106773.png" class="w-[25px] h-[25px]">
         </a>
 
-        <button id="profil-button-mobile" class="bg-[#426EC2] rounded-full p-2">
+        <button id="profil-button-mobile" class="bg-[#426EC2] rounded-full p-2 relative">
             <img src="/assets/img/site/profil.png" class="w-[25px] h-[25px]">
         </button>
-        <div class="hidden">
+
+        <div id="profil-tab-mobile" class="hidden bg-white">
             <?php
             if (empty($_SESSION['id_role'])) {
             ?>
@@ -139,5 +139,6 @@
     </div>
 </div>
 
+<script src="/assets/js/iconProfil.js"></script>
 <script src="/assets/js/panier.js"></script>
 <script src="/assets/js/panierBurger.js"></script>
