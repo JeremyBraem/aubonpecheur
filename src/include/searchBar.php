@@ -103,7 +103,7 @@
 
 <div class="lg:hidden w-full flex flex-row justify-between items-center px-3">
     <a href="/home">
-        <img class="w-[60px] h-[60px]" src="assets/img/site/logo_au_bon_pecheur.svg">
+        <img class="w-[60px] h-[60px]" src="/assets/img/site/logo_au_bon_pecheur.svg">
     </a>
 
     <div class="flex gap-5">

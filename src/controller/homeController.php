@@ -236,9 +236,13 @@ function pageCommande()
 
             $verif = $commandeRepo->verifNumero($id_user, $numero);
 
-            if($verif = true)
+            if($verif === true)
             {
                 $commande = $commandeRepo->getUserCommande($_SESSION['id_user'], $_GET['numero']);
+            }
+            else
+            {
+                header('location: /home');
             }
 
             require_once('src/view/pageCommande.php');
