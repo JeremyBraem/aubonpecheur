@@ -83,14 +83,14 @@
 
         </section>
 
-        <section class="bg-[#426EC2] pt-5">
+        <section class="pt-5">
 
             <div class="text-center">
-                <h2 class=" text-[#fcfcfc] font-semibold text-[20px]">Favoris : </h2>
+                <h2 class=" text-[#fcfcfc] font-semibold text-[20px]">Commandes : </h2>
             </div>
 
             <div>
-                <?php include('src/include/sliderFavorie.php'); ?>
+
             </div>
 
         </section>
@@ -100,9 +100,6 @@
     <footer class="bg-[#fcfcfc]">
         <?php require_once ('src/include/footer.php') ?>
     </footer>
-
-    <script src="assets/js/swiper.js"></script>
-    <script src="assets/js/sliderPromo.js"></script>
 
 </body>
 </html>

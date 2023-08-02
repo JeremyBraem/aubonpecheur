@@ -40,15 +40,17 @@
         <h1 class="text-2xl font-bold text-center mb-6">Merci pour votre commande !</h1>
         <p class="text-center mb-4">Votre commande a été traitée avec succès. Voici les détails de votre commande :</p>
         <div class="border-t border-gray-300 pt-4 mt-4">
-          <p class="mb-2"><strong>Nom :</strong> <?php echo $_SESSION['prenom_user']; ?></p>
+        <p class="mb-2"><strong>Nom :</strong> <?php echo $_SESSION['nom_user']; ?></p>
+        <p class="mb-2"><strong>Prénom :</strong> <?php echo $_SESSION['prenom_user']; ?></p>
           <p class="mb-2"><strong>Email :</strong> <?php echo $_SESSION['email_user']; ?></p>
           <p class="mb-2"><strong>Numéro de commande :</strong> <?php echo $commande->getNumeroCommande(); ?></p>
-          <p class="mb-2"><strong>Date de commande :</strong> <?php echo $commande->getDateCommande(); ?></p>
-          <p class="mb-2"><strong>Total de la commande :</strong> </p>
-          <p class="mb-2"><strong>Articles commandés :</strong></p>
+          <p class="mb-2"><strong>Date de commande :</strong> <?php echo $date; ?></p>
+          <p class="mb-2"><strong>Total de la commande :</strong> <?php echo $totalPrice; ?>€</p>
+          <p class="mb-2"><strong>Articles commandés : </strong></p>
           <ul class="list-disc ml-6">
-            <li>Nom de l'article 1 - 25.00 € (Quantité: 2)</li>
-            <li>Nom de l'article 2 - 25.00 € (Quantité: 1)</li>
+            <?php foreach($resume as $produit) { ?>
+            <li><?php echo $produit->name; ?> - <?php echo $produit->price; ?> € (Quantité: <?php echo $produit->quantity; ?>)</li>
+            <?php } ?>
           </ul>
         </div>
       </div>

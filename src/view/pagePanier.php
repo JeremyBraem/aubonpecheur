@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
   <link rel="icon" href="/assets/img/site/icon.png" />
-
   <!--FLowbite-->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
   <!--Tailwind -->
@@ -28,7 +27,6 @@
   </script>
   <title>Panier</title>
 </head>
-
 <body class="bg-[#fcfcfc]">
   <header class="sticky top-0 bg-white shadow z-[999]">
     <?php require_once('src/include/headerPanier.php'); ?>

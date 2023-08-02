@@ -40,7 +40,7 @@ class Commande
         $this->numero_commande = $numero_commande;
     }
 
-    public function getResumeCommande():string
+    public function getResumeCommande()
     {
         return $this->resume_commande;
     }
@@ -117,6 +117,42 @@ class CommandeRepository extends connectBdd
             $commande->setIdUser($commandeData['id_user']);
             
             return $commande;
+        } 
+        catch (PDOException $e) 
+        {
+            die("Erreur: " . $e->getMessage());
+        }
+    }
+
+    function getAllUserCommande($id_user)
+    {
+        try
+        {
+            $req = $this->bdd->prepare
+            ("SELECT * FROM commande WHERE id_user = ?");
+
+            $req->execute
+            ([
+                $id_user,
+            ]);
+          
+            $commandesData = $req->fetchAll(PDO::FETCH_ASSOC);
+            
+            $commandes = [];
+
+            foreach($commandesData as $commandeData)
+            {
+                $commande = new Commande;
+                $commande->setIdCommande($commandeData['id_commande']);
+                $commande->setResumeCommande($commandeData['resume_commande']);
+                $commande->setNumeroCommande($commandeData['numero_commande']);
+                $commande->setDateCommande($commandeData['date_commande']);
+                $commande->setIdUser($commandeData['id_user']);
+                
+                $commandes[] = $commande;
+            }
+            
+            return $commandes;
         } 
         catch (PDOException $e) 
         {

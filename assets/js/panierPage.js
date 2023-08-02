@@ -171,48 +171,33 @@ function generatePaypalItems(cartItems) {
   return paypalItems;
 }
 
-function updatePaypalButton(cartItems) {
-  const paypalItems = generatePaypalItems(cartItems);
-  const total = calculateTotal(cartItems);
+function envoyerArticlesAuServeur(cartItems) {
+  const requestData = JSON.stringify(cartItems);
+  const xhr = new XMLHttpRequest();
 
-  paypal.Buttons({
-    createOrder: function (data, actions) {
-      return actions.order.create({
-        purchase_units: [
-          {
-            amount: {
-              currency_code: currency,
-              value: total,
-              breakdown: {
-                item_total: {
-                  currency_code: currency,
-                  value: total,
-                },
-              },
-            },
-            items: paypalItems,
-          },
-        ],
-      });
-    },
-    onApprove: function (data, actions) {
-      return actions.order.capture().then(function (details) {
-        console.log('Paiement réussi :', details);
-      });
-    },
-    onError: function (err) {
-      console.error('Une erreur est survenue :', err);
-    },
+  xhr.open("POST", "/addCommande", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
 
-    style: {
-      layout: 'vertical',
-      color: 'blue',
-      shape: 'rect',
-      tagline: false,
-      label: 'checkout',
-    },
-    clientId: clientId,
-  }).render('#paypal-button-container');
+ xhr.onload = function () {
+  if (xhr.status === 200) {
+    const response = JSON.parse(xhr.responseText);
+    console.log(response);
+    const numero = response.numero;
+    console.log('Commande ajoutée avec succès :', numero);
+      sessionStorage.removeItem("cart");
+      updateCartUI();
+  
+      window.location.href = "/commande/numero=" + numero;
+    } else {
+      console.error('Une erreur est survenue lors de l\'ajout de la commande :', xhr.statusText);
+    }
+  };
+  
+  xhr.onerror = function () {
+    console.error('Une erreur réseau est survenue lors de l\'envoi des données.');
+  };
+
+  xhr.send(requestData);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -243,6 +228,16 @@ document.addEventListener("DOMContentLoaded", () => {
     onApprove: function (data, actions) {
       return actions.order.capture().then(function (details) {
         console.log('Paiement réussi :', details);
+
+        const itemsForCommande = cartItems.map(item => {
+          return {
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price
+          };
+        });
+
+        envoyerArticlesAuServeur(itemsForCommande);
       });
     },
     onError: function (err) {
@@ -260,6 +255,4 @@ document.addEventListener("DOMContentLoaded", () => {
   }).render('#paypal-button-container');
 
   updateCartUI();
-  updatePaypalButton(cartItems);
-
 });

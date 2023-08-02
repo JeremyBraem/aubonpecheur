@@ -44,7 +44,7 @@
 
 </nav>
 
-<div class="navbar-menu relative z-30 hidden">
+<div class="navbar-menu relative z-50 hidden">
     
     <div class="navbar-backdrop fixed inset-0 bg-[#FCFCFC] opacity-25"></div>
 
@@ -118,29 +118,6 @@
                 <?php } } } ?>
 
             </ul>
-
-            <div class="items-center p-4">
-                <?php 
-                    if(empty($_SESSION['id_role']))
-                    { 
-                    ?>
-                    <div class="flex flex-col">
-                        <a class="py-1 text-sm font-semibold text-gray-600" href="/login">Connexion</a>
-                        <a class="py-1 text-sm font-semibold text-gray-600" href="/signUp">Inscription</a>  
-                    </div>
-                    <?php 
-                    }
-                    else
-                    { 
-                    ?>
-                    <div class="flex flex-col">
-                        <a class="py-1 text-sm font-semibold text-gray-600" href="/action=">Favoris</a>
-                        <a class="py-1 text-sm font-semibold text-gray-600" href="/action=deconnexion">Déconnexion</a>
-                    </div>
-                    <?php 
-                    }
-                ?>
-            </div>
 
         </div>
     </nav>

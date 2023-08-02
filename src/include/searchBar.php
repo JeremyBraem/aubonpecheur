@@ -74,9 +74,11 @@
             </div>
         </div>
         <div class="relative flex justify-center">
+
             <button id="profil-button" class="bg-[#426EC2] rounded-full p-2 ">
                 <img src="/assets/img/site/profil.png" class="w-[25px] h-[25px]">
             </button>
+
             <div id="profil-tab" class="hidden bg-white flex z-50 mt-12 rounded shadow">
                 <?php
                 if (empty($_SESSION['id_role'])) {
@@ -113,28 +115,32 @@
             <img src="/assets/img/site/3106773.png" class="w-[25px] h-[25px]">
         </a>
 
-        <button id="profil-button-mobile" class="bg-[#426EC2] rounded-full p-2 relative">
-            <img src="/assets/img/site/profil.png" class="w-[25px] h-[25px]">
-        </button>
+        <div class="relative flex justify-end">    
 
-        <div id="profil-tab-mobile" class="hidden bg-white">
-            <?php
-            if (empty($_SESSION['id_role'])) {
-            ?>
-                <div class="flex flex-col pl-3 pr-8">
-                    <a class="px-3 py-1 text-l text-black" href="/login">Connexion</a>
-                    <a class="px-3 py-1 text-l text-black" href="/signUp">Inscription</a>
-                </div>
-            <?php
-            } else {
-            ?>
-                <div class="flex flex-col pl-3 pr-8">
-                    <a class="px-3 py-1 text-l text-black" href="/profil">Compte</a>
-                    <a class="px-3 py-1 text-l text-black" href="/deconnexion">Déconnexion</a>
-                </div>
-            <?php
-            }
-            ?>
+            <button id="profil-button-mobile" class="bg-[#426EC2] rounded-full p-2 relative">
+                <img src="/assets/img/site/profil.png" class="w-[25px] h-[25px]">
+            </button>
+
+            <div id="profil-tab-mobile" class="hidden bg-white flex z-50 mt-12 rounded shadow">
+                <?php
+                if (empty($_SESSION['id_role'])) {
+                ?>
+                    <div class="flex flex-col">
+                        <a class="px-3 py-[6px] text-l text-black rounded-t hover:bg-gray-300" href="/login">Connexion</a>
+                        <a class="px-3 py-[6px] text-l text-black rounded-t hover:bg-gray-300" href="/signUp">Inscription</a>
+                    </div>
+                <?php
+                } else {
+                ?>
+                    <div class="flex flex-col">
+                        <a class="px-3 py-[6px] text-l text-black rounded-t hover:bg-gray-300" href="/profil">Compte</a>
+                        <a class="px-3 py-[6px] text-l text-black rounded-t hover:bg-gray-300" href="/deconnexion">Déconnexion</a>
+                    </div>
+                <?php
+                }
+                ?>
+            </div>
+
         </div>
     </div>
 </div>

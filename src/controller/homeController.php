@@ -216,6 +216,29 @@ function disconnectUser()
     header('location: /home');
 }
 
+function profilPage()
+{
+    if($_SESSION['id_user'])
+    {
+        $id_user = $_SESSION['id_user'];
+
+        $commandeRepo = new CommandeRepository;
+
+        $commandes = $commandeRepo->getAllUserCommande($_SESSION['id_user']);
+        
+        
+
+        var_dump($commandes);
+        die;
+
+        require_once('src/view/profilPage.php');
+    }
+    else
+    {
+        header('location: /login');
+    }
+}
+
 //AFFICHAGE DE LA PAGE PANIER
 function pagePanier()
 {
@@ -239,13 +262,23 @@ function pageCommande()
             if($verif === true)
             {
                 $commande = $commandeRepo->getUserCommande($_SESSION['id_user'], $_GET['numero']);
+                $resume = json_decode($commande->getResumeCommande());
+                $dateCommande = $commande->getDateCommande();
+                $totalPrice = 0;
+
+                foreach ($resume as $item) 
+                {
+                    $totalPrice += $item->quantity * $item->price;
+                }
+
+                $date = date('d-m-Y H:i', strtotime($dateCommande));
+
+                require_once('src/view/pageCommande.php');
             }
             else
             {
                 header('location: /home');
             }
-
-            require_once('src/view/pageCommande.php');
         }
         else
         {
@@ -258,13 +291,44 @@ function pageCommande()
     }
 }
 
-function addCommande()
+function addCommande() 
 {
-    $commande = new Commande;
+    if ($_SERVER["REQUEST_METHOD"] === "POST") 
+    {   
+        function generateRandomString($length) 
+        {
+            $bytes = random_bytes($length);
+            return bin2hex($bytes);
+        }
 
-    $commandeRepo = new CommandeRepository;
+        $requestData = json_decode(file_get_contents("php://input"), true);
+        $resumeCommande = json_encode($requestData);
 
-    $commandeRepo->addCommande($commande);
+        $numero = generateRandomString(10);
+        $date = date("Y-m-d H:i:s");
+        $id_user = $_SESSION['id_user'];
+
+        $commande = new Commande;
+
+        $commande->setResumeCommande($resumeCommande);
+        $commande->setNumeroCommande($numero);
+        $commande->setDateCommande($date);
+        $commande->setIdUser($id_user);
+
+        $commandeRepo = new CommandeRepository;
+
+        $commandeRepo->addCommande($commande);
+        
+        
+        
+        echo json_encode(['success' => true, 'numero' => $numero]);
+    }
+    else 
+    {
+        http_response_code(405);
+        header('Content-Type: application/json');
+        json_encode(['error' => 'Method Not Allowed']);
+    }
 }
 
 //AFFICHAGE DES RECHERCHES
