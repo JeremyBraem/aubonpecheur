@@ -153,7 +153,7 @@ class UserRepository extends connectBdd
             0,
             2
         ]);
-    } 
+    }
 
     public function findByEmail (string $email)
     {
@@ -197,6 +197,28 @@ class UserRepository extends connectBdd
         {
             return false;
         }
+    }
+
+    public function getUserById($id_user)
+    {
+        $req = $this->bdd->prepare("SELECT * FROM user WHERE id_user = ?");
+        $req->execute([$id_user]);
+        $user = $req->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) 
+        {
+            return new User($user['email_user'], $user['nom_user'], $user['prenom_user'], $user['password_user'], $user['token_user'], $user['actif_user'], $user['id_role']);
+        } 
+        else 
+        {
+            return null;
+        }
+    }
+
+    public function updateUser(User $user)
+    {
+        $req = $this->bdd->prepare("UPDATE user SET email_user = ?, nom_user = ?, prenom_user = ?, password_user = ? WHERE id_user = ?");
+        $req->execute([$user->getEmailUser(), $user->getLastnameUser(), $user->getNameUser(), $user->getPasswordUser(), $user->getIdUser()]);
     }
 }
 

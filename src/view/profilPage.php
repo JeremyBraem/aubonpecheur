@@ -1,29 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="assets/css/reset.css" rel="stylesheet">
-    <link href="assets/css/swiper.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
-    <link rel="icon" href="/assets/img/site/icon.png"/>
+    <link rel="icon" href="/assets/img/site/icon.png" />
 
     <!--FLowbite-->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
     <!--Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
     <script>
-        tailwind.config = 
-        {
-            theme: 
-            {
-                extend: 
-                {
-                    colors: 
-                    {
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
                         clifford: '#da373d',
                     }
                 }
@@ -73,9 +69,9 @@
 
                     </div>
 
-                    <div class="flex justify-center">
-                        <button type="submit" class="py-3 px-10 text-[#fcfcfc] rounded bg-[#426EC2]">Modifier</button>
-                    </div>
+                    <form class="flex justify-center" action="src/view/updateUserModal.php">
+                        <button id="updateUserButton" data-modal-toggle="updateUserModal" type="submit" class="py-3 px-10 text-[#fcfcfc] rounded bg-[#426EC2]">Modifier</button>
+                    </form>
 
                 </div>
 
@@ -84,22 +80,44 @@
         </section>
 
         <section class="pt-5">
-
             <div class="text-center">
-                <h2 class=" text-[#fcfcfc] font-semibold text-[20px]">Commandes : </h2>
+                <h2 class="font-semibold text-[20px] mb-10">Commandes :</h2>
             </div>
 
-            <div>
+            <div class="w-3/4 m-auto grid grid-cols-2">
+                <?php foreach ($commandes as $commande) {
+                    $resumeCommande = json_decode($commande->getResumeCommande());
+                    $totalCommande = 0; // Initialiser le total de chaque commande à 0 pour chaque boucle
+                ?>
+                    <div class="mb-10 border border-3">
+                        <div class="mb-5">
+                            <p class="mr-10"><strong>Numéro de commande :</strong> <?php echo $commande->getNumeroCommande() ?></p>
+                            <p><strong>Date de commande :</strong> <?php echo $commande->getDateCommande() ?></p>
+                        </div>
 
+                        <div>
+                            <p><strong>Article :</strong></p>
+                            <?php foreach ($resumeCommande as $article) { ?>
+                                <ul class="mb-1">
+                                    <li><?php echo $article->name . " - Quantité : " . $article->quantity . " - Prix unitaire : " . $article->price . " €"; ?></li>
+                                </ul>
+                                <?php $totalCommande += $article->price * $article->quantity; ?>
+                            <?php } ?>
+
+                            <p class="mt-5"><strong>Total :</strong> <?php echo $totalCommande; ?> €</p>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
-
         </section>
-                
+
+
     </main>
 
+    <?php include('src/view/updateUserModal.php'); ?>
     <footer class="bg-[#fcfcfc]">
-        <?php require_once ('src/include/footer.php') ?>
+        <?php require_once('src/include/footer.php') ?>
     </footer>
-
 </body>
+
 </html>

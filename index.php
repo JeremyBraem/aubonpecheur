@@ -102,6 +102,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'addCommande':
             addCommande();
             break;
+        case 'updateUser':
+            updateUser();
+            break;
         default:
         home();
     }

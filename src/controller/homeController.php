@@ -196,18 +196,62 @@ function signUpTraitement()
                 $_SESSION['messageError'] = "Cette email est déjà utilisé.";
                 header("Location: /signUp");
             }
-        } 
+        }
         else 
         {
             $_SESSION['messageError'] = "Un des champs est vide.";
             header("Location: /signUp");
         }
-    } 
+    }
     else 
     {
         header("Location: /404");
     }
 }
+
+function updateUser()
+{
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+        // Vérification des données du formulaire
+        if (
+            isset($_POST['email']) && isset($_POST['prenom_user']) &&
+            isset($_POST['nom_user']) && isset($_POST['pass_user']) &&
+            isset($_POST['verifpass_user'])
+        ) {
+    
+            // Nettoyage et validation des données
+            $email = htmlspecialchars($_POST['email_user']);
+            $prenom = htmlspecialchars($_POST['prenom_user']);
+            $nom = htmlspecialchars($_POST['nom_user']);
+            $password = htmlspecialchars($_POST['pass_user']);
+            $verifPassword = htmlspecialchars($_POST['verifpass_user']);
+    
+            // Vérification que les mots de passe correspondent
+            if ($password !== $verifPassword) {
+                echo "Les mots de passe ne correspondent pas.";
+                exit;
+            }
+            // Exemple avec l'utilisation de UserRepository
+            $userRepository = new UserRepository();
+    
+            // Récupérer l'utilisateur à partir de la session (ou de tout autre mécanisme d'authentification que vous utilisez)
+            $user = $userRepository->getUserById($_SESSION['id_user']);
+    
+            // Mettre à jour les informations de l'utilisateur
+            $user->setEmailUser($email);
+            $user->setNameUser($nom);
+            $user->setLastnameUser($prenom);
+            $user->setPasswordUser($password);
+    
+            $userRepository->updateUser($user);
+    
+            header('Location: /profil');
+            exit;
+        }
+    }
+}
+
 
 //TRAITEMENT DE DECONNEXION
 function disconnectUser()
@@ -225,12 +269,7 @@ function profilPage()
         $commandeRepo = new CommandeRepository;
 
         $commandes = $commandeRepo->getAllUserCommande($_SESSION['id_user']);
-        
-        
-
-        var_dump($commandes);
-        die;
-
+       
         require_once('src/view/profilPage.php');
     }
     else
