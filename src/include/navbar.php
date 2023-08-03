@@ -29,27 +29,26 @@
         <li><a class="text-m text-white" href="/article/Carnassier">Carnassier</a></li>
         <li><a class="text-m text-white" href="/article/Silure">Silure</a></li>
         <li><a class="text-m text-white" href="/article/Plomb">Plomb</a></li>
-        <li><a class="text-m text-white" href="/Equipement">Equipement</a></li>
-        <?php 
-        if(isset($_SESSION['id_role']))
-        {
-            if(!empty($_SESSION['id_role']))
-            {
-                if($_SESSION['id_role'] == 1)
-                {
+        <li><a class="text-m text-white" href="/article/Autre">Autre</a></li>
+        <?php
+        if (isset($_SESSION['id_role'])) {
+            if (!empty($_SESSION['id_role'])) {
+                if ($_SESSION['id_role'] == 1) {
         ?>
-        <li><a class="text-m text-white" href="/admin">Admin</a></li>
-        <?php } } } ?>
+                    <li><a class="text-m text-white" href="/admin">Admin</a></li>
+        <?php }
+            }
+        } ?>
     </ul>
 
 </nav>
 
 <div class="navbar-menu relative z-50 hidden">
-    
+
     <div class="navbar-backdrop fixed inset-0 bg-[#FCFCFC] opacity-25"></div>
 
     <nav class="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
-        
+
         <div class="flex items-center mb-8">
             <a class="m-auto text-3xl font-bold leading-none" href="/home">
                 <img class="w-[100px]" src="/assets/img/site/logo_au_bon_pecheur.svg">
@@ -101,27 +100,25 @@
                 </li>
 
                 <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="/Equipement">Equipement</a>
+                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="/article/Autre">Autre</a>
                 </li>
-
-                <?php 
-                    if(isset($_SESSION['id_role']))
-                    {
-                        if(!empty($_SESSION['id_role']))
-                        {
-                            if($_SESSION['id_role'] == 1)
-                            {
+                <?php
+                if (isset($_SESSION['id_role'])) {
+                    if (!empty($_SESSION['id_role'])) {
+                        if ($_SESSION['id_role'] == 1) {
                 ?>
-                <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="/admin.php">Admin</a>
-                </li>
-                <?php } } } ?>
+                            <li class="mb-1">
+                                <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="/admin.php">Admin</a>
+                            </li>
+                <?php }
+                    }
+                } ?>
 
             </ul>
 
         </div>
     </nav>
-    
+
 </div>
 
 <script src="/assets/js/navbarBurger.js"></script>

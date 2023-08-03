@@ -51,16 +51,16 @@
             <div>
                 <div id="listeArticles" class="p-3 md:p-5 relative flex flex-wrap gap-5 md:gap-7 items-center justify-center">
 
-                    <?php foreach ($combinedArticles as $article) { ?>
+                    <?php foreach ($produits as $produit) { ?>
 
-                        <?php if ($article != ['']) { ?>
+                        <?php if ($produit != ['']) { ?>
 
                             <div class="w-56">
 
-                                <a href="/<?php echo $article['genre']; ?>Page/<?php echo $article['id']; ?>">
+                                <a href="/<?php echo $produit->getNomGenre(); ?>Page/<?php echo $produit->getIdProduit(); ?>">
 
                                     <div class="w-56">
-                                        <img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/<?php echo $article['image']; ?>" />
+                                        <img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/<?php echo $produit->getNomImage(); ?>" />
                                     </div>
 
                                 </a>
@@ -68,19 +68,35 @@
                                 <div class="flex justify-center gap-10 py-3">
 
                                     <div>
-                                        <p class="text-s md:text-lg">
-                                            <?php
-                                            $nom = $article['nom'];
-                                            if (strlen($nom) > 20) {
-                                                echo substr($nom, 0, 17) . '...';
-                                            } else {
-                                                echo $nom;
-                                            }
-                                            ?>
-                                        </p>
+
+                                        <div class="flex">
+
+                                            <p class="text-s md:text-lg">
+                                                <?php
+                                                $nom = $produit->getNomProduit();
+                                                if (strlen($nom) > 20) {
+                                                    echo substr($nom, 0, 17) . '...';
+                                                } else {
+                                                    echo $nom;
+                                                }
+                                                ?>
+                                            </p>
+
+                                            <p class="ml-10 text-s md:text-xl uppercase">
+                                                <?php
+                                                $prix = $produit->getPrixProduit() . '€';
+                                                if (strlen($prix) > 50) {
+                                                    echo substr($prix, 0, 47) . '...';
+                                                } else {
+                                                    echo $prix;
+                                                }
+                                                ?>
+                                            </p>
+
+                                        </div>
                                         <p class="text-xs md:text-sm uppercase">
                                             <?php
-                                            $marque = $article['marque'];
+                                            $marque = $produit->getNomMarque();
                                             if (strlen($marque) > 50) {
                                                 echo substr($marque, 0, 47) . '...';
                                             } else {
@@ -89,56 +105,8 @@
                                             ?>
                                         </p>
                                     </div>
-
-                                    <?php if ($_SESSION) { ?>
-
-                                        <div>
-
-                                            <form class="favoris-form" method="post" action="index.php?action=addFavorisTraitement">
-                                                <input type="hidden" name="id_<?php echo $article['genre']; ?>" value="<?php echo $article['id']; ?>">
-                                                <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
-                                                <input type="hidden" name="genre" value="<?php echo $article['genre']; ?>">
-                                                <input type="hidden" name="date_ajout_favoris" value="<?php echo $today = date("d/m/y"); ?>">
-                                                <?php if(isset($_GET['action'])) { ?>
-                                                <input type="hidden" name="page" value="<?php echo $_GET['action'] ?>">
-                                                <?php }else{ echo ''; } ?>
-                                                <?php if ($_SESSION[$article['genre']]) { ?>
-
-                                                    <?php foreach ($_SESSION[$article['genre']] as $idTab) { ?>
-
-                                                        <?php if (in_array($article['id'], $idTab)) { ?>
-
-                                                            <button class="favoris-button" type="submit">
-                                                                <img class="w-6 h-6 mt-1" src="/assets/img/site/liked.png">
-                                                            </button>
-
-                                                        <?php } else { ?>
-
-                                                            <button class="favoris-button" type="submit">
-                                                                <img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">
-                                                            </button>
-
-                                                        <?php } ?>
-
-                                                    <?php } ?>
-
-                                                <?php } else { ?>
-
-                                                    <button class="favoris-button" type="submit">
-                                                        <img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">
-                                                    </button>
-
-                                                <?php } ?>
-
-                                            </form>
-
-                                        </div>
-
-                                    <?php } ?>
-
                                 </div>
-
-
+                                <button class="add-to-cart-btn" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>">Ajouter au panier</button>
                             </div>
 
                     <?php } else {

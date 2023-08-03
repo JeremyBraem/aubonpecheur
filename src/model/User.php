@@ -137,8 +137,6 @@ class UserRepository extends connectBdd
 
     public function insertUser(User $user)
     {
-        $token = bin2hex(random_bytes(25));
-
         $req = $this->bdd->prepare("INSERT INTO user (email_user, nom_user, prenom_user, password_user, token_user, actif_user, id_role)
         VALUES (?,?,?,?,?,?,?)");
 
@@ -148,15 +146,19 @@ class UserRepository extends connectBdd
             $user->getLastnameUser(),
             $user->getNameUser(),
             $user->getPasswordUser(),
-            $token,
+            $user->getTokenUser(),
             0,
             2
         ]);
     }
 
-    
+    public function updateActif($id_user, $token)
+    {
+        $req = $this->bdd->prepare("UPDATE user SET actif_user = ? WHERE token_user = ? && id_user = ?");
+        $req->execute([1, $token, $id_user]);
+    }
 
-    public function findByEmail (string $email)
+    public function findByEmail(string $email)
     {
         $req = $this->bdd->prepare('SELECT id_user FROM user WHERE email_user = ? LIMIT 1');
         $req->execute([$email]);
@@ -248,12 +250,11 @@ class UserRepository extends connectBdd
         return $token;
     }
 
-
     public function verifToken($token, $id_user)
     {
         $req = $this->bdd->prepare("SELECT id_user FROM user WHERE token_user = ?");
         $req->execute([$token]);
-        $data = $req->fetch(PDO::FETCH_ASSOC);
+        $data = $req->fetchColumn();
 
         if($data == $id_user)
         {
@@ -263,6 +264,15 @@ class UserRepository extends connectBdd
         {
             return false;
         }
+    }
+
+    public function getUserByToken($token)
+    {
+        $req = $this->bdd->prepare("SELECT id_user FROM user WHERE token_user = ?");
+        $req->execute([$token]);
+        $id_user = $req->fetchColumn();
+
+        return $id_user;
     }
 }
 

@@ -117,6 +117,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'passMail':
             passwordMail();
             break;
+        case 'activation':
+            updateActif();
+            break;
         default:
         home();
     }

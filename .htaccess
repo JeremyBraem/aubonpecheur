@@ -30,5 +30,8 @@ RewriteRule ^search/$ /index.php?action=search [L,QSA]
 # Réécriture de l'URL pour le nouveau mot de passe
 RewriteRule ^newPass/token=([a-zA-Z0-9]+)&id=([a-zA-Z0-9]+)$ /index.php?action=newPass&token=$1&id=$2 [L]
 
+# Réécriture de l'URL pour l'activation
+RewriteRule ^activation/token=([a-zA-Z0-9]+)&id=([a-zA-Z0-9]+)$ /index.php?action=activation&token=$1&id=$2 [L]
+
 RewriteRule ^([a-zA-Z]+)/([0-9]+)$   /index.php?action=$1&id=$2 [L]
 

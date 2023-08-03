@@ -61,11 +61,9 @@
                                     }
                                     ?>
                                 </p>
-
                             </div>
-
                         </div>
-
+                        <button class="add-to-cart-btn" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>">Ajouter au panier</button>
                     </div>
 
                 <?php } ?>
