@@ -14,9 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
         cartSlide.classList.add('hidden');
     });
 
-    overlay.addEventListener('click', (event) => {
-        if (!cartSlide.contains(event.target)) {
-            cartSlide.classList.add('hidden');
-        }
-    });
+    // overlay.addEventListener('click', (event) => {
+    //     if (!cartSlide.contains(event.target)) {
+    //         cartSlide.classList.add('hidden');
+    //     }
+    // });
 });

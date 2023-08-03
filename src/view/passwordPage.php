@@ -44,31 +44,31 @@
         <div class="flex flex-col md:flex-row">
 
             <div class="w-full h-[100px] md:w-2/5 md:h-[500px]">
-                <img class="w-full h-full object-cover" src="assets/img/site/pexels-lumn-294674.jpg">
+                <img class="w-full h-full object-cover" src="/assets/img/site/pexels-lumn-294674.jpg">
             </div>
 
             <div class="md:w-3/5">
 
                 <div class="p-5 mt-5 mb-3">
-                    <h1 class="text-center text-xl font-semibold">Connectez-vous</h1>
+                    <h1 class="text-center text-xl font-semibold">Modifier votre mot de passe</h1>
                 </div>
 
-                <form class="flex flex-col w-2/3 m-auto mb-8 md:mb-10" action="index.php?action=loginTraitement" method="post">
+                <form class="flex flex-col w-2/3 m-auto mb-8 md:mb-10" action="/updatePass" method="post">
 
-                    <label class="ml-1 mb-1">E-mail</label>
-                    <input type="email" placeholder="Veillez rentrer votre e-mail" name="email" class="mb-7 md:mb-10 border rounded border-black px-2 py-1" required>
+                    <label class="ml-1 mb-1">Nouveau mot de passe : </label>
+                    <input type="password" placeholder="Veillez rentrer votre mot de passe" name="pass_user" class="mb-7 md:mb-10 border rounded border-black px-2 py-1" required>
             
-                    <label class="ml-1 mb-1">Mot de passe</label>
-                    <input type="password" placeholder="Veillez rentrer votre mot de passe" name="password" class="mb-3 border rounded border-black px-2 py-1" required>
-                    
-                    <a href="/forgetPass" class="mb-5 underline text-sm md:w-36">Mot de passe oublié ?</a>
-                    
+                    <label class="ml-1 mb-1">Verification du nouveau mot de passe :</label>
+                    <input type="password" placeholder="Veillez verifier votre mot de passe" name="verifpass_user" class="mb-3 border rounded border-black px-2 py-1" required>
+                                        
                     <?php if(isset($_SESSION['messageError']))
                     { ?>
                     <p class="text-sm text-red-500 mb-5 font-semibold"><?php echo $_SESSION['messageError']; ?></p>
                     <?php session_unset(); 
                     } ?>
-                    
+
+                    <input type="hidden" value="<?php echo $_GET['token'] ?>" name="token_user"required>
+                    <input type="hidden" value="<?php echo $_GET['id'] ?>" name="id_user"required>
                     <button type="submit" class="py-2 mx-5 text-[#fcfcfc] rounded bg-[#426EC2]">Connexion</button>
 
                 </form>

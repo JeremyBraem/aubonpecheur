@@ -50,26 +50,21 @@
             <div class="md:w-3/5">
 
                 <div class="p-5 mt-5 mb-3">
-                    <h1 class="text-center text-xl font-semibold">Connectez-vous</h1>
+                    <h1 class="text-center text-xl font-semibold">Mot de passe oublié</h1>
                 </div>
 
-                <form class="flex flex-col w-2/3 m-auto mb-8 md:mb-10" action="index.php?action=loginTraitement" method="post">
+                <form class="flex flex-col w-2/3 m-auto mb-8 md:mb-10" action="/passMail" method="post">
 
                     <label class="ml-1 mb-1">E-mail</label>
-                    <input type="email" placeholder="Veillez rentrer votre e-mail" name="email" class="mb-7 md:mb-10 border rounded border-black px-2 py-1" required>
-            
-                    <label class="ml-1 mb-1">Mot de passe</label>
-                    <input type="password" placeholder="Veillez rentrer votre mot de passe" name="password" class="mb-3 border rounded border-black px-2 py-1" required>
-                    
-                    <a href="/forgetPass" class="mb-5 underline text-sm md:w-36">Mot de passe oublié ?</a>
-                    
+                    <input type="email" placeholder="Veillez rentrer votre e-mail" name="email_user" class="mb-7 md:mb-10 border rounded border-black px-2 py-1" required>
+                                
                     <?php if(isset($_SESSION['messageError']))
                     { ?>
                     <p class="text-sm text-red-500 mb-5 font-semibold"><?php echo $_SESSION['messageError']; ?></p>
-                    <?php session_unset(); 
+                    <?php session_unset();
                     } ?>
                     
-                    <button type="submit" class="py-2 mx-5 text-[#fcfcfc] rounded bg-[#426EC2]">Connexion</button>
+                    <button type="submit" class="py-2 mx-5 text-[#fcfcfc] rounded bg-[#426EC2]">Envoyer</button>
 
                 </form>
 

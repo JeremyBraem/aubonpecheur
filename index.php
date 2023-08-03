@@ -105,6 +105,18 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'updateUser':
             updateUser();
             break;
+        case 'updatePass':
+            updatePassword();
+            break;
+        case 'newPass':
+            updatePasswordPage();
+            break;
+        case 'forgetPass':
+            forgetPassPage();
+            break;
+        case 'passMail':
+            passwordMail();
+            break;
         default:
         home();
     }

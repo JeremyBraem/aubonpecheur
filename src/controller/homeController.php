@@ -184,7 +184,7 @@ function signUpTraitement()
                         $_SESSION['messageError'] = "Votre mot de passe doit contenir au minimum 8 caractères avec au moins une lettre minuscule et une lettre majuscule et un chiffre.";
                         header("Location: /signUp");
                     }
-                } 
+                }
                 else 
                 {
                     $_SESSION['messageError'] = "Un des champs est vide.";
@@ -211,40 +211,39 @@ function signUpTraitement()
 
 function updateUser()
 {
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
-        // Vérification des données du formulaire
+    if ($_SERVER["REQUEST_METHOD"] === "POST") 
+    {
         if (
-            isset($_POST['email']) && isset($_POST['prenom_user']) &&
+            isset($_POST['email_user']) && isset($_POST['prenom_user']) &&
             isset($_POST['nom_user']) && isset($_POST['pass_user']) &&
             isset($_POST['verifpass_user'])
         ) {
-    
-            // Nettoyage et validation des données
+            
             $email = htmlspecialchars($_POST['email_user']);
             $prenom = htmlspecialchars($_POST['prenom_user']);
             $nom = htmlspecialchars($_POST['nom_user']);
             $password = htmlspecialchars($_POST['pass_user']);
             $verifPassword = htmlspecialchars($_POST['verifpass_user']);
     
-            // Vérification que les mots de passe correspondent
-            if ($password !== $verifPassword) {
+            if($password !== $verifPassword)
+            {
                 echo "Les mots de passe ne correspondent pas.";
                 exit;
             }
-            // Exemple avec l'utilisation de UserRepository
+
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+
             $userRepository = new UserRepository();
-    
-            // Récupérer l'utilisateur à partir de la session (ou de tout autre mécanisme d'authentification que vous utilisez)
+           
+            $userRepository->updateUser($nom, $prenom, $email, $hash, $_SESSION['id_user']);
+
             $user = $userRepository->getUserById($_SESSION['id_user']);
-    
-            // Mettre à jour les informations de l'utilisateur
-            $user->setEmailUser($email);
-            $user->setNameUser($nom);
-            $user->setLastnameUser($prenom);
-            $user->setPasswordUser($password);
-    
-            $userRepository->updateUser($user);
+
+            $_SESSION['id_role'] = $user->getIdRole();
+            $_SESSION['id_user'] = $user->getIdUser();
+            $_SESSION['prenom_user'] = $user->getNameUser();
+            $_SESSION['nom_user'] = $user->getLastnameUser();
+            $_SESSION['email_user'] = $user->getEmailUser();
     
             header('Location: /profil');
             exit;
@@ -252,6 +251,131 @@ function updateUser()
     }
 }
 
+
+function passwordMail()
+{
+    if ($_SERVER["REQUEST_METHOD"] === "POST") 
+    {
+        if (!empty($_POST['email_user'])) 
+        {
+            $email_user = htmlspecialchars($_POST['email_user']);
+
+            $userRepo = new UserRepository;
+
+            $user = $userRepo->getUserByEmail($email_user);
+
+            if($user != [])
+            {
+                $newToken = $userRepo->AddToken($user->getEmailUser());
+
+                $user->setTokenUser($newToken);
+
+                $token = $user->getTokenUser();
+
+                $id = $user->getIdUser();
+
+                include('src/config/mailPassword.php');
+                header('location: /login');
+            }
+            else
+            {
+                echo 'Utilisateur inconnu';
+            }
+        }
+        else
+        {
+            echo 'Rentrer une adresse e-mail';
+        }
+    }
+    else
+    {
+        header('location: /home');
+    }
+}
+
+function updatePasswordPage()
+{
+    if(!empty($_GET['token']) && !empty($_GET['id']))
+    {
+        $token = htmlspecialchars($_GET['token']);
+        $id_user = htmlspecialchars($_GET['id']);
+
+        $userRepo = new UserRepository;
+        $verif = $userRepo->verifToken($token, $id_user);
+
+        if($verif = true)
+        {
+            require_once('src/view/passwordPage.php');
+        }
+        else
+        {
+            header('location: /home');
+        }
+    }
+    else
+    {
+        header('location: /home');
+    }
+}
+
+function forgetPassPage()
+{
+    if(empty($_SESSION))
+    {
+        require_once('src/view/emailPage.php');
+    }
+    else
+    {
+        header('location: /home');
+    }
+}
+
+function updatePassword()
+{
+    if ($_POST) 
+    {
+        $token = htmlspecialchars($_POST['token_user']);
+        $id = htmlspecialchars($_POST['id_user']);
+
+        if (!empty($_POST['pass_user']) && !empty($_POST['verifpass_user']))
+        {
+            $userRepository = new UserRepository();
+
+            if ($userRepository->verifyPassword($_POST['pass_user']))
+            {
+                $password = htmlspecialchars($_POST['pass_user']);
+                $verifPassword = htmlspecialchars($_POST['verifpass_user']);
+
+                if($password !== $verifPassword)
+                {
+                    $_SESSION['messageError'] = "Les mots de passe ne sont pas identiques.";
+                    header('Location: /newPass/token=' . $token . '&id='.$id.'');
+                }
+
+                $hash = password_hash($password, PASSWORD_DEFAULT);
+
+                $userRepository->updatePassword($hash, $token);
+
+                header('Location: /login');
+                exit;
+            }
+            else 
+            {
+                $_SESSION['messageError'] = "Votre mot de passe doit contenir au minimum 8 caractères avec au moins une lettre minuscule et une lettre majuscule et un chiffre.";
+                header('Location: /newPass/token=' . $token . '&id='.$id.'');
+            }
+        }
+        else 
+        {
+            $_SESSION['messageError'] = "Un des champs est vide.";
+            header('Location: /newPass/token=' . $token . '&id='.$id.'');
+        }
+    }
+    else
+    {
+        header('location: /home');
+    }
+}
 
 //TRAITEMENT DE DECONNEXION
 function disconnectUser()
@@ -281,7 +405,14 @@ function profilPage()
 //AFFICHAGE DE LA PAGE PANIER
 function pagePanier()
 {
-    require_once('src/view/pagePanier.php');
+    if(!empty($_SESSION['id_user']))
+    {
+        require_once('src/view/pagePanier.php');
+    }
+    else
+    {
+        header('location: /login');
+    }
 }
 
 //AFFICHAGE DE LA PAGE COMMANDE

@@ -69,9 +69,9 @@
 
                     </div>
 
-                    <form class="flex justify-center" action="src/view/updateUserModal.php">
-                        <button id="updateUserButton" data-modal-toggle="updateUserModal" type="submit" class="py-3 px-10 text-[#fcfcfc] rounded bg-[#426EC2]">Modifier</button>
-                    </form>
+                    <div class="flex justify-center">
+                        <button id="updateUserButton" onclick="toggleModal('updateUserModal')" type="button" class="py-3 px-10 text-[#fcfcfc] rounded bg-[#426EC2]">Modifier</button>
+                    </div>
 
                 </div>
 
@@ -110,14 +110,36 @@
                 <?php } ?>
             </div>
         </section>
-
-
     </main>
 
     <?php include('src/view/updateUserModal.php'); ?>
+
     <footer class="bg-[#fcfcfc]">
         <?php require_once('src/include/footer.php') ?>
     </footer>
+
+    <script>
+    // Fonction pour afficher ou masquer la modal
+    function toggleModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.classList.toggle('hidden');
+        if (!modal.classList.contains('hidden')) {
+            // Si la modal est affichée, empêcher le défilement du contenu en arrière-plan
+            document.body.style.overflow = 'hidden';
+        } else {
+            // Si la modal est masquée, rétablir le défilement du contenu en arrière-plan
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    const closeButton = document.querySelector('[data-modal-close]');
+    if (closeButton) {
+        closeButton.addEventListener('click', function() {
+            toggleModal('updateUserModal');
+        });
+    }
+    </script>
+
 </body>
 
 </html>
