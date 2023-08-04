@@ -101,6 +101,61 @@ class EquipementRepository extends connectBdd
         }
     }
 
+    public function getEquipement()
+    {
+        try 
+        {
+            $req = $this->bdd->prepare
+            ("
+                SELECT produit.*, marque.*, categorie.*, 
+                image.*, genre.*, caracteristiques_equipement.*, type_equipement.nom_type_equipement
+                FROM produit
+                INNER JOIN marque ON produit.id_marque = marque.id_marque
+                INNER JOIN caracteristiques_equipement ON caracteristiques_equipement.id_produit = produit.id_produit
+                INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
+                INNER JOIN image ON image.id_image = image_produit.id_image
+                INNER JOIN genre ON genre.id_genre = produit.id_genre
+                INNER JOIN type_equipement ON type_equipement.id_type_equipement = caracteristiques_equipement.id_type_equipement
+                WHERE produit.id_genre = 7
+                GROUP BY produit.id_produit
+            ");
+
+            $req->execute();
+
+            $equipementData = $req->fetch(PDO::FETCH_ASSOC);
+         
+            $equipement = new Equipement();
+            $equipement->setIdProduit($equipementData['id_produit']);
+            $equipement->setNomProduit($equipementData['nom_produit']);
+            $equipement->setDescriptionProduit($equipementData['description_produit']);
+            $equipement->setPrixProduit($equipementData['prix_produit']);
+            $equipement->setPromoProduit($equipementData['promo_produit']);
+            $equipement->setPrixPromoProduit($equipementData['prix_promo_produit']);
+            $equipement->setStockProduit($equipementData['stock_produit']);
+            $equipement->setIdCategorie($equipementData['id_categorie']);
+            $equipement->setNomCategorie($equipementData['nom_categorie']);
+            $equipement->setIdMarque($equipementData['id_marque']);
+            $equipement->setNomMarque($equipementData['nom_marque']);
+            $equipement->setIdGenre($equipementData['id_genre']);
+            $equipement->setNomGenre($equipementData['nom_genre']);
+            $equipement->setIdImage($equipementData['id_image']);
+            $equipement->setNomImage($equipementData['nom_image']);
+            $equipement->setDescriptionImage($equipementData['description_image']);
+
+            $equipement->setDetailEquipement($equipementData['detail_equipement']);
+            $equipement->setIdTypeEquipement($equipementData['id_type_equipement']);
+            $equipement->setNomTypeEquipement($equipementData['nom_type_equipement']);
+
+            return $equipement;
+        }
+        catch (PDOException $e) 
+        {
+            die("Erreur lors de la récupération des equipements : " . $e->getMessage());
+        }
+    }
+
+
     public function addEquipement(Equipement $equipement)
     {
         try {

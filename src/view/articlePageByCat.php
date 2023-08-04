@@ -118,6 +118,10 @@
                 </div>
 
             </div>
+            <div id="pagination">
+                <button id="prevButton">Précédent</button>
+                <button id="nextButton">Suivant</button>
+            </div>
 
         </section>
 
@@ -128,6 +132,9 @@
     </footer>
 
     <script src="/assets/js/filtreByCat.js"></script>
+    <script src="/assets/js/pagination.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </body>
 
 </html>

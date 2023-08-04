@@ -113,6 +113,61 @@ class MoulinetRepository extends connectBdd
         }
     }
 
+    public function getMoulinet()
+    {
+        try 
+        {
+            $req = $this->bdd->prepare
+            ("
+                SELECT produit.*, marque.*, categorie.*, 
+                image.*, genre.*, caracteristiques_moulinet.*, type_moulinet.nom_type_moulinet
+                FROM produit
+                INNER JOIN marque ON produit.id_marque = marque.id_marque
+                INNER JOIN caracteristiques_moulinet ON caracteristiques_moulinet.id_produit = produit.id_produit
+                INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
+                INNER JOIN image ON image.id_image = image_produit.id_image
+                INNER JOIN genre ON genre.id_genre = produit.id_genre
+                INNER JOIN type_moulinet ON type_moulinet.id_type_moulinet = caracteristiques_moulinet.id_type_moulinet
+                WHERE produit.id_genre = 2
+                GROUP BY produit.id_produit
+            ");
+
+            $req->execute();
+
+            $moulinetData = $req->fetch(PDO::FETCH_ASSOC);
+
+            $moulinet = new Moulinet();
+            $moulinet->setIdProduit($moulinetData['id_produit']);
+            $moulinet->setNomProduit($moulinetData['nom_produit']);
+            $moulinet->setDescriptionProduit($moulinetData['description_produit']);
+            $moulinet->setPrixProduit($moulinetData['prix_produit']);
+            $moulinet->setPromoProduit($moulinetData['promo_produit']);
+            $moulinet->setPrixPromoProduit($moulinetData['prix_promo_produit']);
+            $moulinet->setStockProduit($moulinetData['stock_produit']);
+            $moulinet->setIdCategorie($moulinetData['id_categorie']);
+            $moulinet->setNomCategorie($moulinetData['nom_categorie']);
+            $moulinet->setIdMarque($moulinetData['id_marque']);
+            $moulinet->setNomMarque($moulinetData['nom_marque']);
+            $moulinet->setIdGenre($moulinetData['id_genre']);
+            $moulinet->setNomGenre($moulinetData['nom_genre']);
+            $moulinet->setIdImage($moulinetData['id_image']);
+            $moulinet->setNomImage($moulinetData['nom_image']);
+            $moulinet->setDescriptionImage($moulinetData['description_image']);
+
+            $moulinet->setRatioMoulinet($moulinetData['ratio_moulinet']);
+            $moulinet->setPoidsMoulinet($moulinetData['poids_moulinet']);
+            $moulinet->setIdTypeMoulinet($moulinetData['id_type_moulinet']);
+            $moulinet->setNomTypeMoulinet($moulinetData['nom_type_moulinet']);
+           
+            return $moulinet;
+        } 
+        catch (PDOException $e) 
+        {
+            die("Erreur lors de la récupération des moulinets : " . $e->getMessage());
+        }
+    }
+
     public function addMoulinet(Moulinet $moulinet)
     {
         try {

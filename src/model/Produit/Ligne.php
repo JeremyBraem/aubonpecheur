@@ -112,6 +112,61 @@ class LigneRepository extends connectBdd
         }
     }
 
+    public function getLigne()
+    {
+        try 
+        {
+            $req = $this->bdd->prepare
+            ("
+                SELECT produit.*, marque.*, categorie.*, 
+                image.*, genre.*, caracteristiques_ligne.*, type_ligne.*
+                FROM produit
+                INNER JOIN marque ON produit.id_marque = marque.id_marque
+                INNER JOIN caracteristiques_ligne ON caracteristiques_ligne.id_produit = produit.id_produit
+                INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
+                INNER JOIN image ON image.id_image = image_produit.id_image
+                INNER JOIN genre ON genre.id_genre = produit.id_genre
+                INNER JOIN type_ligne ON type_ligne.id_type_ligne = caracteristiques_ligne.id_type_ligne
+                WHERE produit.id_genre = 5
+                GROUP BY produit.id_produit
+            ");
+
+            $req->execute();
+
+            $ligneData = $req->fetch(PDO::FETCH_ASSOC);
+
+            $ligne = new Ligne();
+            $ligne->setIdProduit($ligneData['id_produit']);
+            $ligne->setNomProduit($ligneData['nom_produit']);
+            $ligne->setDescriptionProduit($ligneData['description_produit']);
+            $ligne->setPrixProduit($ligneData['prix_produit']);
+            $ligne->setPromoProduit($ligneData['promo_produit']);
+            $ligne->setPrixPromoProduit($ligneData['prix_promo_produit']);
+            $ligne->setStockProduit($ligneData['stock_produit']);
+            $ligne->setIdCategorie($ligneData['id_categorie']);
+            $ligne->setNomCategorie($ligneData['nom_categorie']);
+            $ligne->setIdMarque($ligneData['id_marque']);
+            $ligne->setNomMarque($ligneData['nom_marque']);
+            $ligne->setIdGenre($ligneData['id_genre']);
+            $ligne->setNomGenre($ligneData['nom_genre']);
+            $ligne->setIdImage($ligneData['id_image']);
+            $ligne->setNomImage($ligneData['nom_image']);
+            $ligne->setDescriptionImage($ligneData['description_image']);
+
+            $ligne->setLongueurLigne($ligneData['longueur_ligne']);
+            $ligne->setDiametreLigne($ligneData['diametre_ligne']);
+            $ligne->setIdTypeLigne($ligneData['id_type_ligne']);
+            $ligne->setNomTypeLigne($ligneData['nom_type_ligne']);
+
+            return $ligne;
+        } 
+        catch (PDOException $e) 
+        {
+            die("Erreur lors de la récupération des lignes : " . $e->getMessage());
+        }
+    }
+
     public function addLigne(Ligne $ligne)
     {
         try {

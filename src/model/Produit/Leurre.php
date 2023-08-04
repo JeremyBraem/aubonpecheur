@@ -126,6 +126,62 @@ class LeurreRepository extends connectBdd
         }
     }
 
+    public function getLeurre()
+    {
+        try 
+        {
+            $req = $this->bdd->prepare
+            ("
+                SELECT produit.*, marque.*, categorie.*, 
+                image.*, genre.*, caracteristiques_leurre.*, type_leurre.nom_type_leurre
+                FROM produit
+                INNER JOIN marque ON produit.id_marque = marque.id_marque
+                INNER JOIN caracteristiques_leurre ON caracteristiques_leurre.id_produit = produit.id_produit
+                INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
+                INNER JOIN image ON image.id_image = image_produit.id_image
+                INNER JOIN genre ON genre.id_genre = produit.id_genre
+                INNER JOIN type_leurre ON type_leurre.id_type_leurre = caracteristiques_leurre.id_type_leurre
+                WHERE produit.id_genre = 4
+                GROUP BY produit.id_produit
+            ");
+
+            $req->execute();
+
+            $leurreData = $req->fetch(PDO::FETCH_ASSOC);
+
+            $leurre = new Leurre();
+            $leurre->setIdProduit($leurreData['id_produit']);
+            $leurre->setNomProduit($leurreData['nom_produit']);
+            $leurre->setDescriptionProduit($leurreData['description_produit']);
+            $leurre->setPrixProduit($leurreData['prix_produit']);
+            $leurre->setPromoProduit($leurreData['promo_produit']);
+            $leurre->setPrixPromoProduit($leurreData['prix_promo_produit']);
+            $leurre->setStockProduit($leurreData['stock_produit']);
+            $leurre->setIdCategorie($leurreData['id_categorie']);
+            $leurre->setNomCategorie($leurreData['nom_categorie']);
+            $leurre->setIdMarque($leurreData['id_marque']);
+            $leurre->setNomMarque($leurreData['nom_marque']);
+            $leurre->setIdGenre($leurreData['id_genre']);
+            $leurre->setNomGenre($leurreData['nom_genre']);
+            $leurre->setIdImage($leurreData['id_image']);
+            $leurre->setNomImage($leurreData['nom_image']);
+            $leurre->setDescriptionImage($leurreData['description_image']);
+
+            $leurre->setCouleurLeurre($leurreData['couleur_leurre']);
+            $leurre->setPoidsLeurre($leurreData['poids_leurre']);
+            $leurre->setLongueurLeurre($leurreData['longueur_leurre']);
+            $leurre->setIdTypeLeurre($leurreData['id_type_leurre']);
+            $leurre->setNomTypeLeurre($leurreData['nom_type_leurre']);
+
+            return $leurre;
+        } 
+        catch (PDOException $e) 
+        {
+            die("Erreur lors de la récupération des leurres : " . $e->getMessage());
+        }
+    }
+
     public function addLeurre(Leurre $leurre)
     {
         try {

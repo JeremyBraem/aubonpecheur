@@ -126,6 +126,62 @@ class PlombRepository extends connectBdd
         }
     }
 
+    public function getPlomb()
+    {
+        try 
+        {
+            $req = $this->bdd->prepare
+            ("
+                SELECT produit.*, marque.*, categorie.*, 
+                image.*, genre.*, caracteristiques_plomb.*, type_plomb.*
+                FROM produit
+                INNER JOIN marque ON produit.id_marque = marque.id_marque
+                INNER JOIN caracteristiques_plomb ON caracteristiques_plomb.id_produit = produit.id_produit
+                INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
+                INNER JOIN image ON image.id_image = image_produit.id_image
+                INNER JOIN genre ON genre.id_genre = produit.id_genre
+                INNER JOIN type_plomb ON type_plomb.id_type_plomb = caracteristiques_plomb.id_type_plomb
+                WHERE produit.id_genre = 6
+                GROUP BY produit.id_produit
+            ");
+
+            $req->execute();
+
+            $plombData = $req->fetch(PDO::FETCH_ASSOC);
+        
+            $plomb = new Plomb();
+            $plomb->setIdProduit($plombData['id_produit']);
+            $plomb->setNomProduit($plombData['nom_produit']);
+            $plomb->setDescriptionProduit($plombData['description_produit']);
+            $plomb->setPrixProduit($plombData['prix_produit']);
+            $plomb->setPromoProduit($plombData['promo_produit']);
+            $plomb->setPrixPromoProduit($plombData['prix_promo_produit']);
+            $plomb->setStockProduit($plombData['stock_produit']);
+            $plomb->setIdCategorie($plombData['id_categorie']);
+            $plomb->setNomCategorie($plombData['nom_categorie']);
+            $plomb->setIdMarque($plombData['id_marque']);
+            $plomb->setNomMarque($plombData['nom_marque']);
+            $plomb->setIdGenre($plombData['id_genre']);
+            $plomb->setNomGenre($plombData['nom_genre']);
+            $plomb->setIdImage($plombData['id_image']);
+            $plomb->setNomImage($plombData['nom_image']);
+            $plomb->setDescriptionImage($plombData['description_image']);
+
+            $plomb->setDiametrePlomb($plombData['diametre_plomb']);
+            $plomb->setPoidsPlomb($plombData['poids_plomb']);
+            $plomb->setLongueurPlomb($plombData['longueur_plomb']);
+            $plomb->setIdTypePlomb($plombData['id_type_plomb']);
+            $plomb->setNomTypePlomb($plombData['nom_type_plomb']);
+
+            return $plomb;
+        } 
+        catch (PDOException $e) 
+        {
+            die("Erreur lors de la récupération des plombs : " . $e->getMessage());
+        }
+    }
+
     public function addPlomb(Plomb $plomb)
     {
         try {

@@ -112,6 +112,61 @@ class HameconRepository extends connectBdd
         }
     }
 
+    public function getHamecon()
+    {
+        try 
+        {
+            $req = $this->bdd->prepare
+            ("
+                SELECT produit.*, marque.*, categorie.*, 
+                image.*, genre.*, caracteristiques_hamecon.*, type_hamecon.nom_type_hamecon
+                FROM produit
+                INNER JOIN marque ON produit.id_marque = marque.id_marque
+                INNER JOIN caracteristiques_hamecon ON caracteristiques_hamecon.id_produit = produit.id_produit
+                INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
+                INNER JOIN image ON image.id_image = image_produit.id_image
+                INNER JOIN genre ON genre.id_genre = produit.id_genre
+                INNER JOIN type_hamecon ON type_hamecon.id_type_hamecon = caracteristiques_hamecon.id_type_hamecon
+                WHERE produit.id_genre = 3
+                GROUP BY produit.id_produit
+            ");
+
+            $req->execute();
+
+            $hameconData = $req->fetch(PDO::FETCH_ASSOC);
+
+            $hamecon = new Hamecon();
+            $hamecon->setIdProduit($hameconData['id_produit']);
+            $hamecon->setNomProduit($hameconData['nom_produit']);
+            $hamecon->setDescriptionProduit($hameconData['description_produit']);
+            $hamecon->setPrixProduit($hameconData['prix_produit']);
+            $hamecon->setPromoProduit($hameconData['promo_produit']);
+            $hamecon->setPrixPromoProduit($hameconData['prix_promo_produit']);
+            $hamecon->setStockProduit($hameconData['stock_produit']);
+            $hamecon->setIdCategorie($hameconData['id_categorie']);
+            $hamecon->setNomCategorie($hameconData['nom_categorie']);
+            $hamecon->setIdMarque($hameconData['id_marque']);
+            $hamecon->setNomMarque($hameconData['nom_marque']);
+            $hamecon->setIdGenre($hameconData['id_genre']);
+            $hamecon->setNomGenre($hameconData['nom_genre']);
+            $hamecon->setIdImage($hameconData['id_image']);
+            $hamecon->setNomImage($hameconData['nom_image']);
+            $hamecon->setDescriptionImage($hameconData['description_image']);
+
+            $hamecon->setLongueurHamecon($hameconData['longueur_hamecon']);
+            $hamecon->setPoidsHamecon($hameconData['poids_hamecon']);
+            $hamecon->setIdTypeHamecon($hameconData['id_type_hamecon']);
+            $hamecon->setNomTypeHamecon($hameconData['nom_type_hamecon']);
+
+            return $hamecon;
+        } 
+        catch (PDOException $e) 
+        {
+            die("Erreur lors de la récupération des hamecons : " . $e->getMessage());
+        }
+    }
+
     public function addHamecon(Hamecon $hamecon)
     {
         try {

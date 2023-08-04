@@ -112,6 +112,61 @@ class CanneRepository extends connectBdd
         }
     }
 
+    public function getCanne()
+    {
+        try 
+        {
+            $req = $this->bdd->prepare
+            ("
+                SELECT produit.*, marque.*, categorie.*, 
+                image.*, genre.*, caracteristiques_canne.*, type_canne.*
+                FROM produit
+                INNER JOIN marque ON produit.id_marque = marque.id_marque
+                INNER JOIN caracteristiques_canne ON caracteristiques_canne.id_produit = produit.id_produit
+                INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
+                INNER JOIN image ON image.id_image = image_produit.id_image
+                INNER JOIN genre ON genre.id_genre = produit.id_genre
+                INNER JOIN type_canne ON type_canne.id_type_canne = caracteristiques_canne.id_type_canne
+                WHERE produit.id_genre = 1
+                GROUP BY produit.id_produit
+            ");
+
+            $req->execute();
+
+            $canneData = $req->fetch(PDO::FETCH_ASSOC);
+
+            $canne = new Canne();
+            $canne->setIdProduit($canneData['id_produit']);
+            $canne->setNomProduit($canneData['nom_produit']);
+            $canne->setDescriptionProduit($canneData['description_produit']);
+            $canne->setPrixProduit($canneData['prix_produit']);
+            $canne->setPromoProduit($canneData['promo_produit']);
+            $canne->setPrixPromoProduit($canneData['prix_promo_produit']);
+            $canne->setStockProduit($canneData['stock_produit']);
+            $canne->setIdCategorie($canneData['id_categorie']);
+            $canne->setNomCategorie($canneData['nom_categorie']);
+            $canne->setIdMarque($canneData['id_marque']);
+            $canne->setNomMarque($canneData['nom_marque']);
+            $canne->setIdGenre($canneData['id_genre']);
+            $canne->setNomGenre($canneData['nom_genre']);
+            $canne->setIdImage($canneData['id_image']);
+            $canne->setNomImage($canneData['nom_image']);
+            $canne->setDescriptionImage($canneData['description_image']);
+
+            $canne->setLongueurCanne($canneData['longueur_canne']);
+            $canne->setPoidsCanne($canneData['poids_canne']);
+            $canne->setIdTypeCanne($canneData['id_type_canne']);
+            $canne->setNomTypeCanne($canneData['nom_type_canne']);
+
+            return $canne;
+        } 
+        catch (PDOException $e) 
+        {
+            die("Erreur lors de la récupération des cannes : " . $e->getMessage());
+        }
+    }
+
     public function addCanne(Canne $canne)
     {
         try {

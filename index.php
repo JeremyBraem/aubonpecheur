@@ -9,9 +9,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'accueil':
             home();
             break;
-        case 'articlePage':
-            articlePage();
-            break;
+        // case 'articlePage':
+        //     articlePage();
+        //     break;
         case 'promotion':
             promoPage();
             break;
@@ -45,6 +45,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'plombPage':
             plombPage();
             break;
+        case 'autrePage':
+            autrePage();
+            break;
         case 'appatPage':
             appatPage();
             break;
@@ -53,21 +56,6 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
             break;
         case 'lignePage':
             lignePage();
-            break;
-        case 'filtre':
-            filtre();
-            break;
-        case 'allCanne':
-            allCannePage();
-            break;
-        case 'Equipement':
-            allEquipementPage();
-            break;
-        case 'filtreCanne':
-            filtreCanne();
-            break;
-        case 'filtreEquipement':
-            filtreEquipement();
             break;
         case 'article':
             viewPageCategorie();
@@ -120,8 +108,8 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'activation':
             updateActif();
             break;
-        case 'filtredProduct':
-            filtredProduct();
+        case 'pagination':
+            pagination();
             break;
         default:
         home();

@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
     <link rel="icon" href="/assets/img/site/icon.png" />
-
     <!--FLowbite-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
     <!--Tailwind -->
@@ -70,7 +69,7 @@
                     </div>
 
                     <div class="flex justify-center">
-                        <button id="updateUserButton" onclick="toggleModal('updateUserModal')" type="button" class="py-3 px-10 text-[#fcfcfc] rounded bg-[#426EC2]">Modifier</button>
+                        <button id="updateUserButton" onclick="toggleModal('updateUserModal')" type="button" class="py-3 px-10 text-[#fcfcfc] rounded bg-[#426EC2] hover:bg-[#424EC2]">Modifier</button>
                     </div>
 
                 </div>
@@ -87,11 +86,13 @@
             <div class="w-3/4 m-auto grid grid-cols-2">
                 <?php foreach ($commandes as $commande) {
                     $resumeCommande = json_decode($commande->getResumeCommande());
-                    $totalCommande = 0; // Initialiser le total de chaque commande à 0 pour chaque boucle
+                    $totalCommande = 0;
                 ?>
                     <div class="mb-10 border border-3">
                         <div class="mb-5">
-                            <p class="mr-10"><strong>Numéro de commande :</strong> <?php echo $commande->getNumeroCommande() ?></p>
+                            <a class="font-bold" href="/commande/numero=<?php echo $commande->getNumeroCommande() ?>">
+                                <p class="mr-10">Numéro de commande : <span class="text-[#426EC2] underline underline-[#426EC2]"><?php echo $commande->getNumeroCommande() ?></span></p>
+                            </a>
                             <p><strong>Date de commande :</strong> <?php echo $commande->getDateCommande() ?></p>
                         </div>
 
@@ -119,15 +120,12 @@
     </footer>
 
     <script>
-    // Fonction pour afficher ou masquer la modal
     function toggleModal(modalId) {
         const modal = document.getElementById(modalId);
         modal.classList.toggle('hidden');
         if (!modal.classList.contains('hidden')) {
-            // Si la modal est affichée, empêcher le défilement du contenu en arrière-plan
             document.body.style.overflow = 'hidden';
         } else {
-            // Si la modal est masquée, rétablir le défilement du contenu en arrière-plan
             document.body.style.overflow = 'auto';
         }
     }

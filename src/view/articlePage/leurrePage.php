@@ -45,29 +45,29 @@
                 <div class="md:flex md:flex-row">
 
                     <div class="md:w-2/4 lg:w-2/5 md:p-5">
-                        <img src="<?php echo $imageLeurre->getNomImageLeurre(); ?>" style="border: 1px solid #000000;" class="w-56 h-56 m-auto my-5 md:w-[400px] md:h-[400px]">
+                        <img src="/<?php echo $leurre->getNomImage(); ?>" style="border: 1px solid #000000;" class="w-56 h-56 m-auto my-5 md:w-[400px] md:h-[400px]">
                     </div>
 
                     <div class="md:w-2/4 lg:w-3/5 md:py-10 md:px-5">
 
                         <div class="w-2/3 m-auto md:w-auto text-center md:text-left">
-                            <h1 class="text-[20px] md:text-[24px] font-semibold"><?php echo $leurre->getNomLeurre(); ?></h1>
-                            <h2 class="text-[16px] md:text-[20px]"><?php echo $leurre->getMarqueLeurre(); ?></h2>
+                            <h1 class="text-[20px] md:text-[24px] font-semibold"><?php echo $leurre->getNomProduit(); ?></h1>
+                            <h2 class="text-[16px] md:text-[20px]"><?php echo $leurre->getNomMarque(); ?></h2>
                         </div>
 
                         <div class="p-6 md:px-0 py-5">
-                            <p class="text-[12px] md:text-[14px] lg:text-[16px]"><?php echo $leurre->getDescriptionLeurre(); ?></p>
+                            <p class="text-[12px] md:text-[14px] lg:text-[16px]"><?php echo $leurre->getDescriptionProduit(); ?></p>
                         </div>
 
                         <div class="">
 
                             <div class="flex flex-col w-2/3 m-auto md:w-auto md:flex-row">
 
-                                <?php if ($leurre->getPromoLeurre() == 1) { ?>
+                                <?php if ($leurre->getPromoProduit() == 1) { ?>
                                     <div class="text-center py-2 mx-5 md:ml-0 md:mr-10 md:py-3 md:w-[180px] md:text-[16px] lg:text-[20px] md:px-5 mt-5 text-[#fcfcfc] rounded bg-[#426EC2]">En Promotion</div>
                                 <?php } ?>
 
-                                <?php if ($leurre->getStockLeurre() == 1) { ?>
+                                <?php if ($leurre->getStockProduit() == 1) { ?>
                                     <div class="text-center py-2 mx-5 md:ml-0 md:mr-10 md:py-3 md:w-[180px] md:text-[16px] lg:text-[20px] md:px-5 mt-5 text-[#fcfcfc] rounded bg-[#426EC2]">En Stock</div>
                                 <?php } else { ?>
                                     <div class="text-center py-2 mx-5 md:ml-0 md:mr-10 md:py-3 md:w-[180px] md:text-[16px] lg:text-[20px] md:px-5 mt-5 rounded bg-[#fcfcfc]" style="border: 1px solid #000000;">Hors Stock</div>

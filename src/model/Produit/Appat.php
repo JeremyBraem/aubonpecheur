@@ -101,6 +101,60 @@ class AppatRepository extends connectBdd
         }
     }
 
+    public function getAppat()
+    {
+        try 
+        {
+            $req = $this->bdd->prepare
+            ("
+                SELECT produit.*, marque.*, categorie.*, 
+                image.*, genre.*, caracteristiques_appat.*, type_appat.nom_type_appat
+                FROM produit
+                INNER JOIN marque ON produit.id_marque = marque.id_marque
+                INNER JOIN caracteristiques_appat ON caracteristiques_appat.id_produit = produit.id_produit
+                INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
+                INNER JOIN image ON image.id_image = image_produit.id_image
+                INNER JOIN genre ON genre.id_genre = produit.id_genre
+                INNER JOIN type_appat ON type_appat.id_type_appat = caracteristiques_appat.id_type_appat
+                WHERE produit.id_genre = 8
+                GROUP BY produit.id_produit
+            ");
+
+            $req->execute();
+
+            $appatData = $req->fetch(PDO::FETCH_ASSOC);
+        
+            $appat = new Appat();
+            $appat->setIdProduit($appatData['id_produit']);
+            $appat->setNomProduit($appatData['nom_produit']);
+            $appat->setDescriptionProduit($appatData['description_produit']);
+            $appat->setPrixProduit($appatData['prix_produit']);
+            $appat->setPromoProduit($appatData['promo_produit']);
+            $appat->setPrixPromoProduit($appatData['prix_promo_produit']);
+            $appat->setStockProduit($appatData['stock_produit']);
+            $appat->setIdCategorie($appatData['id_categorie']);
+            $appat->setNomCategorie($appatData['nom_categorie']);
+            $appat->setIdMarque($appatData['id_marque']);
+            $appat->setNomMarque($appatData['nom_marque']);
+            $appat->setIdGenre($appatData['id_genre']);
+            $appat->setNomGenre($appatData['nom_genre']);
+            $appat->setIdImage($appatData['id_image']);
+            $appat->setNomImage($appatData['nom_image']);
+            $appat->setDescriptionImage($appatData['description_image']);
+
+            $appat->setDetailAppat($appatData['detail_appat']);
+            $appat->setIdTypeAppat($appatData['id_type_appat']);
+            $appat->setNomTypeAppat($appatData['nom_type_appat']);
+
+            return $appat;
+        } 
+        catch (PDOException $e) 
+        {
+            die("Erreur lors de la récupération des appats : " . $e->getMessage());
+        }
+    }
+
     public function addAppat(Appat $appat)
     {
         try 

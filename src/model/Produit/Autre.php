@@ -101,6 +101,60 @@ class AutreRepository extends connectBdd
         }
     }
 
+    public function getAutre()
+    {
+        try 
+        {
+            $req = $this->bdd->prepare
+            ("
+                SELECT produit.*, marque.*, categorie.*, 
+                image.*, genre.*, caracteristiques_autre.*, type_autre.nom_type_autre
+                FROM produit
+                INNER JOIN marque ON produit.id_marque = marque.id_marque
+                INNER JOIN caracteristiques_autre ON caracteristiques_autre.id_produit = produit.id_produit
+                INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
+                INNER JOIN image ON image.id_image = image_produit.id_image
+                INNER JOIN genre ON genre.id_genre = produit.id_genre
+                INNER JOIN type_autre ON type_autre.id_type_autre = caracteristiques_autre.id_type_autre
+                WHERE produit.id_genre = 9
+                GROUP BY produit.id_produit
+            ");
+
+            $req->execute();
+
+            $autreData = $req->fetch(PDO::FETCH_ASSOC);
+
+            $autre = new Autre();
+            $autre->setIdProduit($autreData['id_produit']);
+            $autre->setNomProduit($autreData['nom_produit']);
+            $autre->setDescriptionProduit($autreData['description_produit']);
+            $autre->setPrixProduit($autreData['prix_produit']);
+            $autre->setPromoProduit($autreData['promo_produit']);
+            $autre->setPrixPromoProduit($autreData['prix_promo_produit']);
+            $autre->setStockProduit($autreData['stock_produit']);
+            $autre->setIdCategorie($autreData['id_categorie']);
+            $autre->setNomCategorie($autreData['nom_categorie']);
+            $autre->setIdMarque($autreData['id_marque']);
+            $autre->setNomMarque($autreData['nom_marque']);
+            $autre->setIdGenre($autreData['id_genre']);
+            $autre->setNomGenre($autreData['nom_genre']);
+            $autre->setIdImage($autreData['id_image']);
+            $autre->setNomImage($autreData['nom_image']);
+            $autre->setDescriptionImage($autreData['description_image']);
+
+            $autre->setDetailAutre($autreData['detail_autre']);
+            $autre->setIdTypeAutre($autreData['id_type_autre']);
+            $autre->setNomTypeAutre($autreData['nom_type_autre']);
+
+            return $autre;
+        } 
+        catch (PDOException $e) 
+        {
+            die("Erreur lors de la récupération des autres : " . $e->getMessage());
+        }
+    }
+
     public function addAutre(Autre $autre)
     {
         try {

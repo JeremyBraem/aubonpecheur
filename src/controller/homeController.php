@@ -11,6 +11,7 @@ require_once('src/model/Produit/Ligne.php');
 require_once('src/model/Produit/Equipement.php');
 require_once('src/model/Produit/Plomb.php');
 require_once('src/model/Produit/Appat.php');
+require_once('src/model/Produit/Autre.php');
 
 require_once('src/model/Marque.php');
 require_once('src/model/Categorie.php');
@@ -24,6 +25,7 @@ require_once('src/model/Type/TypeLigne.php');
 require_once('src/model/Type/TypeEquipement.php');
 require_once('src/model/Type/TypePlomb.php');
 require_once('src/model/Type/TypeAppat.php');
+require_once('src/model/Type/TypeAutre.php');
 
 // PAGE D'ACCUEIL
 function home()
@@ -41,6 +43,14 @@ function home()
     $allTypes = getAllType();
 
     include('src/view/homePage.php');
+}
+
+function pagination()
+{
+    $produitRepo = new ProduitRepository();
+    $produits = $produitRepo->getAllProducts();
+
+    return $produits;
 }
 
 //PAGE DE CONNEXION
@@ -575,6 +585,14 @@ function promoPage()
     $produitRepo = new ProduitRepository();
     $promoProduits = $produitRepo->getAllPromoProducts();
 
+    $marqueRepo = new MarqueRepository;
+    $marques = $marqueRepo->getAllMarque();
+
+    $categorieRepo = new CategorieRepository;
+    $categories = $categorieRepo->getAllCategorie();
+
+    $allTypes = getAllType();
+    
     include('src/view/promoPage.php');
 }
 
@@ -594,7 +612,7 @@ function viewPageCategorie()
         header('location: /home');
     }
 
-    foreach ($categorie as $idCategories) 
+    foreach ($categorie as $idCategories)
     {
         $idCategorie = $idCategories->getIdCategorie();
     }
@@ -661,6 +679,139 @@ function filtrePageCate()
             $isMarqueMatch = in_array($article->getNomMarque(), $marquesFiltres) || !$isMarquesSelected;
             
             if($isGenreMatch && $isMarqueMatch) 
+            {
+                $articlesFiltres[] = $article;
+            }
+        }
+        else 
+        {
+            echo '';
+        }
+    }
+
+    foreach ($articlesFiltres as $articleFiltred)
+    {
+        echo '<div class="w-56">';
+
+            echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';
+                echo '<div class="class="w-56">';
+                    echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/' . $articleFiltred->getNomImage() . '"/>';
+                echo '</div>';
+            echo '</a>';
+
+            echo '<div class="flex justify-center gap-10 py-3">';
+
+                echo '<div>';
+
+                    echo '<div class="flex">';
+
+                        echo '<p class="text-s md:text-lg">';
+                            $prix = $articleFiltred->getNomProduit();
+                            if (strlen($prix) > 50) 
+                            {
+                                echo substr($prix, 0, 47) . '...';
+                            } 
+                            else 
+                            {
+                                echo $prix;
+                            }
+                        echo '</p>';
+
+                        echo '<p class="ml-10 text-s md:text-xl uppercase">';
+                            $prix = $articleFiltred->getPrixProduit() . '€';
+                            if (strlen($prix) > 50) 
+                            {
+                                echo substr($prix, 0, 47) . '...';
+                            } 
+                            else 
+                            {
+                                echo $prix;
+                            }
+                        echo '</p>';
+
+                    echo '</div>';
+                    
+                    echo '<p class="text-xs md:text-sm uppercase">';
+                        $marque = $articleFiltred->getNomMarque();
+                        if(strlen($marque) > 50) 
+                        {
+                            echo substr($marque, 0, 47) . '...';
+                        } 
+                        else
+                        {
+                            echo $marque;
+                        }
+                    echo '</p>';
+
+                echo '</div>';
+
+            echo '</div>';
+            
+            echo '<button class="add-to-cart-btn" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>">Ajouter au panier</button>';
+
+        echo '</div>';
+    }
+}
+
+function filtrePromo()
+{
+    $marqueRepo = new MarqueRepository;
+    $marques = $marqueRepo->getAllMarque();
+
+    $categorieRepo = new CategorieRepository;
+    $categories = $categorieRepo->getAllCategorie();
+
+    $allTypes = getAllType();
+
+    $produitRepo = new ProduitRepository;
+
+    $categorieRepo = new CategorieRepository;
+
+    $produit = $produitRepo->getAllPromoProducts();
+
+    $filtres = isset($_POST['filtres']) ? json_decode($_POST['filtres']) : [];
+
+    $articlesFiltres = [];
+
+    $genresFiltres = [];
+
+    $marquesFiltres = [];
+
+    $categoriesFiltres = [];
+
+    foreach ($filtres as $filtre) 
+    {
+        if (isGenre($filtre)) 
+        {
+            $genresFiltres[] = $filtre;
+        }
+        elseif(isMarque($filtre)) 
+        {
+            $marquesFiltres[] = $filtre;
+        }
+        elseif(isCategorie($filtre)) 
+        {
+            $categoriesFiltres[] = $filtre;
+        }
+    }
+
+    $isGenresSelected = !empty($genresFiltres);
+
+    $isMarquesSelected = !empty($marquesFiltres);
+
+    $isCategoriesSelected = !empty($categoriesFiltres);
+
+    foreach($produit as $article) 
+    {
+        if (($article != ['']))
+        {
+            $isGenreMatch = in_array($article->getIdGenre(), $genresFiltres) || !$isGenresSelected;
+
+            $isMarqueMatch = in_array($article->getNomMarque(), $marquesFiltres) || !$isMarquesSelected;
+
+            $isCategorieMatch = in_array($article->getNomCategorie(), $categoriesFiltres) || !$isCategoriesSelected;
+            
+            if($isGenreMatch && $isMarqueMatch && $isCategorieMatch) 
             {
                 $articlesFiltres[] = $article;
             }
@@ -1017,52 +1168,155 @@ function isMarque($filtre)
     return in_array($filtre, $marques);
 }
 
-// //CREE UN TABLEAU AVEC LES TYPES DE CANNE POUR LES FILTRES
-// function isTypeCanne($filtre)
-// {
-//     $typeCanneRepo = new TypeCanneRepository;
-//     $allTypeCannes = $typeCanneRepo->getAllTypeCanne();
+function appatPage()
+{
+    $appatRepo = new AppatRepository();
 
-//     $nomType = [];
+    $appat = $appatRepo->getAppat();
 
-//     foreach ($allTypeCannes as $type) 
-//     {
-//         $nomType[] = $type->getNomTypeCanne();
-//     }
+    $marqueRepo = new MarqueRepository;
+    $marques = $marqueRepo->getAllMarque();
 
-//     $types = $nomType;
+    $categorieRepo = new CategorieRepository;
+    $categories = $categorieRepo->getAllCategorie();
 
-//     return in_array($filtre, $types);
-// }
+    $allTypes = getAllType();
 
-// //CREE UN TABLEAU AVEC LES TYPES D'EQUIPEMENT POUR LES FILTRES
-// function isTypeEquipement($filtre)
-// {
-//     $typeEquipementRepo = new TypeEquipementRepository;
-//     $allTypeEquipements = $typeEquipementRepo->getAllTypeEquipement();
+    include('src/view/articlePage/appatPage.php');
+}
 
-//     $nomType = [];
+function cannePage()
+{
+    $canneRepo = new CanneRepository();
 
-//     foreach ($allTypeEquipements as $type)
-//     {
-//         $nomType[] = $type->getNomTypeEquipement();
-//     }
+    $canne = $canneRepo->getCanne();
 
-//     $types = $nomType;
+    $marqueRepo = new MarqueRepository;
+    $marques = $marqueRepo->getAllMarque();
 
-//     return in_array($filtre, $types);
-// }
+    $categorieRepo = new CategorieRepository;
+    $categories = $categorieRepo->getAllCategorie();
 
-// //CREE UN TABLEAU AVEC LES LONGUEURS POUR LES FILTRES
-// function isLongueurCanne($filtre)
-// {
-//     $pattern = '/^\d+m-\d+m$/';
-//     return preg_match($pattern, $filtre);
-// }
+    $allTypes = getAllType();
 
-// //CREE UN TABLEAU AVEC LES POIDS POUR LES FILTRES
-// function isPoidsCanne($filtre)
-// {
-//     $pattern = '/^\d+kg-\d+kg$/';
-//     return preg_match($pattern, $filtre);
-// }
+    include('src/view/articlePage/cannePage.php');
+}
+
+function moulinetPage()
+{
+    $moulinetRepo = new MoulinetRepository();
+
+    $moulinet = $moulinetRepo->getMoulinet();
+
+    $marqueRepo = new MarqueRepository;
+    $marques = $marqueRepo->getAllMarque();
+
+    $categorieRepo = new CategorieRepository;
+    $categories = $categorieRepo->getAllCategorie();
+
+    $allTypes = getAllType();
+
+    include('src/view/articlePage/moulinetPage.php');
+}
+
+function leurrePage()
+{
+    $leurreRepo = new LeurreRepository();
+
+    $leurre = $leurreRepo->getLeurre();
+
+    $marqueRepo = new MarqueRepository;
+    $marques = $marqueRepo->getAllMarque();
+
+    $categorieRepo = new CategorieRepository;
+    $categories = $categorieRepo->getAllCategorie();
+
+    $allTypes = getAllType();
+
+    include('src/view/articlePage/leurrePage.php');
+}
+
+function lignePage()
+{
+    $ligneRepo = new LigneRepository();
+
+    $ligne = $ligneRepo->getLigne();
+
+    $marqueRepo = new MarqueRepository;
+    $marques = $marqueRepo->getAllMarque();
+
+    $categorieRepo = new CategorieRepository;
+    $categories = $categorieRepo->getAllCategorie();
+
+    $allTypes = getAllType();
+
+    include('src/view/articlePage/lignePage.php');
+}
+
+function plombPage()
+{
+    $plombRepo = new PlombRepository();
+
+    $plomb = $plombRepo->getPlomb();
+
+    $marqueRepo = new MarqueRepository;
+    $marques = $marqueRepo->getAllMarque();
+
+    $categorieRepo = new CategorieRepository;
+    $categories = $categorieRepo->getAllCategorie();
+
+    $allTypes = getAllType();
+
+    include('src/view/articlePage/plombPage.php');
+}
+
+function equipementPage()
+{
+    $equipementRepo = new EquipementRepository();
+
+    $equipement = $equipementRepo->getEquipement();
+
+    $marqueRepo = new MarqueRepository;
+    $marques = $marqueRepo->getAllMarque();
+
+    $categorieRepo = new CategorieRepository;
+    $categories = $categorieRepo->getAllCategorie();
+
+    $allTypes = getAllType();
+
+    include('src/view/articlePage/equipementPage.php');
+}
+
+function autrePage()
+{
+    $autreRepo = new AutreRepository();
+
+    $autre = $autreRepo->getAutre();
+
+    $marqueRepo = new MarqueRepository;
+    $marques = $marqueRepo->getAllMarque();
+
+    $categorieRepo = new CategorieRepository;
+    $categories = $categorieRepo->getAllCategorie();
+
+    $allTypes = getAllType();
+
+    include('src/view/articlePage/autrePage.php');
+}
+
+function hameconPage()
+{
+    $hameconRepo = new HameconRepository();
+
+    $hamecon = $hameconRepo->getHamecon();
+
+    $marqueRepo = new MarqueRepository;
+    $marques = $marqueRepo->getAllMarque();
+
+    $categorieRepo = new CategorieRepository;
+    $categories = $categorieRepo->getAllCategorie();
+
+    $allTypes = getAllType();
+
+    include('src/view/articlePage/hameconPage.php');
+}
