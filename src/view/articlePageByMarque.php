@@ -94,12 +94,15 @@
                                             </p>
 
                                         </div>
+                                        
                                         <p class="text-xs md:text-sm uppercase">
                                             <?php
                                             $marque = $produit->getNomMarque();
                                             if (strlen($marque) > 50) {
                                                 echo substr($marque, 0, 47) . '...';
-                                            } else {
+                                            } 
+                                            else 
+                                            {
                                                 echo $marque;
                                             }
                                             ?>

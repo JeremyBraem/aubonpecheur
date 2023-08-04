@@ -546,6 +546,11 @@ function searchPage()
 {
     if(isset($_GET['keywords']))
     {
+        $keywords = htmlspecialchars($_GET['keywords']);
+
+        $produitRepo = new ProduitRepository;
+        $produits = $produitRepo->getSearchProduit($keywords);
+
         $marqueRepo = new MarqueRepository;
         $marques = $marqueRepo->getAllMarque();
 
@@ -576,15 +581,15 @@ function promoPage()
 //AFFICHAGE DE LA PAGE D'ARTICLE EN FONCTION DE LA CATEGORIE EN GET
 function viewPageCategorie()
 {
-    $produitRepo = new ProduitRepository();
+    $produitRepo = new ProduitRepository;
     $marqueRepo = new MarqueRepository;
     $categorieRepo = new CategorieRepository;
 
     if ($categorieRepo->existCategorie($_GET['categorie'])) 
     {
         $categorie = $categorieRepo->existCategorie($_GET['categorie']);
-    } 
-    else 
+    }
+    else
     {
         header('location: /home');
     }
@@ -599,6 +604,135 @@ function viewPageCategorie()
     $marques = $marqueRepo->getAllMarque();
 
     include('src/view/articlePageByCat.php');
+}
+
+function filtrePageCate()
+{
+    $produitRepo = new ProduitRepository;
+
+    $categorieRepo = new CategorieRepository;
+
+    if ($categorieRepo->existCategorie($_GET['categorie'])) 
+    {
+        $categorie = $categorieRepo->existCategorie($_GET['categorie']);
+    }
+    else
+    {
+        header('location: /home');
+    }
+
+    foreach ($categorie as $idCategories) 
+    {
+        $idCategorie = $idCategories->getIdCategorie();
+    }
+
+    $produit = $produitRepo->getAllProductsByCategory($idCategorie);
+
+    $filtres = isset($_POST['filtres']) ? json_decode($_POST['filtres']) : [];
+
+    $articlesFiltres = [];
+
+    $genresFiltres = [];
+
+    $marquesFiltres = [];
+
+    foreach ($filtres as $filtre) 
+    {
+        if (isGenre($filtre)) 
+        {
+            $genresFiltres[] = $filtre;
+        }
+        elseif(isMarque($filtre)) 
+        {
+            $marquesFiltres[] = $filtre;
+        }
+    }
+
+    $isGenresSelected = !empty($genresFiltres);
+
+    $isMarquesSelected = !empty($marquesFiltres);
+
+    foreach($produit as $article) 
+    {
+        if (($article != ['']))
+        {
+            $isGenreMatch = in_array($article->getIdGenre(), $genresFiltres) || !$isGenresSelected;
+
+            $isMarqueMatch = in_array($article->getNomMarque(), $marquesFiltres) || !$isMarquesSelected;
+            
+            if($isGenreMatch && $isMarqueMatch) 
+            {
+                $articlesFiltres[] = $article;
+            }
+        }
+        else 
+        {
+            echo '';
+        }
+    }
+
+    foreach ($articlesFiltres as $articleFiltred)
+    {
+        echo '<div class="w-56">';
+
+            echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';
+                echo '<div class="class="w-56">';
+                    echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/' . $articleFiltred->getNomImage() . '"/>';
+                echo '</div>';
+            echo '</a>';
+
+            echo '<div class="flex justify-center gap-10 py-3">';
+
+                echo '<div>';
+
+                    echo '<div class="flex">';
+
+                        echo '<p class="text-s md:text-lg">';
+                            $prix = $articleFiltred->getNomProduit();
+                            if (strlen($prix) > 50) 
+                            {
+                                echo substr($prix, 0, 47) . '...';
+                            } 
+                            else 
+                            {
+                                echo $prix;
+                            }
+                        echo '</p>';
+
+                        echo '<p class="ml-10 text-s md:text-xl uppercase">';
+                            $prix = $articleFiltred->getPrixProduit() . '€';
+                            if (strlen($prix) > 50) 
+                            {
+                                echo substr($prix, 0, 47) . '...';
+                            } 
+                            else 
+                            {
+                                echo $prix;
+                            }
+                        echo '</p>';
+
+                    echo '</div>';
+                    
+                    echo '<p class="text-xs md:text-sm uppercase">';
+                        $marque = $articleFiltred->getNomMarque();
+                        if(strlen($marque) > 50) 
+                        {
+                            echo substr($marque, 0, 47) . '...';
+                        } 
+                        else
+                        {
+                            echo $marque;
+                        }
+                    echo '</p>';
+
+                echo '</div>';
+
+            echo '</div>';
+            
+            echo '<button class="add-to-cart-btn" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>">Ajouter au panier</button>';
+
+        echo '</div>';
+    }
 }
 
 //AFFICHAGE DE LA PAGE D'ARTICLE EN FONCTION DE LA MARQUE EN GET
@@ -625,6 +759,8 @@ function viewPageMarque()
     $produits = $produitRepo->getAllProductsByMarque($idMarque);
 
     $marques = $marqueRepo->getAllMarque();
+
+    $categories = getAllCategorie();
 
     include('src/view/articlePageByMarque.php');
 }
@@ -709,830 +845,177 @@ function getAllCategorie()
     return $categories;
 }
 
-// //TRAITEMENT POUR LES FILTRE DE LA PAGE DE TOUS LES ARTICLES
-// function filtre()
-// {
-//     $articles = getLastArticles();
-
-//     $filtres = isset($_POST['filtres']) ? json_decode($_POST['filtres']) : [];
-
-//     $articlesFiltres = [];
-
-//     $genresFiltres = [];
-//     $marquesFiltres = [];
-//     $categoriesFiltres = [];
-
-//     foreach ($filtres as $filtre) 
-//     {
-//         if (isGenre($filtre)) 
-//         {
-//             $genresFiltres[] = $filtre;
-//         } 
-//         elseif (isMarque($filtre)) 
-//         {
-//             $marquesFiltres[] = $filtre;
-//         } 
-//         elseif (isCategorie($filtre)) 
-//         {
-//             $categoriesFiltres[] = $filtre;
-//         }
-//     }
-
-//     $isGenresSelected = !empty($genresFiltres);
-
-//     $isMarquesSelected = !empty($marquesFiltres);
-
-//     $isCategoriesSelected = !empty($categoriesFiltres);
-
-
-//     foreach ($articles as $article) 
-//     {
-//         $isGenreMatch = in_array($article['genre'], $genresFiltres) || !$isGenresSelected;
-
-//         $isMarqueMatch = in_array($article['marque'], $marquesFiltres) || !$isMarquesSelected;
-
-//         $isCategorieMatch = in_array($article['categorie'], $categoriesFiltres) || !$isCategoriesSelected;
-
-//         if ($isGenreMatch && $isMarqueMatch && $isCategorieMatch) 
-//         {
-//             $articlesFiltres[] = $article;
-//         }
-//     }
-
-//     foreach ($articlesFiltres as $articleFiltred) 
-//     {
-//         echo '<div class="w-56">';
-//         echo '<a href="/' . $articleFiltred['genre'] . 'Page/' . $articleFiltred['id'] . '">';
-//         echo '<div class="w-56">';
-//         echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/' . $articleFiltred['image'] . '"/>';
-//         echo '</div>';
-//         echo '</a>';
-//         echo '<div class="flex justify-center gap-10 py-3">';
-//         echo '<div>';
-//         echo '<p class="text-s md:text-lg">';
-//         echo $articleFiltred['nom'];
-//         echo '</p>';
-//         echo '<p class="text-xs md:text-sm uppercase">';
-//         echo $articleFiltred['marque'];
-//         echo '</p>';
-//         echo '</div>';
-        
-//         if ($_SESSION) {
-//             echo '<div>';
-//             echo '<form class="favoris-form" method="post" action="index.php?action=addFavorisTraitement">';
-//             echo '<input type="hidden" name="id_' . $articleFiltred['genre'] . '" value="' . $articleFiltred['id'] . '">';
-//             echo '<input type="hidden" name="id_user" value="' . $_SESSION['id_user'] . '">';
-//             echo '<input type="hidden" name="genre" value="' . $articleFiltred['genre'] . '">';
-//             echo '<input type="hidden" name="date_ajout_favoris" value="' . date("d/m/y") . '">';
-            
-//             if ($_SESSION[$articleFiltred['genre']]) {
-//                 foreach ($_SESSION[$articleFiltred['genre']] as $idTab) {
-//                     if (in_array($articleFiltred['id'], $idTab)) {
-//                         echo '<button class="favoris-button" type="submit">';
-//                         echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/liked.png">';
-//                         echo '</button>';
-//                     } else {
-//                         echo '<button class="favoris-button" type="submit">';
-//                         echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
-//                         echo '</button>';
-//                     }
-//                 }
-//             } else {
-//                 echo '<button class="favoris-button" type="submit">';
-//                 echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
-//                 echo '</button>';
-//             }
-            
-//             echo '</form>';
-//             echo '</div>';
-//         }
-        
-//         echo '</div>';
-//         echo '</div>';
-//     }
-    
-// }
-
-// //TRAITEMENT POUR LES FILTRE DE LA PAGE DE TOUS LES ARTICLES EN PROMOTION
-// function filtrePromo()
-// {
-//     $articles = getPromoArticles();
-
-//     $filtres = isset($_POST['filtres']) ? json_decode($_POST['filtres']) : [];
-
-//     $articlesFiltres = [];
-
-//     $genresFiltres = [];
-//     $marquesFiltres = [];
-//     $categoriesFiltres = [];
-
-//     foreach ($filtres as $filtre) 
-//     {
-//         if (isGenre($filtre)) 
-//         {
-//             $genresFiltres[] = $filtre;
-//         } 
-//         elseif (isMarque($filtre)) 
-//         {
-//             $marquesFiltres[] = $filtre;
-//         } 
-//         elseif (isCategorie($filtre)) 
-//         {
-//             $categoriesFiltres[] = $filtre;
-//         }
-//     }
-
-//     $isGenresSelected = !empty($genresFiltres);
-
-//     $isMarquesSelected = !empty($marquesFiltres);
-
-//     $isCategoriesSelected = !empty($categoriesFiltres);
-
-
-//     foreach ($articles as $article) 
-//     {
-//         $isGenreMatch = in_array($article['genre'], $genresFiltres) || !$isGenresSelected;
-
-//         $isMarqueMatch = in_array($article['marque'], $marquesFiltres) || !$isMarquesSelected;
-
-//         $isCategorieMatch = in_array($article['categorie'], $categoriesFiltres) || !$isCategoriesSelected;
-
-//         if ($isGenreMatch && $isMarqueMatch && $isCategorieMatch) 
-//         {
-//             $articlesFiltres[] = $article;
-//         }
-//     }
-
-//     foreach ($articlesFiltres as $articleFiltred) {
-//         echo '<div class="w-56">';
-//         echo '<a href="/' . $articleFiltred['genre'] . 'Page/' . $articleFiltred['id'] . '">';
-//         echo '<div class="w-56">';
-//         echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/' . $articleFiltred['image'] . '"/>';
-//         echo '</div>';
-//         echo '</a>';
-//         echo '<div class="flex justify-center gap-10 py-3">';
-//         echo '<div>';
-//         echo '<p class="text-s md:text-lg">';
-//         echo $articleFiltred['nom'];
-//         echo '</p>';
-//         echo '<p class="text-xs md:text-sm uppercase">';
-//         echo $articleFiltred['marque'];
-//         echo '</p>';
-//         echo '</div>';
-        
-//         if ($_SESSION) {
-//             echo '<div>';
-//             echo '<form class="favoris-form" method="post" action="index.php?action=addFavorisTraitement">';
-//             echo '<input type="hidden" name="id_' . $articleFiltred['genre'] . '" value="' . $articleFiltred['id'] . '">';
-//             echo '<input type="hidden" name="id_user" value="' . $_SESSION['id_user'] . '">';
-//             echo '<input type="hidden" name="genre" value="' . $articleFiltred['genre'] . '">';
-//             echo '<input type="hidden" name="date_ajout_favoris" value="' . date("d/m/y") . '">';
-            
-//             if ($_SESSION[$articleFiltred['genre']]) {
-//                 foreach ($_SESSION[$articleFiltred['genre']] as $idTab) {
-//                     if (in_array($articleFiltred['id'], $idTab)) {
-//                         echo '<button class="favoris-button" type="submit">';
-//                         echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/liked.png">';
-//                         echo '</button>';
-//                     } else {
-//                         echo '<button class="favoris-button" type="submit">';
-//                         echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
-//                         echo '</button>';
-//                     }
-//                 }
-//             } else {
-//                 echo '<button class="favoris-button" type="submit">';
-//                 echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
-//                 echo '</button>';
-//             }
-            
-//             echo '</form>';
-//             echo '</div>';
-//         }
-        
-//         echo '</div>';
-//         echo '</div>';
-//     }
-    
-// }
-
-// //TRAITEMENT POUR LES FILTRES DES PAGES D'ARTICLES EN FONCTION DE LA CATEGORIE PRIT EN GET
-// function filtrePageCate()
-// {
-//     $allCanneRepo = new CanneRepository;
-//     $allMoulinetRepo = new MoulinetRepository;
-//     $allHameconRepo = new HameconRepository;
-//     $allLeurreRepo = new LeurreRepository;
-//     $allLigneRepo = new LigneRepository;
-//     $allEquipementRepo = new EquipementRepository;
-//     $allPlombRepo = new PlombRepository;
-//     $allAppatRepo = new AppatRepository;
-
-//     $idCategorie = getIdCategorie();
-
-//     $articles = [];
-
-//     $articles['cannes'] = $allCanneRepo->getCanneByCategorie($idCategorie);
-//     $articles['moulinets'] = $allMoulinetRepo->getMoulinetByCategorie($idCategorie);
-//     $articles['hamecons'] = $allHameconRepo->getHameconByCategorie($idCategorie);
-//     $articles['leurres'] = $allLeurreRepo->getLeurreByCategorie($idCategorie);
-//     $articles['equipements'] = $allEquipementRepo->getEquipementByCategorie($idCategorie);
-//     $articles['lignes'] = $allLigneRepo->getLigneByCategorie($idCategorie);
-//     $articles['appats'] = $allAppatRepo->getAppatByCategorie($idCategorie);
-//     $articles['plombs'] = $allPlombRepo->getPlombByCategorie($idCategorie);
-
-//     $combinedArticles = combinedArticle($articles);
-
-//     $filtres = isset($_POST['filtres']) ? json_decode($_POST['filtres']) : [];
-
-//     $articlesFiltres = [];
-
-//     $genresFiltres = [];
-//     $marquesFiltres = [];
-//     $categoriesFiltres = [];
-
-//     foreach ($filtres as $filtre) 
-//     {
-//         if (isGenre($filtre)) 
-//         {
-//             $genresFiltres[] = $filtre;
-//         } 
-//         elseif (isMarque($filtre)) 
-//         {
-//             $marquesFiltres[] = $filtre;
-//         } 
-//         elseif (isCategorie($filtre)) 
-//         {
-//             $categoriesFiltres[] = $filtre;
-//         }
-//     }
-
-//     $isGenresSelected = !empty($genresFiltres);
-
-//     $isMarquesSelected = !empty($marquesFiltres);
-
-//     $isCategoriesSelected = !empty($categoriesFiltres);
-
-//     foreach ($combinedArticles as $article) 
-//     {
-//         if (($article != ['']))
-//         {
-//             $isGenreMatch = in_array($article['genre'], $genresFiltres) || !$isGenresSelected;
-
-//             $isMarqueMatch = in_array($article['marque'], $marquesFiltres) || !$isMarquesSelected;
-
-//             $isCategorieMatch = in_array($article['categorie'], $categoriesFiltres) || !$isCategoriesSelected;
-
-//             if ($isGenreMatch && $isMarqueMatch && $isCategorieMatch) 
-//             {
-//                 $articlesFiltres[] = $article;
-//             }
-//         } 
-//         else 
-//         {
-//             echo '';
-//         }
-//     }
-
-//     foreach ($articlesFiltres as $articleFiltred) 
-//     {
-//         echo '<div class="w-56">';
-//         echo '<a href="/' . $articleFiltred['genre'] . 'Page/' . $articleFiltred['id'] . '">';
-//         echo '<div class="w-56">';
-//         echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/' . $articleFiltred['image'] . '"/>';
-//         echo '</div>';
-//         echo '</a>';
-//         echo '<div class="flex justify-center gap-10 py-3">';
-//         echo '<div>';
-//         echo '<p class="text-s md:text-lg">';
-//         echo $articleFiltred['nom'];
-//         echo '</p>';
-//         echo '<p class="text-xs md:text-sm uppercase">';
-//         echo $articleFiltred['marque'];
-//         echo '</p>';
-//         echo '</div>';
-        
-//         if ($_SESSION) {
-//             echo '<div>';
-//             echo '<form class="favoris-form" method="post" action="index.php?action=addFavorisTraitement">';
-//             echo '<input type="hidden" name="id_' . $articleFiltred['genre'] . '" value="' . $articleFiltred['id'] . '">';
-//             echo '<input type="hidden" name="id_user" value="' . $_SESSION['id_user'] . '">';
-//             echo '<input type="hidden" name="genre" value="' . $articleFiltred['genre'] . '">';
-//             echo '<input type="hidden" name="date_ajout_favoris" value="' . date("d/m/y") . '">';
-            
-//             if ($_SESSION[$articleFiltred['genre']]) {
-//                 foreach ($_SESSION[$articleFiltred['genre']] as $idTab) {
-//                     if (in_array($articleFiltred['id'], $idTab)) {
-//                         echo '<button class="favoris-button" type="submit">';
-//                         echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/liked.png">';
-//                         echo '</button>';
-//                     } else {
-//                         echo '<button class="favoris-button" type="submit">';
-//                         echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
-//                         echo '</button>';
-//                     }
-//                 }
-//             } else {
-//                 echo '<button class="favoris-button" type="submit">';
-//                 echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
-//                 echo '</button>';
-//             }
-            
-//             echo '</form>';
-//             echo '</div>';
-//         }
-        
-//         echo '</div>';
-//         echo '</div>';
-//     }
-    
-// }
-
 // //TRAITEMENT POUR LES FILTRES DES ARTICLES EN FONCTION DE LA MARQUE PRIT EN GET
-// function filtrePageMarque()
-// {
-//     $allCanneRepo = new CanneRepository;
-//     $allMoulinetRepo = new MoulinetRepository;
-//     $allHameconRepo = new HameconRepository;
-//     $allLeurreRepo = new LeurreRepository;
-//     $allLigneRepo = new LigneRepository;
-//     $allEquipementRepo = new EquipementRepository;
-//     $allPlombRepo = new PlombRepository;
-//     $allAppatRepo = new AppatRepository;
+function filtrePageMarque()
+{
+    $produitRepo = new ProduitRepository();
+    $marqueRepo = new MarqueRepository;
+    $categorieRepo = new CategorieRepository;
 
-//     $idMarque = getIdMarque();
+    if ($marqueRepo->existMarque($_GET['marque'])) 
+    {
+        $marque = $marqueRepo->existMarque($_GET['marque']);
+    } 
+    else 
+    {
+        header('location: /home');
+    }
 
-//     $articles = [];
+    foreach ($marque as $idMarques) 
+    {
+        $idMarque = $idMarques->getIdMarque();
+    }
 
-//     $articles['cannes'] = $allCanneRepo->getCanneByMarque($idMarque);
-//     $articles['moulinets'] = $allMoulinetRepo->getMoulinetByMarque($idMarque);
-//     $articles['hamecons'] = $allHameconRepo->getHameconByMarque($idMarque);
-//     $articles['leurres'] = $allLeurreRepo->getLeurreByMarque($idMarque);
-//     $articles['equipements'] = $allEquipementRepo->getEquipementByMarque($idMarque);
-//     $articles['lignes'] = $allLigneRepo->getLigneByMarque($idMarque);
-//     $articles['appats'] = $allAppatRepo->getAppatByMarque($idMarque);
-//     $articles['plombs'] = $allPlombRepo->getPlombByMarque($idMarque);
+    $produit = $produitRepo->getAllProductsByMarque($idMarque);
 
-//     $combinedArticles = combinedArticle($articles);
+    $filtres = isset($_POST['filtres']) ? json_decode($_POST['filtres']) : [];
 
-//     $filtres = isset($_POST['filtres']) ? json_decode($_POST['filtres']) : [];
+    $articlesFiltres = [];
 
-//     $articlesFiltres = [];
+    $genresFiltres = [];
 
-//     $genresFiltres = [];
-//     $marquesFiltres = [];
-//     $categoriesFiltres = [];
+    $categoriesFiltres = [];
 
-//     foreach ($filtres as $filtre) 
-//     {
-//         if (isGenre($filtre)) 
-//         {
-//             $genresFiltres[] = $filtre;
-//         } 
-//         elseif (isMarque($filtre)) 
-//         {
-//             $marquesFiltres[] = $filtre;
-//         } 
-//         elseif (isCategorie($filtre)) 
-//         {
-//             $categoriesFiltres[] = $filtre;
-//         }
-//     }
+    foreach ($filtres as $filtre) 
+    {
+        if (isGenre($filtre)) 
+        {
+            $genresFiltres[] = $filtre;
+        }
+        elseif(isCategorie($filtre)) 
+        {
+            $categoriesFiltres[] = $filtre;
+        }
+    }
 
-//     $isGenresSelected = !empty($genresFiltres);
+    $isGenresSelected = !empty($genresFiltres);
 
-//     $isMarquesSelected = !empty($marquesFiltres);
+    $isCategoriesSelected = !empty($categoriesFiltres);
 
-//     $isCategoriesSelected = !empty($categoriesFiltres);
+    foreach($produit as $article) 
+    {
+        if (($article != ['']))
+        {
+            $isGenreMatch = in_array($article->getIdGenre(), $genresFiltres) || !$isGenresSelected;
 
-//     foreach ($combinedArticles as $article) 
-//     {
-//         if (($article != ['']))
-//         {
-//             $isGenreMatch = in_array($article['genre'], $genresFiltres) || !$isGenresSelected;
-
-//             $isMarqueMatch = in_array($article['marque'], $marquesFiltres) || !$isMarquesSelected;
-
-//             $isCategorieMatch = in_array($article['categorie'], $categoriesFiltres) || !$isCategoriesSelected;
-
-//             if ($isGenreMatch && $isMarqueMatch && $isCategorieMatch) 
-//             {
-//                 $articlesFiltres[] = $article;
-//             }
-//         } 
-//         else 
-//         {
-//             echo '';
-//         }
-//     }
-
-//     foreach ($articlesFiltres as $articleFiltred) 
-//     {
-//         echo '<div class="w-56">';
-//         echo '<a href="/' . $articleFiltred['genre'] . 'Page/' . $articleFiltred['id'] . '">';
-//         echo '<div class="w-56">';
-//         echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/' . $articleFiltred['image'] . '"/>';
-//         echo '</div>';
-//         echo '</a>';
-//         echo '<div class="flex justify-center gap-10 py-3">';
-//         echo '<div>';
-//         echo '<p class="text-s md:text-lg">';
-//         echo $articleFiltred['nom'];
-//         echo '</p>';
-//         echo '<p class="text-xs md:text-sm uppercase">';
-//         echo $articleFiltred['marque'];
-//         echo '</p>';
-//         echo '</div>';
-        
-//         if ($_SESSION) 
-//         {
-//             echo '<div>';
-//             echo '<form class="favoris-form" method="post" action="index.php?action=addFavorisTraitement">';
-//             echo '<input type="hidden" name="id_' . $articleFiltred['genre'] . '" value="' . $articleFiltred['id'] . '">';
-//             echo '<input type="hidden" name="id_user" value="' . $_SESSION['id_user'] . '">';
-//             echo '<input type="hidden" name="genre" value="' . $articleFiltred['genre'] . '">';
-//             echo '<input type="hidden" name="date_ajout_favoris" value="' . date("d/m/y") . '">';
+            $isCategorieMatch = in_array($article->getNomCategorie(), $categoriesFiltres) || !$isCategoriesSelected;
             
-//             if ($_SESSION[$articleFiltred['genre']]) {
-//                 foreach ($_SESSION[$articleFiltred['genre']] as $idTab) {
-//                     if (in_array($articleFiltred['id'], $idTab)) {
-//                         echo '<button class="favoris-button" type="submit">';
-//                         echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/liked.png">';
-//                         echo '</button>';
-//                     } else {
-//                         echo '<button class="favoris-button" type="submit">';
-//                         echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
-//                         echo '</button>';
-//                     }
-//                 }
-//             } else {
-//                 echo '<button class="favoris-button" type="submit">';
-//                 echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
-//                 echo '</button>';
-//             }
+            if($isGenreMatch && $isCategorieMatch) 
+            {
+                $articlesFiltres[] = $article;
+            }
+        } 
+        else 
+        {
+            echo '';
+        }
+    }
+
+    foreach ($articlesFiltres as $articleFiltred)
+    {
+        echo '<div class="w-56">';
+
+            echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';
+                echo '<div class="class="w-56">';
+                    echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/' . $articleFiltred->getNomImage() . '"/>';
+                echo '</div>';
+            echo '</a>';
+
+            echo '<div class="flex justify-center gap-10 py-3">';
+
+                echo '<div>';
+
+                    echo '<div class="flex">';
+
+                        echo '<p class="text-s md:text-lg">';
+                            $prix = $articleFiltred->getNomProduit();
+                            if (strlen($prix) > 50) 
+                            {
+                                echo substr($prix, 0, 47) . '...';
+                            } 
+                            else 
+                            {
+                                echo $prix;
+                            }
+                        echo '</p>';
+
+                        echo '<p class="ml-10 text-s md:text-xl uppercase">';
+                            $prix = $articleFiltred->getPrixProduit() . '€';
+                            if (strlen($prix) > 50) 
+                            {
+                                echo substr($prix, 0, 47) . '...';
+                            } 
+                            else 
+                            {
+                                echo $prix;
+                            }
+                        echo '</p>';
+
+                    echo '</div>';
+                    
+                    echo '<p class="text-xs md:text-sm uppercase">';
+                        $marque = $articleFiltred->getNomMarque();
+                        if(strlen($marque) > 50) 
+                        {
+                            echo substr($marque, 0, 47) . '...';
+                        } 
+                        else
+                        {
+                            echo $marque;
+                        }
+                    echo '</p>';
+
+                echo '</div>';
+
+            echo '</div>';
             
-//             echo '</form>';
-//             echo '</div>';
-//         }
-        
-//         echo '</div>';
-//         echo '</div>';
-//     }
-// }
+            echo '<button class="add-to-cart-btn" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>">Ajouter au panier</button>';
 
-// //TRAITEMENT POUR LES FILTRES DES PAGES DE CANNE
-// function filtreCanne()
-// {
-//     $canneRepo = new CanneRepository;
-//     $articlesCanne = $canneRepo->getAllCanne();
+        echo '</div>';
+    }
+}
 
-//     foreach ($articlesCanne as $canne) 
-//     {
-//         if ($canne) 
-//         {
-//             $imgCanneRepo = new ImageCanneRepository;
-//             $imgCannes = $imgCanneRepo->getImageByCanne($canne->getIdCanne());
-//             $allCannes[] = 
-//             [
-//                 'genre' => 'canne',
-//                 'id' => $canne->getIdCanne(),
-//                 'nom' => $canne->getNomCanne(),
-//                 'image' => $imgCannes->getNomImageCanne(),
-//                 'marque' => $canne->getMarqueCanne(),
-//                 'type' => $canne->getTypeCanne(),
-//                 'categorie' => $canne->getCategorieCanne(),
-//                 'longueur' => $canne->getLongueurCanne(),
-//                 'poids' => $canne->getPoidsCanne(),
-//             ];
-//         } 
-//         else 
-//         {
-//             $allCannes[] = [''];
-//         }
-//     }
+//CREER UN TABLEAU DE GENRE POUR LES FILTRES
+function isGenre($filtre)
+{
+    $genres = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
-//     $filtresCanne = isset($_POST['filtres']) ? json_decode($_POST['filtres']) : [];
+    return in_array($filtre, $genres);
+}
 
-//     $articlesFiltresCanne = [];
+//CREER UN TABLEAU DE CATEGORIE POUR LES FILTRES
+function isCategorie($filtre)
+{
+    $allCategories = getAllCategorie();
 
-//     $typesFiltresCanne = [];
-//     $marquesFiltresCanne = [];
-//     $categoriesFiltresCanne = [];
-//     $longueursFiltresCanne = [];
-//     $longueurFiltre = null;
-//     $poidsFiltresCanne = [];
-//     $poidFiltre = null;
+    $nomCategorie = [];
 
-//     foreach ($filtresCanne as $filtreCanne) 
-//     {
-//         if (isCategorie($filtreCanne))
-//         {
-//             $categoriesFiltresCanne[] = $filtreCanne;
-//         } 
-//         elseif (isMarque($filtreCanne)) 
-//         {
-//             $marquesFiltresCanne[] = $filtreCanne;
-//         } 
-//         elseif (isTypeCanne($filtreCanne)) 
-//         {
-//             $typesFiltresCanne[] = $filtreCanne;
-//         }
-//         elseif (isLongueurCanne($filtreCanne)) 
-//         {
-//             $longueursFiltresCanne[] = $filtreCanne;
-//         }
-//         elseif (isPoidsCanne($filtreCanne)) 
-//         {
-//             $poidsFiltresCanne[] = $filtreCanne;
-//         }
-//     }
+    foreach ($allCategories as $categorie) 
+    {
+        $nomCategorie[] = $categorie->getNomCategorie();
+    }
 
-//     $isTypesFiltresCanne = !empty($typesFiltresCanne);
+    $categories = $nomCategorie;
 
-//     $isMarquesSelected = !empty($marquesFiltresCanne);
+    return in_array($filtre, $categories);
+}
 
-//     $isCategoriesSelected = !empty($categoriesFiltresCanne);
+//CREER UN TABLEAU DE MARQUE POUR LES FILTRES
+function isMarque($filtre)
+{
+    $allMarques = getAllMarque();
 
-//     foreach ($allCannes as $article) 
-//     {
-//         $isTypeMatch = in_array($article['type'], $typesFiltresCanne) || !$isTypesFiltresCanne;
+    $nomMarque = [];
 
-//         $isMarqueMatch = in_array($article['marque'], $marquesFiltresCanne) || !$isMarquesSelected;
+    foreach ($allMarques as $marque) 
+    {
+        $nomMarque[] = $marque->getNomMarque();
+    }
 
-//         $isCategorieMatch = in_array($article['categorie'], $categoriesFiltresCanne) || !$isCategoriesSelected;
+    $marques = $nomMarque;
 
-//         $isLongueurMatch = true;
-
-//         $isPoidMatch = true;
-
-//         if ($longueursFiltresCanne) 
-//         {
-//             $isLongueurMatch = false;
-//             foreach ($longueursFiltresCanne as $longueurFiltre) 
-//             {
-//                 $longueurArticle = $article['longueur'];
-//                 $longueurRange = explode('-', $longueurFiltre);
-//                 $longueurMin = intval($longueurRange[0]);
-//                 $longueurMax = intval($longueurRange[1]);
-//                 if ($longueurArticle >= $longueurMin && $longueurArticle <= $longueurMax) 
-//                 {
-//                     $isLongueurMatch = true;
-//                     break;
-//                 }
-//             }
-//         }
-
-//         if ($poidsFiltresCanne) 
-//         {
-//             $isPoidMatch = false;
-//             foreach ($poidsFiltresCanne as $poidFiltre) 
-//             {
-//                 $poidArticle = $article['poids'];
-//                 $poidRange = explode('-', $poidFiltre);
-//                 $poidMin = intval($poidRange[0]);
-//                 $poidMax = intval($poidRange[1]);
-//                 if ($poidArticle >= $poidMin && $poidArticle <= $poidMax) 
-//                 {
-//                     $isPoidMatch = true;
-//                     break;
-//                 }
-//             }
-//         }
-
-
-//         if ($isTypeMatch && $isMarqueMatch && $isCategorieMatch && $isLongueurMatch && $isPoidMatch) 
-//         {
-//             $articlesFiltresCanne[] = $article;
-//         }
-//     }
-
-//     foreach ($articlesFiltresCanne as $articleFiltred) 
-//     {
-//         echo '<div class="w-56">';
-//         echo '<a href="/' . $articleFiltred['genre'] . 'Page/' . $articleFiltred['id'] . '">';
-//         echo '<div class="w-56">';
-//         echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/' . $articleFiltred['image'] . '"/>';
-//         echo '</div>';
-//         echo '</a>';
-//         echo '<div class="flex justify-center gap-10 py-3">';
-//         echo '<div>';
-//         echo '<p class="text-s md:text-lg">';
-//         echo $articleFiltred['nom'];
-//         echo '</p>';
-//         echo '<p class="text-xs md:text-sm uppercase">';
-//         echo $articleFiltred['marque'];
-//         echo '</p>';
-//         echo '</div>';
-        
-//         if ($_SESSION) {
-//             echo '<div>';
-//             echo '<form class="favoris-form" method="post" action="index.php?action=addFavorisTraitement">';
-//             echo '<input type="hidden" name="id_' . $articleFiltred['genre'] . '" value="' . $articleFiltred['id'] . '">';
-//             echo '<input type="hidden" name="id_user" value="' . $_SESSION['id_user'] . '">';
-//             echo '<input type="hidden" name="genre" value="' . $articleFiltred['genre'] . '">';
-//             echo '<input type="hidden" name="date_ajout_favoris" value="' . date("d/m/y") . '">';
-            
-//             if ($_SESSION[$articleFiltred['genre']]) {
-//                 foreach ($_SESSION[$articleFiltred['genre']] as $idTab) {
-//                     if (in_array($articleFiltred['id'], $idTab)) {
-//                         echo '<button class="favoris-button" type="submit">';
-//                         echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/liked.png">';
-//                         echo '</button>';
-//                     } else {
-//                         echo '<button class="favoris-button" type="submit">';
-//                         echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
-//                         echo '</button>';
-//                     }
-//                 }
-//             } else {
-//                 echo '<button class="favoris-button" type="submit">';
-//                 echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
-//                 echo '</button>';
-//             }
-            
-//             echo '</form>';
-//             echo '</div>';
-//         }
-        
-//         echo '</div>';
-//         echo '</div>';
-//     }
-    
-// }
-
-// //TRAITEMENT POUR LES FILTRES DES PAGES D'EQUIPEMENT
-// function filtreEquipement()
-// {
-//     $equipementRepo = new EquipementRepository;
-//     $articlesEquipement = $equipementRepo->getAllEquipement();
-
-//     foreach ($articlesEquipement as $equipement) 
-//     {
-//         if ($equipement) 
-//         {
-//             $imgEquipementRepo = new ImageEquipementRepository;
-//             $imgEquipements = $imgEquipementRepo->getImageByEquipement($equipement->getIdEquipement());
-//             $allEquipements[] = 
-//             [
-//                 'genre' => 'equipement',
-//                 'id' => $equipement->getIdEquipement(),
-//                 'nom' => $equipement->getNomEquipement(),
-//                 'image' => $imgEquipements->getNomImageEquipement(),
-//                 'marque' => $equipement->getMarqueEquipement(),
-//                 'type' => $equipement->getTypeEquipement(),
-//                 'categorie' => $equipement->getCategorieEquipement(),
-//                 'detail' => $equipement->getDetailEquipement(),
-//             ];
-//         }
-//         else 
-//         {
-//             $allEquipements[] = [''];
-//         }
-//     }
-
-//     $filtresEquipement = isset($_POST['filtres']) ? json_decode($_POST['filtres']) : [];
-
-//     $articlesFiltresEquipement = [];
-
-//     $typesFiltresEquipement = [];
-//     $marquesFiltresEquipement = [];
-//     $categoriesFiltresEquipement = [];
-
-//     foreach ($filtresEquipement as $filtreEquipement) 
-//     {
-//         if (isCategorie($filtreEquipement))
-//         {
-//             $categoriesFiltresEquipement[] = $filtreEquipement;
-//         } 
-//         elseif (isMarque($filtreEquipement)) 
-//         {
-//             $marquesFiltresEquipement[] = $filtreEquipement;
-//         } 
-//         elseif (isTypeEquipement($filtreEquipement)) 
-//         {
-//             $typesFiltresEquipement[] = $filtreEquipement;
-//         }
-//     }
-
-//     $isTypesFiltresEquipement = !empty($typesFiltresEquipement);
-
-//     $isMarquesSelected = !empty($marquesFiltresEquipement);
-
-//     $isCategoriesSelected = !empty($categoriesFiltresEquipement);
-
-//     foreach ($allEquipements as $article) 
-//     {
-//         $isTypeMatch = in_array($article['type'], $typesFiltresEquipement) || !$isTypesFiltresEquipement;
-
-//         $isMarqueMatch = in_array($article['marque'], $marquesFiltresEquipement) || !$isMarquesSelected;
-
-//         $isCategorieMatch = in_array($article['categorie'], $categoriesFiltresEquipement) || !$isCategoriesSelected;
-
-//         $isLongueurMatch = true;
-
-//         $isPoidMatch = true;
-
-//         if ($isTypeMatch && $isMarqueMatch && $isCategorieMatch && $isLongueurMatch && $isPoidMatch) 
-//         {
-//             $articlesFiltresEquipement[] = $article;
-//         }
-//     }
-
-//     foreach ($articlesFiltresEquipement as $articleFiltred) 
-//     {
-//         echo '<div class="w-56">';
-//         echo '<a href="/' . $articleFiltred['genre'] . 'Page/' . $articleFiltred['id'] . '">';
-//         echo '<div class="w-56">';
-//         echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/' . $articleFiltred['image'] . '"/>';
-//         echo '</div>';
-//         echo '</a>';
-//         echo '<div class="flex justify-center gap-10 py-3">';
-//         echo '<div>';
-//         echo '<p class="text-s md:text-lg">';
-//         echo $articleFiltred['nom'];
-//         echo '</p>';
-//         echo '<p class="text-xs md:text-sm uppercase">';
-//         echo $articleFiltred['marque'];
-//         echo '</p>';
-//         echo '</div>';
-        
-//         if ($_SESSION) {
-//             echo '<div>';
-//             echo '<form class="favoris-form" method="post" action="index.php?action=addFavorisTraitement">';
-//             echo '<input type="hidden" name="id_' . $articleFiltred['genre'] . '" value="' . $articleFiltred['id'] . '">';
-//             echo '<input type="hidden" name="id_user" value="' . $_SESSION['id_user'] . '">';
-//             echo '<input type="hidden" name="genre" value="' . $articleFiltred['genre'] . '">';
-//             echo '<input type="hidden" name="date_ajout_favoris" value="' . date("d/m/y") . '">';
-            
-//             if ($_SESSION[$articleFiltred['genre']]) {
-//                 foreach ($_SESSION[$articleFiltred['genre']] as $idTab) {
-//                     if (in_array($articleFiltred['id'], $idTab)) {
-//                         echo '<button class="favoris-button" type="submit">';
-//                         echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/liked.png">';
-//                         echo '</button>';
-//                     } else {
-//                         echo '<button class="favoris-button" type="submit">';
-//                         echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
-//                         echo '</button>';
-//                     }
-//                 }
-//             } else {
-//                 echo '<button class="favoris-button" type="submit">';
-//                 echo '<img class="w-6 h-6 mt-1" src="/assets/img/site/like.png">';
-//                 echo '</button>';
-//             }
-            
-//             echo '</form>';
-//             echo '</div>';
-//         }
-        
-//         echo '</div>';
-//         echo '</div>';
-//     }
-    
-// }
-
-// //CREER UN TABLEAU DE GENRE POUR LES FILTRES
-// function isGenre($filtre)
-// {
-//     $genres = ['canne', 'moulinet', 'leurre', 'hamecon', 'ligne', 'appat', 'equipement', 'plomb'];
-
-//     return in_array($filtre, $genres);
-// }
-
-// //CREER UN TABLEAU DE CATEGORIE POUR LES FILTRES
-// function isCategorie($filtre)
-// {
-//     $allCategories = getAllCategorie();
-
-//     $nomCategorie = [];
-
-//     foreach ($allCategories as $categorie) 
-//     {
-//         $nomCategorie[] = $categorie->getNomCategorie();
-//     }
-
-//     $categories = $nomCategorie;
-
-//     return in_array($filtre, $categories);
-// }
-
-// //CREER UN TABLEAU DE MARQUE POUR LES FILTRES
-// function isMarque($filtre)
-// {
-//     $allMarques = getAllMarque();
-
-//     $nomMarque = [];
-
-//     foreach ($allMarques as $marque) 
-//     {
-//         $nomMarque[] = $marque->getNomMarque();
-//     }
-
-//     $marques = $nomMarque;
-
-//     return in_array($filtre, $marques);
-// }
+    return in_array($filtre, $marques);
+}
 
 // //CREE UN TABLEAU AVEC LES TYPES DE CANNE POUR LES FILTRES
 // function isTypeCanne($filtre)

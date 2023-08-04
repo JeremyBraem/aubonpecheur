@@ -16,7 +16,7 @@
 
                 <?php foreach ($categories as $categorie) { ?>
                     <div>
-                        <input type="checkbox" value="<?php echo $categorie->getNomCategorie(); ?>" class="filtre">
+                        <input type="checkbox" value="<?php echo $categorie->getNomCategorie(); ?>" name="marque" class="filtre">
                         <label><?php echo $categorie->getNomCategorie(); ?></label>
                     </div>
                 <?php } ?>
@@ -38,36 +38,40 @@
             <div class="flex flex-col bg-white ">
 
                 <div>
-                    <input type="checkbox" value="canne" class="filtre">
+                    <input type="checkbox" value="1" class="filtre">
                     <label for="cat-canne">Canne</label>
                 </div>
                 <div>
-                    <input type="checkbox" value="moulinet" class="filtre">
+                    <input type="checkbox" value="2" class="filtre">
                     <label for="cat-moulinet">Moulinet</label>
                 </div>
                 <div>
-                    <input type="checkbox" value="hamecon" class="filtre">
+                    <input type="checkbox" value="3" class="filtre">
                     <label for="cat-moulinet">Hamecon</label>
                 </div>
                 <div>
-                    <input type="checkbox" value="appat" class="filtre">
+                    <input type="checkbox" value="8" class="filtre">
                     <label for="cat-moulinet">Appat</label>
                 </div>
                 <div>
-                    <input type="checkbox" value="equipement" class="filtre">
+                    <input type="checkbox" value="7" class="filtre">
                     <label for="cat-moulinet">Equipement</label>
                 </div>
                 <div>
-                    <input type="checkbox" value="leurre" class="filtre">
+                    <input type="checkbox" value="4" class="filtre">
                     <label for="cat-moulinet">Leurre</label>
                 </div>
                 <div>
-                    <input type="checkbox" value="ligne" class="filtre">
+                    <input type="checkbox" value="5" class="filtre">
                     <label for="cat-moulinet">Ligne</label>
                 </div>
                 <div>
-                    <input type="checkbox" value="plomb" class="filtre">
+                    <input type="checkbox" value="6" class="filtre">
                     <label for="cat-moulinet">Plomb</label>
+                </div>
+                <div>
+                    <input type="checkbox" value="9" class="filtre">
+                    <label for="cat-moulinet">Autre</label>
                 </div>
 
             </div>
@@ -104,36 +108,40 @@
             <div class="py-3">
                 <div class="flex flex-col bg-white">
                     <div>
-                        <input type="checkbox" value="canne" class="filtre">
+                        <input type="checkbox" value="1" class="filtre">
                         <label for="cat-canne">Canne</label>
                     </div>
                     <div>
-                        <input type="checkbox" value="moulinet" class="filtre">
+                        <input type="checkbox" value="2" class="filtre">
                         <label for="cat-moulinet">Moulinet</label>
                     </div>
                     <div>
-                        <input type="checkbox" value="hamecon" class="filtre">
+                        <input type="checkbox" value="3" class="filtre">
                         <label for="cat-moulinet">Hamecon</label>
                     </div>
                     <div>
-                        <input type="checkbox" value="appat" class="filtre">
+                        <input type="checkbox" value="8" class="filtre">
                         <label for="cat-moulinet">Appat</label>
                     </div>
                     <div>
-                        <input type="checkbox" value="equipement" class="filtre">
+                        <input type="checkbox" value="7" class="filtre">
                         <label for="cat-moulinet">Equipement</label>
                     </div>
                     <div>
-                        <input type="checkbox" value="leurre" class="filtre">
+                        <input type="checkbox" value="4" class="filtre">
                         <label for="cat-moulinet">Leurre</label>
                     </div>
                     <div>
-                        <input type="checkbox" value="ligne" class="filtre">
+                        <input type="checkbox" value="5" class="filtre">
                         <label for="cat-moulinet">Ligne</label>
                     </div>
                     <div>
-                        <input type="checkbox" value="plomb" class="filtre">
+                        <input type="checkbox" value="6" class="filtre">
                         <label for="cat-moulinet">Plomb</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" value="9" class="filtre">
+                        <label for="cat-moulinet">Autre</label>
                     </div>
                 </div>
             </div>

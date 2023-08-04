@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function ()
         let valeursFiltres = Array.from(filtres)
             .filter(function (filtre) 
             {
-                console.log(filtre.checked);
                 return filtre.checked;
             })
             .map(function (filtre) {

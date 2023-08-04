@@ -120,6 +120,9 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'activation':
             updateActif();
             break;
+        case 'filtredProduct':
+            filtredProduct();
+            break;
         default:
         home();
     }

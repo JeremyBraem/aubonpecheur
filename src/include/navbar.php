@@ -29,7 +29,6 @@
         <li><a class="text-m text-white" href="/article/Carnassier">Carnassier</a></li>
         <li><a class="text-m text-white" href="/article/Silure">Silure</a></li>
         <li><a class="text-m text-white" href="/article/Plomb">Plomb</a></li>
-        <li><a class="text-m text-white" href="/article/Autre">Autre</a></li>
         <?php
         if (isset($_SESSION['id_role'])) {
             if (!empty($_SESSION['id_role'])) {
@@ -97,10 +96,6 @@
 
                 <li class="mb-1">
                     <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="/article/Plomb">Plomb</a>
-                </li>
-
-                <li class="mb-1">
-                    <a class="block pl-4 p-2 text-sm font-semibold text-gray-600" href="/article/Autre">Autre</a>
                 </li>
                 <?php
                 if (isset($_SESSION['id_role'])) {

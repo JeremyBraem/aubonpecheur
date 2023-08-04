@@ -362,4 +362,110 @@ class ProduitRepository extends connectBdd
             die("Erreur lors de la récupération des produits : " . $e->getMessage());
         }
     }
+
+    public function getProductsByGenre($id_genre)
+    {
+        try 
+        {
+            $req = $this->bdd->prepare
+            ("
+                SELECT produit.*, marque.nom_marque, categorie.*, 
+                image.*, genre.*
+                FROM produit
+                LEFT JOIN marque ON produit.id_marque = marque.id_marque
+                LEFT JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                LEFT JOIN image_produit ON image_produit.id_produit = produit.id_produit
+                LEFT JOIN image ON image.id_image = image_produit.id_image
+                LEFT JOIN genre ON genre.id_genre = produit.id_genre
+                WHERE produit.id_genre = ?
+                ORDER BY produit.id_produit DESC
+            ");
+
+            $req->execute([$id_genre]);
+
+            $productsData = $req->fetchAll(PDO::FETCH_ASSOC);
+
+            $products = [];
+            foreach ($productsData as $productData)
+            {
+                $product = new Produit();
+                $product->setIdProduit($productData['id_produit']);
+                $product->setNomProduit($productData['nom_produit']);
+                $product->setDescriptionProduit($productData['description_produit']);
+                $product->setPrixProduit($productData['prix_produit']);
+                $product->setPromoProduit($productData['promo_produit']);
+                $product->setPrixPromoProduit($productData['prix_promo_produit']);
+                $product->setStockProduit($productData['stock_produit']);
+                $product->setIdCategorie($productData['id_categorie']);
+                $product->setNomCategorie($productData['nom_categorie']);
+                $product->setIdMarque($productData['id_marque']);
+                $product->setNomMarque($productData['nom_marque']);
+                $product->setIdGenre($productData['id_genre']);
+                $product->setNomGenre($productData['nom_genre']);
+                $product->setNomImage($productData['nom_image']);
+                $product->setIdImage($productData['id_image']);
+                $product->setDescriptionImage($productData['description_image']);
+
+                $products[] = $product;
+            }
+
+            return $products;
+        } 
+        catch (PDOException $e) 
+        {
+            die("Erreur lors de la récupération des produits : " . $e->getMessage());
+        }
+    }
+
+    public function getSearchProduit($search)
+    {    
+        $req = $this->bdd->prepare("SELECT produit.*, marque.nom_marque, categorie.*, image.*, genre.*
+        FROM produit
+
+        LEFT JOIN marque ON produit.id_marque = marque.id_marque
+        LEFT JOIN categorie ON produit.id_categorie = categorie.id_categorie
+        LEFT JOIN image_produit ON image_produit.id_produit = produit.id_produit
+        LEFT JOIN image ON image.id_image = image_produit.id_image
+        LEFT JOIN genre ON genre.id_genre = produit.id_genre
+        WHERE nom_produit LIKE ? OR description_produit LIKE ? OR nom_marque LIKE ? OR nom_genre LIKE ? OR nom_categorie LIKE ?
+
+        ORDER BY produit.id_produit DESC");
+    
+        
+        $searchTerm = '%' . $search . '%';
+
+        $req->execute([$searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm]);
+
+        $data = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        $products = [];
+
+        foreach ($data as $productData)
+        {
+            $product = new Produit();
+            $product->setIdProduit($productData['id_produit']);
+            $product->setNomProduit($productData['nom_produit']);
+            $product->setDescriptionProduit($productData['description_produit']);
+            $product->setPrixProduit($productData['prix_produit']);
+            $product->setPromoProduit($productData['promo_produit']);
+            $product->setPrixPromoProduit($productData['prix_promo_produit']);
+            $product->setStockProduit($productData['stock_produit']);
+            $product->setIdCategorie($productData['id_categorie']);
+            $product->setNomCategorie($productData['nom_categorie']);
+            $product->setIdMarque($productData['id_marque']);
+            $product->setNomMarque($productData['nom_marque']);
+            $product->setIdGenre($productData['id_genre']);
+            $product->setNomGenre($productData['nom_genre']);
+            $product->setNomImage($productData['nom_image']);
+            $product->setIdImage($productData['id_image']);
+            $product->setDescriptionImage($productData['description_image']);
+
+            $products[] = $product;
+        }
+        
+        
+
+        return $products;
+    }
+
 }
