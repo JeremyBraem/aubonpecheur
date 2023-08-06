@@ -539,8 +539,6 @@ function addCommande()
 
         $commandeRepo->addCommande($commande);
         
-        
-        
         echo json_encode(['success' => true, 'numero' => $numero]);
     }
     else 
@@ -583,7 +581,7 @@ function marquePage()
 function promoPage()
 {
     $produitRepo = new ProduitRepository();
-    $promoProduits = $produitRepo->getAllPromoProducts();
+    $totalPromoProducts = $produitRepo->getTotalPromoProducts();
 
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();
@@ -592,7 +590,27 @@ function promoPage()
     $categories = $categorieRepo->getAllCategorie();
 
     $allTypes = getAllType();
+
+    $productsPerPage = 20;
+
+    $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;    
+
+    if(isset($_GET['page']))
+    {
+        if($_GET['page'] != 0)
+        {
+            $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
+        }
+        else
+        {
+            $currentpage = 1;
+        }
+    }
     
+    $offset = ($currentpage - 1) * $productsPerPage;
+    $promoProduits = $produitRepo->getPromoProductsPaginated($offset, $productsPerPage);
+    $totalPages = ceil($totalPromoProducts / $productsPerPage);
+
     include('src/view/promoPage.php');
 }
 
@@ -747,8 +765,9 @@ function filtrePageCate()
 
             echo '</div>';
             
-            echo '<button class="add-to-cart-btn" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>">Ajouter au panier</button>';
-
+            echo '<button id="profil-button" class="bg-[#426EC2] rounded-full p-2">';
+                echo '<img class="add-to-cart-btn w-6 h-6" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>" src="/assets/img/site/addCart.png">';
+            echo '</button>';
         echo '</div>';
     }
 }
@@ -767,7 +786,13 @@ function filtrePromo()
 
     $categorieRepo = new CategorieRepository;
 
-    $produit = $produitRepo->getAllPromoProducts();
+    $totalPromoProducts = $produitRepo->getTotalPromoProducts();
+    $productsPerPage = 20;
+    
+    $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
+    $offset = ($currentpage - 1) * $productsPerPage;
+    $produit = $produitRepo->getPromoProductsPaginated($offset, $productsPerPage);
+    $totalPages = ceil($totalPromoProducts / $productsPerPage);
 
     $filtres = isset($_POST['filtres']) ? json_decode($_POST['filtres']) : [];
 
@@ -880,8 +905,9 @@ function filtrePromo()
 
             echo '</div>';
             
-            echo '<button class="add-to-cart-btn" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>">Ajouter au panier</button>';
-
+            echo '<button id="profil-button" class="bg-[#426EC2] rounded-full p-2">';
+                echo '<img class="add-to-cart-btn w-6 h-6" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>" src="/assets/img/site/addCart.png">';
+            echo '</button>';
         echo '</div>';
     }
 }
@@ -1120,8 +1146,10 @@ function filtrePageMarque()
 
             echo '</div>';
             
-            echo '<button class="add-to-cart-btn" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>">Ajouter au panier</button>';
-
+            echo '<button id="profil-button" class="bg-[#426EC2] rounded-full p-2">';
+                echo '<img class="add-to-cart-btn w-6 h-6" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>" src="/assets/img/site/addCart.png">';
+            echo '</button>';
+            
         echo '</div>';
     }
 }

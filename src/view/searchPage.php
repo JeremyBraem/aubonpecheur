@@ -47,7 +47,7 @@
             <div>
 
                 <div id="listeArticles" class="p-3 md:p-5 relative flex flex-wrap gap-5 md:gap-7 items-center justify-center">
-                        
+
                     <?php if (!empty($produits)) { ?>
 
                         <?php foreach ($produits as $produit) { ?>
@@ -103,12 +103,14 @@
                                         </p>
                                     </div>
                                 </div>
-                                <button class="add-to-cart-btn" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>">Ajouter au panier</button>
+                                <button id="profil-button" class="bg-[#426EC2] rounded-full p-2">
+                                    <img class="add-to-cart-btn w-6 h-6" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>" src="assets/img/site/addCart.png">
+                                </button>
                             </div>
 
                         <?php } ?>
 
-                    <?php }else { ?>
+                    <?php } else { ?>
                         <p class="mb-10 mt-5 font-semibold">Aucun article n'a été trouvé.</p>
                     <?php } ?>
 

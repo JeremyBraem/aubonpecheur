@@ -63,7 +63,10 @@
                                 </p>
                             </div>
                         </div>
-                        <button class="add-to-cart-btn" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>"><img src="assets/img/site/addCart.png" class="w-5 h-5 bg-[#000]"></button>
+
+                        <button id="profil-button" class="bg-[#426EC2] rounded-full p-2">
+                            <img class="add-to-cart-btn w-6 h-6" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>" src="assets/img/site/addCart.png">
+                        </button>
                     </div>
                 <?php } ?>
 

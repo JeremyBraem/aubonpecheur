@@ -55,7 +55,35 @@ function adminPage()
     $autres = $autreRepo->getAllAutres();
 
     $produitRepo = new ProduitRepository();
-    $produits = $produitRepo->getAllProducts();
+    $totalPromoProducts = $produitRepo->getTotalPromoProducts();
+
+    $marqueRepo = new MarqueRepository;
+    $marques = $marqueRepo->getAllMarque();
+
+    $categorieRepo = new CategorieRepository;
+    $categories = $categorieRepo->getAllCategorie();
+
+    $allTypes = getAllType();
+
+    $productsPerPage = 5;
+
+    $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;    
+
+    if(isset($_GET['page']))
+    {
+        if($_GET['page'] != 0)
+        {
+            $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
+        }
+        else
+        {
+            $currentpage = 1;
+        }
+    }
+
+    $offset = ($currentpage - 1) * $productsPerPage;
+    $produits = $produitRepo->getPromoProductsPaginated($offset, $productsPerPage);
+    $totalPages = ceil($totalPromoProducts / $productsPerPage);
 
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();
@@ -2459,4 +2487,69 @@ function getAllType()
     $allTypes['autre'] = $typeAutreRepo->getAllTypeAutre();
 
     return $allTypes;
+}
+
+//AFFICHAGE DES RECHERCHES
+function searchAdmin()
+{
+    if(isset($_GET['keywords']))
+    {
+        $canneRepo = new CanneRepository;
+        $cannes = $canneRepo->getAllCannes();
+
+        $moulinetRepo = new MoulinetRepository;
+        $moulinets = $moulinetRepo->getAllMoulinets();
+
+        $appatRepo = new AppatRepository;
+        $appats = $appatRepo->getAllAppats();
+
+        $equipementRepo = new EquipementRepository;
+        $equipements = $equipementRepo->getAllEquipements();
+
+        $hameconRepo = new HameconRepository;
+        $hamecons = $hameconRepo->getAllHamecons();
+
+        $ligneRepo = new LigneRepository;
+        $lignes = $ligneRepo->getAllLignes();
+
+        $leurreRepo = new LeurreRepository;
+        $leurres = $leurreRepo->getAllLeurres();
+
+        $plombRepo = new PlombRepository;
+        $plombs = $plombRepo->getAllPlombs();
+
+        $autreRepo = new AutreRepository;
+        $autres = $autreRepo->getAllAutres();
+
+        $produitRepo = new ProduitRepository();
+        $totalPromoProducts = $produitRepo->getTotalPromoProducts();
+
+        $marqueRepo = new MarqueRepository;
+        $marques = $marqueRepo->getAllMarque();
+
+        $categorieRepo = new CategorieRepository;
+        $categories = $categorieRepo->getAllCategorie();
+
+        $allTypes = getAllType();
+
+        $marqueRepo = new MarqueRepository;
+        $marques = $marqueRepo->getAllMarque();
+
+        $categorieRepo = new CategorieRepository;
+        $categories = $categorieRepo->getAllCategorie();
+
+        $allTypes = getAllType();
+        $keywords = htmlspecialchars($_GET['keywords']);
+
+        $produitRepo = new ProduitRepository;
+        $produits = $produitRepo->getSearchProduit($keywords);
+
+        $marqueRepo = new MarqueRepository;
+        $marques = $marqueRepo->getAllMarque();
+
+        $categorieRepo = new CategorieRepository;
+        $categories = $categorieRepo->getAllCategorie();
+        
+        require('src/view/searchAdmin.php');
+    }
 }

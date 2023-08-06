@@ -158,8 +158,8 @@ require('src/controller/adminController.php');
             case 'updateAutreTraitement':
                 updateAutreTraitement();
                 break;
-            case 'search':
-                searchPage();
+            case 'searchAdmin':
+                searchAdmin();
                 break;
            
             default:
