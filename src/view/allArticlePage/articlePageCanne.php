@@ -26,7 +26,7 @@
             }
         }
     </script>
-    <title>Page allCanne</title>
+    <title>Page des Cannes</title>
 </head>
 
 <body class="bg-[#fcfcfc]">
