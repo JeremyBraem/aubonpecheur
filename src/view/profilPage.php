@@ -83,7 +83,7 @@
                 <h2 class="font-semibold text-[20px] mb-10">Commandes :</h2>
             </div>
 
-            <div class="w-3/4 m-auto grid grid-cols-2">
+            <div class="w-3/4 m-auto grid grid-cols-1 md:grid-cols-2">
                 <?php foreach ($commandes as $commande) {
                     $resumeCommande = json_decode($commande->getResumeCommande());
                     $totalCommande = 0;
