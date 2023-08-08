@@ -17,21 +17,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
     <!--Tailwind -->
     <link href="/dist/output.css" rel="stylesheet">
-    <script>
-        tailwind.config = 
-        {
-            theme: 
-            {
-                extend: 
-                {
-                    colors: 
-                    {
-                        clifford: '#da373d',
-                    }
-                }
-            }
-        }
-    </script>
     <title>Accueil</title>
 </head>
 
