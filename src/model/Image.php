@@ -122,56 +122,56 @@ class ImageRepository extends ConnectBdd
 
     public function insertImage($nom_image, $description_image, $id_produit)
     {
-        // if (!empty($image))
-        // {
-        //     $path = 'assets/img/article';
-        //     $nameFile = $image['name'];
-        //     $typeFile = $image['type'];
-        //     $tmpFile = $image['tmp_name'];
-        //     $errorFile = $image['error'];
-        //     $sizeFile = $image['size'];
+        if (!empty($image))
+        {
+            $path = 'assets/img/article';
+            $nameFile = $image['name'];
+            $typeFile = $image['type'];
+            $tmpFile = $image['tmp_name'];
+            $errorFile = $image['error'];
+            $sizeFile = $image['size'];
 
-        //     $extensions = ['png', 'jpg', 'jpeg', 'webp'];
-        //     $type = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'];
+            $extensions = ['png', 'jpg', 'jpeg', 'webp'];
+            $type = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'];
 
-        //     $extension = explode('.', $nameFile);
+            $extension = explode('.', $nameFile);
 
-        //     $max_size = 500000;
+            $max_size = 500000;
 
-        //     if (in_array($typeFile, $type))
-        //     {
-        //         if (count($extension) <= 2 && in_array(strtolower(end($extension)), $extensions))
-        //         {
-        //             if ($sizeFile <= $max_size && $errorFile == 0)
-        //             {
-        //                 if (move_uploaded_file($tmpFile, $image = 'assets/img/article/' . uniqid() . '.' . end($extension))) 
-        //                 {
-        //                     echo "upload  effectué !";
-        //                 }
-        //                 else 
-        //                 {
-        //                     echo "Echec de l'upload de l'image !";
-        //                     return false;
-        //                 }
-        //             } 
-        //             else 
-        //             {
-        //                 echo "Erreur le poids de l'image est trop élevé !";
-        //                 return false;
-        //             }
-        //         }
-        //         else 
-        //         {
-        //             echo "Merci d'upload une image !";
-        //             return false;
-        //         }
-        //     }
-        //     else 
-        //     {
-        //         echo "Type non autorisé !";
-        //         return false;
-        //     }
-        // }
+            if (in_array($typeFile, $type))
+            {
+                if (count($extension) <= 2 && in_array(strtolower(end($extension)), $extensions))
+                {
+                    if ($sizeFile <= $max_size && $errorFile == 0)
+                    {
+                        if (move_uploaded_file($tmpFile, $image = 'assets/img/article/' . uniqid() . '.' . end($extension))) 
+                        {
+                            echo "upload  effectué !";
+                        }
+                        else 
+                        {
+                            echo "Echec de l'upload de l'image !";
+                            return false;
+                        }
+                    } 
+                    else 
+                    {
+                        echo "Erreur le poids de l'image est trop élevé !";
+                        return false;
+                    }
+                }
+                else 
+                {
+                    echo "Merci d'upload une image !";
+                    return false;
+                }
+            }
+            else 
+            {
+                echo "Type non autorisé !";
+                return false;
+            }
+        }
         $req = $this->bdd->prepare("INSERT INTO image (nom_image, description_image, id_produit) VALUES (?, ?, ?)");
         $req->execute([$nom_image, $description_image, $id_produit]);
     }
