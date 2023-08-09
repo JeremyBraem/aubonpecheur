@@ -37,16 +37,16 @@ class Image
         $this->description_image = $description_image;
     }
 
-    public function addImage($newProduit, $description_image):bool
+    public function addImage($newImage, $description_image):bool
     {
-        if (!empty($newProduit))
+        if (!empty($newImage))
         {
             $path = 'assets/img/article';
-            $nameFile = $newProduit['name'];
-            $typeFile = $newProduit['type'];
-            $tmpFile = $newProduit['tmp_name'];
-            $errorFile = $newProduit['error'];
-            $sizeFile = $newProduit['size'];
+            $nameFile = $newImage['name'];
+            $typeFile = $newImage['type'];
+            $tmpFile = $newImage['tmp_name'];
+            $errorFile = $newImage['error'];
+            $sizeFile = $newImage['size'];
            
             $extensions = ['png', 'jpg', 'jpeg', 'webp'];
             $type = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'];
@@ -98,7 +98,6 @@ class Image
 
 class ImageRepository extends ConnectBdd
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -178,18 +177,18 @@ class ImageRepository extends ConnectBdd
 
     public function deleteImagesByProduit($id_produit)
     {
-        $reqImages = $this->bdd->prepare("SELECT id_image FROM image WHERE id_produit = ?");
-        $reqImages->execute([$id_produit]);
+        $reqImage = $this->bdd->prepare("SELECT id_image FROM image WHERE id_produit = ?");
+        $reqImage->execute([$id_produit]);
 
-        $imageIds = $reqImages->fetch(PDO::FETCH_COLUMN);
+        $imageId = $reqImage->fetch(PDO::FETCH_COLUMN);
 
-        $reqNomImages = $this->bdd->prepare("SELECT nom_image FROM image WHERE id_image = ?");
-        $reqNomImages->execute([$imageIds]);
+        $reqNomImage = $this->bdd->prepare("SELECT nom_image FROM image WHERE id_image = ?");
+        $reqNomImage->execute([$imageId]);
 
-        $imageNom = $reqNomImages->fetch(PDO::FETCH_COLUMN);
+        $imageNom = $reqNomImage->fetch(PDO::FETCH_COLUMN);
 
         $reqImage = $this->bdd->prepare("DELETE FROM image WHERE id_image = ?");
-        $reqImage->execute([$imageIds]);
+        $reqImage->execute([$imageId]);
 
         if (file_exists($imageNom)) 
         {

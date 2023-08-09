@@ -65,6 +65,14 @@ function adminPage()
 
     $allTypes = getAllType();
 
+    $marqueRepo = new MarqueRepository;
+    $marques = $marqueRepo->getAllMarque();
+
+    $categorieRepo = new CategorieRepository;
+    $categories = $categorieRepo->getAllCategorie();
+
+    $allTypes = getAllType();
+
     $productsPerPage = 5;
 
     $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;    
@@ -84,14 +92,6 @@ function adminPage()
     $offset = ($currentpage - 1) * $productsPerPage;
     $produits = $produitRepo->getAllProductsPaginated($offset, $productsPerPage);
     $totalPages = ceil($totalPromoProducts / $productsPerPage);
-
-    $marqueRepo = new MarqueRepository;
-    $marques = $marqueRepo->getAllMarque();
-
-    $categorieRepo = new CategorieRepository;
-    $categories = $categorieRepo->getAllCategorie();
-
-    $allTypes = getAllType();
 
     require('src/view/adminPage.php');
 }
