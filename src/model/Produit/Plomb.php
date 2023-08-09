@@ -75,8 +75,8 @@ class PlombRepository extends connectBdd
                 INNER JOIN marque ON produit.id_marque = marque.id_marque
                 INNER JOIN caracteristiques_plomb ON caracteristiques_plomb.id_produit = produit.id_produit
                 INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
-                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
-                INNER JOIN image ON image.id_image = image_produit.id_image
+                LEFT JOIN image ON image.id_produit = produit.id_produit
+
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_plomb ON type_plomb.id_type_plomb = caracteristiques_plomb.id_type_plomb
                 WHERE produit.id_genre = 6
@@ -108,7 +108,6 @@ class PlombRepository extends connectBdd
                 $plomb->setIdImage($plombData['id_image']);
                 $plomb->setNomImage($plombData['nom_image']);
                 $plomb->setDescriptionImage($plombData['description_image']);
-
                 $plomb->setDiametrePlomb($plombData['diametre_plomb']);
                 $plomb->setPoidsPlomb($plombData['poids_plomb']);
                 $plomb->setLongueurPlomb($plombData['longueur_plomb']);
@@ -138,8 +137,8 @@ class PlombRepository extends connectBdd
                 INNER JOIN marque ON produit.id_marque = marque.id_marque
                 INNER JOIN caracteristiques_plomb ON caracteristiques_plomb.id_produit = produit.id_produit
                 INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
-                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
-                INNER JOIN image ON image.id_image = image_produit.id_image
+                LEFT JOIN image ON image.id_produit = produit.id_produit
+
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_plomb ON type_plomb.id_type_plomb = caracteristiques_plomb.id_type_plomb
                 WHERE produit.id_genre = 6

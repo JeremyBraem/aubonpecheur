@@ -53,8 +53,7 @@ class AppatRepository extends connectBdd
                 INNER JOIN marque ON produit.id_marque = marque.id_marque
                 INNER JOIN caracteristiques_appat ON caracteristiques_appat.id_produit = produit.id_produit
                 INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
-                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
-                INNER JOIN image ON image.id_image = image_produit.id_image
+                INNER JOIN image ON image.id_produit = produit.id_produit
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_appat ON type_appat.id_type_appat = caracteristiques_appat.id_type_appat
                 WHERE produit.id_genre = 8
@@ -113,8 +112,7 @@ class AppatRepository extends connectBdd
                 INNER JOIN marque ON produit.id_marque = marque.id_marque
                 INNER JOIN caracteristiques_appat ON caracteristiques_appat.id_produit = produit.id_produit
                 INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
-                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
-                INNER JOIN image ON image.id_image = image_produit.id_image
+                INNER JOIN image ON image.id_produit = produit.id_produit
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_appat ON type_appat.id_type_appat = caracteristiques_appat.id_type_appat
                 WHERE produit.id_genre = 8

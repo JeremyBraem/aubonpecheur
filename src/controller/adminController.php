@@ -82,7 +82,7 @@ function adminPage()
     }
 
     $offset = ($currentpage - 1) * $productsPerPage;
-    $produits = $produitRepo->getPromoProductsPaginated($offset, $productsPerPage);
+    $produits = $produitRepo->getAllProductsPaginated($offset, $productsPerPage);
     $totalPages = ceil($totalPromoProducts / $productsPerPage);
 
     $marqueRepo = new MarqueRepository;
@@ -143,30 +143,9 @@ function addCanneTraitement()
             $nouvelleCanne->setNomImage($_FILES['images']['name']);
             $nouvelleCanne->setDescriptionImage($_POST['description_images']);
             $nouvelleCanne->setIdTypeCanne($_POST['type_canne']);
-            
-            if ($nouvelleCanne) 
-            {
-                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-                {
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    $imageRepo = new ImageRepository;
-                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                }
-                else
-                {
-                    echo 'Aucune image trouvé';
-                    die;
-                }
-
+           
+            if ($nouvelleCanne)
+            {   
                 $canneRepo = new CanneRepository();
                 $canneRepo->addCanne($nouvelleCanne);
 
@@ -178,10 +157,21 @@ function addCanneTraitement()
                 $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
-                $idImage = $imageRepo->getLastId();
-
-                $imageRepo->addImageToProduit($idProduit, $idImage);
-
+                
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {   
+                    $image = new Image();
+                    $image->setNomImage($newImage->getNomImage());
+                    $image->setDescriptionImage($_POST['description_images']);
+                    
+                    $imageRepo = new ImageRepository;
+                    $imageRepo->insertImage($newImage->getNomImage(), $newImage->getDescriptionImage(), $idProduit);
+                }
+                else
+                {
+                    echo 'Aucune image trouvé';
+                    die;
+                }
                 header('Location: admin.php');
                 exit;
             } 
@@ -250,6 +240,7 @@ function updateCanneTraitement()
             $nouvelleCanne->setNomImage($_FILES['images']['name']);
             $nouvelleCanne->setDescriptionImage($_POST['description_images']);
             $nouvelleCanne->setIdTypeCanne($_POST['type_canne']);
+          
           
             if ($nouvelleCanne) 
             {
@@ -354,27 +345,6 @@ function addMoulinetTraitement()
             
             if ($nouvelleMoulinet) 
             {
-                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-                {
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    $imageRepo = new ImageRepository;
-                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                }
-                else
-                {
-                    echo 'Aucune image trouvé';
-                    die;
-                }
-
                 $moulinetRepo = new MoulinetRepository();
                 $moulinetRepo->addMoulinet($nouvelleMoulinet);
 
@@ -386,9 +356,23 @@ function addMoulinetTraitement()
                 $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
-                $idImage = $imageRepo->getLastId();
-
-                $imageRepo->addImageToProduit($idProduit, $idImage);
+                
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {   
+                    $image = new Image();
+                    $image->setNomImage($newImage->getNomImage());
+                    $image->setDescriptionImage($_POST['description_images']);
+                    
+                    $imageRepo = new ImageRepository;
+                    $imageRepo->insertImage($newImage->getNomImage(), $newImage->getDescriptionImage(), $idProduit);
+                }
+                else
+                {
+                    echo 'Aucune image trouvé';
+                    die;
+                }
+                header('Location: admin.php');
+                exit;
 
                 header('Location: admin.php');
                 exit;
@@ -565,27 +549,6 @@ function addHameconTraitement()
             
             if ($nouvelleHamecon) 
             {
-                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-                {
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    $imageRepo = new ImageRepository;
-                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                }
-                else
-                {
-                    echo 'Aucune image trouvé';
-                    die;
-                }
-
                 $hameconRepo = new HameconRepository();
                 $hameconRepo->addHamecon($nouvelleHamecon);
 
@@ -597,10 +560,21 @@ function addHameconTraitement()
                 $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
-                $idImage = $imageRepo->getLastId();
-
-                $imageRepo->addImageToProduit($idProduit, $idImage);
-
+                
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {   
+                    $image = new Image();
+                    $image->setNomImage($newImage->getNomImage());
+                    $image->setDescriptionImage($_POST['description_images']);
+                    
+                    $imageRepo = new ImageRepository;
+                    $imageRepo->insertImage($newImage->getNomImage(), $newImage->getDescriptionImage(), $idProduit);
+                }
+                else
+                {
+                    echo 'Aucune image trouvé';
+                    die;
+                }
                 header('Location: admin.php');
                 exit;
             } 
@@ -778,27 +752,6 @@ function addLeurreTraitement()
             
             if ($nouvelleLeurre) 
             {
-                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-                {
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    $imageRepo = new ImageRepository;
-                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                }
-                else
-                {
-                    echo 'Aucune image trouvé';
-                    die;
-                }
-
                 $leurreRepo = new LeurreRepository();
                 $leurreRepo->addLeurre($nouvelleLeurre);
 
@@ -810,10 +763,21 @@ function addLeurreTraitement()
                 $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
-                $idImage = $imageRepo->getLastId();
-
-                $imageRepo->addImageToProduit($idProduit, $idImage);
-
+                
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {   
+                    $image = new Image();
+                    $image->setNomImage($newImage->getNomImage());
+                    $image->setDescriptionImage($_POST['description_images']);
+                    
+                    $imageRepo = new ImageRepository;
+                    $imageRepo->insertImage($newImage->getNomImage(), $newImage->getDescriptionImage(), $idProduit);
+                }
+                else
+                {
+                    echo 'Aucune image trouvé';
+                    die;
+                }
                 header('Location: admin.php');
                 exit;
             } 
@@ -989,27 +953,6 @@ function addLigneTraitement()
             
             if ($nouvelleLigne) 
             {
-                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-                {
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    $imageRepo = new ImageRepository;
-                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                }
-                else
-                {
-                    echo 'Aucune image trouvé';
-                    die;
-                }
-
                 $ligneRepo = new LigneRepository();
                 $ligneRepo->addLigne($nouvelleLigne);
 
@@ -1021,10 +964,21 @@ function addLigneTraitement()
                 $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
-                $idImage = $imageRepo->getLastId();
-
-                $imageRepo->addImageToProduit($idProduit, $idImage);
-
+                
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {   
+                    $image = new Image();
+                    $image->setNomImage($newImage->getNomImage());
+                    $image->setDescriptionImage($_POST['description_images']);
+                    
+                    $imageRepo = new ImageRepository;
+                    $imageRepo->insertImage($newImage->getNomImage(), $newImage->getDescriptionImage(), $idProduit);
+                }
+                else
+                {
+                    echo 'Aucune image trouvé';
+                    die;
+                }
                 header('Location: admin.php');
                 exit;
             } 
@@ -1198,27 +1152,6 @@ function addEquipementTraitement()
             
             if ($nouvelleEquipement) 
             {
-                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-                {
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    $imageRepo = new ImageRepository;
-                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                }
-                else
-                {
-                    echo 'Aucune image trouvé';
-                    die;
-                }
-
                 $equipementRepo = new EquipementRepository();
                 $equipementRepo->addEquipement($nouvelleEquipement);
 
@@ -1230,10 +1163,21 @@ function addEquipementTraitement()
                 $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
-                $idImage = $imageRepo->getLastId();
-
-                $imageRepo->addImageToProduit($idProduit, $idImage);
-
+                
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {   
+                    $image = new Image();
+                    $image->setNomImage($newImage->getNomImage());
+                    $image->setDescriptionImage($_POST['description_images']);
+                    
+                    $imageRepo = new ImageRepository;
+                    $imageRepo->insertImage($newImage->getNomImage(), $newImage->getDescriptionImage(), $idProduit);
+                }
+                else
+                {
+                    echo 'Aucune image trouvé';
+                    die;
+                }
                 header('Location: admin.php');
                 exit;
             } 
@@ -1409,27 +1353,6 @@ function addPlombTraitement()
             
             if ($nouvellePlomb) 
             {
-                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-                {
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    $imageRepo = new ImageRepository;
-                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                }
-                else
-                {
-                    echo 'Aucune image trouvé';
-                    die;
-                }
-
                 $plombRepo = new PlombRepository();
                 $plombRepo->addPlomb($nouvellePlomb);
 
@@ -1441,10 +1364,21 @@ function addPlombTraitement()
                 $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
-                $idImage = $imageRepo->getLastId();
-
-                $imageRepo->addImageToProduit($idProduit, $idImage);
-
+                
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {   
+                    $image = new Image();
+                    $image->setNomImage($newImage->getNomImage());
+                    $image->setDescriptionImage($_POST['description_images']);
+                    
+                    $imageRepo = new ImageRepository;
+                    $imageRepo->insertImage($newImage->getNomImage(), $newImage->getDescriptionImage(), $idProduit);
+                }
+                else
+                {
+                    echo 'Aucune image trouvé';
+                    die;
+                }
                 header('Location: admin.php');
                 exit;
             } 
@@ -1643,27 +1577,6 @@ function addAppatTraitement()
             
             if ($nouvelleAppat) 
             {
-                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-                {
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    $imageRepo = new ImageRepository;
-                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                }
-                else
-                {
-                    echo 'Aucune image trouvé';
-                    die;
-                }
-
                 $appatRepo = new AppatRepository();
                 $appatRepo->addAppat($nouvelleAppat);
 
@@ -1675,10 +1588,21 @@ function addAppatTraitement()
                 $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
-                $idImage = $imageRepo->getLastId();
-
-                $imageRepo->addImageToProduit($idProduit, $idImage);
-
+                
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {   
+                    $image = new Image();
+                    $image->setNomImage($newImage->getNomImage());
+                    $image->setDescriptionImage($_POST['description_images']);
+                    
+                    $imageRepo = new ImageRepository;
+                    $imageRepo->insertImage($newImage->getNomImage(), $newImage->getDescriptionImage(), $idProduit);
+                }
+                else
+                {
+                    echo 'Aucune image trouvé';
+                    die;
+                }
                 header('Location: admin.php');
                 exit;
             } 
@@ -1850,27 +1774,6 @@ function addAutreTraitement()
             
             if ($nouvelleAutre) 
             {
-                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
-                {
-                    $fileName = $_FILES['images']['name'];
-                    $fileTmpName = $_FILES['images']['tmp_name'];
-                    $fileType = $_FILES['images']['type'];
-                    $fileSize = $_FILES['images']['size'];
-                    $fileError = $_FILES['images']['error'];
-
-                    $image = new Image();
-                    $image->setNomImage($fileName);
-                    $image->setDescriptionImage($_POST['description_images']);
-
-                    $imageRepo = new ImageRepository;
-                    $imageRepo->insertImage($_FILES['images'], $_POST['description_images']);
-                }
-                else
-                {
-                    echo 'Aucune image trouvé';
-                    die;
-                }
-
                 $autreRepo = new AutreRepository();
                 $autreRepo->addAutre($nouvelleAutre);
 
@@ -1882,10 +1785,21 @@ function addAutreTraitement()
                 $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
-                $idImage = $imageRepo->getLastId();
-
-                $imageRepo->addImageToProduit($idProduit, $idImage);
-
+                
+                if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
+                {   
+                    $image = new Image();
+                    $image->setNomImage($newImage->getNomImage());
+                    $image->setDescriptionImage($_POST['description_images']);
+                    
+                    $imageRepo = new ImageRepository;
+                    $imageRepo->insertImage($newImage->getNomImage(), $newImage->getDescriptionImage(), $idProduit);
+                }
+                else
+                {
+                    echo 'Aucune image trouvé';
+                    die;
+                }
                 header('Location: admin.php');
                 exit;
             } 

@@ -113,7 +113,7 @@ function updateCartUI() {
       if (item.quantity > 1) {
         item.quantity--;
       } else {
-        // Supprimer le produit du panier si la quantité est inférieure ou égale à 1
+
         const index = cartItems.indexOf(item);
         if (index !== -1) {
           cartItems.splice(index, 1);
@@ -158,19 +158,6 @@ function calculateTotal(cartItems) {
   return total.toFixed(2);
 }
 
-function generatePaypalItems(cartItems) {
-  const paypalItems = cartItems.map((item) => ({
-    name: item.name,
-    unit_amount: {
-      currency_code: 'EUR',
-      value: item.price.toFixed(2),
-    },
-    quantity: item.quantity.toString(),
-  }));
-
-  return paypalItems;
-}
-
 function envoyerArticlesAuServeur(cartItems) {
   const requestData = JSON.stringify(cartItems);
   const xhr = new XMLHttpRequest();
@@ -181,7 +168,6 @@ function envoyerArticlesAuServeur(cartItems) {
  xhr.onload = function () {
   if (xhr.status === 200) {
     const response = JSON.parse(xhr.responseText);
-    console.log(response);
     const numero = response.numero;
     console.log('Commande ajoutée avec succès :', numero);
       sessionStorage.removeItem("cart");
@@ -203,7 +189,6 @@ function envoyerArticlesAuServeur(cartItems) {
 document.addEventListener("DOMContentLoaded", () => {
 
   const clientId = "AUYMI_h7bSTPPu_Go8Paa31wzzpJ6pVAMmcl3vNVZBWWiLpMqQZ0x8KytNiQtYp6EtSqvu_6T2-juv7B";
-  const paypalItems = generatePaypalItems(cartItems);
   const currency = "EUR";
   
   paypal.Buttons({

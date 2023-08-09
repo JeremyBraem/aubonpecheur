@@ -63,8 +63,8 @@ class MoulinetRepository extends connectBdd
                 INNER JOIN marque ON produit.id_marque = marque.id_marque
                 INNER JOIN caracteristiques_moulinet ON caracteristiques_moulinet.id_produit = produit.id_produit
                 INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
-                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
-                INNER JOIN image ON image.id_image = image_produit.id_image
+                LEFT JOIN image ON image.id_produit = produit.id_produit
+
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_moulinet ON type_moulinet.id_type_moulinet = caracteristiques_moulinet.id_type_moulinet
                 WHERE produit.id_genre = 2
@@ -125,8 +125,8 @@ class MoulinetRepository extends connectBdd
                 INNER JOIN marque ON produit.id_marque = marque.id_marque
                 INNER JOIN caracteristiques_moulinet ON caracteristiques_moulinet.id_produit = produit.id_produit
                 INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
-                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
-                INNER JOIN image ON image.id_image = image_produit.id_image
+                LEFT JOIN image ON image.id_produit = produit.id_produit
+
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_moulinet ON type_moulinet.id_type_moulinet = caracteristiques_moulinet.id_type_moulinet
                 WHERE produit.id_genre = 2

@@ -53,8 +53,8 @@ class AutreRepository extends connectBdd
                 INNER JOIN marque ON produit.id_marque = marque.id_marque
                 INNER JOIN caracteristiques_autre ON caracteristiques_autre.id_produit = produit.id_produit
                 INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
-                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
-                INNER JOIN image ON image.id_image = image_produit.id_image
+                LEFT JOIN image ON image.id_produit = produit.id_produit
+
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_autre ON type_autre.id_type_autre = caracteristiques_autre.id_type_autre
                 WHERE produit.id_genre = 9
@@ -113,8 +113,8 @@ class AutreRepository extends connectBdd
                 INNER JOIN marque ON produit.id_marque = marque.id_marque
                 INNER JOIN caracteristiques_autre ON caracteristiques_autre.id_produit = produit.id_produit
                 INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
-                INNER JOIN image_produit ON image_produit.id_produit = produit.id_produit
-                INNER JOIN image ON image.id_image = image_produit.id_image
+                LEFT JOIN image ON image.id_produit = produit.id_produit
+
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_autre ON type_autre.id_type_autre = caracteristiques_autre.id_type_autre
                 WHERE produit.id_genre = 9

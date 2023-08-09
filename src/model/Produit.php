@@ -18,7 +18,7 @@ class Produit extends Image
     private $id_marque;
     private $nom_marque;
 
-    public function getIdProduit(): int 
+    public function getIdProduit(): int
     {
         return $this->id_article;
     }
@@ -58,7 +58,8 @@ class Produit extends Image
         $this->prix_article = $prix_article;
     }
 
-    public function getStockProduit(): int {
+    public function getStockProduit(): int 
+    {
         return $this->stock_article;
     }
 
@@ -161,8 +162,7 @@ class ProduitRepository extends connectBdd
                 FROM produit
                 LEFT JOIN marque ON produit.id_marque = marque.id_marque
                 LEFT JOIN categorie ON produit.id_categorie = categorie.id_categorie
-                LEFT JOIN image_produit ON image_produit.id_produit = produit.id_produit
-                LEFT JOIN image ON image.id_image = image_produit.id_image
+                LEFT JOIN image ON image.id_produit = produit.id_produit
                 LEFT JOIN genre ON genre.id_genre = produit.id_genre
                 ORDER BY produit.id_produit DESC
             ");
@@ -213,8 +213,7 @@ class ProduitRepository extends connectBdd
                 FROM produit
                 LEFT JOIN marque ON produit.id_marque = marque.id_marque
                 LEFT JOIN categorie ON produit.id_categorie = categorie.id_categorie
-                LEFT JOIN image_produit ON image_produit.id_produit = produit.id_produit
-                LEFT JOIN image ON image.id_image = image_produit.id_image
+                LEFT JOIN image ON image.id_produit = produit.id_produit
                 LEFT JOIN genre ON genre.id_genre = produit.id_genre
                 WHERE produit.promo_produit > 0
                 ORDER BY produit.id_produit DESC
@@ -279,8 +278,7 @@ class ProduitRepository extends connectBdd
                 FROM produit
                 LEFT JOIN marque ON produit.id_marque = marque.id_marque
                 LEFT JOIN categorie ON produit.id_categorie = categorie.id_categorie
-                LEFT JOIN image_produit ON image_produit.id_produit = produit.id_produit
-                LEFT JOIN image ON image.id_image = image_produit.id_image
+                LEFT JOIN image ON image.id_produit = produit.id_produit
                 LEFT JOIN genre ON genre.id_genre = produit.id_genre
                 WHERE produit.id_categorie = ?  -- Déplacer la clause WHERE ici
                 ORDER BY produit.id_produit DESC
@@ -333,8 +331,7 @@ class ProduitRepository extends connectBdd
                 FROM produit
                 LEFT JOIN marque ON produit.id_marque = marque.id_marque
                 LEFT JOIN categorie ON produit.id_categorie = categorie.id_categorie
-                LEFT JOIN image_produit ON image_produit.id_produit = produit.id_produit
-                LEFT JOIN image ON image.id_image = image_produit.id_image
+                LEFT JOIN image ON image.id_produit = produit.id_produit
                 LEFT JOIN genre ON genre.id_genre = produit.id_genre
                 WHERE produit.id_marque = ?
                 ORDER BY produit.id_produit DESC
@@ -387,8 +384,7 @@ class ProduitRepository extends connectBdd
                 FROM produit
                 LEFT JOIN marque ON produit.id_marque = marque.id_marque
                 LEFT JOIN categorie ON produit.id_categorie = categorie.id_categorie
-                LEFT JOIN image_produit ON image_produit.id_produit = produit.id_produit
-                LEFT JOIN image ON image.id_image = image_produit.id_image
+                LEFT JOIN image ON image.id_produit = produit.id_produit
                 LEFT JOIN genre ON genre.id_genre = produit.id_genre
                 WHERE produit.id_genre = ?
                 ORDER BY produit.id_produit DESC
@@ -437,8 +433,7 @@ class ProduitRepository extends connectBdd
 
         LEFT JOIN marque ON produit.id_marque = marque.id_marque
         LEFT JOIN categorie ON produit.id_categorie = categorie.id_categorie
-        LEFT JOIN image_produit ON image_produit.id_produit = produit.id_produit
-        LEFT JOIN image ON image.id_image = image_produit.id_image
+        
         LEFT JOIN genre ON genre.id_genre = produit.id_genre
         WHERE nom_produit LIKE ? OR description_produit LIKE ? OR nom_marque LIKE ? OR nom_genre LIKE ? OR nom_categorie LIKE ?
 
@@ -500,8 +495,7 @@ class ProduitRepository extends connectBdd
                 FROM produit
                 LEFT JOIN marque ON produit.id_marque = marque.id_marque
                 LEFT JOIN categorie ON produit.id_categorie = categorie.id_categorie
-                LEFT JOIN image_produit ON image_produit.id_produit = produit.id_produit
-                LEFT JOIN image ON image.id_image = image_produit.id_image
+                LEFT JOIN image ON image.id_produit = produit.id_produit
                 LEFT JOIN genre ON genre.id_genre = produit.id_genre
                 WHERE produit.promo_produit > 0
                 ORDER BY produit.id_produit DESC LIMIT ?, ? 
@@ -536,6 +530,7 @@ class ProduitRepository extends connectBdd
 
                 $products[] = $product;
             }
+           
             return $products;
         }   
         catch (PDOException $e) 
@@ -544,7 +539,7 @@ class ProduitRepository extends connectBdd
         }
     }
 
-    public function getaLLProductsPaginated($offset, $limit)
+    public function getAllProductsPaginated($offset, $limit)
     {
         try 
         {
@@ -555,8 +550,7 @@ class ProduitRepository extends connectBdd
                 FROM produit
                 LEFT JOIN marque ON produit.id_marque = marque.id_marque
                 LEFT JOIN categorie ON produit.id_categorie = categorie.id_categorie
-                LEFT JOIN image_produit ON image_produit.id_produit = produit.id_produit
-                LEFT JOIN image ON image.id_image = image_produit.id_image
+                LEFT JOIN image ON image.id_produit = produit.id_produit
                 LEFT JOIN genre ON genre.id_genre = produit.id_genre
                 ORDER BY produit.id_produit DESC LIMIT ?, ? 
             ");
