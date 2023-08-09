@@ -28,7 +28,8 @@ class Produit extends Image
         $this->id_article = $id_article;
     }
 
-    public function getNomProduit(): string {
+    public function getNomProduit(): string 
+    {
         return $this->nom_article;
     }
 
