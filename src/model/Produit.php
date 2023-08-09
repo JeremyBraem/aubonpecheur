@@ -23,87 +23,96 @@ class Produit extends Image
         return $this->id_article;
     }
 
-    public function setIdProduit(int $id_article): void {
+    public function setIdProduit(int $id_article): void 
+    {
         $this->id_article = $id_article;
     }
 
-    // Getter et Setter pour nom_article
     public function getNomProduit(): string {
         return $this->nom_article;
     }
 
-    public function setNomProduit(string $nom_article): void {
+    public function setNomProduit(string $nom_article): void 
+    {
         $this->nom_article = $nom_article;
     }
 
-    // Getter et Setter pour description_article
-    public function getDescriptionProduit(): string {
+    public function getDescriptionProduit(): string 
+    {
         return $this->description_article;
     }
 
-    public function setDescriptionProduit(string $description_article): void {
+    public function setDescriptionProduit(string $description_article): void 
+    {
         $this->description_article = $description_article;
     }
 
-    // Getter et Setter pour prix_article
-    public function getPrixProduit(): float {
+    public function getPrixProduit(): float 
+    {
         return $this->prix_article;
     }
 
-    public function setPrixProduit(float $prix_article): void {
+    public function setPrixProduit(float $prix_article): void 
+    {
         $this->prix_article = $prix_article;
     }
 
-    // Getter et Setter pour stock_article
     public function getStockProduit(): int {
         return $this->stock_article;
     }
 
-    public function setStockProduit(int $stock_article): void {
+    public function setStockProduit(int $stock_article): void 
+    {
         $this->stock_article = $stock_article;
     }
 
-    // Getter et Setter pour promo_article
-    public function getPromoProduit(): int {
+    public function getPromoProduit(): int 
+    {
         return $this->promo_article;
     }
 
-    public function setPromoProduit(int $promo_article): void {
+    public function setPromoProduit(int $promo_article): void 
+    {
         $this->promo_article = $promo_article;
     }
 
-    // Getter et Setter pour prix_promo_article
-    public function getPrixPromoProduit(): float {
+    public function getPrixPromoProduit(): float 
+    {
         return $this->prix_promo_article;
     }
 
-    public function setPrixPromoProduit(float $prix_promo_article): void {
+    public function setPrixPromoProduit(float $prix_promo_article): void 
+    {
         $this->prix_promo_article = $prix_promo_article;
     }
 
-    // Getter et Setter pour id_categorie
-    public function getIdCategorie(): int {
+    public function getIdCategorie(): int 
+    {
         return $this->id_categorie;
     }
 
-    public function setIdCategorie(int $id_categorie): void {
+    public function setIdCategorie(int $id_categorie): void 
+    {
         $this->id_categorie = $id_categorie;
     }
 
-    public function getNomCategorie(): string {
+    public function getNomCategorie(): string 
+    {
         return $this->nom_categorie;
     }
 
-    public function setNomCategorie(string $nom_categorie): void {
+    public function setNomCategorie(string $nom_categorie): void 
+    {
         $this->nom_categorie = $nom_categorie;
     }
 
-    // Getter et Setter pour id_genre
-    public function getIdGenre(): int {
+    public function getIdGenre(): int 
+    {
         return $this->id_genre;
     }
 
-    public function setIdGenre(int $id_genre): void {
+    public function setIdGenre(int $id_genre): void 
+    {
         $this->id_genre = $id_genre;
     }
 
@@ -117,11 +126,13 @@ class Produit extends Image
         $this->nom_genre = $nom_genre;
     }
 
-    public function getIdMarque(): int {
+    public function getIdMarque(): int 
+    {
         return $this->id_marque;
     }
 
-    public function setIdMarque(int $id_marque): void {
+    public function setIdMarque(int $id_marque): void 
+    {
         $this->id_marque = $id_marque;
     }
 
@@ -142,7 +153,8 @@ class ProduitRepository extends connectBdd
     {
         try 
         {
-            $req = $this->bdd->prepare("
+            $req = $this->bdd->prepare
+            ("
                 SELECT produit.*, marque.nom_marque, categorie.*, 
                 image.*, genre.*
                 FROM produit

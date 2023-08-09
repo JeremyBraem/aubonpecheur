@@ -9,9 +9,6 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'accueil':
             home();
             break;
-        // case 'articlePage':
-        //     articlePage();
-        //     break;
         case 'promotion':
             promoPage();
             break;
