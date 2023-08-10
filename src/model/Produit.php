@@ -157,7 +157,7 @@ class ProduitRepository extends connectBdd
         {
             $req = $this->bdd->prepare
             ("
-                SELECT produit.*, marque.nom_marque, categorie.*, 
+                SELECT produit.*, marque.*, categorie.*, 
                 image.*, genre.*
                 FROM produit
                 LEFT JOIN marque ON produit.id_marque = marque.id_marque
@@ -208,7 +208,7 @@ class ProduitRepository extends connectBdd
         try 
         {
             $req = $this->bdd->prepare("
-                SELECT produit.*, marque.nom_marque, categorie.*, 
+                SELECT produit.*, marque.*, categorie.*, 
                 image.*, genre.*
                 FROM produit
                 LEFT JOIN marque ON produit.id_marque = marque.id_marque

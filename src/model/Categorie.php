@@ -90,19 +90,14 @@ class CategorieRepository extends connectBdd
 
     public function existCategorie($nom_categorie)
     {
-        $req = $this->bdd->prepare("SELECT * FROM categorie WHERE nom_categorie = ?");
+        $req = $this->bdd->prepare("SELECT id_categorie FROM categorie WHERE nom_categorie = ?");
         $req->execute([$nom_categorie]);
-        $datas = $req->fetchAll();
+        $data = $req->fetch();
         
-        foreach ($datas as $data)
-        {
-            $categorie = new Categorie();
-            $categorie->setIdCategorie($data['id_categorie']);
-            $categorie->setNomCategorie($data['nom_categorie']);
-            
-            $categories[] = $categorie;
-        }
-        return $categories;
+        $categorie = new Categorie();
+        $categorie->setIdCategorie($data['id_categorie']);
+        
+        return $categorie;
     }
 
 }

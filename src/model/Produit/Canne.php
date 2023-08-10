@@ -64,8 +64,7 @@ class CanneRepository extends connectBdd
                 INNER JOIN marque ON produit.id_marque = marque.id_marque
                 INNER JOIN caracteristiques_canne ON caracteristiques_canne.id_produit = produit.id_produit
                 INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
-                LEFT JOIN image ON image.id_produit = produit.id_produit
-
+                INNER JOIN image ON image.id_produit = produit.id_produit
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_canne ON type_canne.id_type_canne = caracteristiques_canne.id_type_canne
                 WHERE produit.id_genre = 1
@@ -96,7 +95,6 @@ class CanneRepository extends connectBdd
                 $canne->setIdImage($canneData['id_image']);
                 $canne->setNomImage($canneData['nom_image']);
                 $canne->setDescriptionImage($canneData['description_image']);
-
                 $canne->setLongueurCanne($canneData['longueur_canne']);
                 $canne->setPoidsCanne($canneData['poids_canne']);
                 $canne->setIdTypeCanne($canneData['id_type_canne']);
@@ -125,8 +123,7 @@ class CanneRepository extends connectBdd
                 INNER JOIN marque ON produit.id_marque = marque.id_marque
                 INNER JOIN caracteristiques_canne ON caracteristiques_canne.id_produit = produit.id_produit
                 INNER JOIN categorie ON produit.id_categorie = categorie.id_categorie
-                LEFT JOIN image ON image.id_produit = produit.id_produit
-
+                INNER JOIN image ON image.id_produit = produit.id_produit
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_canne ON type_canne.id_type_canne = caracteristiques_canne.id_type_canne
                 WHERE produit.id_genre = 1
@@ -175,7 +172,8 @@ class CanneRepository extends connectBdd
 
             $reqProduit = $this->bdd->prepare
             ("
-                INSERT INTO produit (nom_produit, description_produit, prix_produit, stock_produit, promo_produit, prix_promo_produit, id_categorie, id_marque, id_genre)
+                INSERT INTO produit 
+                (nom_produit, description_produit, prix_produit, stock_produit, promo_produit, prix_promo_produit, id_categorie, id_marque, id_genre)
                 VALUES (?,?,?,?,?,?,?,?,?)
             ");
 

@@ -1,7 +1,6 @@
 <?php
 
 require_once('src/model/User.php');
-require_once('src/model/Favoris.php');
 
 require_once('src/model/Produit/Canne.php');
 require_once('src/model/Produit/Moulinet.php');
@@ -135,7 +134,7 @@ function loginTraitement()
         else 
         {
             $_SESSION['messageError'] = "Un des champs est vide.";
-            header('location: /signUp');
+            header('location: /login');
         }
     } 
     else 
@@ -157,7 +156,7 @@ function signUpTraitement()
 
             $user = $userRepository->findByEmail($emailUser);
 
-            if ($user == []) 
+            if (empty($user)) 
             {
                 if (!empty($_POST['email']) && !empty($_POST['lastname']) && !empty($_POST['name']) && !empty($_POST['password']) && !empty($_POST['verif_password'])) 
                 {
@@ -630,12 +629,7 @@ function viewPageCategorie()
         header('location: /home');
     }
 
-    foreach ($categorie as $idCategories)
-    {
-        $idCategorie = $idCategories->getIdCategorie();
-    }
-
-    $produits = $produitRepo->getAllProductsByCategory($idCategorie);
+    $produits = $produitRepo->getAllProductsByCategory($categorie->getIdCategorie());
 
     $marques = $marqueRepo->getAllMarque();
 
@@ -657,12 +651,7 @@ function filtrePageCate()
         header('location: /home');
     }
 
-    foreach ($categorie as $idCategories) 
-    {
-        $idCategorie = $idCategories->getIdCategorie();
-    }
-
-    $produit = $produitRepo->getAllProductsByCategory($idCategorie);
+    $produit = $produitRepo->getAllProductsByCategory($categorie->getIdCategorie());
 
     $filtres = isset($_POST['filtres']) ? json_decode($_POST['filtres']) : [];
 
@@ -688,7 +677,7 @@ function filtrePageCate()
 
     $isMarquesSelected = !empty($marquesFiltres);
 
-    foreach($produit as $article) 
+    foreach($produit as $article)
     {
         if (($article != ['']))
         {
@@ -919,7 +908,7 @@ function viewPageMarque()
     $marqueRepo = new MarqueRepository;
     $categorieRepo = new CategorieRepository;
 
-    if ($marqueRepo->existMarque($_GET['marque'])) 
+    if($marqueRepo->existMarque($_GET['marque']))
     {
         $marque = $marqueRepo->existMarque($_GET['marque']);
     } 
@@ -928,12 +917,7 @@ function viewPageMarque()
         header('location: /home');
     }
 
-    foreach ($marque as $idMarques) 
-    {
-        $idMarque = $idMarques->getIdMarque();
-    }
-
-    $produits = $produitRepo->getAllProductsByMarque($idMarque);
+    $produits = $produitRepo->getAllProductsByMarque($marque->getIdMarque());
 
     $marques = $marqueRepo->getAllMarque();
 
@@ -949,36 +933,6 @@ function getAllMarque()
     $marques = $marqueRepo->getAllMarque();
 
     return $marques;
-}
-
-//RECUPERATION D'ID DE CATEGORIE EN FONCTION DES NOM DE CATEGORIE EN GET
-function getIdCategorie()
-{
-    $categorieRepo = new CategorieRepository;
-
-    $categorie = $categorieRepo->existCategorie($_GET['categorie']);
-
-    foreach ($categorie as $idCategories) 
-    {
-        $idCategorie = $idCategories->getIdCategorie();
-    }
-
-    return $idCategorie;
-}
-
-//RECUPERATION D'ID DE MARQUE EN FONCTION DES NOM DE MARQUE EN GET
-function getIdMarque()
-{
-    $marqueRepo = new MarqueRepository;
-
-    $marque = $marqueRepo->existMarque($_GET['marque']);
-
-    foreach ($marque as $idMarques)
-    {
-        $idMarque = $idMarques->getIdMarque();
-    }
-
-    return $idMarque;
 }
 
 //RECUPERATION DE TOUS LES TYPE D'ARTICLE
@@ -1032,18 +986,13 @@ function filtrePageMarque()
     if ($marqueRepo->existMarque($_GET['marque'])) 
     {
         $marque = $marqueRepo->existMarque($_GET['marque']);
-    } 
+    }
     else 
     {
         header('location: /home');
     }
 
-    foreach ($marque as $idMarques) 
-    {
-        $idMarque = $idMarques->getIdMarque();
-    }
-
-    $produit = $produitRepo->getAllProductsByMarque($idMarque);
+    $produit = $produitRepo->getAllProductsByMarque($marque->getIdMarque());
 
     $filtres = isset($_POST['filtres']) ? json_decode($_POST['filtres']) : [];
 
