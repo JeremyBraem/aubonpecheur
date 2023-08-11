@@ -91,7 +91,6 @@
                 } else {
                 ?>
                     <div class="flex flex-col">
-                        <!-- <img src="assets/img/site/icons8-close.svg" class="w-5 h-5 pt-[5px] pr-[5px] self-end text-l"></img> -->
                         <a class="px-3 py-[6px] text-l text-black rounded-t hover:bg-gray-300" href="/profil">Compte</a>
                         <a class="px-3 py-[6px] text-l text-black rounded-b hover:bg-gray-300" href="/deconnexion">Déconnexion</a>
                     </div>

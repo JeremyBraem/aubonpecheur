@@ -172,6 +172,6 @@
     <script src="/assets/js/sliderNews.js"></script>
     <script src="/assets/js/sliderPromo.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <script src="/assets/js/limiteDecimal.js"></script>
 </body>
 </html>

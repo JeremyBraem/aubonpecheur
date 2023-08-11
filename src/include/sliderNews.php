@@ -1,6 +1,6 @@
 <div class="flex items-center relative md:w-5/6 m-auto">
 
-    <div class="flex items-center justify-center overflow-hidden p-10">
+    <div class="flex items-center justify-center overflow-hidden p-8">
 
         <div class="overflow-hidden">
 
@@ -11,62 +11,46 @@
             <div id="sliderNews" class="h-full ml-2 flex lg:gap-8 md:gap-6 gap-10 items-center justify-start transition ease-out duration-700">
 
                 <?php foreach ($produits as $produit) { ?>
-
                     <div class="w-56">
 
-                        <a href="/<?php echo $produit->getNomGenre(); ?>Page/<?php echo $produit->getIdProduit(); ?>">
+                        <div class="flex flex-col justify-center">
 
-                            <div class="w-56">
-                                <img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="<?php echo $produit->getNomImage(); ?>" />
-                            </div>
+                            <div class="relative m-3 flex flex-wrap mx-auto justify-center ">
 
-                        </a>
+                                <div class="relative bg-white shadow-md p-2 my-3 rounded">
 
-                        <div class="flex justify-center gap-10 py-3">
+                                    <div class="overflow-x-hidden rounded-2xl relative w-56 h-56">
+                                        <?php if($produit->getPromoProduit() > 0) { ?>
+                                            <span class="original-number absolute text-[#fcfcfc] text-sm left-2 top-2 z-40 p-1 px-[9px] w-auto text-center font-semibold rounded-full bg-[#e8330d]">-<?php echo $produit->getPromoProduit(); ?>%</span>
+                                        <?php } ?>
+                                        <img class="h-full rounded-2xl w-full object-cover" src="<?php echo $produit->getNomImage() ?>">
+                                        <p class="absolute right-2 top-2 bg-[#426EC2] rounded-full p-2 cursor-pointer group">
+                                            <img class="add-to-cart-btn w-6 h-6" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php if($produit->getPromoProduit() > 0) { echo $produit->getPrixPromoProduit(); }else{ echo $produit->getPrixProduit(); } ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>" src="/assets/img/site/addCart.png">
+                                        </p>
+                                    </div>
 
-                            <div>
+                                    <div class="mt-4 pl-2 mb-2 flex justify-between ">
+                                        <a href="/<?php echo $produit->getNomGenre(); ?>Page/<?php echo $produit->getIdProduit(); ?>">
+                                            <p class="text-lg font-semibold text-gray-900 mb-0"><?php echo $produit->getNomProduit(); ?></p>
+                                            <p class="text-lg text-gray-900 mb-0"><?php echo $produit->getNomMarque(); ?></p>
+                                            <div class="flex gap-10">
+                                                <?php if ($produit->getPromoProduit() > 0) { ?>
+                                                    <p class="text-md text-gray-800 mt-0 line-through"><?php echo $produit->getPrixProduit(); ?>€</p>
+                                                    <p class="number text-md text-gray-800 mt-0"><?php echo $produit->getPrixPromoProduit(); ?></p>
+                                                <?php } else { ?>
+                                                    <p class="text-md text-gray-800 mt-0"><?php echo $produit->getPrixProduit(); ?>€</p>
+                                                <?php } ?>
+                                            </div>
 
-                                <div class="flex">
-
-                                    <p class="text-s md:text-lg">
-                                        <?php
-                                        $nom = $produit->getNomProduit();
-                                        if (strlen($nom) > 20) {
-                                            echo substr($nom, 0, 17) . '...';
-                                        } else {
-                                            echo $nom;
-                                        }
-                                        ?>
-                                    </p>
-
-                                    <p class="ml-10 text-s md:text-xl uppercase">
-                                        <?php
-                                        $prix = $produit->getPrixProduit() . '€';
-                                        if (strlen($prix) > 50) {
-                                            echo substr($prix, 0, 47) . '...';
-                                        } else {
-                                            echo $prix;
-                                        }
-                                        ?>
-                                    </p>
+                                        </a>
+                                    </div>
 
                                 </div>
-                                <p class="text-xs md:text-sm uppercase">
-                                    <?php
-                                    $marque = $produit->getNomMarque();
-                                    if (strlen($marque) > 50) {
-                                        echo substr($marque, 0, 47) . '...';
-                                    } else {
-                                        echo $marque;
-                                    }
-                                    ?>
-                                </p>
+
                             </div>
+
                         </div>
 
-                        <button id="profil-button" class="bg-[#426EC2] rounded-full p-2">
-                            <img class="add-to-cart-btn w-6 h-6" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>" src="assets/img/site/addCart.png">
-                        </button>
                     </div>
                 <?php } ?>
 
