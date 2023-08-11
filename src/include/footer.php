@@ -20,9 +20,9 @@
 
                 <div class="flex flex-col">
                     <a href="/home" class="text-sm">Accueil</a>
-                    <a href="/promoPage" class="text-sm">Promotion</a>
-                    <a href="/marquePage" class="text-sm">Marque</a>
-                    <a class="text-sm">Contact</a>
+                    <a href="/promotion" class="text-sm">Promotion</a>
+                    <a href="/Marque" class="text-sm">Marque</a>
+                    <a href="/contact" class="text-sm">Contact</a>
                     <a href="https://www.facebook.com/aubonpecheur.sedan" target="_blank" class="text-sm">Facebook</a>
                 </div>
 
@@ -75,7 +75,10 @@
             <div class="p-3">
 
                 <div class="flex flex-col">
-                    <a class="text-sm">Politique de confidentialité</a>
+                    <a href="/ConditionsGeneralesVente" class="text-sm">Conditions Generales de Vente</a>
+                    <a href="/InformationsPersonnelles" class="text-sm">Informations Personnelles</a>
+                    <a href="/Cookies" class="text-sm">Cookies</a>
+                    <a href="/PolitiqueConfidentialite" class="text-sm">Politique de Confidentialité</a>
                 </div>
 
             </div>
@@ -114,9 +117,9 @@
 
                     <div class="flex flex-col gap-1">
                         <a href="/home" class="text-sm">Accueil</a>
-                        <a href="/promoPage" class="text-sm">Promotion</a>
-                        <a href="/marquePage" class="text-sm">Marque</a>
-                        <a href="" class="text-sm">Contact</a>
+                        <a href="/promotion" class="text-sm">Promotion</a>
+                        <a href="/Marque" class="text-sm">Marque</a>
+                        <a href="/contact" class="text-sm">Contact</a>
                         <a href="https://www.facebook.com/aubonpecheur.sedan" target="_blank" class="text-sm">Facebook</a>
                     </div>
 
@@ -161,7 +164,10 @@
                 <div class="pt-2">
 
                     <div class="flex flex-col">
-                        <a class="text-sm">Politique de confidentialité</a>
+                        <a href="/ConditionsGeneralesVente" class="text-sm">Conditions Generales de Vente</a>
+                        <a href="/InformationsPersonnelles" class="text-sm">Informations Personnelles</a>
+                        <a href="/Cookies" class="text-sm">Cookies</a>
+                        <a href="/PolitiqueConfidentialite" class="text-sm">Politique de Confidentialité</a>
                     </div>
 
                 </div>

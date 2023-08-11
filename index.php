@@ -105,8 +105,23 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'activation':
             updateActif();
             break;
-        case 'pagination':
-            pagination();
+        case 'contact':
+            contactPage();
+            break;
+        case 'sendMessage':
+            sendMessage();
+            break;
+        case 'ConditionsGeneralesVente':
+            ConditionsGeneralesVente();
+            break;
+        case 'InformationsPersonnelles':
+            InformationsPersonnelles();
+            break;
+        case 'PolitiqueConfidentialite':
+            PolitiqueConfidentialite();
+            break;
+        case 'Cookies':
+            Cookies();
             break;
         default:
         home();

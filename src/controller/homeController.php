@@ -44,14 +44,6 @@ function home()
     include('src/view/homePage.php');
 }
 
-function pagination()
-{
-    $produitRepo = new ProduitRepository();
-    $produits = $produitRepo->getAllProducts();
-
-    return $produits;
-}
-
 //PAGE DE CONNEXION
 function loginPage()
 {
@@ -568,6 +560,54 @@ function searchPage()
     }
 }
 
+function contactPage()
+{
+    if(!empty($_SESSION['id_user']))
+    {
+        require_once('src/view/contactPage.php');
+    }
+    else
+    {
+        header('location: /home');
+    }
+}
+
+function Cookies()
+{
+    require_once('src/view/rgpd/Cookies.php');
+}
+
+function ConditionsGeneralesVente()
+{
+    require_once('src/view/rgpd/ConditionsGeneralesVente.php');
+}
+
+function PolitiqueConfidentialite()
+{
+    require_once('src/view/rgpd/PolitiqueConfidentialite.php');
+}
+
+function InformationsPersonnelles()
+{
+    require_once('src/view/rgpd/InformationsPersonnelles.php');
+}
+
+function sendMessage()
+{
+    if ($_SERVER["REQUEST_METHOD"] == "POST") 
+    {
+        $nom = $_SESSION["nom_user"];
+        $email = $_SESSION["email_user"];
+        $message = $_POST["message"];
+        
+        require_once('src/config/mailMessage.php');
+    }
+    else
+    {
+        header('location: /home');
+    }
+}
+
 //AFFICHAGE DE LA PAGE DE TOUTES LES MARQUES
 function marquePage()
 {
@@ -590,7 +630,7 @@ function promoPage()
 
     $allTypes = getAllType();
 
-    $productsPerPage = 20;
+    $productsPerPage = 5;
 
     $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;    
 
@@ -609,7 +649,7 @@ function promoPage()
     $offset = ($currentpage - 1) * $productsPerPage;
     $promoProduits = $produitRepo->getPromoProductsPaginated($offset, $productsPerPage);
     $totalPages = ceil($totalPromoProducts / $productsPerPage);
-
+    
     include('src/view/promoPage.php');
 }
 
@@ -904,26 +944,34 @@ function filtrePromo()
 //AFFICHAGE DE LA PAGE D'ARTICLE EN FONCTION DE LA MARQUE EN GET
 function viewPageMarque()
 {
-    $produitRepo = new ProduitRepository();
-    $marqueRepo = new MarqueRepository;
-    $categorieRepo = new CategorieRepository;
-
-    if($marqueRepo->existMarque($_GET['marque']))
+    if(!empty($_GET['marque']))
     {
-        $marque = $marqueRepo->existMarque($_GET['marque']);
-    } 
-    else 
+        $produitRepo = new ProduitRepository();
+        $marqueRepo = new MarqueRepository;
+        $categorieRepo = new CategorieRepository;
+    
+        if($marqueRepo->existMarque($_GET['marque']) != false)
+        {
+            $marque = $marqueRepo->existMarque($_GET['marque']);
+        }
+        else 
+        {
+            header('location: /home');
+        }
+    
+        $produits = $produitRepo->getAllProductsByMarque($marque->getIdMarque());
+    
+        $marques = $marqueRepo->getAllMarque();
+    
+        $categories = getAllCategorie();
+    
+        include('src/view/articlePageByMarque.php');
+    }
+    else
     {
         header('location: /home');
     }
-
-    $produits = $produitRepo->getAllProductsByMarque($marque->getIdMarque());
-
-    $marques = $marqueRepo->getAllMarque();
-
-    $categories = getAllCategorie();
-
-    include('src/view/articlePageByMarque.php');
+    
 }
 
 //RECUPERATION DE TOUTE LES MARQUES

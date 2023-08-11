@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/assets/css/reset.css" rel="stylesheet">
-    <link href="/assets/css/font.css" rel="stylesheet">
-    <!-- font google ROBOTO -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400&family=Roboto:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
-    <link rel="icon" href="/assets/img/site/icon.png"/>
+    <link rel="icon" href="/assets/img/site/icon.png" />
+
     <!--FLowbite-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
     <!--Tailwind -->
     <link href="/dist/output.css" rel="stylesheet">
-    <title>Accueil</title>
+    <title>Contact</title>
 </head>
 
 <body class="bg-[#fcfcfc]">
@@ -29,64 +26,57 @@
 
     <main>
 
-        <section>
+        <section class="w-2/3 m-auto py-5">
 
-            <div class="w-full lg:h-[300px] h-[120px]">
-                <video class="w-full h-full object-cover" loop muted autoplay>
-                    <source src="/assets/video/homeVideo.mp4" type="video/mp4">
-                </video>
+            <div class="bg-[#fcfcfc] w-2/3 m-auto py-4 md:p-6">
+                <h1 class="text-center font-semibold">Politique de Confidentialité</h1>
             </div>
 
-        </section>
+            <p class="m-auto">
 
-        <section>
+                Chez Au Bon Pêcheur, nous sommes attachés à la protection de vos informations personnelles. Cette Politique de Confidentialité explique quelles informations nous collectons, comment nous les utilisons et comment nous les protégeons. En utilisant notre site, vous consentez à la collecte et à l'utilisation de vos informations conformément à cette politique.
 
-            <div class="pt-7 pb-1">
-                <h2 class="font-medium text-xl lg:text-2xl text-[#426EC2] text-center mb-5">Nos Nouveautés</h2>
-                <hr class="border-b border-[#426EC2] w-2/3 m-auto">
+                1. Collecte d'Informations
 
-                <?php require_once ('src/include/sliderNews.php'); ?>
-            </div>
-   
-        </section>
+                Nous pouvons collecter les types d'informations suivants lorsque vous interagissez avec notre site :
 
-        <section class="bg-[#426EC2] pb-5 md:pb-10">
+                Informations personnelles : nom, adresse, adresse e-mail, numéro de téléphone, etc.
+                Informations de transaction : détails d'achat, historique des commandes, etc.
+                Informations de navigation : adresse IP, données de navigation, dispositif utilisé, etc.
+                Cookies et technologies similaires : consultez notre Politique de Cookies pour plus d'informations.
+                2. Utilisation des Informations
 
-            <div class="pt-7 pb-1">
-                <h2 class="font-medium text-l lg:text-2xl text-[#fcfcfc] text-center mb-5">Nos Marques</h2>
-                <hr class="border-b border-[#fcfcfc] w-2/3 m-auto">
-            </div>
+                Nous utilisons vos informations personnelles aux fins suivantes :
 
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-3 p-5 md:px-14 lg:px-32">
+                Fournir et personnaliser nos services.
+                Traiter les transactions et les commandes.
+                Communiquer avec vous concernant vos achats et vos comptes.
+                Améliorer notre site, nos produits et nos services.
+                Envoyer des informations, des offres et des mises à jour.
+                3. Partage d'Informations
 
-                <?php foreach($marques as $marque) { ?>
-                <?php if($marque) { ?>
-                
-                    <a class="w-32 h-16 md:w-40 md:h-20 m-auto" href="/marque/<?php echo $marque->getNomMarque() ?>">
+                Nous ne vendons pas, ne louons pas et ne partageons pas vos informations personnelles avec des tiers à des fins de marketing. Nous pouvons partager vos informations avec :
 
-                        <div class="bg-[#fcfcfc] w-32 h-16 md:w-40 md:h-20 m-auto flex">
+                Fournisseurs de services tiers : pour nous aider à exploiter notre entreprise et à fournir nos services.
+                Autorités légales : si requis par la loi ou pour protéger nos droits, notre sécurité et nos biens.
+                4. Sécurité des Données
 
-                            <div class="w-28 h-16 md:w-36 md:h-20 m-auto overflow-hidden">
-                                <img src="<?php echo $marque->getImageMarque(); ?>" class="w-full h-full object-contain" />
-                            </div>
+                Nous prenons des mesures de sécurité pour protéger vos informations contre l'accès non autorisé, la divulgation et la destruction. Cependant, aucune méthode de transmission sur Internet ou de stockage électronique n'est totalement sécurisée.
 
-                        </div>
-                
-                    </a>
+                5. Vos Droits
 
-                <?php } else { echo ''; } } ?>
+                Vous avez le droit d'accéder à vos informations personnelles, de les corriger, de les mettre à jour et de les supprimer. Vous pouvez également vous désabonner de nos communications marketing à tout moment. Contactez-nous pour exercer vos droits.
 
-            </div>
+                6. Modifications de la Politique
 
-        </section>
+                Nous pouvons mettre à jour cette Politique de Confidentialité périodiquement. Les changements seront affichés sur cette page avec la date de mise à jour.
 
-        <section>
+                7. Nous Contacter
 
-            <div class="pt-7 pb-1">
-                <h2 class="font-medium text-l lg:text-2xl text-[#426EC2] text-center mb-5">Actuellement en Promotion</h2>
-                <hr class="border-b border-[#426EC2] w-2/3 m-auto">
-                <?php require_once ('src/include/sliderPromo.php'); ?>
-            </div>
+                Si vous avez des questions concernant notre Politique de Confidentialité, veuillez nous contacter à [adresse e-mail de contact].
+
+                Pour plus de détails sur nos pratiques de confidentialité et la gestion des cookies, veuillez consulter notre Politique de Confidentialité complète sur [insérer le lien vers la page Politique de Confidentialité].
+            </p>
 
         </section>
 
@@ -162,16 +152,13 @@
             </div>
                 
         </section>
-                
+
     </main>
 
     <footer class="bg-[#fcfcfc]">
-        <?php require_once ('src/include/footer.php') ?>
+        <?php require_once('src/include/footer.php') ?>
     </footer>
 
-    <script src="/assets/js/sliderNews.js"></script>
-    <script src="/assets/js/sliderPromo.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 </body>
+
 </html>

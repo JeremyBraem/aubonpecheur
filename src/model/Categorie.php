@@ -94,10 +94,15 @@ class CategorieRepository extends connectBdd
         $req->execute([$nom_categorie]);
         $data = $req->fetch();
         
-        $categorie = new Categorie();
-        $categorie->setIdCategorie($data['id_categorie']);
-        
-        return $categorie;
+        if($data)
+        {
+            $categorie = new Categorie();
+            $categorie->setIdCategorie($data['id_categorie']);
+            return $categorie;
+        }
+        else
+        {
+            return false;
+        }
     }
-
 }

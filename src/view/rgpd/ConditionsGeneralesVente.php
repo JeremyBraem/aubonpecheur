@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/assets/css/reset.css" rel="stylesheet">
-    <link href="/assets/css/font.css" rel="stylesheet">
-    <!-- font google ROBOTO -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400&family=Roboto:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
-    <link rel="icon" href="/assets/img/site/icon.png"/>
+    <link rel="icon" href="/assets/img/site/icon.png" />
+
     <!--FLowbite-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
     <!--Tailwind -->
     <link href="/dist/output.css" rel="stylesheet">
-    <title>Accueil</title>
+    <title>Contact</title>
 </head>
 
 <body class="bg-[#fcfcfc]">
@@ -29,64 +26,41 @@
 
     <main>
 
-        <section>
+        <section class="w-2/3 m-auto py-5">
 
-            <div class="w-full lg:h-[300px] h-[120px]">
-                <video class="w-full h-full object-cover" loop muted autoplay>
-                    <source src="/assets/video/homeVideo.mp4" type="video/mp4">
-                </video>
+            <div class="bg-[#fcfcfc] w-2/3 m-auto py-4 md:p-6">
+                <h1 class="text-center font-semibold">Conditions Générales de Vente</h1>
             </div>
 
-        </section>
+            <p class="md:w-2/3 m-auto">
 
-        <section>
+                1. Dispositions Générales
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit...
 
-            <div class="pt-7 pb-1">
-                <h2 class="font-medium text-xl lg:text-2xl text-[#426EC2] text-center mb-5">Nos Nouveautés</h2>
-                <hr class="border-b border-[#426EC2] w-2/3 m-auto">
+                2. Commandes
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit...
 
-                <?php require_once ('src/include/sliderNews.php'); ?>
-            </div>
-   
-        </section>
+                3. Paiement
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit...
 
-        <section class="bg-[#426EC2] pb-5 md:pb-10">
+                4. Livraison
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit...
 
-            <div class="pt-7 pb-1">
-                <h2 class="font-medium text-l lg:text-2xl text-[#fcfcfc] text-center mb-5">Nos Marques</h2>
-                <hr class="border-b border-[#fcfcfc] w-2/3 m-auto">
-            </div>
+                5. Retours et Remboursements
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit...
 
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-3 p-5 md:px-14 lg:px-32">
+                6. Droits de Propriété Intellectuelle
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit...
 
-                <?php foreach($marques as $marque) { ?>
-                <?php if($marque) { ?>
-                
-                    <a class="w-32 h-16 md:w-40 md:h-20 m-auto" href="/marque/<?php echo $marque->getNomMarque() ?>">
+                7. Limitation de Responsabilité
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit...
 
-                        <div class="bg-[#fcfcfc] w-32 h-16 md:w-40 md:h-20 m-auto flex">
+                8. Lois Applicables
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit...
 
-                            <div class="w-28 h-16 md:w-36 md:h-20 m-auto overflow-hidden">
-                                <img src="<?php echo $marque->getImageMarque(); ?>" class="w-full h-full object-contain" />
-                            </div>
+                Pour plus de détails, veuillez consulter nos Conditions Générales de Vente complètes sur [insérer le lien vers la page CGV].
 
-                        </div>
-                
-                    </a>
-
-                <?php } else { echo ''; } } ?>
-
-            </div>
-
-        </section>
-
-        <section>
-
-            <div class="pt-7 pb-1">
-                <h2 class="font-medium text-l lg:text-2xl text-[#426EC2] text-center mb-5">Actuellement en Promotion</h2>
-                <hr class="border-b border-[#426EC2] w-2/3 m-auto">
-                <?php require_once ('src/include/sliderPromo.php'); ?>
-            </div>
+            </p>
 
         </section>
 
@@ -162,16 +136,13 @@
             </div>
                 
         </section>
-                
+
     </main>
 
     <footer class="bg-[#fcfcfc]">
-        <?php require_once ('src/include/footer.php') ?>
+        <?php require_once('src/include/footer.php') ?>
     </footer>
 
-    <script src="/assets/js/sliderNews.js"></script>
-    <script src="/assets/js/sliderPromo.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 </body>
+
 </html>

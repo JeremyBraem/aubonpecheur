@@ -19,7 +19,7 @@
             </span>
         </div>
     </div>
-    <ul class="hidden gap-4 absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
+    <ul class="hidden gap-4 absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
         <li><a class="text-m text-white" href="/home">Accueil</a></li>
         <li><a class="text-m text-white" href="/promotion">Promotion</a></li>
         <li><a class="text-m text-white" href="/Marque">Marque</a></li>
@@ -28,6 +28,7 @@
         <li><a class="text-m text-white" href="/article/Truite">Truite</a></li>
         <li><a class="text-m text-white" href="/article/Carnassier">Carnassier</a></li>
         <li><a class="text-m text-white" href="/article/Silure">Silure</a></li>
+        <li><a class="text-m text-white" href="/article/Feeder">Feeder</a></li>
         <?php
         if (isset($_SESSION['id_role'])) {
             if (!empty($_SESSION['id_role'])) {

@@ -1,35 +1,39 @@
-const listeArticlesDiv = document.getElementById("listeArticles");
-const prevButton = document.getElementById("prevButton");
-const nextButton = document.getElementById("nextButton");
-let currentPage = 1;
+document.addEventListener("DOMContentLoaded", function () 
+{
+    let filtres = document.querySelectorAll(".filtre");
 
-async function loadAndDisplayProducts(page) {
-  try {
-    const response = await fetch(`article/Coup&page=${page}`);
-    const produits = await response.json();
+    for (let i = 0; i < filtres.length; i++) 
+    {
+        filtres[i].addEventListener("change", function () 
+        {
+            handleFiltre();
+        });
+    }
 
-    listeArticlesDiv.innerHTML = "";
+    function handleFiltre() 
+    {
+        let valeursFiltres = Array.from(filtres)
+        .filter(function (filtre) 
+        {
+            return filtre.checked;
+        })
+        .map(function (filtre) 
+        {
+            console.log(filtre.value);
+            return filtre.value;
+        });
 
-    produits.forEach(produit => {
-      const produitElement = document.createElement("div");
-      produitElement.textContent = produit.nom;
-      listeArticlesDiv.appendChild(produitElement);
-    });
-  } catch (error) {
-    console.error("Erreur lors de la récupération des produits :", error);
-  }
-}
-
-prevButton.addEventListener("click", () => {
-  if (currentPage > 1) {
-    currentPage--;
-    loadAndDisplayProducts(currentPage);
-  }
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/index.php?action=filtre", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () 
+        {
+            if (xhr.readyState === 4 && xhr.status === 200) 
+            {
+                // Mettre à jour le contenu du conteneur avec les nouveaux articles
+                document.getElementById("listeArticles").innerHTML = xhr.responseText;
+            }
+        };
+        xhr.send("filtres=" + encodeURIComponent(JSON.stringify(valeursFiltres)));
+    }
 });
-
-nextButton.addEventListener("click", () => {
-  currentPage++;
-  loadAndDisplayProducts(currentPage);
-});
-
-loadAndDisplayProducts(currentPage);

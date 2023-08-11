@@ -187,11 +187,17 @@ class MarqueRepository extends connectBdd
         $req = $this->bdd->prepare("SELECT * FROM marque WHERE nom_marque = ?");
         $req->execute([$nom_marque]);
         $data = $req->fetch();
-       
-        $marque = new Marque();
-        $marque->setIdMarque($data['id_marque']);
-             
-        return $marque;
+
+        if($data)
+        {
+            $marque = new Marque();
+            $marque->setIdMarque($data['id_marque']);
+            return $marque;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 }
