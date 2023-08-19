@@ -47,89 +47,56 @@
 
                             <div class="w-56">
 
-                                <a href="/<?php echo $article['genre']; ?>Page/<?php echo $article['id']; ?>">
+                        <div class="flex flex-col justify-center">
 
-                                    <div class="w-56">
-                                        <img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="<?php echo $article['image']; ?>" />
-                                    </div>
+                            <div class="relative m-3 flex flex-wrap mx-auto justify-center ">
 
-                                </a>
+                                <div class="relative bg-white shadow-md p-2 my-3 rounded">
 
-                                <div class="flex justify-center gap-10 py-3">
-
-                                    <div>
-                                        <p class="text-s md:text-lg">
-                                            <?php
-                                            $nom = $article['nom'];
-                                            if (strlen($nom) > 20) {
-                                                echo substr($nom, 0, 17) . '...';
-                                            } else {
-                                                echo $nom;
-                                            }
-                                            ?>
-                                        </p>
-                                        <p class="text-xs md:text-sm uppercase">
-                                            <?php
-                                            $marque = $article['marque'];
-                                            if (strlen($marque) > 50) {
-                                                echo substr($marque, 0, 47) . '...';
-                                            } else {
-                                                echo $marque;
-                                            }
-                                            ?>
+                                    <div class="overflow-x-hidden rounded-2xl relative w-56 h-56">
+                                        <?php if ($produit->getPromoProduit() > 0) { ?>
+                                            <span class="original-number absolute text-[#fcfcfc] text-sm left-2 top-2 z-40 p-1 px-[9px] w-auto text-center font-semibold rounded-full bg-[#e8330d]">-<?php echo $produit->getPromoProduit(); ?>%</span>
+                                        <?php } ?>
+                                        <img class="h-full rounded-2xl w-full object-cover" src="/<?php echo $produit->getNomImage() ?>">
+                                        <p class="absolute right-2 top-2 bg-[#426EC2] rounded-full p-2 cursor-pointer group">
+                                            <img class="add-to-cart-btn w-6 h-6" data-name="<?php echo $produit->getNomProduit(); ?>" 
+                                            data-price="<?php if ($produit->getPromoProduit() > 0) 
+                                            {
+                                                echo $produit->getPrixPromoProduit();
+                                            } 
+                                            else 
+                                            {
+                                                echo $produit->getPrixProduit();
+                                            } ?>" 
+                                            data-image="<?php echo $produit->getNomImage(); ?>" 
+                                            data-genre="<?php echo $produit->getNomGenre(); ?>" 
+                                            data-id="<?php echo $produit->getIdProduit(); ?>" src="/assets/img/site/addCart.png">
                                         </p>
                                     </div>
 
-                                    <?php if ($_SESSION) { ?>
-
-                                        <div>
-
-                                            <form class="favoris-form" method="post" action="index.php?action=addFavorisTraitement">
-                                                <input type="hidden" name="id_<?php echo $article['genre']; ?>" value="<?php echo $article['id']; ?>">
-                                                <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
-                                                <input type="hidden" name="genre" value="<?php echo $article['genre']; ?>">
-                                                <input type="hidden" name="date_ajout_favoris" value="<?php echo $today = date("d/m/y"); ?>">
-                                                <?php if(isset($_GET['action'])) { ?>
-                                                <input type="hidden" name="page" value="<?php echo $_GET['action'] ?>">
-                                                <?php }else{ echo ''; } ?>
-                                                <?php if ($_SESSION[$article['genre']]) { ?>
-
-                                                    <?php foreach ($_SESSION[$article['genre']] as $idTab) { ?>
-
-                                                        <?php if (in_array($article['id'], $idTab)) { ?>
-
-                                                            <button class="favoris-button" type="submit">
-                                                                <img class="w-6 h-6 mt-1" src="assets/img/site/liked.png">
-                                                            </button>
-
-                                                        <?php } else { ?>
-
-                                                            <button class="favoris-button" type="submit">
-                                                                <img class="w-6 h-6 mt-1" src="assets/img/site/like.png">
-                                                            </button>
-
-                                                        <?php } ?>
-
-                                                    <?php } ?>
-
+                                    <div class="mt-4 pl-2 mb-2 flex justify-between ">
+                                        <a href="/<?php echo $produit->getNomGenre(); ?>Page/<?php echo $produit->getIdProduit(); ?>">
+                                            <p class="text-lg font-semibold text-gray-900 mb-0"><?php echo $produit->getNomProduit(); ?></p>
+                                            <p class="text-lg text-gray-900 mb-0"><?php echo $produit->getNomMarque(); ?></p>
+                                            <div class="flex gap-10">
+                                                <?php if ($produit->getPromoProduit() > 0) { ?>
+                                                    <p class="text-md text-gray-800 mt-0 line-through"><?php echo number_format($produit->getPrixProduit(), 2, '.', '') ?>€</p>
+                                                    <p class="number text-md text-gray-800 mt-0"><?php echo number_format($produit->getPrixPromoProduit(), 2, '.', '') ?>€</p>
                                                 <?php } else { ?>
-
-                                                    <button class="favoris-button" type="submit">
-                                                        <img class="w-6 h-6 mt-1" src="assets/img/site/like.png">
-                                                    </button>
-
+                                                    <p class="text-md text-gray-800 mt-0"><?php echo number_format($produit->getPrixProduit(), 2, '.', '') ?>€</p>
                                                 <?php } ?>
+                                            </div>
 
-                                            </form>
-
-                                        </div>
-
-                                    <?php } ?>
+                                        </a>
+                                    </div>
 
                                 </div>
 
-
                             </div>
+
+                        </div>
+
+                    </div>
 
                         <?php } else {
                             echo '';

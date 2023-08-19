@@ -101,7 +101,7 @@ class AutreRepository extends connectBdd
         }
     }
 
-    public function getAutre()
+    public function getAutre($id_produit)
     {
         try 
         {
@@ -117,11 +117,11 @@ class AutreRepository extends connectBdd
 
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_autre ON type_autre.id_type_autre = caracteristiques_autre.id_type_autre
-                WHERE produit.id_genre = 9
+                WHERE produit.id_genre = 9 AND produit.id_produit = ?
                 GROUP BY produit.id_produit
             ");
 
-            $req->execute();
+            $req->execute([$id_produit]);
 
             $autreData = $req->fetch(PDO::FETCH_ASSOC);
 

@@ -34,17 +34,17 @@
 
                     <div>
                         <label for="poids_canne" class="block mb-2 text-sm font-medium text-gray-900 ">Poids :</label>
-                        <input type="number" name="poids_canne" value="<?php echo $canne->getPoidsCanne(); ?>" id="poids_canne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Poids en kg" required>
+                        <input type="number" step="0.01" name="poids_canne" value="<?php echo $canne->getPoidsCanne(); ?>" id="poids_canne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Poids en kg" required>
                     </div>
 
                     <div>
                         <label for="longueur_canne" class="block mb-2 text-sm font-medium text-gray-900 ">Longueur :</label>
-                        <input type="number" name="longueur_canne" value="<?php echo $canne->getLongueurCanne(); ?>" id="longueur_canne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Longueur en m" required>
+                        <input type="number" step="0.01" name="longueur_canne" value="<?php echo $canne->getLongueurCanne(); ?>" id="longueur_canne" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Longueur en m" required>
                     </div>
 
                     <div>
                         <label for="prix_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Prix :</label>
-                        <input type="number" name="prix_produit" id="prix_produit" value="<?php echo $canne->getPrixProduit(); ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Prix en euro" required>
+                        <input type="number" step="0.01" name="prix_produit" id="prix_produit" value="<?php echo $canne->getPrixProduit(); ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Prix en euro" required>
                     </div>
 
                     <div>
@@ -76,7 +76,7 @@
 
                     <div>
                         <label for="promo_produit" class="block mb-2 text-sm font-medium text-gray-900 ">En promotion :</label>
-                        <input type="number" id="promo_produit" value="<?php echo $produit->getPrixPromoProduit() ?>" name="promo_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                        <input type="number" id="promo_produit" value="<?php echo $produit->getPromoProduit() ?>" name="promo_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                     </div>
 
                     <div>

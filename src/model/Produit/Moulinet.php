@@ -113,7 +113,7 @@ class MoulinetRepository extends connectBdd
         }
     }
 
-    public function getMoulinet()
+    public function getMoulinet($id_produit)
     {
         try 
         {
@@ -129,11 +129,11 @@ class MoulinetRepository extends connectBdd
 
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_moulinet ON type_moulinet.id_type_moulinet = caracteristiques_moulinet.id_type_moulinet
-                WHERE produit.id_genre = 2
+                WHERE produit.id_genre = 2 AND produit.id_produit = ?
                 GROUP BY produit.id_produit
             ");
 
-            $req->execute();
+            $req->execute([$id_produit]);
 
             $moulinetData = $req->fetch(PDO::FETCH_ASSOC);
 

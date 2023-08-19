@@ -112,7 +112,7 @@ class HameconRepository extends connectBdd
         }
     }
 
-    public function getHamecon()
+    public function getHamecon($id_produit)
     {
         try 
         {
@@ -128,11 +128,11 @@ class HameconRepository extends connectBdd
 
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_hamecon ON type_hamecon.id_type_hamecon = caracteristiques_hamecon.id_type_hamecon
-                WHERE produit.id_genre = 3
+                WHERE produit.id_genre = 3 AND produit.id_produit = ?
                 GROUP BY produit.id_produit
             ");
 
-            $req->execute();
+            $req->execute([$id_produit]);
 
             $hameconData = $req->fetch(PDO::FETCH_ASSOC);
 

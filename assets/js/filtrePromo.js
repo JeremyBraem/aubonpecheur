@@ -30,8 +30,16 @@ document.addEventListener("DOMContentLoaded", function ()
             if (xhr.readyState === 4 && xhr.status === 200) 
             {
                 document.getElementById("listeArticles").innerHTML = xhr.responseText;
+                updatePagination();
             }
         };
         xhr.send("filtres=" + encodeURIComponent(JSON.stringify(valeursFiltres)));
+    }
+
+    function updatePagination() {
+        const paginationContainer = document.getElementById('pagination');
+        paginationContainer.innerHTML = '';
+    
+        return;
     }
 });

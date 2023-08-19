@@ -101,7 +101,7 @@ class EquipementRepository extends connectBdd
         }
     }
 
-    public function getEquipement()
+    public function getEquipement($id_produit)
     {
         try 
         {
@@ -117,11 +117,11 @@ class EquipementRepository extends connectBdd
 
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_equipement ON type_equipement.id_type_equipement = caracteristiques_equipement.id_type_equipement
-                WHERE produit.id_genre = 7
+                WHERE produit.id_genre = 7 AND produit.id_produit = ?
                 GROUP BY produit.id_produit
             ");
 
-            $req->execute();
+            $req->execute([$id_produit]);
 
             $equipementData = $req->fetch(PDO::FETCH_ASSOC);
          

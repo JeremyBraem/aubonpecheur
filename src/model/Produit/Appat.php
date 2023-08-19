@@ -100,7 +100,7 @@ class AppatRepository extends connectBdd
         }
     }
 
-    public function getAppat()
+    public function getAppat($id_produit)
     {
         try 
         {
@@ -115,11 +115,11 @@ class AppatRepository extends connectBdd
                 INNER JOIN image ON image.id_produit = produit.id_produit
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_appat ON type_appat.id_type_appat = caracteristiques_appat.id_type_appat
-                WHERE produit.id_genre = 8
+                WHERE produit.id_genre = 8 AND produit.id_produit = ?
                 GROUP BY produit.id_produit
             ");
 
-            $req->execute();
+            $req->execute([$id_produit]);
 
             $appatData = $req->fetch(PDO::FETCH_ASSOC);
         

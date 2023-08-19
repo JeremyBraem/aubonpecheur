@@ -280,7 +280,7 @@ class ProduitRepository extends connectBdd
                 LEFT JOIN categorie ON produit.id_categorie = categorie.id_categorie
                 LEFT JOIN image ON image.id_produit = produit.id_produit
                 LEFT JOIN genre ON genre.id_genre = produit.id_genre
-                WHERE produit.id_categorie = ?  -- Déplacer la clause WHERE ici
+                WHERE produit.id_categorie = ?
                 ORDER BY produit.id_produit DESC
             ");
 
@@ -433,7 +433,7 @@ class ProduitRepository extends connectBdd
 
         LEFT JOIN marque ON produit.id_marque = marque.id_marque
         LEFT JOIN categorie ON produit.id_categorie = categorie.id_categorie
-        
+        LEFT JOIN image ON image.id_produit = produit.id_produit
         LEFT JOIN genre ON genre.id_genre = produit.id_genre
         WHERE nom_produit LIKE ? OR description_produit LIKE ? OR nom_marque LIKE ? OR nom_genre LIKE ? OR nom_categorie LIKE ?
 
@@ -503,6 +503,138 @@ class ProduitRepository extends connectBdd
 
             $req->bindValue(1, $offset, PDO::PARAM_INT);
             $req->bindValue(2, $limit, PDO::PARAM_INT);
+            $req->execute();
+            
+            $productsData = $req->fetchAll(PDO::FETCH_ASSOC);
+
+            $products = [];
+            foreach ($productsData as $productData)
+            {
+                $product = new Produit();
+                $product->setIdProduit($productData['id_produit']);
+                $product->setNomProduit($productData['nom_produit']);
+                $product->setDescriptionProduit($productData['description_produit']);
+                $product->setPrixProduit($productData['prix_produit']);
+                $product->setPromoProduit($productData['promo_produit']);
+                $product->setPrixPromoProduit($productData['prix_promo_produit']);
+                $product->setStockProduit($productData['stock_produit']);
+                $product->setIdCategorie($productData['id_categorie']);
+                $product->setNomCategorie($productData['nom_categorie']);
+                $product->setIdMarque($productData['id_marque']);
+                $product->setNomMarque($productData['nom_marque']);
+                $product->setIdGenre($productData['id_genre']);
+                $product->setNomGenre($productData['nom_genre']);
+                $product->setNomImage($productData['nom_image']);
+                $product->setIdImage($productData['id_image']);
+                $product->setDescriptionImage($productData['description_image']);
+
+                $products[] = $product;
+            }
+           
+            return $products;
+        }   
+        catch (PDOException $e) 
+        {
+            die("Erreur lors de la récupération des produits en promo : " . $e->getMessage());
+        }
+    }
+
+    public function getTotalCateProducts($id_categorie)
+    {
+        $query = "SELECT COUNT(*) as total FROM produit WHERE produit.id_categorie = ?";
+        $stmt = $this->bdd->prepare($query);
+        $stmt->execute([$id_categorie]);
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
+    }
+
+    public function getCateProductsPaginated($offset, $limit, $id_categorie)
+    {
+        try 
+        {
+            $req = $this->bdd->prepare
+            ("
+                SELECT produit.*, marque.nom_marque, categorie.*, 
+                image.*, genre.*
+                FROM produit
+                LEFT JOIN marque ON produit.id_marque = marque.id_marque
+                LEFT JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                LEFT JOIN image ON image.id_produit = produit.id_produit
+                LEFT JOIN genre ON genre.id_genre = produit.id_genre
+                WHERE produit.id_categorie = ?
+                ORDER BY produit.id_produit DESC LIMIT ?, ? 
+            ");
+
+            $req->bindValue(1, $id_categorie, PDO::PARAM_STR);
+            $req->bindValue(2, $offset, PDO::PARAM_INT);
+            $req->bindValue(3, $limit, PDO::PARAM_INT);
+            $req->execute();
+            
+            $productsData = $req->fetchAll(PDO::FETCH_ASSOC);
+
+            $products = [];
+            foreach ($productsData as $productData)
+            {
+                $product = new Produit();
+                $product->setIdProduit($productData['id_produit']);
+                $product->setNomProduit($productData['nom_produit']);
+                $product->setDescriptionProduit($productData['description_produit']);
+                $product->setPrixProduit($productData['prix_produit']);
+                $product->setPromoProduit($productData['promo_produit']);
+                $product->setPrixPromoProduit($productData['prix_promo_produit']);
+                $product->setStockProduit($productData['stock_produit']);
+                $product->setIdCategorie($productData['id_categorie']);
+                $product->setNomCategorie($productData['nom_categorie']);
+                $product->setIdMarque($productData['id_marque']);
+                $product->setNomMarque($productData['nom_marque']);
+                $product->setIdGenre($productData['id_genre']);
+                $product->setNomGenre($productData['nom_genre']);
+                $product->setNomImage($productData['nom_image']);
+                $product->setIdImage($productData['id_image']);
+                $product->setDescriptionImage($productData['description_image']);
+
+                $products[] = $product;
+            }
+           
+            return $products;
+        }   
+        catch (PDOException $e) 
+        {
+            die("Erreur lors de la récupération des produits en promo : " . $e->getMessage());
+        }
+    }
+
+    public function getTotalMarqueProducts($id_marque)
+    {
+        $query = "SELECT COUNT(*) as total FROM produit WHERE produit.id_marque = ?";
+        $stmt = $this->bdd->prepare($query);
+        $stmt->execute([$id_marque]);
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
+    }
+
+    public function getMarqueProductsPaginated($offset, $limit, $id_marque)
+    {
+        try 
+        {
+            $req = $this->bdd->prepare
+            ("
+                SELECT produit.*, marque.nom_marque, categorie.*, 
+                image.*, genre.*
+                FROM produit
+                LEFT JOIN marque ON produit.id_marque = marque.id_marque
+                LEFT JOIN categorie ON produit.id_categorie = categorie.id_categorie
+                LEFT JOIN image ON image.id_produit = produit.id_produit
+                LEFT JOIN genre ON genre.id_genre = produit.id_genre
+                WHERE produit.id_marque = ?
+                ORDER BY produit.id_produit DESC LIMIT ?, ? 
+            ");
+
+            $req->bindValue(1, $id_marque, PDO::PARAM_STR);
+            $req->bindValue(2, $offset, PDO::PARAM_INT);
+            $req->bindValue(3, $limit, PDO::PARAM_INT);
             $req->execute();
             
             $productsData = $req->fetchAll(PDO::FETCH_ASSOC);

@@ -630,7 +630,7 @@ function promoPage()
 
     $allTypes = getAllType();
 
-    $productsPerPage = 5;
+    $productsPerPage = 20;
 
     $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;    
 
@@ -659,6 +659,8 @@ function viewPageCategorie()
     $produitRepo = new ProduitRepository;
     $marqueRepo = new MarqueRepository;
     $categorieRepo = new CategorieRepository;
+    
+    $marques = $marqueRepo->getAllMarque();
 
     if ($categorieRepo->existCategorie($_GET['categorie'])) 
     {
@@ -669,9 +671,28 @@ function viewPageCategorie()
         header('location: /home');
     }
 
-    $produits = $produitRepo->getAllProductsByCategory($categorie->getIdCategorie());
+    $totalCateProducts = $produitRepo->getTotalCateProducts($categorie->getIdCategorie());
 
-    $marques = $marqueRepo->getAllMarque();
+    $productsPerPage = 20;
+
+    $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;    
+
+    if(isset($_GET['page']))
+    {
+        if($_GET['page'] != 0)
+        {
+            $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
+        }
+        else
+        {
+            $currentpage = 1;
+        }
+    }
+
+    $offset = ($currentpage - 1) * $productsPerPage;
+    $produits = $produitRepo->getCateProductsPaginated($offset, $productsPerPage, $categorie->getIdCategorie());
+
+    $totalPages = ceil($totalCateProducts / $productsPerPage);
 
     include('src/view/articlePageByCat.php');
 }
@@ -682,7 +703,7 @@ function filtrePageCate()
 
     $categorieRepo = new CategorieRepository;
 
-    if ($categorieRepo->existCategorie($_GET['categorie'])) 
+    if ($categorieRepo->existCategorie($_GET['categorie']))
     {
         $categorie = $categorieRepo->existCategorie($_GET['categorie']);
     }
@@ -739,64 +760,35 @@ function filtrePageCate()
     foreach ($articlesFiltres as $articleFiltred)
     {
         echo '<div class="w-56">';
-
-            echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';
-                echo '<div class="class="w-56">';
-                    echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/' . $articleFiltred->getNomImage() . '"/>';
-                echo '</div>';
-            echo '</a>';
-
-            echo '<div class="flex justify-center gap-10 py-3">';
-
-                echo '<div>';
-
-                    echo '<div class="flex">';
-
-                        echo '<p class="text-s md:text-lg">';
-                            $prix = $articleFiltred->getNomProduit();
-                            if (strlen($prix) > 50) 
-                            {
-                                echo substr($prix, 0, 47) . '...';
-                            } 
-                            else 
-                            {
-                                echo $prix;
+            echo '<div class="flex flex-col justify-center">';
+                echo '<div class="relative m-3 flex flex-wrap mx-auto justify-center ">';
+                    echo '<div class="relative bg-white shadow-md p-2 my-3 rounded">';
+                        echo '<div class="overflow-x-hidden rounded-2xl relative w-56 h-56">';
+                            if ($articleFiltred->getPromoProduit() > 0) {
+                                echo '<span class="original-number absolute text-[#fcfcfc] text-sm left-2 top-2 z-40 p-1 px-[9px] w-auto text-center font-semibold rounded-full bg-[#e8330d]">-' . $articleFiltred->getPromoProduit() . '%</span>';
                             }
-                        echo '</p>';
-
-                        echo '<p class="ml-10 text-s md:text-xl uppercase">';
-                            $prix = $articleFiltred->getPrixProduit() . '€';
-                            if (strlen($prix) > 50) 
-                            {
-                                echo substr($prix, 0, 47) . '...';
-                            } 
-                            else 
-                            {
-                                echo $prix;
-                            }
-                        echo '</p>';
-
+                            echo '<img class="h-full rounded-2xl w-full object-cover" src="/' . $articleFiltred->getNomImage() . '">';
+                            echo '<p class="absolute right-2 top-2 bg-[#426EC2] rounded-full p-2 cursor-pointer group">';
+                                echo '<img class="add-to-cart-btn w-6 h-6" data-name="' . $articleFiltred->getNomProduit() . '" data-price="' . ($articleFiltred->getPromoProduit() > 0 ? $articleFiltred->getPrixPromoProduit() : $articleFiltred->getPrixProduit()) . '" data-image="' . $articleFiltred->getNomImage() . '" data-genre="' . $articleFiltred->getNomGenre() . '" data-id="' . $articleFiltred->getIdProduit() . '" src="/assets/img/site/addCart.png">';
+                            echo '</p>';
+                        echo '</div>';
+                        echo '<div class="mt-4 pl-2 mb-2 flex justify-between ">';
+                            echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';
+                                echo '<p class="text-lg font-semibold text-gray-900 mb-0">' . $articleFiltred->getNomProduit() . '</p>';
+                                echo '<p class="text-lg text-gray-900 mb-0">' . $articleFiltred->getNomMarque() . '</p>';
+                                echo '<div class="flex gap-10">';
+                                    if ($articleFiltred->getPromoProduit() > 0) {
+                                        echo '<p class="text-md text-gray-800 mt-0 line-through">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
+                                        echo '<p class="number text-md text-gray-800 mt-0">' . number_format($articleFiltred->getPrixPromoProduit(), 2, '.', '') . '€</p>';
+                                    } else {
+                                        echo '<p class="text-md text-gray-800 mt-0">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
+                                    }
+                                echo '</div>';
+                            echo '</a>';
+                        echo '</div>';
                     echo '</div>';
-                    
-                    echo '<p class="text-xs md:text-sm uppercase">';
-                        $marque = $articleFiltred->getNomMarque();
-                        if(strlen($marque) > 50) 
-                        {
-                            echo substr($marque, 0, 47) . '...';
-                        } 
-                        else
-                        {
-                            echo $marque;
-                        }
-                    echo '</p>';
-
                 echo '</div>';
-
             echo '</div>';
-            
-            echo '<button id="profil-button" class="bg-[#426EC2] rounded-full p-2">';
-                echo '<img class="add-to-cart-btn w-6 h-6" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>" src="/assets/img/site/addCart.png">';
-            echo '</button>';
         echo '</div>';
     }
 }
@@ -815,13 +807,7 @@ function filtrePromo()
 
     $categorieRepo = new CategorieRepository;
 
-    $totalPromoProducts = $produitRepo->getTotalPromoProducts();
-    $productsPerPage = 20;
-    
-    $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
-    $offset = ($currentpage - 1) * $productsPerPage;
-    $produit = $produitRepo->getPromoProductsPaginated($offset, $productsPerPage);
-    $totalPages = ceil($totalPromoProducts / $productsPerPage);
+    $produit = $produitRepo->getAllPromoProducts();
 
     $filtres = isset($_POST['filtres']) ? json_decode($_POST['filtres']) : [];
 
@@ -879,64 +865,35 @@ function filtrePromo()
     foreach ($articlesFiltres as $articleFiltred)
     {
         echo '<div class="w-56">';
-
-            echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';
-                echo '<div class="class="w-56">';
-                    echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/' . $articleFiltred->getNomImage() . '"/>';
-                echo '</div>';
-            echo '</a>';
-
-            echo '<div class="flex justify-center gap-10 py-3">';
-
-                echo '<div>';
-
-                    echo '<div class="flex">';
-
-                        echo '<p class="text-s md:text-lg">';
-                            $prix = $articleFiltred->getNomProduit();
-                            if (strlen($prix) > 50) 
-                            {
-                                echo substr($prix, 0, 47) . '...';
-                            } 
-                            else 
-                            {
-                                echo $prix;
+            echo '<div class="flex flex-col justify-center">';
+                echo '<div class="relative m-3 flex flex-wrap mx-auto justify-center ">';
+                    echo '<div class="relative bg-white shadow-md p-2 my-3 rounded">';
+                        echo '<div class="overflow-x-hidden rounded-2xl relative w-56 h-56">';
+                            if ($articleFiltred->getPromoProduit() > 0) {
+                                echo '<span class="original-number absolute text-[#fcfcfc] text-sm left-2 top-2 z-40 p-1 px-[9px] w-auto text-center font-semibold rounded-full bg-[#e8330d]">-' . $articleFiltred->getPromoProduit() . '%</span>';
                             }
-                        echo '</p>';
-
-                        echo '<p class="ml-10 text-s md:text-xl uppercase">';
-                            $prix = $articleFiltred->getPrixProduit() . '€';
-                            if (strlen($prix) > 50) 
-                            {
-                                echo substr($prix, 0, 47) . '...';
-                            } 
-                            else 
-                            {
-                                echo $prix;
-                            }
-                        echo '</p>';
-
+                            echo '<img class="h-full rounded-2xl w-full object-cover" src="' . $articleFiltred->getNomImage() . '">';
+                            echo '<p class="absolute right-2 top-2 bg-[#426EC2] rounded-full p-2 cursor-pointer group">';
+                                echo '<img class="add-to-cart-btn w-6 h-6" data-name="/' . $articleFiltred->getNomProduit() . '" data-price="' . ($articleFiltred->getPromoProduit() > 0 ? $articleFiltred->getPrixPromoProduit() : $articleFiltred->getPrixProduit()) . '" data-image="' . $articleFiltred->getNomImage() . '" data-genre="' . $articleFiltred->getNomGenre() . '" data-id="' . $articleFiltred->getIdProduit() . '" src="/assets/img/site/addCart.png">';
+                            echo '</p>';
+                        echo '</div>';
+                        echo '<div class="mt-4 pl-2 mb-2 flex justify-between ">';
+                            echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';
+                                echo '<p class="text-lg font-semibold text-gray-900 mb-0">' . $articleFiltred->getNomProduit() . '</p>';
+                                echo '<p class="text-lg text-gray-900 mb-0">' . $articleFiltred->getNomMarque() . '</p>';
+                                echo '<div class="flex gap-10">';
+                                    if ($articleFiltred->getPromoProduit() > 0) {
+                                        echo '<p class="text-md text-gray-800 mt-0 line-through">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
+                                        echo '<p class="number text-md text-gray-800 mt-0">' . number_format($articleFiltred->getPrixPromoProduit(), 2, '.', '') . '€</p>';
+                                    } else {
+                                        echo '<p class="text-md text-gray-800 mt-0">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
+                                    }
+                                echo '</div>';
+                            echo '</a>';
+                        echo '</div>';
                     echo '</div>';
-                    
-                    echo '<p class="text-xs md:text-sm uppercase">';
-                        $marque = $articleFiltred->getNomMarque();
-                        if(strlen($marque) > 50) 
-                        {
-                            echo substr($marque, 0, 47) . '...';
-                        } 
-                        else
-                        {
-                            echo $marque;
-                        }
-                    echo '</p>';
-
                 echo '</div>';
-
             echo '</div>';
-            
-            echo '<button id="profil-button" class="bg-[#426EC2] rounded-full p-2">';
-                echo '<img class="add-to-cart-btn w-6 h-6" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>" src="/assets/img/site/addCart.png">';
-            echo '</button>';
         echo '</div>';
     }
 }
@@ -959,9 +916,28 @@ function viewPageMarque()
             header('location: /home');
         }
     
-        $produits = $produitRepo->getAllProductsByMarque($marque->getIdMarque());
+        $totalCateProducts = $produitRepo->getTotalMarqueProducts($marque->getIdMarque());
     
-        $marques = $marqueRepo->getAllMarque();
+        $productsPerPage = 20;
+    
+        $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;    
+    
+        if(isset($_GET['page']))
+        {
+            if($_GET['page'] != 0)
+            {
+                $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
+            }
+            else
+            {
+                $currentpage = 1;
+            }
+        }
+    
+        $offset = ($currentpage - 1) * $productsPerPage;
+        $produits = $produitRepo->getMarqueProductsPaginated($offset, $productsPerPage, $marque->getIdMarque());
+    
+        $totalPages = ceil($totalCateProducts / $productsPerPage);    
     
         $categories = getAllCategorie();
     
@@ -1088,65 +1064,35 @@ function filtrePageMarque()
     foreach ($articlesFiltres as $articleFiltred)
     {
         echo '<div class="w-56">';
-
-            echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';
-                echo '<div class="class="w-56">';
-                    echo '<img class="object-cover object-center w-56 h-56" style="border: 1px solid #000000;" src="/' . $articleFiltred->getNomImage() . '"/>';
-                echo '</div>';
-            echo '</a>';
-
-            echo '<div class="flex justify-center gap-10 py-3">';
-
-                echo '<div>';
-
-                    echo '<div class="flex">';
-
-                        echo '<p class="text-s md:text-lg">';
-                            $prix = $articleFiltred->getNomProduit();
-                            if (strlen($prix) > 50) 
-                            {
-                                echo substr($prix, 0, 47) . '...';
-                            } 
-                            else 
-                            {
-                                echo $prix;
+            echo '<div class="flex flex-col justify-center">';
+                echo '<div class="relative m-3 flex flex-wrap mx-auto justify-center ">';
+                    echo '<div class="relative bg-white shadow-md p-2 my-3 rounded">';
+                        echo '<div class="overflow-x-hidden rounded-2xl relative w-56 h-56">';
+                            if ($articleFiltred->getPromoProduit() > 0) {
+                                echo '<span class="original-number absolute text-[#fcfcfc] text-sm left-2 top-2 z-40 p-1 px-[9px] w-auto text-center font-semibold rounded-full bg-[#e8330d]">-' . $articleFiltred->getPromoProduit() . '%</span>';
                             }
-                        echo '</p>';
-
-                        echo '<p class="ml-10 text-s md:text-xl uppercase">';
-                            $prix = $articleFiltred->getPrixProduit() . '€';
-                            if (strlen($prix) > 50) 
-                            {
-                                echo substr($prix, 0, 47) . '...';
-                            } 
-                            else 
-                            {
-                                echo $prix;
-                            }
-                        echo '</p>';
-
+                            echo '<img class="h-full rounded-2xl w-full object-cover" src="/' . $articleFiltred->getNomImage() . '">';
+                            echo '<p class="absolute right-2 top-2 bg-[#426EC2] rounded-full p-2 cursor-pointer group">';
+                                echo '<img class="add-to-cart-btn w-6 h-6" data-name="' . $articleFiltred->getNomProduit() . '" data-price="' . ($articleFiltred->getPromoProduit() > 0 ? $articleFiltred->getPrixPromoProduit() : $articleFiltred->getPrixProduit()) . '" data-image="' . $articleFiltred->getNomImage() . '" data-genre="' . $articleFiltred->getNomGenre() . '" data-id="' . $articleFiltred->getIdProduit() . '" src="/assets/img/site/addCart.png">';
+                            echo '</p>';
+                        echo '</div>';
+                        echo '<div class="mt-4 pl-2 mb-2 flex justify-between ">';
+                            echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';
+                                echo '<p class="text-lg font-semibold text-gray-900 mb-0">' . $articleFiltred->getNomProduit() . '</p>';
+                                echo '<p class="text-lg text-gray-900 mb-0">' . $articleFiltred->getNomMarque() . '</p>';
+                                echo '<div class="flex gap-10">';
+                                    if ($articleFiltred->getPromoProduit() > 0) {
+                                        echo '<p class="text-md text-gray-800 mt-0 line-through">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
+                                        echo '<p class="number text-md text-gray-800 mt-0">' . number_format($articleFiltred->getPrixPromoProduit(), 2, '.', '') . '€</p>';
+                                    } else {
+                                        echo '<p class="text-md text-gray-800 mt-0">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
+                                    }
+                                echo '</div>';
+                            echo '</a>';
+                        echo '</div>';
                     echo '</div>';
-                    
-                    echo '<p class="text-xs md:text-sm uppercase">';
-                        $marque = $articleFiltred->getNomMarque();
-                        if(strlen($marque) > 50) 
-                        {
-                            echo substr($marque, 0, 47) . '...';
-                        } 
-                        else
-                        {
-                            echo $marque;
-                        }
-                    echo '</p>';
-
                 echo '</div>';
-
             echo '</div>';
-            
-            echo '<button id="profil-button" class="bg-[#426EC2] rounded-full p-2">';
-                echo '<img class="add-to-cart-btn w-6 h-6" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php echo $produit->getPrixProduit(); ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>" src="/assets/img/site/addCart.png">';
-            echo '</button>';
-            
         echo '</div>';
     }
 }
@@ -1197,7 +1143,9 @@ function appatPage()
 {
     $appatRepo = new AppatRepository();
 
-    $appat = $appatRepo->getAppat();
+    $id_produit = htmlspecialchars($_GET['id']);
+
+    $appat = $appatRepo->getAppat($id_produit);
 
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();
@@ -1214,7 +1162,9 @@ function cannePage()
 {
     $canneRepo = new CanneRepository();
 
-    $canne = $canneRepo->getCanne();
+    $id_produit = htmlspecialchars($_GET['id']);
+
+    $canne = $canneRepo->getCanne($id_produit);
 
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();
@@ -1231,7 +1181,9 @@ function moulinetPage()
 {
     $moulinetRepo = new MoulinetRepository();
 
-    $moulinet = $moulinetRepo->getMoulinet();
+    $id_produit = htmlspecialchars($_GET['id']);
+
+    $moulinet = $moulinetRepo->getMoulinet($id_produit);
 
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();
@@ -1248,7 +1200,9 @@ function leurrePage()
 {
     $leurreRepo = new LeurreRepository();
 
-    $leurre = $leurreRepo->getLeurre();
+    $id_produit = htmlspecialchars($_GET['id']);
+
+    $leurre = $leurreRepo->getLeurre($id_produit);
 
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();
@@ -1265,7 +1219,9 @@ function lignePage()
 {
     $ligneRepo = new LigneRepository();
 
-    $ligne = $ligneRepo->getLigne();
+    $id_produit = htmlspecialchars($_GET['id']);
+
+    $ligne = $ligneRepo->getLigne($id_produit);
 
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();
@@ -1282,7 +1238,9 @@ function plombPage()
 {
     $plombRepo = new PlombRepository();
 
-    $plomb = $plombRepo->getPlomb();
+    $id_produit = htmlspecialchars($_GET['id']);
+
+    $plomb = $plombRepo->getPlomb($id_produit);
 
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();
@@ -1299,7 +1257,9 @@ function equipementPage()
 {
     $equipementRepo = new EquipementRepository();
 
-    $equipement = $equipementRepo->getEquipement();
+    $id_produit = htmlspecialchars($_GET['id']);
+
+    $equipement = $equipementRepo->getEquipement($id_produit);
 
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();
@@ -1316,7 +1276,9 @@ function autrePage()
 {
     $autreRepo = new AutreRepository();
 
-    $autre = $autreRepo->getAutre();
+    $id_produit = htmlspecialchars($_GET['id']);
+
+    $autre = $autreRepo->getAutre($id_produit);
 
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();
@@ -1333,7 +1295,9 @@ function hameconPage()
 {
     $hameconRepo = new HameconRepository();
 
-    $hamecon = $hameconRepo->getHamecon();
+    $id_produit = htmlspecialchars($_GET['id']);
+
+    $hamecon = $hameconRepo->getHamecon($id_produit);
 
     $marqueRepo = new MarqueRepository;
     $marques = $marqueRepo->getAllMarque();

@@ -112,7 +112,7 @@ class LigneRepository extends connectBdd
         }
     }
 
-    public function getLigne()
+    public function getLigne($id_produit)
     {
         try 
         {
@@ -128,11 +128,11 @@ class LigneRepository extends connectBdd
 
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_ligne ON type_ligne.id_type_ligne = caracteristiques_ligne.id_type_ligne
-                WHERE produit.id_genre = 5
+                WHERE produit.id_genre = 5 AND produit.id_produit = ?
                 GROUP BY produit.id_produit
             ");
 
-            $req->execute();
+            $req->execute([$id_produit]);
 
             $ligneData = $req->fetch(PDO::FETCH_ASSOC);
 

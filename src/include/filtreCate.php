@@ -49,36 +49,36 @@
 
                 <div>
                     <input type="checkbox" value="3" class="filtre">
-                    <label for="cat-moulinet">Hamecon</label>
+                    <label for="cat-hamecon">Hamecon</label>
                 </div>
 
                 <div>
                     <input type="checkbox" value="8" class="filtre">
-                    <label for="cat-moulinet">Appat</label>
+                    <label for="cat-appat">Appat</label>
                 </div>
 
                 <div>
                     <input type="checkbox" value="7" class="filtre">
-                    <label for="cat-moulinet">Equipement</label>
+                    <label for="cat-equipement">Equipement</label>
                 </div>
 
                 <div>
                     <input type="checkbox" value="4" class="filtre">
-                    <label for="cat-moulinet">Leurre</label>
+                    <label for="cat-leurre">Leurre</label>
                 </div>
 
                 <div>
                     <input type="checkbox" value="5" class="filtre">
-                    <label for="cat-moulinet">Ligne</label>
+                    <label for="cat-ligne">Ligne</label>
                 </div>
 
                 <div>
                     <input type="checkbox" value="6" class="filtre">
-                    <label for="cat-moulinet">Plomb</label>
+                    <label for="cat-plomb">Plomb</label>
                 </div>
                 <div>
                     <input type="checkbox" value="9" class="filtre">
-                    <label for="cat-moulinet">Autre</label>
+                    <label for="cat-autre">Autre</label>
                 </div>
 
             </div>
@@ -124,31 +124,31 @@
                     </div>
                     <div>
                         <input type="checkbox" value="3" class="filtre">
-                        <label for="cat-moulinet">Hamecon</label>
+                        <label for="cat-hamecon">Hamecon</label>
                     </div>
                     <div>
                         <input type="checkbox" value="8" class="filtre">
-                        <label for="cat-moulinet">Appat</label>
+                        <label for="cat-appat">Appat</label>
                     </div>
                     <div>
                         <input type="checkbox" value="7" class="filtre">
-                        <label for="cat-moulinet">Equipement</label>
+                        <label for="cat-equipement">Equipement</label>
                     </div>
                     <div>
                         <input type="checkbox" value="4" class="filtre">
-                        <label for="cat-moulinet">Leurre</label>
+                        <label for="cat-leurre">Leurre</label>
                     </div>
                     <div>
                         <input type="checkbox" value="5" class="filtre">
-                        <label for="cat-moulinet">Ligne</label>
+                        <label for="cat-ligne">Ligne</label>
                     </div>
                     <div>
                         <input type="checkbox" value="6" class="filtre">
-                        <label for="cat-moulinet">Plomb</label>
+                        <label for="cat-plomb">Plomb</label>
                     </div>
                     <div>
                         <input type="checkbox" value="9" class="filtre">
-                        <label for="cat-moulinet">Autre</label>
+                        <label for="cat-autre">Autre</label>
                     </div>
                 </div>
             </div>

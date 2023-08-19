@@ -53,7 +53,7 @@ class Image
             
             $extension = explode('.', $nameFile);
 
-            $max_size = 500000;
+            $max_size = 50000000;
 
             if (in_array($typeFile, $type))
             {
@@ -68,25 +68,25 @@ class Image
                         else 
                         {
                             echo "Echec de l'upload de l'image !";
-                            return false;
+                            die;
                         }
                     } 
                     else 
                     {
                         echo "Erreur le poids de l'image est trop élevé !";
-                        return false;
+                        die;
                     }
                 }
                 else 
                 {
                     echo "Merci d'upload une image !";
-                    return false;
+                    die;
                 }
             }
             else 
             {
                 echo "Type non autorisé !";
-                return false;
+                die;
             }
         }
 

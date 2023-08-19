@@ -126,7 +126,7 @@ class LeurreRepository extends connectBdd
         }
     }
 
-    public function getLeurre()
+    public function getLeurre($id_produit)
     {
         try 
         {
@@ -142,11 +142,11 @@ class LeurreRepository extends connectBdd
 
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_leurre ON type_leurre.id_type_leurre = caracteristiques_leurre.id_type_leurre
-                WHERE produit.id_genre = 4
+                WHERE produit.id_genre = 4 AND produit.id_produit = ?
                 GROUP BY produit.id_produit
             ");
 
-            $req->execute();
+            $req->execute([$id_produit]);
 
             $leurreData = $req->fetch(PDO::FETCH_ASSOC);
 

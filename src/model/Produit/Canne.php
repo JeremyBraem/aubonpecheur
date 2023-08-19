@@ -111,7 +111,7 @@ class CanneRepository extends connectBdd
         }
     }
 
-    public function getCanne()
+    public function getCanne($id_produit)
     {
         try 
         {
@@ -126,11 +126,11 @@ class CanneRepository extends connectBdd
                 INNER JOIN image ON image.id_produit = produit.id_produit
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_canne ON type_canne.id_type_canne = caracteristiques_canne.id_type_canne
-                WHERE produit.id_genre = 1
+                WHERE produit.id_genre = 1 AND produit.id_produit = ?
                 GROUP BY produit.id_produit
             ");
 
-            $req->execute();
+            $req->execute([$id_produit]);
 
             $canneData = $req->fetch(PDO::FETCH_ASSOC);
 

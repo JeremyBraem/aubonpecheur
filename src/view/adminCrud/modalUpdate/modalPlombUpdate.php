@@ -34,22 +34,22 @@
 
                     <div>
                         <label for="poids_plomb" class="block mb-2 text-sm font-medium text-gray-900 ">Poid :</label>
-                        <input type="number" name="poids_plomb" value="<?php echo $plomb->getPoidsPlomb(); ?>" id="poids_plomb" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Poids en kg" required>
+                        <input type="number" step="0.01" name="poids_plomb" value="<?php echo $plomb->getPoidsPlomb(); ?>" id="poids_plomb" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Poids en kg" required>
                     </div>
 
                     <div>
                         <label for="longueur_plomb" class="block mb-2 text-sm font-medium text-gray-900 ">Longueur :</label>
-                        <input type="number" name="longueur_plomb" value="<?php echo $plomb->getLongueurPlomb(); ?>" id="longueur_plomb" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Longueur en m" required>
+                        <input type="number" step="0.01" name="longueur_plomb" value="<?php echo $plomb->getLongueurPlomb(); ?>" id="longueur_plomb" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Longueur en m" required>
                     </div>
 
                     <div>
                         <label for="diametre_plomb" class="block mb-2 text-sm font-medium text-gray-900 ">Diamètre :</label>
-                        <input type="number" name="diametre_plomb" value="<?php echo $plomb->getDiametrePlomb(); ?>" id="diametre_plomb" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Longueur en m" required>
+                        <input type="number" step="0.01" name="diametre_plomb" value="<?php echo $plomb->getDiametrePlomb(); ?>" id="diametre_plomb" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Longueur en m" required>
                     </div>
 
                     <div>
                         <label for="prix_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Prix :</label>
-                        <input type="number" name="prix_produit" id="prix_produit" value="<?php echo $plomb->getPrixProduit(); ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Prix en euro" required>
+                        <input type="number" step="0.01" name="prix_produit" id="prix_produit" value="<?php echo $plomb->getPrixProduit(); ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Prix en euro" required>
                     </div>
 
                     <div>
@@ -81,7 +81,7 @@
 
                     <div>
                         <label for="promo_produit" class="block mb-2 text-sm font-medium text-gray-900 ">En promotion :</label>
-                        <input type="number" id="promo_produit" value="<?php echo $produit->getPrixPromoProduit() ?>" name="promo_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                        <input type="number" id="promo_produit" value="<?php echo $produit->getPromoProduit() ?>" name="promo_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                     </div>
 
                     <div>
@@ -101,7 +101,7 @@
                 <input type="hidden" value="<?php echo $plomb->getIdProduit(); ?>" name="id_produit">
 
                 <button type="submit" class="text-white inline-flex items-center bg-[#426EC2] hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                    Modifier une plomb
+                    Modifier un plomb
                 </button>
 
             </form>

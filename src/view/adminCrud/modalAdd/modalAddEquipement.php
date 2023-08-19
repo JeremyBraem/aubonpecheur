@@ -34,7 +34,7 @@
 
                     <div>
                         <label for="prix_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Prix</label>
-                        <input type="number" name="prix_produit" id="prix_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Prix en euro" required>
+                        <input type="number" step="0.01" name="prix_produit" id="prix_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Prix en euro" required>
                     </div>
 
                     <div>

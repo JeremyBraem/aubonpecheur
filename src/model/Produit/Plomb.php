@@ -125,7 +125,7 @@ class PlombRepository extends connectBdd
         }
     }
 
-    public function getPlomb()
+    public function getPlomb($id_produit)
     {
         try 
         {
@@ -141,11 +141,11 @@ class PlombRepository extends connectBdd
 
                 INNER JOIN genre ON genre.id_genre = produit.id_genre
                 INNER JOIN type_plomb ON type_plomb.id_type_plomb = caracteristiques_plomb.id_type_plomb
-                WHERE produit.id_genre = 6
+                WHERE produit.id_genre = 6 AND produit.id_produit = ?
                 GROUP BY produit.id_produit
             ");
 
-            $req->execute();
+            $req->execute([$id_produit]);
 
             $plombData = $req->fetch(PDO::FETCH_ASSOC);
         

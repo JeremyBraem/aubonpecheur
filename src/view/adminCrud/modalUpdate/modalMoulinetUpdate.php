@@ -39,12 +39,12 @@
 
                     <div>
                         <label for="ratio_moulinet" class="block mb-2 text-sm font-medium text-gray-900 ">Poid :</label>
-                        <input type="number" name="ratio_moulinet" value="<?php echo $moulinet->getPoidsMoulinet(); ?>" id="ratio_moulinet" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Ratio" required>
+                        <input type="number" step="0.01" name="ratio_moulinet" value="<?php echo $moulinet->getPoidsMoulinet(); ?>" id="ratio_moulinet" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Ratio" required>
                     </div>
 
                     <div>
                         <label for="prix_produit" class="block mb-2 text-sm font-medium text-gray-900 ">Prix :</label>
-                        <input type="number" name="prix_produit" id="prix_produit" value="<?php echo $moulinet->getPrixProduit(); ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Prix en euro" required>
+                        <input type="number" step="0.01" name="prix_produit" id="prix_produit" value="<?php echo $moulinet->getPrixProduit(); ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Prix en euro" required>
                     </div>
 
                     <div>
@@ -76,7 +76,7 @@
 
                     <div>
                         <label for="promo_produit" class="block mb-2 text-sm font-medium text-gray-900 ">En promotion :</label>
-                        <input type="number" id="promo_produit" value="<?php echo $produit->getPrixPromoProduit() ?>" name="promo_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                        <input type="number" id="promo_produit" value="<?php echo $produit->getPromoProduit() ?>" name="promo_produit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                     </div>
 
                     <div>

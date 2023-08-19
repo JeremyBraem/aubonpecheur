@@ -104,7 +104,6 @@ function addCanneTraitement()
             isset($_POST['description_produit']) &&
             isset($_POST['prix_produit']) &&
             isset($_POST['stock_produit']) &&
-            isset($_POST['promo_produit']) &&
             isset($_POST['categorie_produit']) &&
             isset($_POST['marque_produit']) &&
             isset($_POST['longueur_canne']) &&
@@ -114,9 +113,18 @@ function addCanneTraitement()
             isset($_FILES['images'])
         )
         {
+            if(empty($_POST['promo_produit']))
+            {
+                $_POST['promo_produit'] = 0;
+            }
+            
             $genre = 1;
 
-            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+            $prix_produit = floatval($_POST['prix_produit']); 
+            $promo_produit = floatval($_POST['promo_produit']);
+            
+            $prix_promo_produit_base = $prix_produit - ($prix_produit * ($promo_produit / 100));
+            $prix_promo_produit = round($prix_promo_produit_base, 2); 
 
             if($_POST['stock_produit'] === 'stock')
             {
@@ -146,15 +154,15 @@ function addCanneTraitement()
            
             if ($nouvelleCanne)
             {   
-                $canneRepo = new CanneRepository();
-                $canneRepo->addCanne($nouvelleCanne);
-
                 $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
                 $newImage = new Image();
 
                 $newImage->addImage($_FILES['images'], $descriptionImage);
+
+                $canneRepo = new CanneRepository();
+                $canneRepo->addCanne($nouvelleCanne);
 
                 $idProduit = $produitRepo->getLastId();
                 
@@ -200,7 +208,6 @@ function updateCanneTraitement()
             isset($_POST['description_produit']) &&
             isset($_POST['prix_produit']) &&
             isset($_POST['stock_produit']) &&
-            isset($_POST['promo_produit']) &&
             isset($_POST['categorie_produit']) &&
             isset($_POST['marque_produit']) &&
             isset($_POST['longueur_canne']) &&
@@ -210,9 +217,18 @@ function updateCanneTraitement()
             isset($_FILES['images'])
         )
         {
+            if(empty($_POST['promo_produit']))
+            {
+                $_POST['promo_produit'] = 0;
+            }
+
             $genre = 1;
 
-            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+            $prix_produit = floatval($_POST['prix_produit']); 
+            $promo_produit = floatval($_POST['promo_produit']);
+            
+            $prix_promo_produit_base = $prix_produit - ($prix_produit * ($promo_produit / 100));
+            $prix_promo_produit = round($prix_promo_produit_base, 2); 
 
             if($_POST['stock_produit'] === 'stock')
             {
@@ -303,7 +319,6 @@ function addMoulinetTraitement()
             isset($_POST['description_produit']) &&
             isset($_POST['prix_produit']) &&
             isset($_POST['stock_produit']) &&
-            isset($_POST['promo_produit']) &&
             isset($_POST['categorie_produit']) &&
             isset($_POST['marque_produit']) &&
             isset($_POST['ratio_moulinet']) &&
@@ -313,9 +328,18 @@ function addMoulinetTraitement()
             isset($_FILES['images'])
         )
         {
+            if(empty($_POST['promo_produit']))
+            {
+                $_POST['promo_produit'] = 0;
+            }
+
             $genre = 2;
 
-            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+            $prix_produit = floatval($_POST['prix_produit']); 
+            $promo_produit = floatval($_POST['promo_produit']);
+            
+            $prix_promo_produit_base = $prix_produit - ($prix_produit * ($promo_produit / 100));
+            $prix_promo_produit = round($prix_promo_produit_base, 2); 
 
             if($_POST['stock_produit'] === 'stock')
             {
@@ -345,15 +369,15 @@ function addMoulinetTraitement()
             
             if ($nouvelleMoulinet) 
             {
-                $moulinetRepo = new MoulinetRepository();
-                $moulinetRepo->addMoulinet($nouvelleMoulinet);
-
                 $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
                 $newImage = new Image();
 
                 $newImage->addImage($_FILES['images'], $descriptionImage);
+
+                $moulinetRepo = new MoulinetRepository();
+                $moulinetRepo->addMoulinet($nouvelleMoulinet);
 
                 $idProduit = $produitRepo->getLastId();
                 
@@ -402,7 +426,6 @@ function updateMoulinetTraitement()
             isset($_POST['description_produit']) &&
             isset($_POST['prix_produit']) &&
             isset($_POST['stock_produit']) &&
-            isset($_POST['promo_produit']) &&
             isset($_POST['categorie_produit']) &&
             isset($_POST['marque_produit']) &&
             isset($_POST['ratio_moulinet']) &&
@@ -412,9 +435,18 @@ function updateMoulinetTraitement()
             isset($_FILES['images'])
         )
         {
-            $genre = 1;
+            if(empty($_POST['promo_produit']))
+            {
+                $_POST['promo_produit'] = 0;
+            }
 
-            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+            $genre = 2;
+
+            $prix_produit = floatval($_POST['prix_produit']); 
+            $promo_produit = floatval($_POST['promo_produit']);
+            
+            $prix_promo_produit_base = $prix_produit - ($prix_produit * ($promo_produit / 100));
+            $prix_promo_produit = round($prix_promo_produit_base, 2); 
 
             if($_POST['stock_produit'] === 'stock')
             {
@@ -507,7 +539,6 @@ function addHameconTraitement()
             isset($_POST['description_produit']) &&
             isset($_POST['prix_produit']) &&
             isset($_POST['stock_produit']) &&
-            isset($_POST['promo_produit']) &&
             isset($_POST['categorie_produit']) &&
             isset($_POST['marque_produit']) &&
             isset($_POST['longueur_hamecon']) &&
@@ -517,9 +548,18 @@ function addHameconTraitement()
             isset($_FILES['images'])
         )
         {
+            if(empty($_POST['promo_produit']))
+            {
+                $_POST['promo_produit'] = 0;
+            }
+
             $genre = 3;
 
-            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+            $prix_produit = floatval($_POST['prix_produit']); 
+            $promo_produit = floatval($_POST['promo_produit']);
+            
+            $prix_promo_produit_base = $prix_produit - ($prix_produit * ($promo_produit / 100));
+            $prix_promo_produit = round($prix_promo_produit_base, 2); 
 
             if($_POST['stock_produit'] === 'stock')
             {
@@ -549,15 +589,15 @@ function addHameconTraitement()
             
             if ($nouvelleHamecon) 
             {
-                $hameconRepo = new HameconRepository();
-                $hameconRepo->addHamecon($nouvelleHamecon);
-
                 $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
                 $newImage = new Image();
 
                 $newImage->addImage($_FILES['images'], $descriptionImage);
+
+                $hameconRepo = new HameconRepository();
+                $hameconRepo->addHamecon($nouvelleHamecon);
 
                 $idProduit = $produitRepo->getLastId();
                 
@@ -603,7 +643,6 @@ function updateHameconTraitement()
             isset($_POST['description_produit']) &&
             isset($_POST['prix_produit']) &&
             isset($_POST['stock_produit']) &&
-            isset($_POST['promo_produit']) &&
             isset($_POST['categorie_produit']) &&
             isset($_POST['marque_produit']) &&
             isset($_POST['longueur_hamecon']) &&
@@ -613,9 +652,18 @@ function updateHameconTraitement()
             isset($_FILES['images'])
         )
         {
+            if(empty($_POST['promo_produit']))
+            {
+                $_POST['promo_produit'] = 0;
+            }
+
             $genre = 3;
 
-            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+            $prix_produit = floatval($_POST['prix_produit']); 
+            $promo_produit = floatval($_POST['promo_produit']);
+            
+            $prix_promo_produit_base = $prix_produit - ($prix_produit * ($promo_produit / 100));
+            $prix_promo_produit = round($prix_promo_produit_base, 2); 
 
             if($_POST['stock_produit'] === 'stock')
             {
@@ -646,9 +694,6 @@ function updateHameconTraitement()
           
             if ($nouvelleHamecon) 
             {
-                $hameconRepo = new HameconRepository();
-                $hameconRepo->updateHamecon($nouvelleHamecon);
-
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
                 $newImage = new Image();
@@ -658,6 +703,9 @@ function updateHameconTraitement()
                 $imageRepo = new ImageRepository();
 
                 $imageRepo->updateImage($newImage, $_POST['id_produit']);
+
+                $hameconRepo = new HameconRepository();
+                $hameconRepo->updateHamecon($nouvelleHamecon);
 
                 header('Location: admin.php');
                 exit();
@@ -708,7 +756,6 @@ function addLeurreTraitement()
             isset($_POST['description_produit']) &&
             isset($_POST['prix_produit']) &&
             isset($_POST['stock_produit']) &&
-            isset($_POST['promo_produit']) &&
             isset($_POST['categorie_produit']) &&
             isset($_POST['marque_produit']) &&
             isset($_POST['longueur_leurre']) &&
@@ -719,9 +766,18 @@ function addLeurreTraitement()
             isset($_FILES['images'])
         )
         {
+            if(empty($_POST['promo_produit']))
+            {
+                $_POST['promo_produit'] = 0;
+            }
+
             $genre = 4;
 
-            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+            $prix_produit = floatval($_POST['prix_produit']); 
+            $promo_produit = floatval($_POST['promo_produit']);
+            
+            $prix_promo_produit_base = $prix_produit - ($prix_produit * ($promo_produit / 100));
+            $prix_promo_produit = round($prix_promo_produit_base, 2); 
 
             if($_POST['stock_produit'] === 'stock')
             {
@@ -752,15 +808,15 @@ function addLeurreTraitement()
             
             if ($nouvelleLeurre) 
             {
-                $leurreRepo = new LeurreRepository();
-                $leurreRepo->addLeurre($nouvelleLeurre);
-
                 $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
                 $newImage = new Image();
 
                 $newImage->addImage($_FILES['images'], $descriptionImage);
+
+                $leurreRepo = new LeurreRepository();
+                $leurreRepo->addLeurre($nouvelleLeurre);
 
                 $idProduit = $produitRepo->getLastId();
                 
@@ -807,7 +863,6 @@ function updateLeurreTraitement()
             isset($_POST['description_produit']) &&
             isset($_POST['prix_produit']) &&
             isset($_POST['stock_produit']) &&
-            isset($_POST['promo_produit']) &&
             isset($_POST['categorie_produit']) &&
             isset($_POST['marque_produit']) &&
             isset($_POST['longueur_leurre']) &&
@@ -818,9 +873,18 @@ function updateLeurreTraitement()
             isset($_FILES['images'])
         )
         {
-            $genre = 3;
+            if(empty($_POST['promo_produit']))
+            {
+                $_POST['promo_produit'] = 0;
+            }
 
-            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+            $genre = 4;
+
+            $prix_produit = floatval($_POST['prix_produit']); 
+            $promo_produit = floatval($_POST['promo_produit']);
+            
+            $prix_promo_produit_base = $prix_produit - ($prix_produit * ($promo_produit / 100));
+            $prix_promo_produit = round($prix_promo_produit_base, 2); 
 
             if($_POST['stock_produit'] === 'stock')
             {
@@ -911,7 +975,6 @@ function addLigneTraitement()
             isset($_POST['description_produit']) &&
             isset($_POST['prix_produit']) &&
             isset($_POST['stock_produit']) &&
-            isset($_POST['promo_produit']) &&
             isset($_POST['categorie_produit']) &&
             isset($_POST['marque_produit']) &&
             isset($_POST['longueur_ligne']) &&
@@ -921,9 +984,18 @@ function addLigneTraitement()
             isset($_FILES['images'])
         )
         {
+            if(empty($_POST['promo_produit']))
+            {
+                $_POST['promo_produit'] = 0;
+            }
+
             $genre = 5;
 
-            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+            $prix_produit = floatval($_POST['prix_produit']); 
+            $promo_produit = floatval($_POST['promo_produit']);
+            
+            $prix_promo_produit_base = $prix_produit - ($prix_produit * ($promo_produit / 100));
+            $prix_promo_produit = round($prix_promo_produit_base, 2); 
 
             if($_POST['stock_produit'] === 'stock')
             {
@@ -953,15 +1025,15 @@ function addLigneTraitement()
             
             if ($nouvelleLigne) 
             {
-                $ligneRepo = new LigneRepository();
-                $ligneRepo->addLigne($nouvelleLigne);
-
                 $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
                 $newImage = new Image();
 
                 $newImage->addImage($_FILES['images'], $descriptionImage);
+
+                $ligneRepo = new LigneRepository();
+                $ligneRepo->addLigne($nouvelleLigne);
 
                 $idProduit = $produitRepo->getLastId();
                 
@@ -1001,13 +1073,12 @@ function addLigneTraitement()
 
 function updateLigneTraitement()
 {
-    if (isset($_POST)) 
+    if (isset($_POST))
     {
         if (isset($_POST['nom_produit']) &&
             isset($_POST['description_produit']) &&
             isset($_POST['prix_produit']) &&
             isset($_POST['stock_produit']) &&
-            isset($_POST['promo_produit']) &&
             isset($_POST['categorie_produit']) &&
             isset($_POST['marque_produit']) &&
             isset($_POST['longueur_ligne']) &&
@@ -1017,9 +1088,18 @@ function updateLigneTraitement()
             isset($_FILES['images'])
         )
         {
+            if(empty($_POST['promo_produit']))
+            {
+                $_POST['promo_produit'] = 0;
+            }
+
             $genre = 5;
 
-            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+            $prix_produit = floatval($_POST['prix_produit']); 
+            $promo_produit = floatval($_POST['promo_produit']);
+            
+            $prix_promo_produit_base = $prix_produit - ($prix_produit * ($promo_produit / 100));
+            $prix_promo_produit = round($prix_promo_produit_base, 2); 
 
             if($_POST['stock_produit'] === 'stock')
             {
@@ -1050,9 +1130,6 @@ function updateLigneTraitement()
           
             if ($nouvelleLigne) 
             {
-                $ligneRepo = new LigneRepository();
-                $ligneRepo->updateLigne($nouvelleLigne);
-
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
                 $newImage = new Image();
@@ -1062,6 +1139,9 @@ function updateLigneTraitement()
                 $imageRepo = new ImageRepository();
 
                 $imageRepo->updateImage($newImage, $_POST['id_produit']);
+
+                $ligneRepo = new LigneRepository();
+                $ligneRepo->updateLigne($nouvelleLigne);
 
                 header('Location: admin.php');
                 exit();
@@ -1112,7 +1192,6 @@ function addEquipementTraitement()
             isset($_POST['description_produit']) &&
             isset($_POST['prix_produit']) &&
             isset($_POST['stock_produit']) &&
-            isset($_POST['promo_produit']) &&
             isset($_POST['categorie_produit']) &&
             isset($_POST['marque_produit']) &&
             isset($_POST['detail_equipement']) &&
@@ -1121,9 +1200,18 @@ function addEquipementTraitement()
             isset($_FILES['images'])
         )
         {
+            if(empty($_POST['promo_produit']))
+            {
+                $_POST['promo_produit'] = 0;
+            }
+
             $genre = 7;
 
-            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+            $prix_produit = floatval($_POST['prix_produit']); 
+            $promo_produit = floatval($_POST['promo_produit']);
+            
+            $prix_promo_produit_base = $prix_produit - ($prix_produit * ($promo_produit / 100));
+            $prix_promo_produit = round($prix_promo_produit_base, 2); 
 
             if($_POST['stock_produit'] === 'stock')
             {
@@ -1152,15 +1240,15 @@ function addEquipementTraitement()
             
             if ($nouvelleEquipement) 
             {
-                $equipementRepo = new EquipementRepository();
-                $equipementRepo->addEquipement($nouvelleEquipement);
-
                 $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
                 $newImage = new Image();
 
                 $newImage->addImage($_FILES['images'], $descriptionImage);
+
+                $equipementRepo = new EquipementRepository();
+                $equipementRepo->addEquipement($nouvelleEquipement);
 
                 $idProduit = $produitRepo->getLastId();
                 
@@ -1206,7 +1294,6 @@ function updateEquipementTraitement()
             isset($_POST['description_produit']) &&
             isset($_POST['prix_produit']) &&
             isset($_POST['stock_produit']) &&
-            isset($_POST['promo_produit']) &&
             isset($_POST['categorie_produit']) &&
             isset($_POST['marque_produit']) &&
             isset($_POST['detail_equipement']) &&
@@ -1215,9 +1302,18 @@ function updateEquipementTraitement()
             isset($_FILES['images'])
         )
         {
+            if(empty($_POST['promo_produit']))
+            {
+                $_POST['promo_produit'] = 0;
+            }
+
             $genre = 7;
 
-            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+            $prix_produit = floatval($_POST['prix_produit']); 
+            $promo_produit = floatval($_POST['promo_produit']);
+            
+            $prix_promo_produit_base = $prix_produit - ($prix_produit * ($promo_produit / 100));
+            $prix_promo_produit = round($prix_promo_produit_base, 2); 
 
             if($_POST['stock_produit'] === 'stock')
             {
@@ -1247,9 +1343,6 @@ function updateEquipementTraitement()
           
             if ($nouvelleEquipement) 
             {
-                $equipementRepo = new EquipementRepository();
-                $equipementRepo->updateEquipement($nouvelleEquipement);
-
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
                 $newImage = new Image();
@@ -1259,6 +1352,9 @@ function updateEquipementTraitement()
                 $imageRepo = new ImageRepository();
 
                 $imageRepo->updateImage($newImage, $_POST['id_produit']);
+
+                $equipementRepo = new EquipementRepository();
+                $equipementRepo->updateEquipement($nouvelleEquipement);
 
                 header('Location: admin.php');
                 exit();
@@ -1309,7 +1405,6 @@ function addPlombTraitement()
             isset($_POST['description_produit']) &&
             isset($_POST['prix_produit']) &&
             isset($_POST['stock_produit']) &&
-            isset($_POST['promo_produit']) &&
             isset($_POST['categorie_produit']) &&
             isset($_POST['marque_produit']) &&
             isset($_POST['longueur_plomb']) &&
@@ -1320,9 +1415,18 @@ function addPlombTraitement()
             isset($_FILES['images'])
         )
         {
+            if(empty($_POST['promo_produit']))
+            {
+                $_POST['promo_produit'] = 0;
+            }
+
             $genre = 6;
 
-            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+            $prix_produit = floatval($_POST['prix_produit']); 
+            $promo_produit = floatval($_POST['promo_produit']);
+            
+            $prix_promo_produit_base = $prix_produit - ($prix_produit * ($promo_produit / 100));
+            $prix_promo_produit = round($prix_promo_produit_base, 2); 
 
             if($_POST['stock_produit'] === 'stock')
             {
@@ -1353,15 +1457,15 @@ function addPlombTraitement()
             
             if ($nouvellePlomb) 
             {
-                $plombRepo = new PlombRepository();
-                $plombRepo->addPlomb($nouvellePlomb);
-
                 $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
                 $newImage = new Image();
 
                 $newImage->addImage($_FILES['images'], $descriptionImage);
+
+                $plombRepo = new PlombRepository();
+                $plombRepo->addPlomb($nouvellePlomb);
 
                 $idProduit = $produitRepo->getLastId();
                 
@@ -1403,12 +1507,10 @@ function updatePlombTraitement()
 {
     if (isset($_POST)) 
     {
-      
         if (isset($_POST['nom_produit']) &&
             isset($_POST['description_produit']) &&
             isset($_POST['prix_produit']) &&
             isset($_POST['stock_produit']) &&
-            isset($_POST['promo_produit']) &&
             isset($_POST['categorie_produit']) &&
             isset($_POST['marque_produit']) &&
             isset($_POST['longueur_plomb']) &&
@@ -1419,9 +1521,18 @@ function updatePlombTraitement()
             isset($_FILES['images'])
         )
         {
+            if(empty($_POST['promo_produit']))
+            {
+                $_POST['promo_produit'] = 0;
+            }
+
             $genre = 6;
 
-            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+            $prix_produit = floatval($_POST['prix_produit']); 
+            $promo_produit = floatval($_POST['promo_produit']);
+            
+            $prix_promo_produit_base = $prix_produit - ($prix_produit * ($promo_produit / 100));
+            $prix_promo_produit = round($prix_promo_produit_base, 2); 
 
             if($_POST['stock_produit'] === 'stock')
             {
@@ -1452,10 +1563,7 @@ function updatePlombTraitement()
             $nouvellePlomb->setIdTypePlomb($_POST['type_plomb']);
           
             if ($nouvellePlomb) 
-            {        
-                $plombRepo = new PlombRepository();
-                $plombRepo->updatePlomb($nouvellePlomb);
-
+            {   
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
                 $newImage = new Image();
@@ -1465,6 +1573,9 @@ function updatePlombTraitement()
                 $imageRepo = new ImageRepository();
 
                 $imageRepo->updateImage($newImage, $_POST['id_produit']);
+
+                $plombRepo = new PlombRepository();
+                $plombRepo->updatePlomb($nouvellePlomb);
 
                 header('Location: admin.php');
                 exit();
@@ -1537,7 +1648,6 @@ function addAppatTraitement()
             isset($_POST['description_produit']) &&
             isset($_POST['prix_produit']) &&
             isset($_POST['stock_produit']) &&
-            isset($_POST['promo_produit']) &&
             isset($_POST['categorie_produit']) &&
             isset($_POST['marque_produit']) &&
             isset($_POST['detail_appat']) &&
@@ -1546,9 +1656,18 @@ function addAppatTraitement()
             isset($_FILES['images'])
         )
         {
+            if(empty($_POST['promo_produit']))
+            {
+                $_POST['promo_produit'] = 0;
+            }
+
             $genre = 8;
 
-            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+            $prix_produit = floatval($_POST['prix_produit']); 
+            $promo_produit = floatval($_POST['promo_produit']);
+            
+            $prix_promo_produit_base = $prix_produit - ($prix_produit * ($promo_produit / 100));
+            $prix_promo_produit = round($prix_promo_produit_base, 2); 
 
             if($_POST['stock_produit'] === 'stock')
             {
@@ -1577,15 +1696,15 @@ function addAppatTraitement()
             
             if ($nouvelleAppat) 
             {
-                $appatRepo = new AppatRepository();
-                $appatRepo->addAppat($nouvelleAppat);
-
                 $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
                 $newImage = new Image();
 
                 $newImage->addImage($_FILES['images'], $descriptionImage);
+
+                $appatRepo = new AppatRepository();
+                $appatRepo->addAppat($nouvelleAppat);
 
                 $idProduit = $produitRepo->getLastId();
                 
@@ -1631,7 +1750,6 @@ function updateAppatTraitement()
             isset($_POST['description_produit']) &&
             isset($_POST['prix_produit']) &&
             isset($_POST['stock_produit']) &&
-            isset($_POST['promo_produit']) &&
             isset($_POST['categorie_produit']) &&
             isset($_POST['marque_produit']) &&
             isset($_POST['detail_appat']) &&
@@ -1640,9 +1758,18 @@ function updateAppatTraitement()
             isset($_FILES['images'])
         )
         {
+            if(empty($_POST['promo_produit']))
+            {
+                $_POST['promo_produit'] = 0;
+            }
+
             $genre = 8;
 
-            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+            $prix_produit = floatval($_POST['prix_produit']); 
+            $promo_produit = floatval($_POST['promo_produit']);
+            
+            $prix_promo_produit_base = $prix_produit - ($prix_produit * ($promo_produit / 100));
+            $prix_promo_produit = round($prix_promo_produit_base, 2); 
 
             if($_POST['stock_produit'] === 'stock')
             {
@@ -1672,9 +1799,6 @@ function updateAppatTraitement()
           
             if ($nouvelleAppat) 
             {
-                $appatRepo = new AppatRepository();
-                $appatRepo->updateAppat($nouvelleAppat);
-                
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
                 $newImage = new Image();
@@ -1684,6 +1808,9 @@ function updateAppatTraitement()
                 $imageRepo = new ImageRepository();
 
                 $imageRepo->updateImage($newImage, $_POST['id_produit']);
+
+                $appatRepo = new AppatRepository();
+                $appatRepo->updateAppat($nouvelleAppat);
 
                 header('Location: admin.php');
                 exit();
@@ -1734,7 +1861,6 @@ function addAutreTraitement()
             isset($_POST['description_produit']) &&
             isset($_POST['prix_produit']) &&
             isset($_POST['stock_produit']) &&
-            isset($_POST['promo_produit']) &&
             isset($_POST['categorie_produit']) &&
             isset($_POST['marque_produit']) &&
             isset($_POST['detail_autre']) &&
@@ -1743,9 +1869,18 @@ function addAutreTraitement()
             isset($_FILES['images'])
         )
         {
+            if(empty($_POST['promo_produit']))
+            {
+                $_POST['promo_produit'] = 0;
+            }
+
             $genre = 9;
 
-            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+            $prix_produit = floatval($_POST['prix_produit']); 
+            $promo_produit = floatval($_POST['promo_produit']);
+            
+            $prix_promo_produit_base = $prix_produit - ($prix_produit * ($promo_produit / 100));
+            $prix_promo_produit = round($prix_promo_produit_base, 2); 
 
             if($_POST['stock_produit'] === 'stock')
             {
@@ -1774,9 +1909,6 @@ function addAutreTraitement()
             
             if ($nouvelleAutre) 
             {
-                $autreRepo = new AutreRepository();
-                $autreRepo->addAutre($nouvelleAutre);
-
                 $produitRepo = new ProduitRepository;
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
@@ -1785,6 +1917,9 @@ function addAutreTraitement()
                 $newImage->addImage($_FILES['images'], $descriptionImage);
 
                 $idProduit = $produitRepo->getLastId();
+
+                $autreRepo = new AutreRepository();
+                $autreRepo->addAutre($nouvelleAutre);
                 
                 if (isset($_FILES['images']) && !empty($_FILES['images']['name']))
                 {   
@@ -1828,7 +1963,6 @@ function updateAutreTraitement()
             isset($_POST['description_produit']) &&
             isset($_POST['prix_produit']) &&
             isset($_POST['stock_produit']) &&
-            isset($_POST['promo_produit']) &&
             isset($_POST['categorie_produit']) &&
             isset($_POST['marque_produit']) &&
             isset($_POST['detail_autre']) &&
@@ -1837,9 +1971,18 @@ function updateAutreTraitement()
             isset($_FILES['images'])
         )
         {
+            if(empty($_POST['promo_produit']))
+            {
+                $_POST['promo_produit'] = 0;
+            }
+
             $genre = 9;
 
-            $prix_promo_produit = $_POST['prix_produit'] - ($_POST['prix_produit'] * ($_POST['promo_produit'] / 100));
+            $prix_produit = floatval($_POST['prix_produit']); 
+            $promo_produit = floatval($_POST['promo_produit']);
+            
+            $prix_promo_produit_base = $prix_produit - ($prix_produit * ($promo_produit / 100));
+            $prix_promo_produit = round($prix_promo_produit_base, 2); 
 
             if($_POST['stock_produit'] === 'stock')
             {
@@ -1869,9 +2012,6 @@ function updateAutreTraitement()
           
             if ($nouvelleAutre) 
             {
-                $autreRepo = new AutreRepository();
-                $autreRepo->updateAutre($nouvelleAutre);
-
                 $descriptionImage = htmlspecialchars($_POST['description_images']);
 
                 $newImage = new Image();
@@ -1881,6 +2021,9 @@ function updateAutreTraitement()
                 $imageRepo = new ImageRepository();
 
                 $imageRepo->updateImage($newImage, $_POST['id_produit']);
+
+                $autreRepo = new AutreRepository();
+                $autreRepo->updateAutre($nouvelleAutre);
 
                 header('Location: admin.php');
                 exit();
@@ -1929,7 +2072,6 @@ function addMarqueTraitement()
     {
         if(!empty($_POST['nom_marque']) && !empty($_FILES['image_marque']))
         {
-            
             $newMarque = [];
             $newMarque['nom_marque'] = htmlspecialchars($_POST['nom_marque']);
             $newMarque['image_marque'] = $_FILES['image_marque'];

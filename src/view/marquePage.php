@@ -39,7 +39,7 @@
                     <?php if ($marque) { ?>
                         
                         <a href="marque/<?php echo $marque->getNomMarque() ?>">
-                            <div class="bg-[#fcfcfc] w-32 h-16 md:w-40 md:h-20 m-auto flex">
+                            <div class="bg-[#fcfcfc] w-32 h-16 md:w-40 md:h-20 m-auto flex rounded">
 
                                 <div class="w-28 h-16 md:w-36 md:h-20 m-auto overflow-hidden">
                                     <img src="/<?php echo $marque->getImageMarque(); ?>" class="w-full h-full object-contain" />
