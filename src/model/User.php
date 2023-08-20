@@ -156,6 +156,9 @@ class UserRepository extends connectBdd
     {
         $req = $this->bdd->prepare("UPDATE user SET actif_user = ? WHERE token_user = ? && id_user = ?");
         $req->execute([1, $token, $id_user]);
+
+        $reqDeleteToken = $this->bdd->prepare("UPDATE user SET token_user = NULL WHERE token_user = ?");
+        $reqDeleteToken->execute([$token]);        
     }
 
     public function findByEmail(string $email)
@@ -221,6 +224,32 @@ class UserRepository extends connectBdd
             $user->setTokenUser($data['token_user']);
             $user->setActifUser($data['actif_user']);
             $user->setIdRole($data['id_role']);
+        }
+        return $user;
+    }
+
+    public function getAllUserById($id_user)
+    {
+        $req = $this->bdd->prepare("SELECT * FROM user WHERE id_user = ?");
+        $req->execute([$id_user]);
+        $datas = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($datas)
+        {
+            foreach($datas as $data)
+            {
+                $user = new User;
+
+                $user->setIdUser($data['id_user']);
+                $user->setEmailUser($data['email_user']);
+                $user->setLastNameUser($data['nom_user']);
+                $user->setNameUser($data['prenom_user']);
+                $user->setPasswordUser($data['password_user']);
+                $user->setTokenUser($data['token_user']);
+                $user->setActifUser($data['actif_user']);
+                $user->setIdRole($data['id_role']);
+            }
+            
         }
         return $user;
     }

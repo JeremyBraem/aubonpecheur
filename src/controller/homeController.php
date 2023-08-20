@@ -148,7 +148,7 @@ function signUpTraitement()
 
             $user = $userRepository->findByEmail($emailUser);
 
-            if (empty($user)) 
+            if (empty($user))
             {
                 if (!empty($_POST['email']) && !empty($_POST['lastname']) && !empty($_POST['name']) && !empty($_POST['password']) && !empty($_POST['verif_password'])) 
                 {

@@ -8,6 +8,7 @@ class Commande
     private $resume_commande;
     private $numero_commande;
     private $date_commande;
+    private $etat_commande;
     private $id_user;
 
     public function getIdUser():int
@@ -59,6 +60,16 @@ class Commande
     {
         $this->date_commande = $date_commande;
     }
+
+    public function getEtatCommande():string
+    {
+        return $this->etat_commande;
+    }
+
+    public function setEtatCommande($etat_commande):void
+    {
+        $this->etat_commande = $etat_commande;
+    }
 }
 
 class CommandeRepository extends connectBdd
@@ -74,13 +85,14 @@ class CommandeRepository extends connectBdd
         {
             $this->bdd->beginTransaction();
             $req = $this->bdd->prepare
-            ("INSERT INTO commande (resume_commande, numero_commande, date_commande, id_user) VALUES (?,?,?,?)");
+            ("INSERT INTO commande (resume_commande, numero_commande, date_commande, etat_commande, id_user) VALUES (?,?,?,?,?)");
 
             $req->execute
             ([
                 $commande->getResumeCommande(),
                 $commande->getNumeroCommande(),
                 $commande->getDateCommande(),
+                0,
                 $commande->getIdUser()
             ]);
 
@@ -114,6 +126,7 @@ class CommandeRepository extends connectBdd
             $commande->setResumeCommande($commandeData['resume_commande']);
             $commande->setNumeroCommande($commandeData['numero_commande']);
             $commande->setDateCommande($commandeData['date_commande']);
+            $commande->setEtatCommande($commandeData['etat_commande']);
             $commande->setIdUser($commandeData['id_user']);
             
             return $commande;
@@ -129,7 +142,7 @@ class CommandeRepository extends connectBdd
         try
         {
             $req = $this->bdd->prepare
-            ("SELECT * FROM commande WHERE id_user = ?");
+            ("SELECT * FROM commande WHERE id_user = ? ORDER BY date_commande DESC");
 
             $req->execute
             ([
@@ -147,6 +160,40 @@ class CommandeRepository extends connectBdd
                 $commande->setResumeCommande($commandeData['resume_commande']);
                 $commande->setNumeroCommande($commandeData['numero_commande']);
                 $commande->setDateCommande($commandeData['date_commande']);
+                $commande->setEtatCommande($commandeData['etat_commande']);
+                $commande->setIdUser($commandeData['id_user']);
+                
+                $commandes[] = $commande;
+            }
+
+            return $commandes;
+        } 
+        catch (PDOException $e) 
+        {
+            die("Erreur: " . $e->getMessage());
+        }
+    }
+
+    function getAllCommande()
+    {
+        try
+        {
+            $req = $this->bdd->prepare("SELECT * FROM commande ORDER BY date_commande DESC");
+
+            $req->execute();
+          
+            $commandesData = $req->fetchAll(PDO::FETCH_ASSOC);
+            
+            $commandes = [];
+
+            foreach($commandesData as $commandeData)
+            {
+                $commande = new Commande;
+                $commande->setIdCommande($commandeData['id_commande']);
+                $commande->setResumeCommande($commandeData['resume_commande']);
+                $commande->setNumeroCommande($commandeData['numero_commande']);
+                $commande->setDateCommande($commandeData['date_commande']);
+                $commande->setEtatCommande($commandeData['etat_commande']);
                 $commande->setIdUser($commandeData['id_user']);
                 
                 $commandes[] = $commande;
@@ -158,6 +205,12 @@ class CommandeRepository extends connectBdd
         {
             die("Erreur: " . $e->getMessage());
         }
+    }
+
+    public function updateEtat($etat_commande, $id_commande)
+    {
+        $req = $this->bdd->prepare("UPDATE commande SET etat_commande = ? WHERE id_commande = ?");
+        $req->execute([$etat_commande, $id_commande]);
     }
 
     public function verifNumero($id_user, $numero)

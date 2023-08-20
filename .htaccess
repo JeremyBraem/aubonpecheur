@@ -28,6 +28,8 @@ RewriteRule ^promotion&page=([0-9]+)$ /index.php?action=promotion&page=$1 [L]
 # Réécriture d'URL pour le lien avec "admin"
 RewriteRule ^admin&page=([0-9]+)$ /admin.php?action=admin&page=$1 [L]
 
+RewriteRule ^admin/commande /admin.php?action=commande [L,QSA]
+
 RewriteRule ^commande/numero=([a-zA-Z0-9]+)$ /index.php?action=commande&numero=$1 [L]
 
 # Réécriture d'URL pour le lien avec "search"

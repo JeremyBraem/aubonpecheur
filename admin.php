@@ -11,6 +11,9 @@ if ($_SESSION['id_role'] == 1)
             case 'admin':
                 adminPage();
                 break;
+            case 'commande':
+                commandePage();
+                break;
             case 'addCanneTraitement':
                 addCanneTraitement();
                 break;
@@ -160,6 +163,9 @@ if ($_SESSION['id_role'] == 1)
                 break;
             case 'searchAdmin':
                 searchAdmin();
+                break;
+            case 'updateCommande':
+                updateEtatCommande();
                 break;
             default:
                 adminPage();

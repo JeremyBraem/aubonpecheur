@@ -1,6 +1,8 @@
 <?php
 
 require_once('src/model/Produit.php');
+require_once('src/model/Commande.php');
+require_once('src/model/User.php');
 require_once('src/model/Produit/Canne.php');
 require_once('src/model/Produit/Moulinet.php');
 require_once('src/model/Produit/Hamecon.php');
@@ -94,6 +96,36 @@ function adminPage()
     $totalPages = ceil($totalPromoProducts / $productsPerPage);
 
     require('src/view/adminPage.php');
+}
+
+function commandePage()
+{
+    $commandeRepo = new CommandeRepository;
+    $userRepo = new UserRepository;
+
+    $allCommandes = $commandeRepo->getAllCommande();
+
+    require('src/view/adminCommande.php');
+}
+
+function updateEtatCommande()
+{
+    if(isset($_POST['id_commande']) && isset($_POST['etat_commande']))
+    {
+        $commandeRepo = new CommandeRepository;
+        $userRepo = new UserRepository;
+
+        $etat = $_POST['etat_commande'];
+        $id_commande = $_POST['id_commande'];
+
+        $commandeRepo->updateEtat($etat, $id_commande);
+
+        header('location: admin.php?action=commande');
+    }
+    else
+    {
+        echo 'Information manquante';
+    }
 }
 
 function addCanneTraitement()
