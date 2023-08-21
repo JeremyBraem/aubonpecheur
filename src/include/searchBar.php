@@ -1,6 +1,6 @@
 <div class="hidden lg:flex w-full flex-row justify-between items-center px-6">
     <div>
-        <a href="/home"><img class="w-[90px] h-[90px]" src="/assets/img/site/logo_au_bon_pecheur.svg"></a>
+        <a href="/accueil"><img class="w-[90px] h-[90px]" src="/assets/img/site/logo_au_bon_pecheur.svg"></a>
     </div>
     <div class="w-3/5 relative">
         <form class="relative flex items-center" method="get" action="/search/">
@@ -103,7 +103,7 @@
 </div>
 
 <div class="lg:hidden w-full flex flex-row justify-between items-center px-3">
-    <a href="/home">
+    <a href="/accueil">
         <img class="w-[60px] h-[60px]" src="/assets/img/site/logo_au_bon_pecheur.svg">
     </a>
 

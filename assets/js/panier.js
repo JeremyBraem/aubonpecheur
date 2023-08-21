@@ -3,12 +3,15 @@ function getCartFromSession() {
 }
 
 function calculateTotal(cartItems) {
-  let total = 0;
+  let baseTotal = 0;
   cartItems.forEach((item) => {
-    total += item.price * item.quantity;
+    baseTotal += item.price * item.quantity;
   });
+
+  const total = baseTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
   return total;
 }
+
 
 function addToCart(name, price, image, genre, id) {
   let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
@@ -42,6 +45,11 @@ function removeFromCart(itemId, event) {
 function clearCart() {
   sessionStorage.removeItem("cart");
   updateCartUI();
+}
+
+function formatPrice(price) {
+  const formattedPrice = price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  return formattedPrice;
 }
 
 function updateCartUI() {
@@ -81,7 +89,7 @@ function updateCartUI() {
       item.name.length > 20 ? `${item.name.substring(0, 17)}...` : item.name;
     const itemPrice = document.createElement("p");
     itemPrice.className = "ml-4 text-base font-medium uppercase";
-    itemPrice.textContent = `${item.price}€`;
+    itemPrice.textContent = `${formatPrice(item.price)}€`;
 
     itemName.appendChild(nameLink);
     itemName.appendChild(itemPrice);
@@ -161,10 +169,10 @@ document.addEventListener("DOMContentLoaded", () => {
       cartCountElementMobile.textContent = totalQuantity;
   }
 
-  updateCartCountMobile(); // Initial update
+  updateCartCountMobile();
 
   document.getElementById('cart-button-mobile').addEventListener('click', () => {
-      updateCartCountMobile(); // Update the cart count when the cart is opened
+      updateCartCountMobile();
   });
   addToCartButtons.forEach((button) => {
     button.addEventListener("click", () => {
@@ -173,11 +181,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const image = button.getAttribute("data-image");
       const genre = button.getAttribute("data-genre");
       const id = button.getAttribute("data-id");
-
+      console.log(name);
       addToCart(name, price, image, genre, id);
+
     });
   });
-
   updateCartUI();
 });
 

@@ -1,7 +1,7 @@
 <nav class="p-1 bg-[#426EC2] hidden md:flex z-50">
 
     <div class="left-0">
-        <a href="/home"><img class="h-[90px] w-[130px]" src="/assets/img/site/icon.png"></a>
+        <a href="/accueil"><img class="h-[90px] w-[130px]" src="/assets/img/site/icon.png"></a>
     </div>
 
     <div class="flex items-center mx-auto md:w-2/3 lg:w-1/3">
@@ -25,7 +25,7 @@
 <nav class="p-1 flex bg-[#426EC2] md:hidden z-50">
     
     <div class="left-0">
-        <a href="/home"><img class="h-[60px] w-[90px]" src="/assets/img/site/icon.png"></a>
+        <a href="/accueil"><img class="h-[60px] w-[90px]" src="/assets/img/site/icon.png"></a>
     </div>
 
     <div class="flex items-center mx-auto ml-10 w-3/4">

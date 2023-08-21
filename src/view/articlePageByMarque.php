@@ -42,9 +42,9 @@
 
                     <?php foreach ($produits as $produit) { ?>
 
-                        <?php if ($produit != ['']) { ?>
+                    <?php if ($produit != ['']) { ?>
 
-                            <div class="w-56">
+                    <div class="w-56">
 
                         <div class="flex flex-col justify-center">
 

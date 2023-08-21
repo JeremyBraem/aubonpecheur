@@ -178,7 +178,7 @@ if ($_SESSION['id_role'] == 1)
 }
 else
 {
-    header('location: /home');
+    header('location: /accueil');
 }
 
 ?>

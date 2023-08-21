@@ -25,7 +25,7 @@
                                         <?php } ?>
                                         <img class="h-full rounded-2xl w-full object-cover" src="/<?php echo $produit->getNomImage() ?>">
                                         <p class="absolute right-2 top-2 bg-[#426EC2] rounded-full p-2 cursor-pointer group">
-                                            <img class="add-to-cart-btn w-6 h-6" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php if($produit->getPromoProduit() > 0) { echo $produit->getPrixPromoProduit(); }else{ echo $produit->getPrixProduit(); } ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>" src="/assets/img/site/addCart.png">
+                                            <img class="add-to-cart-btn w-6 h-6" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php if($produit->getPromoProduit() > 0) { echo number_format($produit->getPrixPromoProduit(), 2, '.', ''); }else{ echo number_format($produit->getPrixProduit(), 2, '.', ''); } ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>" src="/assets/img/site/addCart.png">
                                         </p>
                                     </div>
 

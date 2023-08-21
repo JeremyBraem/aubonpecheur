@@ -44,6 +44,11 @@ function home()
     include('src/view/homePage.php');
 }
 
+function notfound()
+{
+    require_once('src/view/404.php');
+}
+
 //PAGE DE CONNEXION
 function loginPage()
 {
@@ -53,7 +58,7 @@ function loginPage()
     } 
     else 
     {
-        header('location: /home');
+        header('location: /404');
     }
 }
 
@@ -66,7 +71,7 @@ function signUpPage()
     } 
     else 
     {
-        header('location: /home');
+        header('location: /404');
     }
 }
 
@@ -97,7 +102,7 @@ function loginTraitement()
                             $_SESSION['nom_user'] = $user->getLastnameUser();
                             $_SESSION['email_user'] = $user->getEmailUser();
             
-                            header('location: /home');
+                            header('location: /accueil');
                         }
                         else
                         {
@@ -283,12 +288,12 @@ function updateActif()
         }
         else
         {
-            header('Location: /home');
+            header('Location: /404');
         }
     }
     else
     {
-        header('Location: /home');
+        header('Location: /404');
     }
 }
 
@@ -330,7 +335,7 @@ function passwordMail()
     }
     else
     {
-        header('location: /home');
+        header('location: /404');
     }
 }
 
@@ -350,12 +355,12 @@ function updatePasswordPage()
         }
         else
         {
-            header('location: /home');
+            header('location: /404');
         }
     }
     else
     {
-        header('location: /home');
+        header('location: /404');
     }
 }
 
@@ -367,7 +372,7 @@ function forgetPassPage()
     }
     else
     {
-        header('location: /home');
+        header('location: /404');
     }
 }
 
@@ -397,7 +402,7 @@ function updatePassword()
 
                 $userRepository->updatePassword($hash, $token);
 
-                header('Location: /login');
+                header('Location: /404');
                 exit;
             }
             else 
@@ -414,7 +419,7 @@ function updatePassword()
     }
     else
     {
-        header('location: /home');
+        header('location: /404');
     }
 }
 
@@ -422,7 +427,7 @@ function updatePassword()
 function disconnectUser()
 {
     session_destroy();
-    header('location: /home');
+    header('location: /accueil');
 }
 
 function profilPage()
@@ -488,7 +493,7 @@ function pageCommande()
             }
             else
             {
-                header('location: /home');
+                header('location: /404');
             }
         }
         else
@@ -498,13 +503,13 @@ function pageCommande()
     }
     else
     {
-        header('location: /home');
+        header('location: /404');
     }
 }
 
 function addCommande() 
 {
-    if ($_SERVER["REQUEST_METHOD"] === "POST") 
+    if ($_SERVER["REQUEST_METHOD"] === "POST")
     {   
         function generateRandomString($length) 
         {
@@ -530,6 +535,7 @@ function addCommande()
 
         $commandeRepo->addCommande($commande);
         
+        include('src/config/mailCommande.php');
         echo json_encode(['success' => true, 'numero' => $numero]);
     }
     else 
@@ -558,6 +564,10 @@ function searchPage()
         
         require('src/view/searchPage.php');
     }
+    else
+    {
+        header('location: /404');
+    }
 }
 
 function contactPage()
@@ -568,7 +578,7 @@ function contactPage()
     }
     else
     {
-        header('location: /home');
+        header('location: /404');
     }
 }
 
@@ -600,11 +610,11 @@ function sendMessage()
         $email = $_SESSION["email_user"];
         $message = $_POST["message"];
         
-        require_once('src/config/mailMessage.php');
+        include('src/config/mailMessage.php');
     }
     else
     {
-        header('location: /home');
+        header('location: /404');
     }
 }
 
@@ -632,7 +642,7 @@ function promoPage()
 
     $productsPerPage = 20;
 
-    $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;    
+    $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
 
     if(isset($_GET['page']))
     {
@@ -668,7 +678,7 @@ function viewPageCategorie()
     }
     else
     {
-        header('location: /home');
+        header('location: /404');
     }
 
     $totalCateProducts = $produitRepo->getTotalCateProducts($categorie->getIdCategorie());
@@ -709,7 +719,7 @@ function filtrePageCate()
     }
     else
     {
-        header('location: /home');
+        header('location: /404');
     }
 
     $produit = $produitRepo->getAllProductsByCategory($categorie->getIdCategorie());
@@ -913,7 +923,7 @@ function viewPageMarque()
         }
         else 
         {
-            header('location: /home');
+            header('location: /accueil');
         }
     
         $totalCateProducts = $produitRepo->getTotalMarqueProducts($marque->getIdMarque());
@@ -945,7 +955,7 @@ function viewPageMarque()
     }
     else
     {
-        header('location: /home');
+        header('location: /404');
     }
     
 }
@@ -1013,7 +1023,7 @@ function filtrePageMarque()
     }
     else 
     {
-        header('location: /home');
+        header('location: /404');
     }
 
     $produit = $produitRepo->getAllProductsByMarque($marque->getIdMarque());
@@ -1072,9 +1082,9 @@ function filtrePageMarque()
                                 echo '<span class="original-number absolute text-[#fcfcfc] text-sm left-2 top-2 z-40 p-1 px-[9px] w-auto text-center font-semibold rounded-full bg-[#e8330d]">-' . $articleFiltred->getPromoProduit() . '%</span>';
                             }
                             echo '<img class="h-full rounded-2xl w-full object-cover" src="/' . $articleFiltred->getNomImage() . '">';
+                           
                             echo '<p class="absolute right-2 top-2 bg-[#426EC2] rounded-full p-2 cursor-pointer group">';
-                                echo '<img class="add-to-cart-btn w-6 h-6" data-name="' . $articleFiltred->getNomProduit() . '" data-price="' . ($articleFiltred->getPromoProduit() > 0 ? $articleFiltred->getPrixPromoProduit() : $articleFiltred->getPrixProduit()) . '" data-image="' . $articleFiltred->getNomImage() . '" data-genre="' . $articleFiltred->getNomGenre() . '" data-id="' . $articleFiltred->getIdProduit() . '" src="/assets/img/site/addCart.png">';
-                            echo '</p>';
+                            echo '<img class="add-to-cart-btn w-6 h-6" data-name="' . $articleFiltred->getNomProduit() . '" data-price="' . ($articleFiltred->getPromoProduit() > 0 ? $articleFiltred->getPrixPromoProduit() : $articleFiltred->getPrixProduit()) . '" data-image="' . $articleFiltred->getNomImage() . '" data-genre="' . $articleFiltred->getNomGenre() . '" data-id="' . $articleFiltred->getIdProduit() . '" src="/assets/img/site/addCart.png">';                            echo '</p>';
                         echo '</div>';
                         echo '<div class="mt-4 pl-2 mb-2 flex justify-between ">';
                             echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';

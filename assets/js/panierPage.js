@@ -3,10 +3,10 @@ const cartItems = cartItemsJSON ? JSON.parse(cartItemsJSON) : [];
 
 function generateCartItemElement(item) {
   const cartItem = document.createElement("div");
-  cartItem.className = "justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex";
+  cartItem.className = "mb-6 rounded-lg bg-white p-6 shadow-md sm:flex";
 
   const divImage = document.createElement("div");
-  divImage.className = "w-36 h-36 md:w-52 md:h-40 m-auto";
+  divImage.className = "w-36 h-36 md:w-52 md:h-40";
   const cartImage = document.createElement("img");
   cartImage.src = item.image;
   cartImage.alt = item.name;
@@ -18,7 +18,7 @@ function generateCartItemElement(item) {
   cartItemInfo.className = "sm:ml-4 sm:flex sm:w-full sm:justify-between";
 
   const itemInfo = document.createElement("div");
-  itemInfo.className = "mt-5 sm:mt-0";
+  itemInfo.className = "mt-5 w-48 sm:mt-0";
 
   const itemName = document.createElement("h2");
   itemName.className = "text-lg font-bold text-gray-900";
@@ -66,7 +66,7 @@ function generateCartItemElement(item) {
   priceDiv.className = "flex items-center space-x-4";
 
   const price = document.createElement("p");
-  price.textContent = `${item.price} €`;
+  price.textContent = `${formatPrice(item.price)}€`;
   price.className = "text-sm font-semibold";
   priceDiv.appendChild(price);
 
@@ -81,6 +81,11 @@ function generateCartItemElement(item) {
   cartItem.appendChild(cartItemInfo);
 
   return cartItem;
+}
+
+function formatPrice(price) {
+  const formattedPrice = price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  return formattedPrice;
 }
 
 function updateCartUI() {

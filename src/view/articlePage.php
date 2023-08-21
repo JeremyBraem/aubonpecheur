@@ -55,7 +55,7 @@
 
                                     <div class="overflow-x-hidden rounded-2xl relative w-56 h-56">
                                         <?php if ($produit->getPromoProduit() > 0) { ?>
-                                            <span class="original-number absolute text-[#fcfcfc] text-sm left-2 top-2 z-40 p-1 px-[9px] w-auto text-center font-semibold rounded-full bg-[#e8330d]">-<?php echo $produit->getPromoProduit(); ?>%</span>
+                                            <span class="absolute text-[#fcfcfc] text-sm left-2 top-2 z-40 p-1 px-[9px] w-auto text-center font-semibold rounded-full bg-[#e8330d]">-<?php echo $produit->getPromoProduit(); ?>%</span>
                                         <?php } ?>
                                         <img class="h-full rounded-2xl w-full object-cover" src="/<?php echo $produit->getNomImage() ?>">
                                         <p class="absolute right-2 top-2 bg-[#426EC2] rounded-full p-2 cursor-pointer group">

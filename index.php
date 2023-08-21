@@ -123,8 +123,11 @@ if(isset($_GET['action']) && $_GET['action'] !== '')
         case 'Cookies':
             Cookies();
             break;
+        case '404':
+            notfound();
+            break;
         default:
-        home();
+        notfound();
     }
 }
 else

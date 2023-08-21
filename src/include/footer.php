@@ -19,7 +19,7 @@
             <div class="p-3">
 
                 <div class="flex flex-col">
-                    <a href="/home" class="text-sm">Accueil</a>
+                    <a href="/accueil" class="text-sm">Accueil</a>
                     <a href="/promotion" class="text-sm">Promotion</a>
                     <a href="/Marque" class="text-sm">Marque</a>
                     <a href="/contact" class="text-sm">Contact</a>
@@ -116,7 +116,7 @@
                 <div class="pt-2">
 
                     <div class="flex flex-col gap-1">
-                        <a href="/home" class="text-sm">Accueil</a>
+                        <a href="/accueil" class="text-sm">Accueil</a>
                         <a href="/promotion" class="text-sm">Promotion</a>
                         <a href="/Marque" class="text-sm">Marque</a>
                         <a href="/contact" class="text-sm">Contact</a>

@@ -14,7 +14,7 @@ RewriteEngine on
 
 #page sans id
 
-RewriteRule ^([a-zA-Z]+)$   /index.php?action=$1 [L]
+RewriteRule ^([a-zA-Z0-9]+)$   /index.php?action=$1 [L]
 
 # Réécriture d'URL pour le lien avec "marque"
 RewriteRule ^marque/([a-zA-Z]+)$ /index.php?action=marque&marque=$1 [L]
