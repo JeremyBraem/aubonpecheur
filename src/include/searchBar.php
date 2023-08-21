@@ -79,7 +79,7 @@
                 <img src="/assets/img/site/profil.png" class="w-[25px] h-[25px]">
             </button>
 
-            <div id="profil-tab" class="hidden bg-white flex z-50 mt-12 rounded shadow">
+            <div id="profil-tab" class="hidden bg-white z-50 mt-12 rounded shadow">
                 <?php
                 if (empty($_SESSION['id_role'])) {
                 ?>
@@ -120,7 +120,7 @@
                 <img src="/assets/img/site/profil.png" class="w-[25px] h-[25px]">
             </button>
 
-            <div id="profil-tab-mobile" class="hidden bg-white flex z-50 mt-12 rounded shadow">
+            <div id="profil-tab-mobile" class="hidden bg-white z-50 mt-12 rounded shadow">
                 <?php
                 if (empty($_SESSION['id_role'])) {
                 ?>

@@ -92,7 +92,7 @@ class CommandeRepository extends connectBdd
                 $commande->getResumeCommande(),
                 $commande->getNumeroCommande(),
                 $commande->getDateCommande(),
-                0,
+                'attente',
                 $commande->getIdUser()
             ]);
 

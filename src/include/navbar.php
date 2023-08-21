@@ -1,3 +1,9 @@
+<style>
+    .dropdown:hover .dropdown-menu 
+    {
+        display: block;
+    }
+</style>
 <nav class="lg:py-7 relative lg:p-2 flex justify-between items-center bg-[#426EC2]">
 
     <div class="lg:hidden">
@@ -30,11 +36,29 @@
         <li><a class="text-m text-white" href="/article/Silure">Silure</a></li>
         <li><a class="text-m text-white" href="/article/Feeder">Feeder</a></li>
         <?php
-        if (isset($_SESSION['id_role'])) {
-            if (!empty($_SESSION['id_role'])) {
-                if ($_SESSION['id_role'] == 1) {
+        if (isset($_SESSION['id_role'])) 
+        {
+            if (!empty($_SESSION['id_role'])) 
+            {
+                if ($_SESSION['id_role'] == 1) 
+                {
         ?>
-                    <li><a class="text-m text-white" href="/admin">Admin</a></li>
+        <li>
+            <a href="/admin">
+                <div class="dropdown inline-block">
+                    <button class="rounded inline-flex items-center py-2">
+                        <span class="text-m text-white">Admin</span>
+                        <svg class="fill-current h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/> </svg>
+                    </button>
+                    
+                    <ul class="dropdown-menu absolute hidden">
+                        <li class=""><a class="rounded-t bg-white hover:bg-gray-200 py-2 px-4 block whitespace-no-wrap" href="/admin">Articles</a></li>
+                        <li class=""><a class="rounded-b bg-white hover:bg-gray-200 py-2 px-4 block whitespace-no-wrap" href="/admin.php?action=commande">Commande</a></li>
+                    </ul>
+                </div>
+
+            </a>
+        </li>
         <?php }
             }
         } ?>

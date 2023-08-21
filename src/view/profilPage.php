@@ -84,6 +84,31 @@
                                 <p class="mr-10">Numéro de commande : <span class="text-[#426EC2] underline underline-[#426EC2]"><?php echo $commande->getNumeroCommande() ?></span></p>
                             </a>
                             <p><strong>Date de commande :</strong> <?php echo $commande->getDateCommande() ?></p>
+                            <p><strong>Etat de la commande :</strong> 
+                            <?php
+                                if ($commande->getEtatCommande() == 'attente') {
+                                ?>
+                                    En attente
+                                <?php
+                                } elseif ($commande->getEtatCommande() == 'en_cours') {
+                                ?>
+                                    En cours de préparation
+                                <?php
+                                } elseif ($commande->getEtatCommande() == 'recup') {
+                                ?>
+                                    Récupéré
+                                <?php
+                                } elseif ($commande->getEtatCommande() == 'annule') {
+                                ?>
+                                    Annulé
+                                <?php
+                                } elseif ($commande->getEtatCommande() == 'pret') {
+                                ?>
+                                    Prêt à être récupérer
+                                <?php
+                                }
+                                ?>
+                            </p>
                         </div>
 
                         <div>

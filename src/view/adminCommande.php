@@ -28,7 +28,7 @@
 
         <section class="bg-gray-50 p-3 sm:p-5 antialiased">
 
-            <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+            <!-- <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
 
                 <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
 
@@ -53,8 +53,7 @@
 
                     </div>
 
-                </div>
-                
+                </div> -->
 
                 <div class="overflow-x-auto">
 
@@ -73,15 +72,38 @@
                         </thead>
 
                         <tbody>
-                            
-                            <?php 
-                                foreach ($allCommandes as $commande) 
-                                {
-                                    $resumeCommande = json_decode($commande->getResumeCommande());
-                                    $totalCommande = 0;
+
+                            <?php
+                            foreach ($allCommandes as $commande) {
+                                $resumeCommande = json_decode($commande->getResumeCommande());
+                                $totalCommande = 0;
                             ?>
                                 <tr>
-                                    <td scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap"><?php echo $commande->getIdCommande() ?></td>
+                                    <td scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap flex items-center justify-center">
+                                        <?php
+                                        if ($commande->getEtatCommande() == 'attente') {
+                                        ?>
+                                            <img class="h-10 w-10" src="/assets/img/site/point-dexclamation.png">
+                                        <?php
+                                        } elseif ($commande->getEtatCommande() == 'en_cours') {
+                                        ?>
+                                            <img class="h-10 w-10" src="/assets/img/site/boite-ouverte.png">
+                                        <?php
+                                        } elseif ($commande->getEtatCommande() == 'recup') {
+                                        ?>
+                                            <img class="h-10 w-10" src="/assets/img/site/droite.png">
+                                        <?php
+                                        } elseif ($commande->getEtatCommande() == 'annule') {
+                                        ?>
+                                            <img class="h-9 w-9" src="/assets/img/site/annuler.png">
+                                        <?php
+                                        } elseif ($commande->getEtatCommande() == 'pret') {
+                                        ?>
+                                            <img class="h-10 w-10" src="assets/img/site/boite.png">
+                                        <?php
+                                        }
+                                        ?>
+                                    </td>
 
                                     <td scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap"><?php echo $commande->getNumeroCommande() ?></td>
 
@@ -120,14 +142,14 @@
                                         <?php include('src/view/adminCrud/modalUpdate/modalUpdateCommande.php'); ?>
 
                                     </td>
-                                    
+
 
                                 </tr>
 
                             <?php } ?>
 
                         </tbody>
-                        
+
 
                     </table>
 
