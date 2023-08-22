@@ -884,7 +884,7 @@ function filtrePromo()
                             }
                             echo '<img class="h-full rounded-2xl w-full object-cover" src="' . $articleFiltred->getNomImage() . '">';
                             echo '<p class="absolute right-2 top-2 bg-[#426EC2] rounded-full p-2 cursor-pointer group">';
-                                echo '<img class="add-to-cart-btn w-6 h-6" data-name="/' . $articleFiltred->getNomProduit() . '" data-price="' . ($articleFiltred->getPromoProduit() > 0 ? $articleFiltred->getPrixPromoProduit() : $articleFiltred->getPrixProduit()) . '" data-image="' . $articleFiltred->getNomImage() . '" data-genre="' . $articleFiltred->getNomGenre() . '" data-id="' . $articleFiltred->getIdProduit() . '" src="/assets/img/site/addCart.png">';
+                                echo '<img class="add-to-cart-btn w-6 h-6" data-name="' . $articleFiltred->getNomProduit() . '" data-price="' . ($articleFiltred->getPromoProduit() > 0 ? $articleFiltred->getPrixPromoProduit() : $articleFiltred->getPrixProduit()) . '" data-image="' . $articleFiltred->getNomImage() . '" data-genre="' . $articleFiltred->getNomGenre() . '" data-id="' . $articleFiltred->getIdProduit() . '" src="/assets/img/site/addCart.png">';
                             echo '</p>';
                         echo '</div>';
                         echo '<div class="mt-4 pl-2 mb-2 flex justify-between ">';
