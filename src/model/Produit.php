@@ -724,4 +724,20 @@ class ProduitRepository extends connectBdd
         }
     }
 
+    public function existProduit($id_produit)
+    {
+        $req = $this->bdd->prepare("SELECT id_produit FROM produit WHERE id_produit = ?");
+        $req->execute([$id_produit]);
+        $data = $req->fetch();
+        
+        if($data)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 }

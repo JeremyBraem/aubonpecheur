@@ -1153,7 +1153,16 @@ function appatPage()
 {
     $appatRepo = new AppatRepository();
 
-    $id_produit = htmlspecialchars($_GET['id']);
+    $produitRepo = new ProduitRepository();
+
+    if($produitRepo->existProduit(htmlspecialchars($_GET['id'])))
+    {
+        $id_produit = htmlspecialchars($_GET['id']);
+    }
+    else
+    {
+        header('location: /404');
+    }
 
     $appat = $appatRepo->getAppat($id_produit);
 
@@ -1172,8 +1181,16 @@ function cannePage()
 {
     $canneRepo = new CanneRepository();
 
-    $id_produit = htmlspecialchars($_GET['id']);
+    $produitRepo = new ProduitRepository();
 
+    if($produitRepo->existProduit(htmlspecialchars($_GET['id'])))
+    {
+        $id_produit = htmlspecialchars($_GET['id']);
+    }
+    else
+    {
+        header('location: /404');
+    }
     $canne = $canneRepo->getCanne($id_produit);
 
     $marqueRepo = new MarqueRepository;
@@ -1191,8 +1208,16 @@ function moulinetPage()
 {
     $moulinetRepo = new MoulinetRepository();
 
-    $id_produit = htmlspecialchars($_GET['id']);
+    $produitRepo = new ProduitRepository();
 
+    if($produitRepo->existProduit(htmlspecialchars($_GET['id'])))
+    {
+        $id_produit = htmlspecialchars($_GET['id']);
+    }
+    else
+    {
+        header('location: /404');
+    }
     $moulinet = $moulinetRepo->getMoulinet($id_produit);
 
     $marqueRepo = new MarqueRepository;
@@ -1210,8 +1235,16 @@ function leurrePage()
 {
     $leurreRepo = new LeurreRepository();
 
-    $id_produit = htmlspecialchars($_GET['id']);
+    $produitRepo = new ProduitRepository();
 
+    if($produitRepo->existProduit(htmlspecialchars($_GET['id'])))
+    {
+        $id_produit = htmlspecialchars($_GET['id']);
+    }
+    else
+    {
+        header('location: /404');
+    }
     $leurre = $leurreRepo->getLeurre($id_produit);
 
     $marqueRepo = new MarqueRepository;
@@ -1229,8 +1262,16 @@ function lignePage()
 {
     $ligneRepo = new LigneRepository();
 
-    $id_produit = htmlspecialchars($_GET['id']);
+    $produitRepo = new ProduitRepository();
 
+    if($produitRepo->existProduit(htmlspecialchars($_GET['id'])))
+    {
+        $id_produit = htmlspecialchars($_GET['id']);
+    }
+    else
+    {
+        header('location: /404');
+    }
     $ligne = $ligneRepo->getLigne($id_produit);
 
     $marqueRepo = new MarqueRepository;
@@ -1248,8 +1289,16 @@ function plombPage()
 {
     $plombRepo = new PlombRepository();
 
-    $id_produit = htmlspecialchars($_GET['id']);
+    $produitRepo = new ProduitRepository();
 
+    if($produitRepo->existProduit(htmlspecialchars($_GET['id'])))
+    {
+        $id_produit = htmlspecialchars($_GET['id']);
+    }
+    else
+    {
+        header('location: /404');
+    }
     $plomb = $plombRepo->getPlomb($id_produit);
 
     $marqueRepo = new MarqueRepository;
@@ -1267,8 +1316,16 @@ function equipementPage()
 {
     $equipementRepo = new EquipementRepository();
 
-    $id_produit = htmlspecialchars($_GET['id']);
+    $produitRepo = new ProduitRepository();
 
+    if($produitRepo->existProduit(htmlspecialchars($_GET['id'])))
+    {
+        $id_produit = htmlspecialchars($_GET['id']);
+    }
+    else
+    {
+        header('location: /404');
+    }
     $equipement = $equipementRepo->getEquipement($id_produit);
 
     $marqueRepo = new MarqueRepository;
@@ -1286,8 +1343,16 @@ function autrePage()
 {
     $autreRepo = new AutreRepository();
 
-    $id_produit = htmlspecialchars($_GET['id']);
+    $produitRepo = new ProduitRepository();
 
+    if($produitRepo->existProduit(htmlspecialchars($_GET['id'])))
+    {
+        $id_produit = htmlspecialchars($_GET['id']);
+    }
+    else
+    {
+        header('location: /404');
+    }
     $autre = $autreRepo->getAutre($id_produit);
 
     $marqueRepo = new MarqueRepository;
@@ -1305,8 +1370,16 @@ function hameconPage()
 {
     $hameconRepo = new HameconRepository();
 
-    $id_produit = htmlspecialchars($_GET['id']);
+    $produitRepo = new ProduitRepository();
 
+    if($produitRepo->existProduit(htmlspecialchars($_GET['id'])))
+    {
+        $id_produit = htmlspecialchars($_GET['id']);
+    }
+    else
+    {
+        header('location: /404');
+    }
     $hamecon = $hameconRepo->getHamecon($id_produit);
 
     $marqueRepo = new MarqueRepository;
