@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
     <link rel="icon" href="/assets/img/site/icon.png" />
     <!--FLowbite-->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
     <!--Tailwind -->
     <link href="/dist/output.css" rel="stylesheet">
     <title>Page des Promotions</title>
@@ -137,9 +137,7 @@
     </footer>
 
     <script src="/assets/js/filtrePromo.js"></script>
-    <script>
-
-    </script>
+ 
 </body>
 
 </html>

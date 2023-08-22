@@ -174,6 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById('cart-button-mobile').addEventListener('click', () => {
       updateCartCountMobile();
   });
+  
   addToCartButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const name = button.getAttribute("data-name");
