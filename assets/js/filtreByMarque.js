@@ -1,9 +1,10 @@
+import { addToCartEvent } from "./panier/index.js";
+
 document.addEventListener("DOMContentLoaded", function () 
 {
     let filtres = document.querySelectorAll(".filtre");
     let urlParams = new URLSearchParams(window.location.search);
 
-    // Récupérer la valeur de "marque" dans l'URL
     let marque = window.location.pathname.split("/").pop();
 
     for (let i = 0; i < filtres.length; i++) {
@@ -30,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function ()
             if (xhr.readyState === 4 && xhr.status === 200) 
             {
                 document.getElementById("listeArticles").innerHTML = xhr.responseText;
+                addToCartEvent();
                 updatePagination();
             }
         };

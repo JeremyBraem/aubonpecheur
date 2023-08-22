@@ -1,3 +1,5 @@
+import { addToCartEvent } from "./panier/index.js";
+
 document.addEventListener("DOMContentLoaded", function ()
 {
     let filtres = document.querySelectorAll(".filtre");
@@ -30,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function ()
             if (xhr.readyState === 4 && xhr.status === 200) 
             {
                 document.getElementById("listeArticles").innerHTML = xhr.responseText;
+                addToCartEvent();
                 updatePagination();
             }
         };

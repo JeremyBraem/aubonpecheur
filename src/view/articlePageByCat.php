@@ -147,9 +147,7 @@
         <?php require_once('src/include/footer.php') ?>
     </footer>
 
-    <script src="/assets/js/filtreByCat.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <script type="module" src="/assets/js/filtreByCat.js"></script>
 </body>
 
 </html>

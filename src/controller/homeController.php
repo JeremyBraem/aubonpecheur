@@ -511,6 +511,7 @@ function addCommande()
 {
     if ($_SERVER["REQUEST_METHOD"] === "POST")
     {   
+        
         function generateRandomString($length) 
         {
             $bytes = random_bytes($length);
@@ -534,8 +535,9 @@ function addCommande()
         $commandeRepo = new CommandeRepository;
 
         $commandeRepo->addCommande($commande);
-        
+
         include('src/config/mailCommande.php');
+
         echo json_encode(['success' => true, 'numero' => $numero]);
     }
     else 

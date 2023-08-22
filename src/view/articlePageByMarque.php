@@ -148,7 +148,7 @@
         <?php require_once('src/include/footer.php') ?>
     </footer>
 
-    <script src="/assets/js/filtreByMarque.js"></script>
+    <script type="module" src="/assets/js/filtreByMarque.js"></script>
 
 </body>
 

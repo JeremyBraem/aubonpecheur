@@ -172,12 +172,17 @@ function envoyerArticlesAuServeur(cartItems) {
 
  xhr.onload = function () {
   if (xhr.status === 200) {
+    console.log(xhr.responseText);
+
     const response = JSON.parse(xhr.responseText);
     const numero = response.numero;
     console.log('Commande ajoutée avec succès :', numero);
-      sessionStorage.removeItem("cart");
-      updateCartUI();
-  
+    
+    xhr.open("POST", "/mailCommande", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    sessionStorage.removeItem("cart");
+    updateCartUI();
+
       window.location.href = "/commande/numero=" + numero;
     } else {
       console.error('Une erreur est survenue lors de l\'ajout de la commande :', xhr.statusText);

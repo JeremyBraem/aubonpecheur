@@ -136,7 +136,7 @@
         <?php require_once('src/include/footer.php') ?>
     </footer>
 
-    <script src="/assets/js/filtrePromo.js"></script>
+    <script type="module" src="/assets/js/filtrePromo.js"></script>
  
 </body>
 

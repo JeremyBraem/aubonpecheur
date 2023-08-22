@@ -145,5 +145,5 @@
 </div>
 
 <script src="/assets/js/iconProfil.js"></script>
-<script src="/assets/js/panier.js"></script>
+<script type="module" src="/assets/js/panier/index.js"></script>
 <script src="/assets/js/panierBurger.js"></script>
