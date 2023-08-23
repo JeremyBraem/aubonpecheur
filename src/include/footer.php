@@ -1,7 +1,7 @@
 <div class="md:hidden w-full" style="border-top: 1.5px solid rgba(0, 0, 0, 0.35);">
 
     <div>
-        <img src="/assets/img/site/logo_au_bon_pecheur.svg" class="w-28 m-auto py-2">
+        <img src="/assets/img/site/logo_au_bon_pecheur.svg" class="w-28 m-auto py-2" alt="Logo du site Au Bon Pêcheur">
     </div>
 
     <div class="mx-3">
@@ -102,7 +102,7 @@
     <div class="flex flex-row justify-between p-3">
 
         <div class="w-1/6 m-auto">
-            <img src="/assets/img/site/logo_au_bon_pecheur.svg" class="h-44 m-auto">
+            <img src="/assets/img/site/logo_au_bon_pecheur.svg" class="h-44 m-auto" alt="Logo du site Au Bon Pêcheur">
         </div>
 
         <div class="w-1/6">

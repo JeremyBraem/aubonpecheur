@@ -1,6 +1,6 @@
 <div class="hidden lg:flex w-full flex-row justify-between items-center px-6">
     <div>
-        <a href="/accueil"><img class="w-[90px] h-[90px]" src="/assets/img/site/logo_au_bon_pecheur.svg"></a>
+        <a href="/accueil"><img class="w-[90px] h-[90px]" src="/assets/img/site/logo_au_bon_pecheur.svg" alt="Logo du site Au Bon Pêcheur"></a>
     </div>
     <div class="w-3/5 relative">
         <form class="relative flex items-center" method="get" action="/search/">
@@ -18,7 +18,7 @@
 
         <div class="relative">
             <button id="cart-button" class="bg-[#426EC2] rounded-full p-2 relative">
-                <img src="/assets/img/site/3106773.png" class="w-[25px] h-[25px]">
+                <img src="/assets/img/site/3106773.png" class="w-[25px] h-[25px]" alt="Icone du panier">
             </button>
             <span id="cart-count" class="absolute text-[#fcfcfc] text-xs -right-2 -top-2 z-40 p-1 px-[9px] w-auto text-center font-semibold rounded-full bg-[#e8330d]"></span>
             <div id="cart" class="hidden overflow-hidden absolute z-[999] right-0 mt-2 w-64 bg-white rounded-lg shadow-lg">
@@ -76,7 +76,7 @@
         <div class="relative flex justify-center">
 
             <button id="profil-button" class="bg-[#426EC2] rounded-full p-2 ">
-                <img src="/assets/img/site/profil.png" class="w-[25px] h-[25px]">
+                <img src="/assets/img/site/profil.png" class="w-[25px] h-[25px]" alt="Icone du profil">
             </button>
 
             <div id="profil-tab" class="hidden bg-white z-50 mt-12 rounded shadow">
@@ -104,20 +104,20 @@
 
 <div class="lg:hidden w-full flex flex-row justify-between items-center px-3">
     <a href="/accueil">
-        <img class="w-[60px] h-[60px]" src="/assets/img/site/logo_au_bon_pecheur.svg">
+        <img class="w-[60px] h-[60px]" src="/assets/img/site/logo_au_bon_pecheur.svg" alt="Logo du site Au Bon Pêcheur">
     </a>
 
     <div class="flex gap-5">
 
         <a href="/panier" class="bg-[#426EC2] rounded-full p-2 relative" id="cart-button-mobile">
             <span id="cart-count-mobile" class="absolute text-[#fcfcfc] text-xs -right-1 -top-1 z-40 p-[1px] px-[6px] w-auto text-center font-semibold rounded-full bg-[#e8330d]">0</span>
-            <img src="/assets/img/site/3106773.png" class="w-[25px] h-[25px]">
+            <img src="/assets/img/site/3106773.png" class="w-[25px] h-[25px]" alt="Icone du panier">
         </a>
 
         <div class="relative flex justify-end">    
 
             <button id="profil-button-mobile" class="bg-[#426EC2] rounded-full p-2 relative">
-                <img src="/assets/img/site/profil.png" class="w-[25px] h-[25px]">
+                <img src="/assets/img/site/profil.png" class="w-[25px] h-[25px]" alt="Icone du profil">
             </button>
 
             <div id="profil-tab-mobile" class="hidden bg-white z-50 mt-12 rounded shadow">

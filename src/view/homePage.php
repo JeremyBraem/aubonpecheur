@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color">
+    <meta name="description" content="Venez consulter l'actualité du magasin Au Bon Pêcheur, soyez au courant des dernière nouveautés et promotion sur des articles pour tout type de pêche.">
     <link href="/assets/css/reset.css" rel="stylesheet">
     <link href="/assets/css/font.css" rel="stylesheet">
     <!-- font google ROBOTO -->

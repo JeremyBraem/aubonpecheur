@@ -74,7 +74,7 @@
 
         <div class="flex items-center mb-8">
             <a class="m-auto text-3xl font-bold leading-none" href="/accueil">
-                <img class="w-[100px]" src="/assets/img/site/logo_au_bon_pecheur.svg">
+                <img class="w-[100px]" src="/assets/img/site/logo_au_bon_pecheur.svg" alt="Logo du site Au Bon Pêcheur">
             </a>
             <button class="navbar-close">
                 <svg class="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
