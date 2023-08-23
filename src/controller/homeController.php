@@ -927,7 +927,7 @@ function viewPageMarque()
         }
         else 
         {
-            header('location: /accueil');
+            header('location: /404');
         }
     
         $totalCateProducts = $produitRepo->getTotalMarqueProducts($marque->getIdMarque());
