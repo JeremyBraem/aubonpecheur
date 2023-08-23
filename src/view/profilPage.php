@@ -15,7 +15,7 @@
     <!--Tailwind -->
     <link href="/dist/output.css" rel="stylesheet">
 
-    <title>Profil</title>
+    <title>Profil - Au Bon Pêcheur</title>
 </head>
 
 <body class="bg-[#fcfcfc]">

@@ -15,7 +15,7 @@
   <!--Tailwind -->
   <link href="/dist/output.css" rel="stylesheet">
 
-  <title>Panier</title>
+  <title>Panier - Au Bon Pêcheur</title>
 </head>
 <body class="bg-[#fcfcfc]">
   <header class="sticky top-0 bg-white shadow z-[999]">

@@ -15,7 +15,7 @@
     <!--Tailwind -->
     <link href="/dist/output.css" rel="stylesheet">
 
-    <title>Inscription</title>
+    <title>Inscription - Au Bon Pêcheur</title>
 </head>
 
 <body class="bg-[#fcfcfc]">

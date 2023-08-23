@@ -14,7 +14,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
     <!--Tailwind -->
     <link href="/dist/output.css" rel="stylesheet">
-    <title>Page des Promotions</title>
+    <title>Page des Promotions - Au Bon Pêcheur</title>
 </head>
 
 <body class="bg-[#fcfcfc]">

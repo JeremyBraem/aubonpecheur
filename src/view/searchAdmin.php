@@ -16,7 +16,7 @@
     <link href="/dist/output.css" rel="stylesheet">
     <!-- flowbite -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
-    <title>Admin</title>
+    <title>Admin - Au Bon Pêcheur</title>
 </head>
 
 <body class="bg-[#fcfcfc]">

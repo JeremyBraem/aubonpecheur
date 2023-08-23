@@ -25,6 +25,12 @@ RewriteRule ^article/([a-zA-Z]+)$ /index.php?action=article&categorie=$1 [L]
 # Réécriture d'URL pour le lien avec "promo"
 RewriteRule ^promotion&page=([0-9]+)$ /index.php?action=promotion&page=$1 [L]
 
+# Réécriture d'URL pour le lien avec "marque"
+RewriteRule ^marque/([a-zA-Z]+)&page=([0-9]+)$ index.php?action=marque&marque=$1&page=$2 [L]
+
+# Réécriture d'URL pour le lien avec "article"
+RewriteRule ^article/([a-zA-Z]+)&page=([0-9]+)$ index.php?action=article&categorie=$1&page=$2 [L]
+
 # Réécriture d'URL pour le lien avec "admin"
 RewriteRule ^admin&page=([0-9]+)$ /admin.php?action=admin&page=$1 [L]
 

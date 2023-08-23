@@ -15,7 +15,7 @@
     <!--Tailwind -->
     <link href="/dist/output.css" rel="stylesheet">
 
-    <title>Page d'articles</title>
+    <title>Page d'articles - Au Bon Pêcheur</title>
 </head>
 
 <body class="bg-[#fcfcfc]">

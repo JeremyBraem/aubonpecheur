@@ -37,7 +37,7 @@
 
         <div class="bg-white p-[2px] w-1/2 mb-5"></div>
 
-        <div class="flex flex-col items-center -m-14">
+        <div class="flex flex-col">
             <span class="hover:bg-gray-200 bg-white p-2 px-4 w-10 rounded-full">2</span>
             <span class="text-[#fcfcfc] text-xs">Paiement</span>
         </div>

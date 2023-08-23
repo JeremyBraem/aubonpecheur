@@ -14,7 +14,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
     <!--Tailwind -->
     <link href="/dist/output.css" rel="stylesheet">
-    <title>404</title>
+    <title>404 - Au Bon Pêcheur</title>
 </head>
 
 <body class="bg-[#fcfcfc]">

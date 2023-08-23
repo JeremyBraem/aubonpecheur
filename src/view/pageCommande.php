@@ -15,7 +15,7 @@
   <!--Tailwind -->
   <link href="/dist/output.css" rel="stylesheet">
 
-  <title>Commande</title>
+  <title>Commande - Au Bon Pêcheur</title>
 </head>
 
 <body class="bg-gray-100">

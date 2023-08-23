@@ -14,7 +14,7 @@
     <!--Tailwind -->
     <link href="/dist/output.css" rel="stylesheet">
 
-    <title>Réinitialisation du mot de passe</title>
+    <title>Réinitialisation du mot de passe - Au Bon Pêcheur</title>
 </head>
 
 <body class="bg-[#fcfcfc]">
