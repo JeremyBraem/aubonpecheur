@@ -28,7 +28,13 @@ $mail->addAddress($_SESSION['email_user']);     //Add a recipient
 
 //Content
 $mail->isHTML(true);                                  //Set email format to HTML
-$mail->Subject = 'Merci pour votre commande Au Bon Pêcheur';
-$mail->Body    = 'Cliquez sur le <a href="http://aubonpecheur/commande/numero='.$numero.'">lien</a>';
+$mail->Subject = 'Merci pour votre commande sur Au Bon Pecheur';
+$mail->Body    = 
+'
+<h2>Merci pour votre commande !</h2>
+<p>Cliquez sur le lien ci-dessous pour voir le detail et l\'avancée votre commande</p>
+<a href="http://aubonpecheur/commande/numero='.$numero.'">http://aubonpecheur/commande/numero='.$numero.'</a>
+<p>Récupérer votre commande en magasin une fois que celle-ci est prête.</p>
+';
 
 $mail->send();

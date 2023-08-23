@@ -521,7 +521,7 @@ function addCommande()
         $requestData = json_decode(file_get_contents("php://input"), true);
         $resumeCommande = json_encode($requestData);
 
-        $numero = generateRandomString(10);
+        $numero = generateRandomString(20);
         $date = date("Y-m-d H:i:s");
         $id_user = $_SESSION['id_user'];
 
@@ -536,9 +536,11 @@ function addCommande()
 
         $commandeRepo->addCommande($commande);
 
+        ob_start();
         include('src/config/mailCommande.php');
+        $mailOutput = ob_get_clean();
 
-        echo json_encode(['success' => true, 'numero' => $numero]);
+        echo json_encode(['success' => true, 'numero' => $numero, 'mailOutput' => $mailOutput]);
     }
     else 
     {

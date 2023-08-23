@@ -177,9 +177,7 @@ function envoyerArticlesAuServeur(cartItems) {
     const response = JSON.parse(xhr.responseText);
     const numero = response.numero;
     console.log('Commande ajoutée avec succès :', numero);
-    
-    xhr.open("POST", "/mailCommande", true);
-    xhr.setRequestHeader("Content-Type", "application/json");
+ 
     sessionStorage.removeItem("cart");
     updateCartUI();
 
