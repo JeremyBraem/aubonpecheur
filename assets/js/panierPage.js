@@ -1,6 +1,11 @@
 const cartItemsJSON = sessionStorage.getItem("cart");
 const cartItems = cartItemsJSON ? JSON.parse(cartItemsJSON) : [];
 
+if(cartItems.length == 0)
+{
+  window.location.href = "/404";
+}
+
 function generateCartItemElement(item) {
   const cartItem = document.createElement("div");
   cartItem.className = "mb-6 rounded-lg bg-white p-6 shadow-md sm:flex";

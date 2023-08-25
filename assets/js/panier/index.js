@@ -16,8 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   updateCartCountMobile();
 
-  document
-    .getElementById("cart-button-mobile")
+  document.getElementById("cart-button-mobile")
     .addEventListener("click", () => {
       updateCartCountMobile();
     });

@@ -58,7 +58,7 @@
                                                     <p id="cart-total">Total : 0€</p>
                                                 </div>
                                                 <div class="mt-6">
-                                                    <a href="/panier" class="flex items-center justify-center rounded-md border border-transparent bg-[#426EC2] px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-[#425EC2]">Voir mon panier</a>
+                                                    <a id="validePanier" href="/panier" class="flex items-center justify-center rounded-md border border-transparent bg-[#426EC2] px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-[#425EC2]">Voir mon panier</a>
                                                 </div>
                                                 <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
 

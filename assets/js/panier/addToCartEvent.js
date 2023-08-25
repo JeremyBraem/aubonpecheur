@@ -134,6 +134,22 @@ export function updateCartUI() {
     cartItemsContainer.appendChild(cartItem);
   });
 
+  let lienPanier = document.getElementById("validePanier");
+
+  if(cartItems.length == 0)
+  {
+      lienPanier.removeAttribute("href");
+  
+      lienPanier.style.pointerEvents = "none";
+      lienPanier.style.opacity = "0.5";
+  }
+  else
+  {
+    lienPanier.setAttribute("href", "/panier");
+    lienPanier.style.pointerEvents = "auto";
+    lienPanier.style.opacity = "1";
+  }
+
   const removeAllButton = document.createElement("button");
   removeAllButton.type = "button";
   removeAllButton.className = "font-medium text-red-600 hover:text-red-500";
