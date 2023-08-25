@@ -41,11 +41,17 @@ export function updateCartUI() {
   const cartItemsContainer = document.getElementById("cart-items");
   const totalElement = document.getElementById("cart-total");
   const cartCountElement = document.getElementById("cart-count");
+  const cartCountElementMobile = document.getElementById("cart-count-mobile");
 
   cartItemsContainer.innerHTML = "";
   totalElement.textContent = "Total : " + calculateTotal(cartItems) + "€";
 
   cartCountElement.textContent = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
+  cartCountElementMobile.textContent = cartItems.reduce(
     (total, item) => total + item.quantity,
     0
   );
@@ -135,19 +141,29 @@ export function updateCartUI() {
   });
 
   let lienPanier = document.getElementById("validePanier");
+  let cartButtonMobile = document.getElementById("cart-button-mobile");
 
   if(cartItems.length == 0)
   {
-      lienPanier.removeAttribute("href");
+    lienPanier.removeAttribute("href");
   
-      lienPanier.style.pointerEvents = "none";
-      lienPanier.style.opacity = "0.5";
+    lienPanier.style.pointerEvents = "none";
+    lienPanier.style.opacity = "0.5";
+
+    cartButtonMobile.removeAttribute("href");
+
+    cartButtonMobile.style.pointerEvents = "none";
+    cartButtonMobile.style.opacity = "0.5";
   }
   else
   {
     lienPanier.setAttribute("href", "/panier");
     lienPanier.style.pointerEvents = "auto";
     lienPanier.style.opacity = "1";
+
+    cartButtonMobile.setAttribute("href", "/panier");
+    cartButtonMobile.style.pointerEvents = "auto";
+    cartButtonMobile.style.opacity = "1";
   }
 
   const removeAllButton = document.createElement("button");
