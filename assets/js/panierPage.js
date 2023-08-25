@@ -163,36 +163,35 @@ function calculateTotal(cartItems) {
   return total.toFixed(2);
 }
 
-function envoyerArticlesAuServeur(cartItems) {
+async function envoyerArticlesAuServeur(cartItems) {
   const requestData = JSON.stringify(cartItems);
-  const xhr = new XMLHttpRequest();
 
-  xhr.open("POST", "/addCommande", true);
-  xhr.setRequestHeader("Content-Type", "application/json");
+  try {
+    const response = await fetch("/addCommande", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: requestData,
+    });
 
- xhr.onload = function () {
-  if (xhr.status === 200) {
-    console.log(xhr.responseText);
+    if (response.ok) {
+      const responseData = await response.json();
+      const numero = responseData.numero;
+      console.log('Commande ajoutée avec succès :', numero);
 
-    const response = JSON.parse(xhr.responseText);
-    const numero = response.numero;
-    console.log('Commande ajoutée avec succès :', numero);
- 
-    sessionStorage.removeItem("cart");
-    updateCartUI();
+      sessionStorage.removeItem("cart");
+      updateCartUI();
 
       window.location.href = "/commande/numero=" + numero;
     } else {
-      console.error('Une erreur est survenue lors de l\'ajout de la commande :', xhr.statusText);
+      console.error('Une erreur est survenue lors de l\'ajout de la commande :', response.statusText);
     }
-  };
-  
-  xhr.onerror = function () {
-    console.error('Une erreur réseau est survenue lors de l\'envoi des données.');
-  };
-
-  xhr.send(requestData);
+  } catch (error) {
+    console.error('Une erreur est survenue lors de la requête :', error);
+  }
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
