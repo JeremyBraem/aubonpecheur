@@ -21,10 +21,9 @@
                                         <?php } ?>
                                         <img class="h-full rounded-2xl w-full object-cover" src="/<?php echo $produit->getNomImage() ?>" alt="<?php echo $produit->getDescriptionImage(); ?>">
                                         <p class="absolute right-2 top-2 bg-[#426EC2] rounded-full p-2 cursor-pointer group">
-                                            <img class="add-to-cart-btn w-6 h-6" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php if ($produit->getPromoProduit() > 0) {                                                                                                     } ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>" src="/assets/img/site/addCart.png" alt="Icone ajouter au panier">
+                                            <img class="add-to-cart-btn w-6 h-6" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="<?php if($produit->getPromoProduit() > 0) { echo number_format($produit->getPrixPromoProduit(), 2, '.', ''); }else{ echo number_format($produit->getPrixProduit(), 2, '.', ''); } ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>" src="/assets/img/site/addCart.png" alt="Icone ajouter au panier">
                                         </p>
                                     </div>
-
                                     <div class="mt-4 pl-2 mb-2 flex justify-between ">
                                         <a href="/<?php echo $produit->getNomGenre(); ?>Page/<?php echo $produit->getIdProduit(); ?>">
                                             <p class="text-lg font-semibold text-gray-900 mb-0">
