@@ -97,7 +97,7 @@
                         <h3 class="text-[#fcfcfc] mb-2 md:text-[24px]">Détails</h3>
                         <div class="flex">
                             <p class="text-[#fcfcfc] text-[12px] md:text-[20px] mr-5">Longueur : <?php echo $hamecon->getLongueurHamecon(); ?>m</p>
-                            <p class="text-[#fcfcfc] text-[12px] md:text-[20px]">Poids : <?php echo $hamecon->getPoidsHamecon(); ?>kg</p>
+                            <p class="text-[#fcfcfc] text-[12px] md:text-[20px]">Poids : <?php echo $hamecon->getPoidsHamecon(); ?>g</p>
                         </div>
 
                     </div>

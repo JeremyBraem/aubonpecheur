@@ -788,7 +788,16 @@ function filtrePageCate()
                         echo '</div>';
                         echo '<div class="mt-4 pl-2 mb-2 flex justify-between ">';
                             echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';
-                                echo '<p class="text-lg font-semibold text-gray-900 mb-0">' . $articleFiltred->getNomProduit() . '</p>';
+                                echo '<p class="text-lg font-semibold text-gray-900 mb-0">';
+                                $nomProduit = $articleFiltred->getNomProduit();
+                                $maxTitleLength = 20;
+                                if (mb_strlen($nomProduit) > $maxTitleLength) {
+                                    $newTitle = mb_substr($nomProduit, 0, $maxTitleLength) . "...";
+                                    echo $newTitle;
+                                } else {
+                                    echo $nomProduit;
+                                }
+                                echo '</p>';
                                 echo '<p class="text-lg text-gray-900 mb-0">' . $articleFiltred->getNomMarque() . '</p>';
                                 echo '<div class="flex gap-10">';
                                     if ($articleFiltred->getPromoProduit() > 0) {
@@ -893,8 +902,16 @@ function filtrePromo()
                         echo '</div>';
                         echo '<div class="mt-4 pl-2 mb-2 flex justify-between ">';
                             echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';
-                                echo '<p class="text-lg font-semibold text-gray-900 mb-0">' . $articleFiltred->getNomProduit() . '</p>';
-                                echo '<p class="text-lg text-gray-900 mb-0">' . $articleFiltred->getNomMarque() . '</p>';
+                            echo '<p class="text-lg font-semibold text-gray-900 mb-0">';
+                                $nomProduit = $articleFiltred->getNomProduit();
+                                $maxTitleLength = 20;
+                                if (mb_strlen($nomProduit) > $maxTitleLength) {
+                                    $newTitle = mb_substr($nomProduit, 0, $maxTitleLength) . "...";
+                                    echo $newTitle;
+                                } else {
+                                    echo $nomProduit;
+                                }
+                                echo '</p>';                                echo '<p class="text-lg text-gray-900 mb-0">' . $articleFiltred->getNomMarque() . '</p>';
                                 echo '<div class="flex gap-10">';
                                     if ($articleFiltred->getPromoProduit() > 0) {
                                         echo '<p class="text-md text-gray-800 mt-0 line-through">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
@@ -1092,8 +1109,16 @@ function filtrePageMarque()
                         echo '</div>';
                         echo '<div class="mt-4 pl-2 mb-2 flex justify-between ">';
                             echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';
-                                echo '<p class="text-lg font-semibold text-gray-900 mb-0">' . $articleFiltred->getNomProduit() . '</p>';
-                                echo '<p class="text-lg text-gray-900 mb-0">' . $articleFiltred->getNomMarque() . '</p>';
+                                echo '<p class="text-lg font-semibold text-gray-900 mb-0">';
+                                    $nomProduit = $articleFiltred->getNomProduit();
+                                    $maxTitleLength = 20;
+                                    if (mb_strlen($nomProduit) > $maxTitleLength) {
+                                        $newTitle = mb_substr($nomProduit, 0, $maxTitleLength) . "...";
+                                        echo $newTitle;
+                                    } else {
+                                        echo $nomProduit;
+                                    }
+                                echo '</p>';                                echo '<p class="text-lg text-gray-900 mb-0">' . $articleFiltred->getNomMarque() . '</p>';
                                 echo '<div class="flex gap-10">';
                                     if ($articleFiltred->getPromoProduit() > 0) {
                                         echo '<p class="text-md text-gray-800 mt-0 line-through">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';

@@ -98,7 +98,7 @@
                         <div class="flex">
                             <p class="text-[#fcfcfc] text-[12px] md:text-[20px] mr-5">Couleur : <?php echo $leurre->getCouleurLeurre(); ?></p>
                             <p class="text-[#fcfcfc] text-[12px] md:text-[20px] mr-5">Longueur : <?php echo $leurre->getLongueurLeurre(); ?>m</p>
-                            <p class="text-[#fcfcfc] text-[12px] md:text-[20px]">Poids : <?php echo $leurre->getPoidsLeurre(); ?>kg</p>
+                            <p class="text-[#fcfcfc] text-[12px] md:text-[20px]">Poids : <?php echo $leurre->getPoidsLeurre(); ?>g</p>
                         </div>
 
                     </div>

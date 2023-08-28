@@ -75,7 +75,18 @@
 
                                     <div class="mt-4 pl-2 mb-2 flex justify-between ">
                                         <a href="/<?php echo $produit->getNomGenre(); ?>Page/<?php echo $produit->getIdProduit(); ?>">
-                                            <p class="text-lg font-semibold text-gray-900 mb-0"><?php echo $produit->getNomProduit(); ?></p>
+                                            <p class="text-lg font-semibold text-gray-900 mb-0">
+                                                <?php
+                                                $nomProduit = $produit->getNomProduit();
+                                                $maxTitleLength = 20;
+                                                if (mb_strlen($nomProduit) > $maxTitleLength) {
+                                                    $newTitle = mb_substr($nomProduit, 0, $maxTitleLength) . "...";
+                                                    echo $newTitle;
+                                                } else {
+                                                    echo $nomProduit;
+                                                }
+                                                ?>
+                                            </p>
                                             <p class="text-lg text-gray-900 mb-0"><?php echo $produit->getNomMarque(); ?></p>
                                             <div class="flex gap-10">
                                                 <?php if ($produit->getPromoProduit() > 0) { ?>
