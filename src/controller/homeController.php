@@ -183,6 +183,8 @@ function signUpTraitement()
                                 $id_user = $userRepository->getUserByToken($user->getTokenUser());
                                 
                                 require_once('src/config/mailActif.php');
+                                $_SESSION['activation'] = 'Activez votre compte grâce à l\'email d\'activation dans votre messagerie e-mail'; 
+
                                 header('Location: /login');
                             }
                             else
@@ -366,7 +368,7 @@ function updatePasswordPage()
 
 function forgetPassPage()
 {
-    if(!isset($_SESSION))
+    if(!isset($_SESSION['id_user']))
     {
         require_once('src/view/emailPage.php');
     }
@@ -771,48 +773,55 @@ function filtrePageCate()
         }
     }
 
-    foreach ($articlesFiltres as $articleFiltred)
+    if($articlesFiltres)
     {
-        echo '<div class="w-56">';
-            echo '<div class="flex flex-col justify-center">';
-                echo '<div class="relative m-3 flex flex-wrap mx-auto justify-center ">';
-                    echo '<div class="relative bg-white shadow-md p-2 my-3 rounded">';
-                        echo '<div class="overflow-x-hidden rounded-2xl relative w-56 h-56">';
-                            if ($articleFiltred->getPromoProduit() > 0) {
-                                echo '<span class="original-number absolute text-[#fcfcfc] text-sm left-2 top-2 z-40 p-1 px-[9px] w-auto text-center font-semibold rounded-full bg-[#e8330d]">-' . $articleFiltred->getPromoProduit() . '%</span>';
-                            }
-                            echo '<img class="h-full rounded-2xl w-full object-cover" src="/' . $articleFiltred->getNomImage() . '">';
-                            echo '<p class="absolute right-2 top-2 bg-[#426EC2] rounded-full p-2 cursor-pointer group">';
-                                echo '<img class="add-to-cart-btn w-6 h-6" data-name="' . $articleFiltred->getNomProduit() . '" data-price="' . ($articleFiltred->getPromoProduit() > 0 ? $articleFiltred->getPrixPromoProduit() : $articleFiltred->getPrixProduit()) . '" data-image="' . $articleFiltred->getNomImage() . '" data-genre="' . $articleFiltred->getNomGenre() . '" data-id="' . $articleFiltred->getIdProduit() . '" src="/assets/img/site/addCart.png">';
-                            echo '</p>';
-                        echo '</div>';
-                        echo '<div class="mt-4 pl-2 mb-2 flex justify-between ">';
-                            echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';
-                                echo '<p class="text-lg font-semibold text-gray-900 mb-0">';
-                                $nomProduit = $articleFiltred->getNomProduit();
-                                $maxTitleLength = 20;
-                                if (mb_strlen($nomProduit) > $maxTitleLength) {
-                                    $newTitle = mb_substr($nomProduit, 0, $maxTitleLength) . "...";
-                                    echo $newTitle;
-                                } else {
-                                    echo $nomProduit;
+        foreach ($articlesFiltres as $articleFiltred)
+        {
+            echo '<div class="w-56">';
+                echo '<div class="flex flex-col justify-center">';
+                    echo '<div class="relative m-3 flex flex-wrap mx-auto justify-center ">';
+                        echo '<div class="relative bg-white shadow-md p-2 my-3 rounded">';
+                            echo '<div class="overflow-x-hidden rounded-2xl relative w-56 h-56">';
+                                if ($articleFiltred->getPromoProduit() > 0) {
+                                    echo '<span class="original-number absolute text-[#fcfcfc] text-sm left-2 top-2 z-40 p-1 px-[9px] w-auto text-center font-semibold rounded-full bg-[#e8330d]">-' . $articleFiltred->getPromoProduit() . '%</span>';
                                 }
+                                echo '<img class="h-full rounded-2xl w-full object-cover" src="/' . $articleFiltred->getNomImage() . '">';
+                                echo '<p class="absolute right-2 top-2 bg-[#426EC2] rounded-full p-2 cursor-pointer group">';
+                                    echo '<img class="add-to-cart-btn w-6 h-6" data-name="' . $articleFiltred->getNomProduit() . '" data-price="' . ($articleFiltred->getPromoProduit() > 0 ? $articleFiltred->getPrixPromoProduit() : $articleFiltred->getPrixProduit()) . '" data-image="' . $articleFiltred->getNomImage() . '" data-genre="' . $articleFiltred->getNomGenre() . '" data-id="' . $articleFiltred->getIdProduit() . '" src="/assets/img/site/addCart.png">';
                                 echo '</p>';
-                                echo '<p class="text-lg text-gray-900 mb-0">' . $articleFiltred->getNomMarque() . '</p>';
-                                echo '<div class="flex gap-10">';
-                                    if ($articleFiltred->getPromoProduit() > 0) {
-                                        echo '<p class="text-md text-gray-800 mt-0 line-through">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
-                                        echo '<p class="number text-md text-gray-800 mt-0">' . number_format($articleFiltred->getPrixPromoProduit(), 2, '.', '') . '€</p>';
+                            echo '</div>';
+                            echo '<div class="mt-4 pl-2 mb-2 flex justify-between ">';
+                                echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';
+                                    echo '<p class="text-lg font-semibold text-gray-900 mb-0">';
+                                    $nomProduit = $articleFiltred->getNomProduit();
+                                    $maxTitleLength = 20;
+                                    if (mb_strlen($nomProduit) > $maxTitleLength) {
+                                        $newTitle = mb_substr($nomProduit, 0, $maxTitleLength) . "...";
+                                        echo $newTitle;
                                     } else {
-                                        echo '<p class="text-md text-gray-800 mt-0">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
+                                        echo $nomProduit;
                                     }
-                                echo '</div>';
-                            echo '</a>';
+                                    echo '</p>';
+                                    echo '<p class="text-lg text-gray-900 mb-0">' . $articleFiltred->getNomMarque() . '</p>';
+                                    echo '<div class="flex gap-10">';
+                                        if ($articleFiltred->getPromoProduit() > 0) {
+                                            echo '<p class="text-md text-gray-800 mt-0 line-through">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
+                                            echo '<p class="number text-md text-gray-800 mt-0">' . number_format($articleFiltred->getPrixPromoProduit(), 2, '.', '') . '€</p>';
+                                        } else {
+                                            echo '<p class="text-md text-gray-800 mt-0">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
+                                        }
+                                    echo '</div>';
+                                echo '</a>';
+                            echo '</div>';
                         echo '</div>';
                     echo '</div>';
                 echo '</div>';
             echo '</div>';
-        echo '</div>';
+        }
+    }
+    else
+    {
+        echo '<p class="mb-10 mt-5 font-semibold">Aucun article n\'a été trouvé.</p>';
     }
 }
 
@@ -885,48 +894,56 @@ function filtrePromo()
         }
     }
 
-    foreach ($articlesFiltres as $articleFiltred)
+    if($articlesFiltres)
     {
-        echo '<div class="w-56">';
-            echo '<div class="flex flex-col justify-center">';
-                echo '<div class="relative m-3 flex flex-wrap mx-auto justify-center ">';
-                    echo '<div class="relative bg-white shadow-md p-2 my-3 rounded">';
-                        echo '<div class="overflow-x-hidden rounded-2xl relative w-56 h-56">';
-                            if ($articleFiltred->getPromoProduit() > 0) {
-                                echo '<span class="original-number absolute text-[#fcfcfc] text-sm left-2 top-2 z-40 p-1 px-[9px] w-auto text-center font-semibold rounded-full bg-[#e8330d]">-' . $articleFiltred->getPromoProduit() . '%</span>';
-                            }
-                            echo '<img class="h-full rounded-2xl w-full object-cover" src="' . $articleFiltred->getNomImage() . '">';
-                            echo '<p class="absolute right-2 top-2 bg-[#426EC2] rounded-full p-2 cursor-pointer group">';
-                                echo '<img class="add-to-cart-btn w-6 h-6" data-name="' . $articleFiltred->getNomProduit() . '" data-price="' . ($articleFiltred->getPromoProduit() > 0 ? $articleFiltred->getPrixPromoProduit() : $articleFiltred->getPrixProduit()) . '" data-image="' . $articleFiltred->getNomImage() . '" data-genre="' . $articleFiltred->getNomGenre() . '" data-id="' . $articleFiltred->getIdProduit() . '" src="/assets/img/site/addCart.png">';
-                            echo '</p>';
-                        echo '</div>';
-                        echo '<div class="mt-4 pl-2 mb-2 flex justify-between ">';
-                            echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';
-                            echo '<p class="text-lg font-semibold text-gray-900 mb-0">';
-                                $nomProduit = $articleFiltred->getNomProduit();
-                                $maxTitleLength = 20;
-                                if (mb_strlen($nomProduit) > $maxTitleLength) {
-                                    $newTitle = mb_substr($nomProduit, 0, $maxTitleLength) . "...";
-                                    echo $newTitle;
-                                } else {
-                                    echo $nomProduit;
+        foreach ($articlesFiltres as $articleFiltred)
+        {
+            echo '<div class="w-56">';
+                echo '<div class="flex flex-col justify-center">';
+                    echo '<div class="relative m-3 flex flex-wrap mx-auto justify-center ">';
+                        echo '<div class="relative bg-white shadow-md p-2 my-3 rounded">';
+                            echo '<div class="overflow-x-hidden rounded-2xl relative w-56 h-56">';
+                                if ($articleFiltred->getPromoProduit() > 0) {
+                                    echo '<span class="original-number absolute text-[#fcfcfc] text-sm left-2 top-2 z-40 p-1 px-[9px] w-auto text-center font-semibold rounded-full bg-[#e8330d]">-' . $articleFiltred->getPromoProduit() . '%</span>';
                                 }
-                                echo '</p>';                                echo '<p class="text-lg text-gray-900 mb-0">' . $articleFiltred->getNomMarque() . '</p>';
-                                echo '<div class="flex gap-10">';
-                                    if ($articleFiltred->getPromoProduit() > 0) {
-                                        echo '<p class="text-md text-gray-800 mt-0 line-through">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
-                                        echo '<p class="number text-md text-gray-800 mt-0">' . number_format($articleFiltred->getPrixPromoProduit(), 2, '.', '') . '€</p>';
+                                echo '<img class="h-full rounded-2xl w-full object-cover" src="' . $articleFiltred->getNomImage() . '">';
+                                echo '<p class="absolute right-2 top-2 bg-[#426EC2] rounded-full p-2 cursor-pointer group">';
+                                    echo '<img class="add-to-cart-btn w-6 h-6" data-name="' . $articleFiltred->getNomProduit() . '" data-price="' . ($articleFiltred->getPromoProduit() > 0 ? $articleFiltred->getPrixPromoProduit() : $articleFiltred->getPrixProduit()) . '" data-image="' . $articleFiltred->getNomImage() . '" data-genre="' . $articleFiltred->getNomGenre() . '" data-id="' . $articleFiltred->getIdProduit() . '" src="/assets/img/site/addCart.png">';
+                                echo '</p>';
+                            echo '</div>';
+                            echo '<div class="mt-4 pl-2 mb-2 flex justify-between ">';
+                                echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';
+                                echo '<p class="text-lg font-semibold text-gray-900 mb-0">';
+                                    $nomProduit = $articleFiltred->getNomProduit();
+                                    $maxTitleLength = 20;
+                                    if (mb_strlen($nomProduit) > $maxTitleLength) {
+                                        $newTitle = mb_substr($nomProduit, 0, $maxTitleLength) . "...";
+                                        echo $newTitle;
                                     } else {
-                                        echo '<p class="text-md text-gray-800 mt-0">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
+                                        echo $nomProduit;
                                     }
-                                echo '</div>';
-                            echo '</a>';
+                                    echo '</p>';                                echo '<p class="text-lg text-gray-900 mb-0">' . $articleFiltred->getNomMarque() . '</p>';
+                                    echo '<div class="flex gap-10">';
+                                        if ($articleFiltred->getPromoProduit() > 0) {
+                                            echo '<p class="text-md text-gray-800 mt-0 line-through">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
+                                            echo '<p class="number text-md text-gray-800 mt-0">' . number_format($articleFiltred->getPrixPromoProduit(), 2, '.', '') . '€</p>';
+                                        } else {
+                                            echo '<p class="text-md text-gray-800 mt-0">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
+                                        }
+                                    echo '</div>';
+                                echo '</a>';
+                            echo '</div>';
                         echo '</div>';
                     echo '</div>';
                 echo '</div>';
             echo '</div>';
-        echo '</div>';
+        }
     }
+    else
+    {
+        echo '<p class="mb-10 mt-5 font-semibold">Aucun article n\'a été trouvé.</p>';
+    }
+    
 }
 
 //AFFICHAGE DE LA PAGE D'ARTICLE EN FONCTION DE LA MARQUE EN GET
@@ -1092,47 +1109,54 @@ function filtrePageMarque()
         }
     }
 
-    foreach ($articlesFiltres as $articleFiltred)
+    if($articlesFiltres)
     {
-        echo '<div class="w-56">';
-            echo '<div class="flex flex-col justify-center">';
-                echo '<div class="relative m-3 flex flex-wrap mx-auto justify-center ">';
-                    echo '<div class="relative bg-white shadow-md p-2 my-3 rounded">';
-                        echo '<div class="overflow-x-hidden rounded-2xl relative w-56 h-56">';
-                            if ($articleFiltred->getPromoProduit() > 0) {
-                                echo '<span class="original-number absolute text-[#fcfcfc] text-sm left-2 top-2 z-40 p-1 px-[9px] w-auto text-center font-semibold rounded-full bg-[#e8330d]">-' . $articleFiltred->getPromoProduit() . '%</span>';
-                            }
-                            echo '<img class="h-full rounded-2xl w-full object-cover" src="/' . $articleFiltred->getNomImage() . '">';
-                           
-                            echo '<p class="absolute right-2 top-2 bg-[#426EC2] rounded-full p-2 cursor-pointer group">';
-                            echo '<img class="add-to-cart-btn w-6 h-6" data-name="' . $articleFiltred->getNomProduit() . '" data-price="' . ($articleFiltred->getPromoProduit() > 0 ? $articleFiltred->getPrixPromoProduit() : $articleFiltred->getPrixProduit()) . '" data-image="' . $articleFiltred->getNomImage() . '" data-genre="' . $articleFiltred->getNomGenre() . '" data-id="' . $articleFiltred->getIdProduit() . '" src="/assets/img/site/addCart.png">';                            echo '</p>';
-                        echo '</div>';
-                        echo '<div class="mt-4 pl-2 mb-2 flex justify-between ">';
-                            echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';
-                                echo '<p class="text-lg font-semibold text-gray-900 mb-0">';
-                                    $nomProduit = $articleFiltred->getNomProduit();
-                                    $maxTitleLength = 20;
-                                    if (mb_strlen($nomProduit) > $maxTitleLength) {
-                                        $newTitle = mb_substr($nomProduit, 0, $maxTitleLength) . "...";
-                                        echo $newTitle;
-                                    } else {
-                                        echo $nomProduit;
-                                    }
-                                echo '</p>';                                echo '<p class="text-lg text-gray-900 mb-0">' . $articleFiltred->getNomMarque() . '</p>';
-                                echo '<div class="flex gap-10">';
-                                    if ($articleFiltred->getPromoProduit() > 0) {
-                                        echo '<p class="text-md text-gray-800 mt-0 line-through">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
-                                        echo '<p class="number text-md text-gray-800 mt-0">' . number_format($articleFiltred->getPrixPromoProduit(), 2, '.', '') . '€</p>';
-                                    } else {
-                                        echo '<p class="text-md text-gray-800 mt-0">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
-                                    }
-                                echo '</div>';
-                            echo '</a>';
+        foreach ($articlesFiltres as $articleFiltred)
+        {
+            echo '<div class="w-56">';
+                echo '<div class="flex flex-col justify-center">';
+                    echo '<div class="relative m-3 flex flex-wrap mx-auto justify-center ">';
+                        echo '<div class="relative bg-white shadow-md p-2 my-3 rounded">';
+                            echo '<div class="overflow-x-hidden rounded-2xl relative w-56 h-56">';
+                                if ($articleFiltred->getPromoProduit() > 0) {
+                                    echo '<span class="original-number absolute text-[#fcfcfc] text-sm left-2 top-2 z-40 p-1 px-[9px] w-auto text-center font-semibold rounded-full bg-[#e8330d]">-' . $articleFiltred->getPromoProduit() . '%</span>';
+                                }
+                                echo '<img class="h-full rounded-2xl w-full object-cover" src="/' . $articleFiltred->getNomImage() . '">';
+                            
+                                echo '<p class="absolute right-2 top-2 bg-[#426EC2] rounded-full p-2 cursor-pointer group">';
+                                echo '<img class="add-to-cart-btn w-6 h-6" data-name="' . $articleFiltred->getNomProduit() . '" data-price="' . ($articleFiltred->getPromoProduit() > 0 ? $articleFiltred->getPrixPromoProduit() : $articleFiltred->getPrixProduit()) . '" data-image="' . $articleFiltred->getNomImage() . '" data-genre="' . $articleFiltred->getNomGenre() . '" data-id="' . $articleFiltred->getIdProduit() . '" src="/assets/img/site/addCart.png">';                            echo '</p>';
+                            echo '</div>';
+                            echo '<div class="mt-4 pl-2 mb-2 flex justify-between ">';
+                                echo '<a href="/' . $articleFiltred->getNomGenre() . 'Page/' . $articleFiltred->getIdProduit() . '">';
+                                    echo '<p class="text-lg font-semibold text-gray-900 mb-0">';
+                                        $nomProduit = $articleFiltred->getNomProduit();
+                                        $maxTitleLength = 20;
+                                        if (mb_strlen($nomProduit) > $maxTitleLength) {
+                                            $newTitle = mb_substr($nomProduit, 0, $maxTitleLength) . "...";
+                                            echo $newTitle;
+                                        } else {
+                                            echo $nomProduit;
+                                        }
+                                    echo '</p>';                                echo '<p class="text-lg text-gray-900 mb-0">' . $articleFiltred->getNomMarque() . '</p>';
+                                    echo '<div class="flex gap-10">';
+                                        if ($articleFiltred->getPromoProduit() > 0) {
+                                            echo '<p class="text-md text-gray-800 mt-0 line-through">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
+                                            echo '<p class="number text-md text-gray-800 mt-0">' . number_format($articleFiltred->getPrixPromoProduit(), 2, '.', '') . '€</p>';
+                                        } else {
+                                            echo '<p class="text-md text-gray-800 mt-0">' . number_format($articleFiltred->getPrixProduit(), 2, '.', '') . '€</p>';
+                                        }
+                                    echo '</div>';
+                                echo '</a>';
+                            echo '</div>';
                         echo '</div>';
                     echo '</div>';
                 echo '</div>';
             echo '</div>';
-        echo '</div>';
+        }
+    }
+    else
+    {
+        echo '<p class="mb-10 mt-5 font-semibold">Aucun article n\'a été trouvé.</p>';
     }
 }
 

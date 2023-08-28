@@ -28,7 +28,7 @@
     <div class="container mx-auto px-4 py-8">
       <div class="bg-[#fcfcfc] rounded-lg shadow-lg p-8">
         <h1 class="text-2xl font-bold text-center mb-6">Merci pour votre commande !</h1>
-        <p class="text-center mb-4">Votre commande a été traitée avec succès. Voici les détails de votre commande :</p>
+        <p class="text-center mb-4">Votre commande a été traitée avec succès. Rendez-vous dans votre Au Bon Pêcheur magasin quand votre colis est prêt. <br>Voici les détails de votre commande :</p>
         <div class="border-t border-gray-300 pt-4 mt-4">
           <p class="mb-2"><strong>Nom :</strong> <?php echo $_SESSION['nom_user']; ?></p>
           <p class="mb-2"><strong>Prénom :</strong> <?php echo $_SESSION['prenom_user']; ?></p>

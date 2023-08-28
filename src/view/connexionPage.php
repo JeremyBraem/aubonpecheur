@@ -37,9 +37,13 @@
                 <div class="p-5 mt-5 mb-3">
                     <h1 class="text-center text-xl font-semibold">Connectez-vous</h1>
                 </div>
-
+                
                 <form class="flex flex-col w-2/3 m-auto mb-8 md:mb-10" action="index.php?action=loginTraitement" method="post">
-
+                <?php if(isset($_SESSION['activation']))
+                    { ?>
+                    <p class="text-sm text-green-500 mb-5 font-semibold"><?php echo $_SESSION['activation']; ?></p>
+                    <?php session_unset(); 
+                    } ?>
                     <label class="ml-1 mb-1">E-mail</label>
                     <input type="email" placeholder="Veillez rentrer votre e-mail" name="email" class="mb-7 md:mb-10 border rounded border-black px-2 py-1" required>
             

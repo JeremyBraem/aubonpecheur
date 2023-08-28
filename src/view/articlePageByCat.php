@@ -45,67 +45,61 @@
 
                             <div class="w-56">
 
-                        <div class="flex flex-col justify-center">
+                                <div class="flex flex-col justify-center">
 
-                            <div class="relative m-3 flex flex-wrap mx-auto justify-center ">
+                                    <div class="relative m-3 flex flex-wrap mx-auto justify-center ">
 
-                                <div class="relative bg-white shadow-md p-2 my-3 rounded">
+                                        <div class="relative bg-white shadow-md p-2 my-3 rounded">
 
-                                    <div class="overflow-x-hidden rounded-2xl relative w-56 h-56">
-                                        <?php if ($produit->getPromoProduit() > 0) { ?>
-                                            <span class="original-number absolute text-[#fcfcfc] text-sm left-2 top-2 z-40 p-1 px-[9px] w-auto text-center font-semibold rounded-full bg-[#e8330d]">-<?php echo $produit->getPromoProduit(); ?>%</span>
-                                        <?php } ?>
-                                        <img class="h-full rounded-2xl w-full object-cover" src="/<?php echo $produit->getNomImage() ?>">
-                                        <p class="absolute right-2 top-2 bg-[#426EC2] rounded-full p-2 cursor-pointer group">
-                                            <img class="add-to-cart-btn w-6 h-6" data-name="<?php echo $produit->getNomProduit(); ?>" 
-                                            data-price="<?php if ($produit->getPromoProduit() > 0) 
-                                            {
-                                                echo $produit->getPrixPromoProduit();
-                                            } 
-                                            else 
-                                            {
-                                                echo $produit->getPrixProduit();
-                                            } ?>" 
-                                            data-image="<?php echo $produit->getNomImage(); ?>" 
-                                            data-genre="<?php echo $produit->getNomGenre(); ?>" 
-                                            data-id="<?php echo $produit->getIdProduit(); ?>" src="/assets/img/site/addCart.png">
-                                        </p>
-                                    </div>
-
-                                    <div class="mt-4 pl-2 mb-2 flex justify-between ">
-                                        <a href="/<?php echo $produit->getNomGenre(); ?>Page/<?php echo $produit->getIdProduit(); ?>">
-                                            <p class="text-lg font-semibold text-gray-900 mb-0">
-                                                <?php
-                                                $nomProduit = $produit->getNomProduit();
-                                                $maxTitleLength = 20;
-                                                if (mb_strlen($nomProduit) > $maxTitleLength) {
-                                                    $newTitle = mb_substr($nomProduit, 0, $maxTitleLength) . "...";
-                                                    echo $newTitle;
-                                                } else {
-                                                    echo $nomProduit;
-                                                }
-                                                ?>
-                                            </p>
-                                            <p class="text-lg text-gray-900 mb-0"><?php echo $produit->getNomMarque(); ?></p>
-                                            <div class="flex gap-10">
+                                            <div class="overflow-x-hidden rounded-2xl relative w-56 h-56">
                                                 <?php if ($produit->getPromoProduit() > 0) { ?>
-                                                    <p class="text-md text-gray-800 mt-0 line-through"><?php echo number_format($produit->getPrixProduit(), 2, '.', '') ?>€</p>
-                                                    <p class="number text-md text-gray-800 mt-0"><?php echo number_format($produit->getPrixPromoProduit(), 2, '.', '') ?>€</p>
-                                                <?php } else { ?>
-                                                    <p class="text-md text-gray-800 mt-0"><?php echo number_format($produit->getPrixProduit(), 2, '.', '') ?>€</p>
+                                                    <span class="original-number absolute text-[#fcfcfc] text-sm left-2 top-2 z-40 p-1 px-[9px] w-auto text-center font-semibold rounded-full bg-[#e8330d]">-<?php echo $produit->getPromoProduit(); ?>%</span>
                                                 <?php } ?>
+                                                <img class="h-full rounded-2xl w-full object-cover" src="/<?php echo $produit->getNomImage() ?>">
+                                                <p class="absolute right-2 top-2 bg-[#426EC2] rounded-full p-2 cursor-pointer group">
+                                                    <img class="add-to-cart-btn w-6 h-6" data-name="<?php echo $produit->getNomProduit(); ?>" data-price="
+                                                    <?php if ($produit->getPromoProduit() > 0) {
+                                                        echo $produit->getPrixPromoProduit();
+                                                    } else {
+                                                        echo $produit->getPrixProduit();
+                                                    } ?>" data-image="<?php echo $produit->getNomImage(); ?>" data-genre="<?php echo $produit->getNomGenre(); ?>" data-id="<?php echo $produit->getIdProduit(); ?>" src="/assets/img/site/addCart.png">
+                                                </p>
                                             </div>
 
-                                        </a>
+                                            <div class="mt-4 pl-2 mb-2 flex justify-between ">
+                                                <a href="/<?php echo $produit->getNomGenre(); ?>Page/<?php echo $produit->getIdProduit(); ?>">
+                                                    <p class="text-lg font-semibold text-gray-900 mb-0">
+                                                        <?php
+                                                        $nomProduit = $produit->getNomProduit();
+                                                        $maxTitleLength = 20;
+                                                        if (mb_strlen($nomProduit) > $maxTitleLength) {
+                                                            $newTitle = mb_substr($nomProduit, 0, $maxTitleLength) . "...";
+                                                            echo $newTitle;
+                                                        } else {
+                                                            echo $nomProduit;
+                                                        }
+                                                        ?>
+                                                    </p>
+                                                    <p class="text-lg text-gray-900 mb-0"><?php echo $produit->getNomMarque(); ?></p>
+                                                    <div class="flex gap-10">
+                                                        <?php if ($produit->getPromoProduit() > 0) { ?>
+                                                            <p class="text-md text-gray-800 mt-0 line-through"><?php echo number_format($produit->getPrixProduit(), 2, '.', '') ?>€</p>
+                                                            <p class="number text-md text-gray-800 mt-0"><?php echo number_format($produit->getPrixPromoProduit(), 2, '.', '') ?>€</p>
+                                                        <?php } else { ?>
+                                                            <p class="text-md text-gray-800 mt-0"><?php echo number_format($produit->getPrixProduit(), 2, '.', '') ?>€</p>
+                                                        <?php } ?>
+                                                    </div>
+
+                                                </a>
+                                            </div>
+
+                                        </div>
+
                                     </div>
 
                                 </div>
 
                             </div>
-
-                        </div>
-
-                    </div>
 
                     <?php } else {
                             echo '';
@@ -119,7 +113,7 @@
                         <div class="flex items-center justify-between px-4 py-3 sm:px-6">
                             <div class="sm:flex sm:flex-1 sm:items-center sm:justify-between">
                                 <div>
-                                    <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination" >
+                                    <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
                                         <?php if ($currentpage > 1) { ?>
                                             <a href="/article/<?php echo $_GET['categorie'] ?>&page=<?php echo $_GET['page'] - 1 ?>" class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
                                                 <span class="sr-only">Previous</span>
@@ -134,7 +128,11 @@
                                         <?php } ?>
 
                                         <?php if ($currentpage < $totalPages) { ?>
-                                            <a href="/article/<?php echo $_GET['categorie'] ?>&page=<?php if(isset($_GET['page'])){ echo $_GET['page'] + 1; }else{ echo 2;}  ?>" class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                                            <a href="/article/<?php echo $_GET['categorie'] ?>&page=<?php if (isset($_GET['page'])) {
+                                                                                                        echo $_GET['page'] + 1;
+                                                                                                    } else {
+                                                                                                        echo 2;
+                                                                                                    }  ?>" class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
                                                 <span class="sr-only">Next</span>
                                                 <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                                     <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
